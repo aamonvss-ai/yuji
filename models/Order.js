@@ -15,22 +15,22 @@ const OrderSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: [
-        "pending", "success", "failed", "refund",
-        "PENDING", "SUCCESS", "FAILED", "REFUND"
+        "pending", "success", "failed", "refund", "refunded",
+        "PENDING", "SUCCESS", "FAILED", "REFUND", "REFUNDED"
       ],
       default: "pending"
     },
     // ✅ NEW: Top-up status
     paymentStatus: {
       type: String,
-      enum: ["pending", "success", "failed"],
+      enum: ["pending", "success", "failed", "refunded", "REFUNDED"],
       default: "pending",
     },
 
     /* ================= TOP-UP STATUS ================= */
     topupStatus: {
       type: String,
-      enum: ["pending", "success", "failed"],
+      enum: ["pending", "success", "failed", "refunded", "REFUNDED"],
       default: "pending",
     },
     ip: String,

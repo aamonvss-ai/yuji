@@ -2,13 +2,15 @@
 
 import { useEffect, useState } from "react";
 import {
-  FiSearch,
-  FiChevronLeft,
-  FiChevronRight,
-  FiFilter,
-  FiRefreshCw,
-  FiShoppingBag,
-} from "react-icons/fi";
+  Search,
+  ChevronLeft,
+  ChevronRight,
+  Filter,
+  RefreshCw,
+  ShoppingBag,
+  History,
+  LayoutGrid
+} from "lucide-react";
 import OrderItem, { OrderType } from "./OrderItem";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -83,65 +85,66 @@ export default function OrdersTab() {
     { label: "Success", value: "success" },
     { label: "Pending", value: "pending" },
     { label: "Failed", value: "failed" },
+    { label: "Refunded", value: "refunded" },
   ];
 
   return (
     <div className="space-y-6">
       {/* HEADER SECTION */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-2">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-[var(--accent)]/10 flex items-center justify-center text-[var(--accent)] shadow-sm border border-[var(--accent)]/10">
-            <FiShoppingBag size={28} />
+          <div className="w-12 h-12 rounded-2xl bg-[var(--accent)] flex items-center justify-center text-white shadow-lg shadow-[var(--accent)]/20">
+            <History size={24} />
           </div>
           <div>
-            <h2 className="text-3xl font-black tracking-tight">Order Archive</h2>
-            <p className="text-sm text-[var(--muted)] font-medium mt-0.5">
-              {loading ? "Syncing history..." : `Found ${totalCount} transactions`}
+            <h2 className="text-2xl font-black tracking-tighter uppercase italic">Order History</h2>
+            <p className="text-[10px] text-[var(--muted)] font-bold uppercase tracking-[0.2em] mt-0.5">
+              {loading ? "Syncing Feed..." : `Managed ${totalCount} Transactions`}
             </p>
           </div>
         </div>
 
         <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.95 }}
           onClick={fetchOrders}
           disabled={loading}
-          className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-[var(--card)] border border-[var(--border)]
-                     text-[var(--foreground)] font-bold text-sm shadow-sm hover:border-[var(--accent)]/50 transition-all active:scale-95 group"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)]
+                     text-[var(--foreground)] font-black text-[10px] uppercase tracking-widest shadow-sm hover:border-[var(--accent)]/50 transition-all active:scale-95 group"
         >
-          <FiRefreshCw className={`transition-transform duration-500 ${loading ? "animate-spin" : "group-hover:rotate-180"}`} />
-          <span>Refresh Feed</span>
+          <RefreshCw size={14} className={`transition-transform duration-700 ${loading ? "animate-spin" : "group-hover:rotate-180"}`} />
+          <span>Sync Feed</span>
         </motion.button>
       </div>
 
       {/* FILTERS & SEARCH */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      <div className="flex flex-col lg:flex-row gap-4">
         {/* SEARCH */}
-        <div className="lg:col-span-8 relative group">
-          <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)] group-focus-within:text-[var(--accent)] transition-colors" />
+        <div className="flex-1 relative group">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/50 group-focus-within:text-[var(--accent)] transition-colors" size={16} />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by Order ID or Item..."
-            className="w-full pl-12 pr-4 py-3 rounded-2xl
+            placeholder="Search Order ID, Item, or ID..."
+            className="w-full pl-12 pr-4 py-3 rounded-xl
                        border border-[var(--border)]
-                       bg-[var(--background)]/50 backdrop-blur-sm
-                       focus:ring-2 focus:ring-[var(--accent)]/50
-                       focus:border-[var(--accent)]
-                       outline-none transition-all shadow-sm"
+                       bg-[var(--card)]/40 backdrop-blur-sm
+                       focus:ring-2 focus:ring-[var(--accent)]/20
+                       focus:border-[var(--accent)]/50
+                       text-sm font-medium outline-none transition-all shadow-inner"
           />
         </div>
 
         {/* STATUS FILTER */}
-        <div className="lg:col-span-4 flex gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+        <div className="flex gap-1.5 p-1 rounded-xl bg-[var(--card)]/30 border border-[var(--border)] overflow-x-auto scrollbar-hide">
           {statusOptions.map((opt) => (
             <button
               key={opt.value}
               onClick={() => setStatusFilter(opt.value)}
-              className={`px-4 py-2 rounded-xl border text-sm font-medium whitespace-nowrap transition-all
+              className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all
                 ${statusFilter === opt.value
-                  ? "bg-[var(--accent)] text-white border-[var(--accent)] shadow-md shadow-[var(--accent)]/20"
-                  : "border-[var(--border)] bg-[var(--card)] text-[var(--muted)] hover:text-[var(--foreground)] hover:border-[var(--muted)]"
+                  ? "bg-[var(--accent)] text-white shadow-lg shadow-[var(--accent)]/20 scale-[1.02]"
+                  : "text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-black/5"
                 }`}
             >
               {opt.label}
@@ -153,26 +156,26 @@ export default function OrdersTab() {
       {/* ORDERS LIST */}
       <div className="relative min-h-[300px]">
         {loading && orders.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 animate-pulse">
-            <div className="w-12 h-12 rounded-full border-4 border-[var(--accent)]/20 border-t-[var(--accent)] animate-spin mb-4" />
-            <p className="text-[var(--muted)] font-medium">Loading your orders...</p>
+          <div className="flex flex-col items-center justify-center py-20">
+            <div className="w-10 h-10 border-2 border-[var(--accent)]/20 border-t-[var(--accent)] rounded-full animate-spin mb-4" />
+            <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest">Querying Orders...</p>
           </div>
         ) : orders.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center py-20 rounded-3xl border border-dashed border-[var(--border)] bg-[var(--card)]/30 backdrop-blur-sm"
+            className="text-center py-20 rounded-[2rem] border border-dashed border-[var(--border)] bg-[var(--card)]/20 backdrop-blur-sm"
           >
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[var(--muted-bg)] text-[var(--muted)] mb-4">
-              <FiFilter size={32} />
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--card)] text-[var(--muted)]/40 mb-4 border border-[var(--border)]">
+              <Filter size={24} />
             </div>
-            <h3 className="text-lg font-bold">No orders found</h3>
-            <p className="text-[var(--muted)] text-sm mt-1">Try adjusting your filters or search query</p>
+            <h3 className="text-xl font-black uppercase italic">Silence in the Log</h3>
+            <p className="text-[10px] text-[var(--muted)] font-bold uppercase tracking-widest mt-1">Try adjusting your spectral filters</p>
             <button
               onClick={() => { setSearch(""); setStatusFilter("all"); }}
-              className="mt-6 text-[var(--accent)] font-semibold hover:underline"
+              className="mt-6 px-6 py-2 rounded-xl bg-[var(--accent)]/10 text-[var(--accent)] text-[10px] font-black uppercase tracking-widest hover:bg-[var(--accent)] transition-all hover:text-white"
             >
-              Clear all filters
+              Reset All
             </button>
           </motion.div>
         ) : (
@@ -193,30 +196,30 @@ export default function OrdersTab() {
 
             {/* PAGINATION */}
             {totalPages > 1 && (
-              <div className="mt-10 flex flex-col md:flex-row justify-between items-center gap-4 py-6">
-                <p className="text-sm text-[var(--muted)]">
-                  Showing <span className="text-[var(--foreground)] font-medium">{(page - 1) * limit + 1}</span> to <span className="text-[var(--foreground)] font-medium">{Math.min(page * limit, totalCount)}</span> of <span className="text-[var(--foreground)] font-medium">{totalCount}</span> results
+              <div className="mt-10 flex flex-col md:flex-row justify-between items-center gap-6 py-6 border-t border-[var(--border)]/50">
+                <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest">
+                  Showing <span className="text-[var(--foreground)]">{(page - 1) * limit + 1}</span> - <span className="text-[var(--foreground)]">{Math.min(page * limit, totalCount)}</span> <span className="opacity-30">/</span> {totalCount}
                 </p>
 
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-2">
                   <button
                     disabled={page === 1}
                     onClick={() => setPage((p) => p - 1)}
-                    className="p-2.5 rounded-xl border border-[var(--border)] bg-[var(--card)]
-                               disabled:opacity-40 disabled:scale-95 hover:bg-[var(--accent)]/10 hover:text-[var(--accent)] transition-all"
+                    className="p-2 rounded-lg border border-[var(--border)] bg-[var(--card)]/50
+                               disabled:opacity-20 hover:border-[var(--accent)]/50 hover:text-[var(--accent)] transition-all active:scale-90"
                   >
-                    <FiChevronLeft size={20} />
+                    <ChevronLeft size={18} />
                   </button>
 
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1.5">
                     {getPageNumbers().map((p) => (
                       <button
                         key={p}
                         onClick={() => setPage(p)}
-                        className={`min-w-[42px] h-[42px] px-2 rounded-xl text-sm font-bold border transition-all
+                        className={`min-w-[36px] h-[36px] rounded-lg text-xs font-black border transition-all
                           ${p === page
                             ? "bg-[var(--accent)] text-white border-[var(--accent)] shadow-lg shadow-[var(--accent)]/20"
-                            : "border-[var(--border)] bg-[var(--card)] text-[var(--muted)] hover:text-[var(--foreground)] hover:border-[var(--muted)]"
+                            : "border-[var(--border)] bg-[var(--card)]/50 text-[var(--muted)] hover:border-[var(--muted)]"
                           }`}
                       >
                         {p}
@@ -227,10 +230,10 @@ export default function OrdersTab() {
                   <button
                     disabled={page >= totalPages}
                     onClick={() => setPage((p) => p + 1)}
-                    className="p-2.5 rounded-xl border border-[var(--border)] bg-[var(--card)]
-                               disabled:opacity-40 disabled:scale-95 hover:bg-[var(--accent)]/10 hover:text-[var(--accent)] transition-all"
+                    className="p-2 rounded-lg border border-[var(--border)] bg-[var(--card)]/50
+                               disabled:opacity-20 hover:border-[var(--accent)]/50 hover:text-[var(--accent)] transition-all active:scale-90"
                   >
-                    <FiChevronRight size={20} />
+                    <ChevronRight size={18} />
                   </button>
                 </div>
               </div>

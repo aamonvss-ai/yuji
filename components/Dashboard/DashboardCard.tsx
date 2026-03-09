@@ -1,10 +1,12 @@
 import { JSX } from "react";
 import {
-  FiShoppingBag,
-  FiUsers,
-  FiDollarSign,
-  FiActivity,
-} from "react-icons/fi";
+  ShoppingBag,
+  Users,
+  Wallet,
+  Activity,
+  CreditCard,
+  MessageSquare
+} from "lucide-react";
 import { motion } from "framer-motion";
 
 interface DashboardCardProps {
@@ -20,15 +22,15 @@ interface DashboardCardProps {
 
 /* ================= ICON MAP ================= */
 const ICON_MAP: Record<string, JSX.Element> = {
-  order: <FiShoppingBag />,
-  orders: <FiShoppingBag />,
-  support: <FiActivity />,
-  query: <FiActivity />,
-  wallet: <FiDollarSign />,
-  account: <FiUsers />,
-  users: <FiUsers />,
-  revenue: <FiDollarSign />,
-  activity: <FiActivity />,
+  order: <ShoppingBag size={20} />,
+  orders: <ShoppingBag size={20} />,
+  support: <MessageSquare size={20} />,
+  query: <MessageSquare size={20} />,
+  wallet: <Wallet size={20} />,
+  account: <Users size={20} />,
+  users: <Users size={20} />,
+  revenue: <Wallet size={20} />,
+  activity: <Activity size={20} />,
 };
 
 export default function DashboardCard({
@@ -46,12 +48,11 @@ export default function DashboardCard({
       tabIndex={0}
       onClick={onClick}
       onKeyDown={(e) => e.key === "Enter" && onClick()}
-      className={`group relative p-4 md:p-5 rounded-2xl cursor-pointer border
-                  transition-all duration-300
-                  shadow-sm hover:shadow-xl
+      className={`group relative p-4 rounded-2xl cursor-pointer border
+                  transition-all duration-300 overflow-hidden
         ${isActive
-          ? "border-[var(--accent)] bg-[var(--card)] shadow-[var(--accent)]/10"
-          : "border-[var(--border)] bg-[var(--card)]/40 hover:bg-[var(--card)] hover:border-[var(--accent)]/30"
+          ? "border-[var(--accent)] bg-[var(--card)] shadow-lg shadow-[var(--accent)]/5"
+          : "border-[var(--border)] bg-[var(--background)]/40 hover:bg-[var(--card)] hover:border-[var(--accent)]/20"
         }`}
     >
       {/* GLOW EFFECT FOR ACTIVE */}
@@ -72,31 +73,20 @@ export default function DashboardCard({
         </div>
 
         <div
-          className={`p-2.5 rounded-xl text-xl transition-all duration-300
+          className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300
             ${isActive
-              ? "bg-[var(--accent)] text-white shadow-lg shadow-[var(--accent)]/20"
+              ? "bg-[var(--accent)] text-white shadow-md shadow-[var(--accent)]/20"
               : "bg-black/5 text-[var(--muted)] group-hover:bg-[var(--accent)]/10 group-hover:text-[var(--accent)]"
             }`}
         >
-          {ICON_MAP[tab.key] || <FiActivity />}
+          {ICON_MAP[tab.key] || <Activity size={18} />}
         </div>
       </div>
 
       {/* ================= ACTIVE INDICATOR ================= */}
-      <div className="mt-4 flex items-center gap-1.5">
-        <div className={`h-1 rounded-full transition-all duration-500
-          ${isActive ? "w-10 bg-[var(--accent)]" : "w-4 bg-[var(--border)] group-hover:w-8 group-hover:bg-[var(--accent)]/30"}`}
-        />
-        {isActive && (
-          <motion.span
-            initial={{ opacity: 0, x: -5 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="text-[10px] font-bold text-[var(--accent)] uppercase"
-          >
-            Active
-          </motion.span>
-        )}
-      </div>
+      {isActive && (
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-[var(--accent)]" />
+      )}
     </motion.div>
   );
 }

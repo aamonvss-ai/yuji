@@ -63,15 +63,15 @@ export default function FlashSale() {
                         </h2>
                     </div>
 
-                    <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md border border-white/10 px-3 py-1 rounded-xl">
-                        <FiClock className="text-amber-500 animate-pulse hidden sm:block" size={10} />
-                        <div className="flex items-center gap-2 font-bold text-[10px] tabular-nums text-amber-500">
-                            <span className="opacity-60 text-[8px] uppercase tracking-widest text-[var(--foreground)] mr-1 hidden md:block">Ends In</span>
-                            <span>{String(timeLeft.hours).padStart(2, '0')}</span>
+                    <div className="flex items-center gap-2 bg-[var(--foreground)]/[0.03] backdrop-blur-md border border-[var(--border)] px-4 py-1.5 rounded-2xl shadow-sm">
+                        <FiClock className="text-amber-500 animate-pulse hidden sm:block" size={12} />
+                        <div className="flex items-center gap-2 font-black text-xs tabular-nums text-amber-500 uppercase tracking-tighter">
+                            <span className="opacity-40 text-[9px] font-bold text-[var(--foreground)] mr-1 hidden md:block">Time Remaining</span>
+                            <div className="bg-amber-500/10 px-1.5 py-0.5 rounded-md">{String(timeLeft.hours).padStart(2, '0')}</div>
                             <span className="opacity-30 text-[var(--foreground)]">:</span>
-                            <span>{String(timeLeft.minutes).padStart(2, '0')}</span>
+                            <div className="bg-amber-500/10 px-1.5 py-0.5 rounded-md">{String(timeLeft.minutes).padStart(2, '0')}</div>
                             <span className="opacity-30 text-[var(--foreground)]">:</span>
-                            <span>{String(timeLeft.seconds).padStart(2, '0')}</span>
+                            <div className="bg-rose-500/10 text-rose-500 px-1.5 py-0.5 rounded-md animate-pulse">{String(timeLeft.seconds).padStart(2, '0')}</div>
                         </div>
                     </div>
                 </div>
@@ -108,6 +108,9 @@ export default function FlashSale() {
                                             className="object-cover transition-transform duration-700 group-hover:scale-110"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-40 transition-opacity group-hover:opacity-60" />
+
+                                        {/* Shimmer Overlay */}
+                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] pointer-events-none" />
                                     </div>
 
                                     {/* Compact Info */}
@@ -146,6 +149,11 @@ export default function FlashSale() {
                     }
                     .custom-scrollbar-premium::-webkit-scrollbar-thumb:hover {
                         background: rgba(245, 158, 11, 0.4);
+                    }
+                    @keyframes shimmer {
+                        100% {
+                            transform: translateX(100%);
+                        }
                     }
                 `}</style>
             </div>

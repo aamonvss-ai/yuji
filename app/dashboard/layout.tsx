@@ -5,7 +5,9 @@ import AuthGuard from "../../components/AuthGuard";
 import DashboardCard from "../../components/Dashboard/DashboardCard";
 import { DashboardProvider, useDashboard } from "../../components/Dashboard/DashboardContext";
 import { FiLogOut } from "react-icons/fi";
+import { User, ShieldCheck, Wallet, ChevronRight, LayoutDashboard, Settings, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -34,39 +36,43 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     return (
         <section className="min-h-screen px-4 md:px-10 py-8 bg-[var(--background)] text-[var(--foreground)] selection:bg-[var(--accent)]/30">
             {/* HEADER */}
-            <div className="max-w-6xl mx-auto mb-10 flex flex-col md:flex-row gap-6 md:items-center md:justify-between">
-                <div>
-                    <motion.h1
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className="text-3xl md:text-4xl font-extrabold tracking-tight"
-                    >
-                        Welcome back, <span className="text-[var(--accent)]">{userDetails.name || "Player"}</span> 👋
-                    </motion.h1>
-                    <motion.p
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.1 }}
-                        className="text-[var(--muted)] mt-2 font-medium"
-                    >
-                        Your gaming hub for orders, wallet, and support.
-                    </motion.p>
-                </div>
+            <div className="max-w-6xl mx-auto mb-8">
+                <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between">
+                    <div>
+                        <motion.h1
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="text-2xl md:text-3xl font-black tracking-tight"
+                        >
+                            {userDetails.name || "Player"}<span className="text-[var(--accent)]">'s</span> Dashboard
+                        </motion.h1>
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1 }}
+                            className="flex items-center gap-2 mt-1"
+                        >
+                            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                            <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest">
+                                Profile Active & Secure
+                            </p>
+                        </motion.div>
+                    </div>
 
-                <motion.button
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleLogout}
-                    className="flex items-center justify-center gap-2 px-6 py-3 rounded-2xl 
-                             bg-[var(--card)] border border-[var(--border)] 
-                             hover:border-red-500/50 hover:bg-red-500/5 transition-all
-                             text-sm font-bold group"
-                >
-                    <FiLogOut className="text-[var(--muted)] group-hover:text-red-500 transition-colors" />
-                    <span>Logout</span>
-                </motion.button>
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="flex items-center gap-3 bg-[var(--card)]/30 backdrop-blur-md border border-[var(--border)] px-4 py-2 rounded-2xl"
+                    >
+                        <div className="flex flex-col">
+                            <span className="text-[8px] uppercase font-black text-[var(--muted)] tracking-widest leading-none mb-1">Balance</span>
+                            <div className="flex items-center gap-1.5 text-lg font-black text-emerald-500">
+                                <Wallet size={14} />
+                                <span>₹{walletBalance}</span>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
             </div>
 
             {/* CARDS GRID */}
@@ -90,27 +96,29 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
             {/* CONTENT AREA */}
             <motion.div
                 layout
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="max-w-5xl mx-auto bg-[var(--card)]/80 
-                          backdrop-blur-md border border-[var(--border)]
-                          rounded-[2.5rem] p-6 md:p-10 shadow-2xl relative overflow-hidden"
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="max-w-6xl mx-auto bg-[var(--card)]/40 
+                          backdrop-blur-3xl border border-[var(--border)]
+                          rounded-[3rem] p-4 md:p-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)] relative overflow-hidden"
             >
-                {/* Decorative Elements */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--accent)]/5 rounded-full blur-3xl -z-10 -mr-32 -mt-32" />
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-[var(--accent)]/5 rounded-full blur-3xl -z-10 -ml-32 -mb-32" />
+                {/* Premium Background Accents */}
+                <div className="absolute -top-24 -right-24 w-96 h-96 bg-[var(--accent)]/10 rounded-full blur-[100px] -z-10 animate-pulse" />
+                <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[var(--accent)]/5 rounded-full blur-[100px] -z-10" />
 
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={pathname}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.3 }}
-                    >
-                        {children}
-                    </motion.div>
-                </AnimatePresence>
+                <div className="relative min-h-[500px]">
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={pathname}
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -20 }}
+                            transition={{ duration: 0.4, ease: "circOut" }}
+                        >
+                            {children}
+                        </motion.div>
+                    </AnimatePresence>
+                </div>
             </motion.div>
         </section>
     );

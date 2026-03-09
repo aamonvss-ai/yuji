@@ -19,7 +19,8 @@ import {
   Hash,
   Loader2,
   Calendar,
-  Smartphone
+  Smartphone,
+  RotateCcw
 } from "lucide-react";
 
 export default function TransactionsTab() {
@@ -88,6 +89,11 @@ export default function TransactionsTab() {
       label: "Pending",
       class: "bg-amber-500/10 text-amber-500 border-amber-500/20",
       icon: <Clock size={12} />
+    },
+    refunded: {
+      label: "Refunded",
+      class: "bg-blue-500/10 text-blue-500 border-blue-500/20",
+      icon: <RotateCcw size={12} />
     },
   };
 

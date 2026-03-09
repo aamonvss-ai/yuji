@@ -22,7 +22,8 @@ import {
   Smartphone,
   ChevronDown,
   ShoppingBag,
-  Target
+  Target,
+  RotateCcw
 } from "lucide-react";
 
 export default function OrdersTab() {
@@ -158,6 +159,11 @@ export default function OrdersTab() {
       class: "bg-rose-500/10 text-rose-500 border-rose-500/20",
       icon: <XCircle size={12} />
     },
+    refunded: {
+      label: "Refunded",
+      class: "bg-blue-500/10 text-blue-500 border-blue-500/20",
+      icon: <RotateCcw size={12} />
+    },
   };
 
   return (
@@ -246,6 +252,7 @@ export default function OrdersTab() {
               <option value="pending" className="bg-[var(--card)]">Pending</option>
               <option value="success" className="bg-[var(--card)]">Success</option>
               <option value="failed" className="bg-[var(--card)]">Failed</option>
+              <option value="refunded" className="bg-[var(--card)]">Refunded</option>
             </select>
             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted)]/50 pointer-events-none" size={12} />
           </div>
@@ -366,6 +373,7 @@ export default function OrdersTab() {
                               { value: "pending", label: "Pending" },
                               { value: "success", label: "Success" },
                               { value: "failed", label: "Failed" },
+                              { value: "refunded", label: "Refunded" },
                             ]}
                           />
                         </td>
@@ -420,6 +428,7 @@ export default function OrdersTab() {
                             { value: "pending", label: "Pending" },
                             { value: "success", label: "Success" },
                             { value: "failed", label: "Failed" },
+                            { value: "refunded", label: "Refunded" },
                           ]}
                         />
                       </div>
@@ -511,6 +520,7 @@ export default function OrdersTab() {
                       { value: "pending", label: "Pending" },
                       { value: "success", label: "Success" },
                       { value: "failed", label: "Failed" },
+                      { value: "refunded", label: "Refunded" },
                     ]}
                   />
                 </div>
@@ -574,6 +584,7 @@ function StatusDropdown({ value, onChange, options, disabled, compact }) {
     pending: "text-amber-500",
     success: "text-emerald-500",
     failed: "text-rose-500",
+    refunded: "text-blue-500",
   };
 
   return (
