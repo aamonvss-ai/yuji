@@ -12,6 +12,7 @@ import ItemGrid from "@/components/GameDetail/ItemGrid";
 import BuyPanel from "@/components/GameDetail/BuyPanel";
 import ItemGridBgmi from "@/components/GameDetail/ItemGridBgmi";
 import BuyPanelBgmi from "@/components/GameDetail/BuyPanelBgmi";
+import AuthGuard from "@/components/AuthGuard";
 
 export default function GameDetailPage() {
   const { slug } = useParams();
@@ -57,14 +58,6 @@ export default function GameDetailPage() {
 
   /* ================= BUY HANDLER ================= */
   const goBuy = (item) => {
-    // Auth Check
-    const email = localStorage.getItem("email");
-    const phone = localStorage.getItem("phone");
-    if (!email && !phone) {
-      router.push(`/login?redirect=${encodeURIComponent(window.location.pathname)}`);
-      return;
-    }
-
     if (redirecting) return;
     setRedirecting(true);
 
@@ -132,21 +125,23 @@ export default function GameDetailPage() {
       )}
 
       {/* ================= BUY PANEL ================= */}
-      {isBGMI ? (
-        <BuyPanelBgmi
-          activeItem={activeItem}
-          onBuy={goBuy}
-          redirecting={redirecting}
-          buyPanelRef={buyPanelRef}
-        />
-      ) : (
-        <BuyPanel
-          activeItem={activeItem}
-          onBuy={goBuy}
-          redirecting={redirecting}
-          buyPanelRef={buyPanelRef}
-        />
-      )}
+      <AuthGuard>
+        {isBGMI ? (
+          <BuyPanelBgmi
+            activeItem={activeItem}
+            onBuy={goBuy}
+            redirecting={redirecting}
+            buyPanelRef={buyPanelRef}
+          />
+        ) : (
+          <BuyPanel
+            activeItem={activeItem}
+            onBuy={goBuy}
+            redirecting={redirecting}
+            buyPanelRef={buyPanelRef}
+          />
+        )}
+      </AuthGuard>
       {/* ================= HELP GUIDE ================= */}
       {/* <div className="max-w-6xl mx-auto mt-6">
         <MLBBPurchaseGuide />

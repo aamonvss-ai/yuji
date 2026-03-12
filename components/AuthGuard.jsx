@@ -10,9 +10,10 @@ export default function AuthGuard({ children }) {
   useEffect(() => {
     const email = localStorage.getItem("email");
     const phone = localStorage.getItem("phone");
+    const token = localStorage.getItem("token");
 
-    // If neither email nor phone exist → redirect
-    if (!email && !phone) {
+    // If neither email, phone nor token exist → redirect
+    if (!email && !token) {
       router.replace(`/login?redirect=${encodeURIComponent(window.location.pathname)}`);
     } else {
       setAllowed(true);

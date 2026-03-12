@@ -91,6 +91,7 @@ export default function QueryTab() {
 
     const storedEmail = localStorage.getItem("email");
     const storedPhone = localStorage.getItem("phone");
+    const storedToken = localStorage.getItem("token");
 
     try {
       const res = await fetch("/api/support/query", {
@@ -99,6 +100,7 @@ export default function QueryTab() {
         body: JSON.stringify({
           email: storedEmail || null,
           phone: storedPhone || null,
+          token: storedToken || null,
           type: queryType,
           message: queryMessage,
         }),
