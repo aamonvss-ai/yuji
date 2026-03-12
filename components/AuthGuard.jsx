@@ -13,7 +13,7 @@ export default function AuthGuard({ children }) {
 
     // If neither email nor phone exist → redirect
     if (!email && !phone) {
-      router.replace("/login");
+      router.replace(`/login?redirect=${encodeURIComponent(window.location.pathname)}`);
     } else {
       setAllowed(true);
     }

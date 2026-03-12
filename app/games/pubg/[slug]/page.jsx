@@ -57,6 +57,14 @@ export default function GameDetailPage() {
 
   /* ================= BUY HANDLER ================= */
   const goBuy = (item) => {
+    // Auth Check
+    const email = localStorage.getItem("email");
+    const phone = localStorage.getItem("phone");
+    if (!email && !phone) {
+      router.push(`/login?redirect=${encodeURIComponent(window.location.pathname)}`);
+      return;
+    }
+
     if (redirecting) return;
     setRedirecting(true);
 

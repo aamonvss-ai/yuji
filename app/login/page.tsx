@@ -43,7 +43,11 @@ export default function AuthPage() {
       if (data.user.avatar) localStorage.setItem("avatar", data.user.avatar);
 
       setSuccess("Welcome back! Redirecting...");
-      setTimeout(() => (window.location.href = "/"), 1200);
+
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirectTo = searchParams.get("redirect") || "/";
+
+      setTimeout(() => (window.location.href = redirectTo), 1200);
     } catch {
       setError("Secure protocol failure. Please try again.");
     } finally {

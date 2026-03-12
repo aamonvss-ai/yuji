@@ -134,7 +134,7 @@ export default function Header() {
             onClick={() => {
               if (loading) return;
               if (!user) {
-                window.location.href = "/login";
+                window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname)}`;
               } else {
                 setUserMenuOpen(!userMenuOpen);
               }
@@ -173,7 +173,7 @@ export default function Header() {
                     <button
                       onClick={() => {
                         setUserMenuOpen(false);
-                        window.location.href = "/login";
+                        window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname)}`;
                       }}
                       className="flex items-center justify-center gap-2 w-full py-4 px-4 bg-[var(--accent)] text-white rounded-2xl font-black uppercase text-xs tracking-widest transition-all duration-300 hover:shadow-xl hover:shadow-[var(--accent)]/30 hover:scale-[1.02] active:scale-95"
                     >
