@@ -49,6 +49,16 @@ export default function ReviewAndPaymentStep({
 
     setIsRedirecting(true); // 🔑 start loading
 
+    // Double check restricted regions before order
+    const restrictedRegions = ["INDO", "ID", "PH", "SG", "RU", "MY", "MM"];
+    const playerRegion = reviewData.region?.toUpperCase();
+
+    if ((slug === "mobile-legends988" || slug === "mlbb-double332") && restrictedRegions.includes(playerRegion)) {
+      alert(`Orders from ${playerRegion} region are not allowed for this product.`);
+      setIsRedirecting(false);
+      return;
+    }
+
     try {
       const userId = localStorage.getItem("userId");
       const storedPhone = userPhone || localStorage.getItem("phone");

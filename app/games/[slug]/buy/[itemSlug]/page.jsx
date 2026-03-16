@@ -19,6 +19,8 @@ export default function BuyFlowPage() {
   const [paymentMethod, setPaymentMethod] = useState("upi");
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(""); // 👈 NEW
+  const [game, setGame] = useState(null); // 👈 NEW
 
   /* ================= USER DATA ================= */
   const [userEmail, setUserEmail] = useState("");
@@ -56,6 +58,8 @@ export default function BuyFlowPage() {
       .then(res => res.json())
       .then(data => {
         const gameData = data?.data;
+        setGame(gameData); // Store game data
+
         if (!gameData?.itemId) return;
 
         const foundItem = gameData.itemId.find(
@@ -84,44 +88,80 @@ export default function BuyFlowPage() {
 
   /* ================= VALIDATE PLAYER ================= */
   const handleValidate = async () => {
+    setError(""); // reset error
     if (!playerId || !zoneId) {
-      alert("Please enter Player ID and Zone ID");
+      setError("Please enter Player ID and Zone ID");
       return;
     }
 
     setLoading(true);
 
-    const res = await fetch("/api/check-region", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: playerId, zone: zoneId }),
-    });
-
-    const data = await res.json();
-
-    if (data?.success !== 200 || !data?.data?.username || !data?.data?.region) {
-      alert("Invalid Player ID / Zone ID. Please put correct ID");
+    if (game?.isValidationRequired === false) {
+      setReviewData({
+        userName: "Manual Order",
+        region: "Manual",
+        playerId,
+        zoneId,
+      });
       setLoading(false);
+      setStep(2);
       return;
     }
 
-    saveVerifiedPlayer({
-      playerId,
-      zoneId,
-      username: data.data.username,
-      region: data.data.region,
-      savedAt: Date.now(),
-    });
+    try {
+      const res = await fetch("/api/check-region", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: playerId, zone: zoneId }),
+      });
 
-    setReviewData({
-      userName: data.data.username,
-      region: data.data.region,
-      playerId,
-      zoneId,
-    });
+      const data = await res.json();
 
-    setLoading(false);
-    setStep(2);
+      if (
+        data?.success === 200 &&
+        data?.data &&
+        (data?.data?.username || data?.data?.region)
+      ) {
+        // Filter restricted regions for mobile-legends988
+        const restrictedRegions = ["INDO", "ID", "PH", "SG", "RU", "MY", "MM"];
+        const playerRegion = data.data.region?.toUpperCase();
+
+        if ((slug === "mobile-legends988" || slug === "mlbb-double332") && restrictedRegions.includes(playerRegion)) {
+          setError(`Orders from ${playerRegion} region are not allowed for this product.`);
+          setLoading(false);
+          return;
+        }
+
+        saveVerifiedPlayer({
+          playerId,
+          zoneId,
+          username: data.data.username || "Unknown",
+          region: data.data.region || "Unknown",
+          savedAt: Date.now(),
+        });
+
+        setReviewData({
+          userName: data.data.username || "Unknown",
+          region: data.data.region || "Unknown",
+          playerId,
+          zoneId,
+        });
+
+        setLoading(false);
+        setStep(2);
+      } else {
+        const serverMsg = data?.message || "Invalid Player ID / Zone ID";
+        const finalError = serverMsg.toLowerCase().includes("success")
+          ? "Player Not Found (Invalid ID/Zone)"
+          : serverMsg;
+
+        setError(finalError);
+        setLoading(false);
+      }
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+      setLoading(false);
+    }
   };
 
   /* ================= PAYMENT ================= */
@@ -185,6 +225,7 @@ export default function BuyFlowPage() {
                 setZoneId={setZoneId}
                 onValidate={handleValidate}
                 loading={loading}
+                error={error}
               />
             )}
 

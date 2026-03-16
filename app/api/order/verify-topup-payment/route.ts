@@ -100,7 +100,7 @@ export async function POST(req: Request) {
     formData.append("order_id", orderId);
 
     const resp = await fetch(
-      "https://xyzpay.site/api/check-order-status",
+      "https://chuimei-pe.in/api/check-order-status",
       {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -211,7 +211,7 @@ export async function POST(req: Request) {
       try {
         const user = await User.findOne({ userId: order.userId });
         // send mail if needed
-      } catch {}
+      } catch { }
     } else {
       order.status = "failed";
       order.topupStatus = "failed";
