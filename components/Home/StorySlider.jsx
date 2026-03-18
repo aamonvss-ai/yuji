@@ -10,7 +10,7 @@ const storyData = [
     title: "Weekly Pass",
     badge: "Hot",
     color: "from-emerald-400 to-emerald-600",
-    image: "/game-assets/11.jpg",
+    image: "/game-assets/weeklypass-new.jpeg",
     link: "/games/mobile-legends988?type=weekly-pass",
   },
   {
@@ -18,7 +18,7 @@ const storyData = [
     title: "Weekly Bundle",
     badge: "Sale",
     color: "from-rose-500 to-rose-700",
-    image: "/game-assets/12.jpg",
+    image: "/game-assets/elite-bundle.jpeg",
     link: "/games/weeklymonthly-bundle931",
   },
   {
@@ -39,20 +39,13 @@ const storyData = [
   },
   {
     id: 4,
-    title: "Small PHP",
+    title: "Small pack",
     badge: "Fast",
     color: "from-cyan-400 to-sky-600",
     image: "/game-assets/3_cj6nj4.jpg",
     link: "/games/mlbb-smallphp980",
   },
-  {
-    id: 5,
-    title: "PUBG Mobile",
-    badge: "Top",
-    color: "from-orange-500 to-amber-600",
-    image: "/game-assets/bgmi-logo.webp",
-    link: "/games/bgmi-manual",
-  },
+
   {
     id: 6,
     title: "Premium",
