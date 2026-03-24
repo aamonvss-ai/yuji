@@ -21,8 +21,11 @@ import { connectDB } from "@/lib/mongodb";
 import SystemSettings from "@/models/SystemSettings";
 
 export const metadata: Metadata = {
-  title: "yuji – MLBB Diamond Top Up | Instant & Secure",
-  description: "yuji is a fast and secure Mobile Legends (MLBB) diamond top-up platform. Instant delivery, safe payments, and 24/7 automated service.",
+  title: "MLBB Top Up India – Cheap Mobile Legends Diamonds | Yujimlbb",
+  description: "Buy Mobile Legends diamonds at the cheapest price in India. Instant delivery, trusted service & secure payment only at Yujimlbb.com.",
+  verification: {
+    google: "SIX1trDeaETK7DDO7IlpYofg4A3QMOENWAid77zLzgU",
+  },
 };
 
 const getMaintenanceMode = unstable_cache(
