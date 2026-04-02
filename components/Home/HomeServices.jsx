@@ -12,14 +12,14 @@ export default function HomeServices() {
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative overflow-hidden rounded-[2rem] bg-zinc-900/40 border border-white/5 p-8 md:p-10 text-center"
+          className="relative overflow-hidden rounded-[2rem] bg-[var(--card)] border border-[var(--border)] p-8 md:p-10 text-center shadow-xl shadow-black/5"
         >
           <div className="relative z-10 space-y-5">
             <div className="space-y-2">
               <h2 className="text-xl md:text-2xl font-black italic uppercase tracking-tighter text-amber-500">
                 Build Your Website
               </h2>
-              <p className="text-xs md:text-sm font-medium text-zinc-400 max-w-md mx-auto leading-relaxed">
+              <p className="text-xs md:text-sm font-medium text-[var(--muted)] max-w-md mx-auto leading-relaxed">
                 We provide all kinds of software development and website services.
               </p>
             </div>

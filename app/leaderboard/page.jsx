@@ -50,28 +50,28 @@ export default function LeaderboardPage() {
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-[var(--background)] px-4 py-20 pb-20">
+      <div className="min-h-screen bg-[var(--background)] px-4 py-12 pb-20">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-4xl mx-auto text-center mb-12"
+          className="max-w-4xl mx-auto text-center mb-10"
         >
-          <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tighter italic">
-            Elite <span className="text-[var(--accent)]">Spendors</span>
+          <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter italic">
+            Top <span className="text-[var(--accent)]">Legends</span>
           </h1>
           <p className="mt-2 text-[var(--muted)] text-xs md:text-sm font-black uppercase tracking-widest opacity-80">
-            Top Spenders ascending to the digital throne
+            Our top customers of the week and month
           </p>
 
           {/* Range Toggle */}
-          <div className="flex justify-center mt-8 p-1 bg-black/40 backdrop-blur-xl border border-white/5 rounded-2xl w-fit mx-auto">
+          <div className="flex justify-center mt-8 p-1 bg-[var(--card)] backdrop-blur-xl border border-[var(--border)] rounded-2xl w-fit mx-auto">
             {["weekly", "monthly"].map((r) => (
               <button
                 key={r}
                 onClick={() => setRange(r)}
                 className={`px-8 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${range === r
                   ? "bg-[var(--accent)] text-black shadow-lg"
-                  : "text-[var(--muted)] hover:text-white"
+                  : "text-[var(--muted)] hover:text-[var(--foreground)]"
                   }`}
               >
                 {r === "weekly" ? "This Week" : "This Month"}
@@ -88,12 +88,12 @@ export default function LeaderboardPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="max-w-2xl mx-auto text-center py-20 bg-[var(--card)]/20 border border-dashed border-white/10 rounded-[2.5rem] backdrop-blur-sm"
+            className="max-w-2xl mx-auto text-center py-20 bg-[var(--card)]/20 border border-dashed border-[var(--border)] rounded-[2.5rem] backdrop-blur-sm"
           >
-            <FaTrophy className="text-5xl text-white/10 mx-auto mb-6" />
-            <h3 className="text-2xl font-black uppercase tracking-tighter italic">No Legends Found</h3>
+            <FaTrophy className="text-5xl text-[var(--muted)]/20 mx-auto mb-6" />
+            <h3 className="text-2xl font-black uppercase tracking-tighter italic">No Legends Yet</h3>
             <p className="mt-2 text-sm text-[var(--muted)] font-medium max-w-xs mx-auto">
-              The podium is empty. Be the first to secure your name in history.
+              No ranks yet. Start ordering now to reach the top of the list!
             </p>
           </motion.div>
         ) : (
@@ -139,18 +139,18 @@ export default function LeaderboardPage() {
                 <motion.div
                   key={index}
                   variants={itemVariants}
-                  className="group flex items-center justify-between p-4 px-6 bg-[var(--card)]/40 backdrop-blur-xl border border-white/5 rounded-2xl hover:border-[var(--accent)]/30 transition-all duration-300"
+                  className="group flex items-center justify-between p-4 px-6 bg-[var(--card)] border border-[var(--border)] rounded-2xl hover:border-[var(--accent)]/30 transition-all duration-300 shadow-sm"
                 >
                   <div className="flex items-center gap-4">
                     <span className="w-8 text-sm font-black text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors">
                       #{index + 4}
                     </span>
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-white/5 overflow-hidden flex items-center justify-center border border-white/10">
-                        <FaUserCircle className="text-2xl text-white/20" />
+                      <div className="w-10 h-10 rounded-full bg-[var(--foreground)]/5 overflow-hidden flex items-center justify-center border border-[var(--border)]">
+                        <FaUserCircle className="text-2xl text-[var(--muted)]/40" />
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-white uppercase tracking-tight">
+                        <p className="text-sm font-bold text-[var(--foreground)] uppercase tracking-tight">
                           {item.user?.name || "Anonymous User"}
                         </p>
                         <p className="text-[10px] text-[var(--muted)] font-black uppercase tracking-widest leading-none">
@@ -184,31 +184,31 @@ function PodiumItem({ user, rank, color, icon, delay, isLarge }) {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.8, type: "spring" }}
-      className={`relative flex flex-col items-center p-3 md:p-6 bg-[var(--card)]/50 backdrop-blur-2xl border border-white/5 rounded-2xl md:rounded-[2.5rem] ${isLarge
-        ? "scale-105 md:scale-110 z-10 bg-gradient-to-t from-[var(--accent)]/10 to-transparent border-[var(--accent)]/20 shadow-2xl"
+      className={`relative flex flex-col items-center p-3 md:p-6 bg-[var(--card)] border border-[var(--border)] rounded-2xl md:rounded-[2.5rem] shadow-sm ${isLarge
+        ? "scale-105 md:scale-110 z-10 bg-gradient-to-t from-[var(--accent)]/10 to-[var(--card)] border-[var(--accent)]/20 shadow-2xl"
         : "scale-90 md:scale-95 opacity-80"
         }`}
     >
-      <div className={`absolute -top-4 md:-top-6 text-2xl md:text-4xl ${color} drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]`}>
+      <div className={`absolute -top-4 md:-top-6 text-2xl md:text-4xl ${color} drop-shadow-[0_0_15px_var(--accent)]/20`}>
         {icon}
       </div>
 
-      <div className={`relative rounded-full border-2 p-0.5 md:p-1 overflow-hidden mb-2 md:mb-4 ${rank === 1 ? "w-16 h-16 md:w-24 md:h-24 border-[var(--accent)]" : "w-12 h-12 md:w-20 md:h-20 border-white/10"
+      <div className={`relative rounded-full border-2 p-0.5 md:p-1 overflow-hidden mb-2 md:mb-4 ${rank === 1 ? "w-16 h-16 md:w-24 md:h-24 border-[var(--accent)]" : "w-12 h-12 md:w-20 md:h-20 border-[var(--border)]"
         }`}>
-        <div className="w-full h-full rounded-full bg-white/5 flex items-center justify-center">
-          <FaUserCircle className={`text-2xl md:text-4xl ${rank === 1 ? "text-[var(--accent)]/50" : "text-white/10"}`} />
+        <div className="w-full h-full rounded-full bg-[var(--foreground)]/5 flex items-center justify-center">
+          <FaUserCircle className={`text-2xl md:text-4xl ${rank === 1 ? "text-[var(--accent)]/50" : "text-[var(--muted)]/20"}`} />
         </div>
       </div>
 
       <div className="text-center w-full">
-        <p className={`text-[10px] md:text-sm font-black uppercase tracking-tighter truncate px-1 ${rank === 1 ? "text-white" : "text-white/80"
+        <p className={`text-[10px] md:text-sm font-black uppercase tracking-tighter truncate px-1 ${rank === 1 ? "text-[var(--foreground)]" : "text-[var(--foreground)]/80"
           }`}>
           {user.user?.name || "Legend"}
         </p>
         <p className={`text-xs md:text-xl font-black mt-0.5 md:mt-1 ${color} tracking-tighter text-center`}>
           ₹{user.totalSpent.toLocaleString()}
         </p>
-        <div className="mt-2 md:mt-3 inline-flex items-center gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-white/5 border border-white/10">
+        <div className="mt-2 md:mt-3 inline-flex items-center gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-[var(--foreground)]/5 border border-[var(--border)]">
           <span className="text-[7px] md:text-[9px] font-black uppercase tracking-widest text-[var(--muted)]">#{rank}</span>
         </div>
       </div>

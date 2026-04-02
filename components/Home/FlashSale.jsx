@@ -47,31 +47,31 @@ export default function FlashSale() {
     }, []);
 
     return (
-        <section className="relative py-2 px-4 overflow-hidden border-b border-white/5 bg-black/10">
+        <section className="relative py-2 px-4 overflow-hidden border-b border-[var(--border)] bg-[var(--foreground)]/[0.03]">
             {/* Background Decorative */}
             <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-amber-500/5 blur-[80px] pointer-events-none" />
 
             <div className="max-w-7xl mx-auto">
                 {/* Compact Header */}
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                        <div className="p-1 rounded-lg bg-amber-500 text-black shadow-[0_0_15px_rgba(245,158,11,0.3)] shrink-0">
-                            <FiZap size={12} fill="currentColor" />
+                        <div className="p-1 rounded-md bg-amber-500 text-black shadow-[0_0_15px_rgba(245,158,11,0.2)] shrink-0">
+                            <FiZap size={10} fill="currentColor" />
                         </div>
-                        <h2 className="text-base sm:text-lg font-black uppercase tracking-tighter italic text-[var(--foreground)]">
+                        <h2 className="text-sm sm:text-base font-black uppercase tracking-tighter italic text-[var(--foreground)]">
                             Flash <span className="text-amber-500">Sale</span>
                         </h2>
                     </div>
 
-                    <div className="flex items-center gap-2 bg-[var(--foreground)]/[0.03] backdrop-blur-md border border-[var(--border)] px-4 py-1.5 rounded-2xl shadow-sm">
-                        <FiClock className="text-amber-500 animate-pulse hidden sm:block" size={12} />
-                        <div className="flex items-center gap-2 font-black text-xs tabular-nums text-amber-500 uppercase tracking-tighter">
-                            <span className="opacity-40 text-[9px] font-bold text-[var(--foreground)] mr-1 hidden md:block">Time Remaining</span>
-                            <div className="bg-amber-500/10 px-1.5 py-0.5 rounded-md">{String(timeLeft.hours).padStart(2, '0')}</div>
+                    <div className="flex items-center gap-1.5 bg-[var(--foreground)]/[0.03] backdrop-blur-md border border-[var(--border)] px-2.5 py-1 rounded-xl shadow-sm">
+                        <FiClock className="text-amber-500 animate-pulse hidden sm:block" size={10} />
+                        <div className="flex items-center gap-1.5 font-black text-[10px] tabular-nums text-amber-500 uppercase tracking-tighter">
+                            <span className="opacity-40 text-[8px] font-bold text-[var(--foreground)] mr-0.5 hidden md:block">Time Remaining</span>
+                            <div className="bg-amber-500/10 px-1 py-0.5 rounded-md">{String(timeLeft.hours).padStart(2, '0')}</div>
                             <span className="opacity-30 text-[var(--foreground)]">:</span>
-                            <div className="bg-amber-500/10 px-1.5 py-0.5 rounded-md">{String(timeLeft.minutes).padStart(2, '0')}</div>
+                            <div className="bg-amber-500/10 px-1 py-0.5 rounded-md">{String(timeLeft.minutes).padStart(2, '0')}</div>
                             <span className="opacity-30 text-[var(--foreground)]">:</span>
-                            <div className="bg-rose-500/10 text-rose-500 px-1.5 py-0.5 rounded-md animate-pulse">{String(timeLeft.seconds).padStart(2, '0')}</div>
+                            <div className="bg-rose-500/10 text-rose-500 px-1 py-0.5 rounded-md animate-pulse">{String(timeLeft.seconds).padStart(2, '0')}</div>
                         </div>
                     </div>
                 </div>
@@ -90,17 +90,17 @@ export default function FlashSale() {
                             >
                                 <Link
                                     href={`/games/${item.slug}`}
-                                    className="group relative block w-[130px] sm:w-[150px] md:w-[210px] bg-[var(--card)]/40 backdrop-blur-lg border border-white/5 rounded-[1rem] p-1.5 md:p-2 transition-all duration-500 hover:border-amber-500/30 hover:bg-amber-500/[0.04] shadow-lg"
+                                    className="group relative block w-[110px] sm:w-[130px] md:w-[170px] bg-[var(--card)] backdrop-blur-lg border border-[var(--border)] rounded-[0.8rem] p-1 md:p-1.5 transition-all duration-500 hover:border-amber-500/30 hover:bg-amber-500/[0.04] shadow-lg"
                                 >
                                     {/* Badge */}
-                                    <div className="absolute top-2.5 left-2.5 z-20">
-                                        <span className="text-[7px] md:text-[9px] font-black uppercase tracking-widest px-1.5 py-0.5 md:py-1 rounded-md bg-amber-500 text-black shadow-lg">
+                                    <div className="absolute top-2 left-2 z-20">
+                                        <span className="text-[6px] md:text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded-md bg-amber-500 text-black shadow-lg">
                                             {item.badge}
                                         </span>
                                     </div>
 
                                     {/* Image Container */}
-                                    <div className="relative aspect-square rounded-[0.8rem] overflow-hidden mb-2 md:mb-3 ring-1 ring-white/5 bg-black/20">
+                                    <div className="relative aspect-square rounded-[0.6rem] overflow-hidden mb-1.5 md:mb-2 ring-1 ring-[var(--border)] bg-black/5">
                                         <Image
                                             src={item.image}
                                             alt={item.name}
@@ -114,17 +114,17 @@ export default function FlashSale() {
                                     </div>
 
                                     {/* Compact Info */}
-                                    <div className="space-y-0.5 md:space-y-1 px-1">
-                                        <p className="text-[7px] md:text-[9px] font-bold text-amber-500/80 uppercase tracking-widest truncate">{item.game}</p>
-                                        <h3 className="text-[11px] md:text-[14px] font-black uppercase tracking-tight text-[var(--foreground)] truncate group-hover:text-amber-500 transition-colors">
+                                    <div className="space-y-0 px-1">
+                                        <p className="text-[6px] md:text-[8px] font-bold text-amber-500/80 uppercase tracking-widest truncate">{item.game}</p>
+                                        <h3 className="text-[10px] md:text-[12px] font-black uppercase tracking-tight text-[var(--foreground)] truncate group-hover:text-amber-500 transition-colors leading-tight">
                                             {item.name}
                                         </h3>
 
                                         <div className="flex items-center justify-between pt-0.5">
-                                            <span className="text-[12px] md:text-[16px] font-black italic text-[var(--foreground)]">
+                                            <span className="text-[11px] md:text-[14px] font-black italic text-[var(--foreground)]">
                                                 {item.price}
                                             </span>
-                                            <span className="text-[9px] md:text-[11px] font-bold text-[var(--muted)] line-through opacity-50 decoration-red-500/50">
+                                            <span className="text-[8px] md:text-[10px] font-bold text-[var(--muted)] line-through opacity-50 decoration-red-500/50">
                                                 {item.originalPrice}
                                             </span>
                                         </div>

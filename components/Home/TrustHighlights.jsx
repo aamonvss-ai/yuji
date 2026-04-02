@@ -33,7 +33,7 @@ export default function TrustHighlights() {
               transition={{ delay: i * 0.1, duration: 0.5 }}
               className="group flex flex-col items-center gap-4"
             >
-              <div className="w-14 h-14 rounded-2xl bg-[var(--card)]/30 border border-[var(--border)] flex items-center justify-center transition-all duration-500 group-hover:border-[var(--accent)]/40 group-hover:bg-[var(--accent)]/5 group-hover:shadow-[0_0_30px_rgba(var(--accent-rgb),0.05)]">
+              <div className="w-14 h-14 rounded-2xl bg-transparent flex items-center justify-center transition-all duration-500 group-hover:bg-[var(--foreground)]/[0.03]">
                 <item.icon className="w-6 h-6 text-[var(--muted)] group-hover:text-[var(--accent)] transition-all duration-300" />
               </div>
               <div className="flex flex-col items-center gap-1">

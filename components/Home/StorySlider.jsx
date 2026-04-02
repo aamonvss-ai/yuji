@@ -77,7 +77,7 @@ export default function StorySlider() {
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                  className={`absolute -inset-[3px] rounded-[1.8rem] border border-dashed border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                  className={`absolute -inset-[3px] rounded-[1.8rem] border border-dashed border-[var(--border)] opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
                 />
 
                 {/* Main Glass Squircle Container */}
@@ -86,8 +86,8 @@ export default function StorySlider() {
                   {/* Theme Border Accent */}
                   <div className={`absolute inset-0 bg-gradient-to-tr ${item.color} opacity-30 group-hover:opacity-100 transition-opacity duration-500`} />
 
-                  <div className="relative p-[2px] rounded-[1.5rem] bg-[#050505]">
-                    <div className="relative w-[68px] h-[68px] md:w-[84px] md:h-[84px] rounded-[1.4rem] overflow-hidden bg-zinc-900 mask-squircle shadow-inner">
+                  <div className="relative p-[2px] rounded-[1.5rem] bg-[var(--card)]">
+                    <div className="relative w-[68px] h-[68px] md:w-[84px] md:h-[84px] rounded-[1.4rem] overflow-hidden bg-[var(--card)] mask-squircle shadow-inner border border-[var(--border)]">
                       <Image
                         src={item.image}
                         alt={item.title}
@@ -97,10 +97,10 @@ export default function StorySlider() {
                       />
 
                       {/* Premium Internal Shadow (Edge Depth) */}
-                      <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.8)] opacity-60" />
+                      <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] opacity-20" />
 
                       {/* Shimmer Light Leak */}
-                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                     </div>
                   </div>
                 </div>
@@ -125,7 +125,7 @@ export default function StorySlider() {
 
               {/* Sophisticated Labels */}
               <div className="mt-4 flex flex-col items-center">
-                <span className="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-zinc-500 group-hover:text-white transition-all duration-500 transform group-hover:translate-y-[-2px]">
+                <span className="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-[var(--muted)] group-hover:text-[var(--foreground)] transition-all duration-500 transform group-hover:translate-y-[-2px]">
                   {item.title}
                 </span>
                 <div className={`h-[1.5px] w-0 bg-gradient-to-r ${item.color} group-hover:w-full transition-all duration-500 rounded-full mt-1.5`} />

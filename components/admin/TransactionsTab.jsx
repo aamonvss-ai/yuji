@@ -326,8 +326,8 @@ export default function TransactionsTab() {
               <div className="p-6 border-b border-[var(--border)] bg-gradient-to-r from-[var(--foreground)]/[0.02] to-transparent">
                 <div className="flex items-start justify-between mb-6">
                   <div className="space-y-1">
-                    <p className="text-[10px] font-bold text-[var(--accent)] uppercase tracking-widest leading-none">Order ID</p>
-                    <h3 className="text-base font-black uppercase italic tracking-tight text-[var(--foreground)] truncate max-w-[320px]">{selectedTx.orderId}</h3>
+                    <p className="text-[9px] font-black text-[var(--accent)] uppercase tracking-widest leading-none">Reference ID</p>
+                    <h3 className="text-[11px] font-black uppercase italic tracking-tight text-[var(--foreground)] truncate max-w-[300px] font-mono">{selectedTx.orderId}</h3>
                   </div>
                   <button
                     onClick={() => setSelectedTx(null)}
@@ -337,10 +337,10 @@ export default function TransactionsTab() {
                   </button>
                 </div>
 
-                <div className="flex items-center justify-between p-6 rounded-3xl bg-[var(--accent)]/5 border border-[var(--accent)]/10">
+                <div className="flex items-center justify-between p-4.5 rounded-2xl bg-[var(--foreground)]/[0.02] border border-[var(--border)]">
                   <div>
-                    <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest mb-1">Total Amount</p>
-                    <span className="text-3xl font-black text-emerald-500 tabular-nums">₹{selectedTx.price}</span>
+                    <p className="text-[9px] font-black text-[var(--muted)] uppercase tracking-widest opacity-60">Bill Amount</p>
+                    <span className="text-2xl font-black text-emerald-500 tabular-nums">₹{selectedTx.price}</span>
                   </div>
                   {(() => {
                     const meta = statusMeta[selectedTx.status] || statusMeta.pending;

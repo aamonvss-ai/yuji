@@ -185,12 +185,12 @@ export default function UsersTab() {
       {/* ================= STATS CARDS ================= */}
       <div className="flex flex-col gap-2">
         {/* Active Users Stats */}
-        <div className="p-2.5 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-4 relative overflow-hidden group">
-          <div className="flex items-center gap-2.5 min-w-[90px] md:min-w-[120px] shrink-0">
-            <div className="w-8 h-8 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center text-[var(--accent)] transition-transform group-hover:scale-110">
-              <Users size={14} />
+        <div className="p-3 rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-sm flex flex-col sm:flex-row sm:items-center gap-3 relative overflow-hidden group">
+          <div className="flex items-center gap-3 min-w-[100px] shrink-0 text-[var(--accent)]">
+            <div className="w-9 h-9 rounded-xl bg-current/10 flex items-center justify-center transition-transform group-hover:scale-110">
+              <Users size={16} />
             </div>
-            <span className="text-[10px] font-black uppercase tracking-wider text-[var(--accent)]/80">Active</span>
+            <span className="text-xs font-black uppercase tracking-tighter italic">Active</span>
           </div>
           <div className="flex-1 grid grid-cols-3 gap-2">
             <StatItem label="1D" value={stats.active["1d"]} loading={statsLoading} />
@@ -198,14 +198,14 @@ export default function UsersTab() {
             <StatItem label="30D" value={stats.active["30d"]} loading={statsLoading} />
           </div>
         </div>
-
+ 
         {/* New Users Stats */}
-        <div className="p-2.5 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-4 relative overflow-hidden group">
-          <div className="flex items-center gap-2.5 min-w-[90px] md:min-w-[120px] shrink-0">
-            <div className="w-8 h-8 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-500 transition-transform group-hover:scale-110">
-              <User size={14} />
+        <div className="p-3 rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-sm flex flex-col sm:flex-row sm:items-center gap-3 relative overflow-hidden group">
+          <div className="flex items-center gap-3 min-w-[100px] shrink-0 text-indigo-500">
+            <div className="w-9 h-9 rounded-xl bg-current/10 flex items-center justify-center transition-transform group-hover:scale-110">
+              <User size={16} />
             </div>
-            <span className="text-[10px] font-black uppercase tracking-wider text-indigo-500/80">New</span>
+            <span className="text-xs font-black uppercase tracking-tighter italic">New</span>
           </div>
           <div className="flex-1 grid grid-cols-3 gap-2">
             <StatItem label="1D" value={stats.new["1d"]} loading={statsLoading} />
@@ -729,10 +729,10 @@ function DrawerDetail({ label, value }) {
 
 function StatItem({ label, value, loading }) {
   return (
-    <div className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-lg p-2 flex flex-col items-center justify-center relative overflow-hidden">
-      <span className="text-[8px] font-black text-[var(--muted)]/40 uppercase mb-0.5">{label}</span>
+    <div className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-xl p-2.5 flex flex-col items-center justify-center relative overflow-hidden transition-all hover:border-[var(--accent)]/20">
+      <span className="text-[9px] font-black text-[var(--muted)] uppercase opacity-60 mb-0.5">{label}</span>
       {loading ? (
-        <div className="h-4 w-8 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
+        <div className="h-4 w-10 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
       ) : (
         <span className="text-sm font-black text-[var(--foreground)] tracking-tighter tabular-nums">{value}</span>
       )}

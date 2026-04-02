@@ -15,7 +15,7 @@ export default function HomeQuickActions() {
       hover: "hover:bg-yellow-500/10",
     },
     {
-      name: "Global",
+      name: "Region",
       href: "/region",
       icon: Globe,
       delay: "0.1s",
@@ -62,22 +62,21 @@ export default function HomeQuickActions() {
             className={`
               group
               flex flex-col items-center justify-center gap-1.5
-              rounded-xl sm:rounded-2xl
-              bg-[var(--card)]/30 backdrop-blur-sm
-              p-2 sm:p-3
+              sm:gap-2
+              p-1 sm:p-2
               transition-all duration-300
-              ${action.hover}
-              hover:-translate-y-1
+              rounded-2xl
+              hover:bg-[var(--foreground)]/[0.03]
             `}
             style={{
               animation: `fadeInUp 0.4s ease-out ${action.delay} both`
             }}
           >
-            <div className={`h-10 w-10 flex items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 ${action.bg} ${action.color}`}>
-              <action.icon className="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 group-hover:scale-110" />
+            <div className={`h-11 w-11 flex items-center justify-center rounded-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${action.bg} ${action.color} border border-transparent group-hover:border-[var(--border)]/50`}>
+              <action.icon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
             </div>
 
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[var(--muted)] text-center transition-all duration-300 group-hover:text-[var(--foreground)]">
+            <span className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-[var(--muted)] text-center transition-all duration-300 group-hover:text-[var(--foreground)]">
               {action.name}
             </span>
           </Link>

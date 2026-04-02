@@ -38,29 +38,29 @@ export default function RegionPage() {
   };
 
   return (
-    <section className="min-h-screen pt-10 px-4 bg-[var(--background)] text-[var(--foreground)]">
+    <section className="min-h-screen pt-4 px-4 bg-[var(--background)] text-[var(--foreground)]">
       <div className="max-w-md mx-auto">
 
         {/* ================= HEADER ================= */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-4 mt-12">
           <div>
-            <h2 className="text-2xl font-bold">Check Player Region</h2>
-            <p className="text-sm text-[var(--muted)]">
-              Verify MLBB Player ID & Server
+            <h2 className="text-xl font-black uppercase tracking-tighter italic">Region <span className="text-[var(--accent)]">Check</span></h2>
+            <p className="text-[10px] font-black uppercase tracking-widest text-[var(--muted)] opacity-80">
+              Check MLBB Player Details
             </p>
           </div>
           <HelpImagePopup />
         </div>
 
         {/* ================= CARD ================= */}
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm space-y-4">
+        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 shadow-sm space-y-3">
 
           {/* Player ID */}
           <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={18} />
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={16} />
             <input
-              className="w-full pl-10 pr-3 py-3 rounded-xl bg-transparent border border-[var(--border)]
-                         focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+              className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-transparent border border-[var(--border)]
+                         focus:outline-none focus:ring-2 focus:ring-[var(--accent)] text-sm"
               placeholder="Player ID"
               value={id}
               onChange={(e) => setId(e.target.value)}
@@ -69,10 +69,10 @@ export default function RegionPage() {
 
           {/* Zone ID */}
           <div className="relative">
-            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={18} />
+            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={16} />
             <input
-              className="w-full pl-10 pr-3 py-3 rounded-xl bg-transparent border border-[var(--border)]
-                         focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+              className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-transparent border border-[var(--border)]
+                         focus:outline-none focus:ring-2 focus:ring-[var(--accent)] text-sm"
               placeholder="Zone ID"
               value={zone}
               onChange={(e) => setZone(e.target.value)}
@@ -84,7 +84,7 @@ export default function RegionPage() {
             onClick={handleCheck}
             disabled={loading || !id || !zone}
             className="
-              w-full py-3 rounded-xl font-semibold text-white
+              w-full py-2.5 rounded-xl font-semibold text-white text-sm
               bg-gradient-to-r from-[var(--accent)] to-[var(--accent-secondary)]
               hover:opacity-90 disabled:opacity-50
               flex items-center justify-center gap-2
@@ -92,7 +92,7 @@ export default function RegionPage() {
           >
             {loading ? (
               <>
-                <Loader2 className="animate-spin" size={18} />
+                <Loader2 className="animate-spin" size={16} />
                 Checking...
               </>
             ) : (

@@ -108,8 +108,8 @@ export default function GamesPage() {
     return (
       <Link
         href={disabled ? "#" : `/games/${game.gameSlug}`}
-        className={`group relative rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 transition-all duration-500
-        ${disabled ? "opacity-30 grayscale cursor-not-allowed shadow-none" : "hover:border-[var(--accent)]/40 hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] hover:-translate-y-2"}`}
+        className={`group relative rounded-2xl overflow-hidden bg-[var(--card)] border border-[var(--border)] transition-all duration-500
+        ${disabled ? "opacity-30 grayscale cursor-not-allowed shadow-none" : "hover:border-[var(--accent)]/40 hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] hover:-translate-y-2"}`}
       >
         <div className="relative aspect-[4/5.5]">
           {/* Main Image */}
@@ -139,7 +139,7 @@ export default function GamesPage() {
           </div>
 
           {/* Premium Gradient Overlay (Top Focused) */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-black/20 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/20 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
 
           {/* Reactive Shine Effect */}
           <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-gradient-to-r from-transparent via-white/5 to-transparent transition-transform duration-1000 ease-in-out pointer-events-none" />
@@ -270,18 +270,18 @@ export default function GamesPage() {
                   <Link
                     key={plan.slug}
                     href={`/games/membership/${plan.slug}`}
-                    className="group relative flex items-center p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[var(--accent)]/30 hover:bg-white/[0.04] transition-all duration-500"
+                    className="group relative flex items-center p-4 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--accent)]/30 hover:bg-[var(--card)]/80 transition-all duration-500 shadow-sm"
                   >
                     <div className="relative w-12 h-12 mr-4 group-hover:scale-110 transition-transform duration-500">
                       <Image src={plan.image} alt={plan.name} fill className="object-contain" />
                     </div>
                     <div className="relative z-10">
                       <p className="text-[8px] font-black text-[var(--accent)] uppercase tracking-widest mb-0.5">{plan.duration}</p>
-                      <h3 className="text-xs font-black text-white uppercase tracking-tight group-hover:text-white transition-colors leading-none">
+                      <h3 className="text-xs font-black text-[var(--foreground)] uppercase tracking-tight group-hover:text-[var(--accent)] transition-colors leading-none">
                         {plan.name}
                       </h3>
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
                   </Link>
                 ))}
               </div>

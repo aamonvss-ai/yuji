@@ -98,29 +98,29 @@ export default function OrderItem({ order }: { order: OrderType }) {
         className={`group relative overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card)]/40 transition-all duration-300 hover:border-[var(--accent)]/30 ${open ? 'border-[var(--accent)]/50 shadow-lg shadow-[var(--accent)]/5' : ''}`}
       >
         {/* HEADER AREA */}
-        <div className="p-3 md:p-4">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div className="p-2.5 md:p-3">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-2.5">
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 flex-wrap mb-1.5">
-                <span className={`flex items-center gap-1 px-2 py-0.5 rounded-lg text-[9px] font-black uppercase tracking-tighter border ${config.colors}`}>
-                  {config.icon}
-                  {config.label}
-                </span>
-                <span className="text-[9px] font-black text-[var(--muted)] bg-black/5 px-2 py-0.5 rounded-lg border border-[var(--border)] flex items-center gap-1 uppercase tracking-tighter italic">
-                  <Hash size={10} /> {order.orderId}
-                </span>
-              </div>
-
-              <h3 className="font-black text-sm uppercase tracking-tight truncate">{order.itemName}</h3>
-
-              <div className="flex items-center gap-3 text-[10px] text-[var(--muted)] font-bold uppercase tracking-widest mt-1">
-                <span className="flex items-center gap-1 opacity-70"><Calendar size={10} /> {new Date(order.createdAt).toLocaleDateString()}</span>
-                <span className="flex items-center gap-1 text-[var(--accent)]"><Zap size={10} fill="currentColor" /> {getGameName(order.gameSlug)}</span>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between md:items-center gap-4">
-              <div className="text-lg font-black text-[var(--foreground)] tracking-tighter">₹{order.price}</div>
+              <div className="flex items-center gap-2 flex-wrap mb-1">
+                <span className={`flex items-center gap-1 px-1.5 py-0.5 rounded-lg text-[8px] font-black uppercase tracking-tighter border ${config.colors}`}>
+                   {config.icon}
+                   {config.label}
+                 </span>
+                 <span className="text-[8px] font-black text-[var(--muted)] bg-[var(--foreground)]/5 px-1.5 py-0.5 rounded-lg border border-[var(--border)] flex items-center gap-1 uppercase tracking-tighter italic">
+                   <Hash size={10} /> {order.orderId}
+                 </span>
+               </div>
+ 
+               <h3 className="font-black text-xs uppercase tracking-tight truncate">{order.itemName}</h3>
+ 
+               <div className="flex items-center gap-2.5 text-[9px] text-[var(--muted)] font-black uppercase tracking-widest mt-1">
+                 <span className="flex items-center gap-1 opacity-70"><Calendar size={10} /> {new Date(order.createdAt).toLocaleDateString()}</span>
+                 <span className="flex items-center gap-1 text-[var(--accent)]"><Zap size={10} fill="currentColor" /> {getGameName(order.gameSlug)}</span>
+               </div>
+             </div>
+ 
+            <div className="flex items-center justify-between md:items-center gap-3">
+              <div className="text-base font-black text-[var(--foreground)] tracking-tighter">₹{order.price}</div>
               <div className="flex items-center gap-1.5">
                 <button
                   onClick={() => {
@@ -128,16 +128,16 @@ export default function OrderItem({ order }: { order: OrderType }) {
                     setCopied(true);
                     setTimeout(() => setCopied(false), 2000);
                   }}
-                  className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all active:scale-90 ${copied ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/30' : 'bg-[var(--background)] border-[var(--border)] text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)]/30'}`}
+                  className={`w-8 h-8 rounded-lg border flex items-center justify-center transition-all active:scale-90 ${copied ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/30' : 'bg-[var(--background)] border-[var(--border)] text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)]/30'}`}
                   title="Copy ID"
                 >
-                  <Copy size={14} />
+                  <Copy size={12} />
                 </button>
                 <button
                   onClick={() => setOpen(!open)}
-                  className={`w-10 h-10 rounded-xl border transition-all flex items-center justify-center active:scale-90 ${open ? 'bg-[var(--accent)] text-white border-[var(--accent)] shadow-md shadow-[var(--accent)]/20' : 'bg-[var(--card)] text-[var(--muted)] border-[var(--border)] hover:bg-black/5'}`}
+                  className={`w-8 h-8 rounded-lg border transition-all flex items-center justify-center active:scale-90 ${open ? 'bg-[var(--accent)] text-white border-[var(--accent)] shadow-md shadow-[var(--accent)]/20' : 'bg-[var(--card)] text-[var(--muted)] border-[var(--border)] hover:bg-[var(--foreground)]/5'}`}
                 >
-                  <ChevronDown size={16} className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
+                  <ChevronDown size={14} className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
                 </button>
               </div>
             </div>
@@ -154,8 +154,8 @@ export default function OrderItem({ order }: { order: OrderType }) {
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="overflow-hidden"
             >
-              <div className="px-4 pb-4 pt-1 border-t border-[var(--border)]/50">
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-2">
+              <div className="px-3 pb-3 pt-1 border-t border-[var(--border)]/50">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 mt-2">
                   <DetailItem label="Player ID" value={order.playerId} icon={<User size={10} />} mono />
                   <DetailItem label="Zone ID" value={order.zoneId || "N/A"} icon={<Grid size={10} />} mono />
                   <DetailItem label="Payment" value={order.paymentMethod.toUpperCase()} icon={<CreditCard size={10} />} />
@@ -184,12 +184,12 @@ function DetailItem({
   mono?: boolean;
 }) {
   return (
-    <div className="flex flex-col gap-0.5 p-2 rounded-lg bg-black/5 border border-[var(--border)] transition-colors hover:border-[var(--accent)]/20 min-w-0">
+    <div className="flex flex-col gap-0.5 p-2 rounded-lg bg-[var(--foreground)]/5 border border-[var(--border)] transition-colors hover:border-[var(--accent)]/20 min-w-0">
       <div className="flex items-center gap-1 text-[var(--accent)] text-[8px] font-black uppercase tracking-tighter italic opacity-80">
         {icon}
         <span>{label}</span>
       </div>
-      <span className={`text-[11px] font-black tracking-tight ${mono ? "font-mono" : ""} truncate uppercase`}>
+      <span className={`text-[10px] font-black tracking-tight ${mono ? "font-mono" : ""} truncate uppercase`}>
         {value}
       </span>
     </div>

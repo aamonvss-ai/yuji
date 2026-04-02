@@ -91,29 +91,29 @@ export default function OrdersTab() {
   return (
     <div className="space-y-6">
       {/* HEADER SECTION */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-[var(--accent)] flex items-center justify-center text-white shadow-lg shadow-[var(--accent)]/20">
-            <History size={24} />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center text-white shadow-lg shadow-[var(--accent)]/20">
+            <History size={18} />
           </div>
           <div>
-            <h2 className="text-2xl font-black tracking-tighter uppercase italic">Order History</h2>
-            <p className="text-[10px] text-[var(--muted)] font-bold uppercase tracking-[0.2em] mt-0.5">
-              {loading ? "Syncing Feed..." : `Managed ${totalCount} Transactions`}
+            <h2 className="text-xl font-black uppercase tracking-tighter italic">My <span className="text-[var(--accent)]">Orders</span></h2>
+            <p className="text-[10px] text-[var(--muted)] font-black uppercase tracking-widest opacity-80 mt-0.5">
+              {loading ? "Loading..." : `${totalCount} orders found`}
             </p>
           </div>
         </div>
-
+ 
         <motion.button
           whileHover={{ scale: 1.05, y: -2 }}
           whileTap={{ scale: 0.95 }}
           onClick={fetchOrders}
           disabled={loading}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)]
-                     text-[var(--foreground)] font-black text-[10px] uppercase tracking-widest shadow-sm hover:border-[var(--accent)]/50 transition-all active:scale-95 group"
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--card)] border border-[var(--border)]
+                     text-[var(--foreground)] font-black text-[9px] uppercase tracking-widest shadow-sm hover:border-[var(--accent)]/50 transition-all active:scale-95 group"
         >
-          <RefreshCw size={14} className={`transition-transform duration-700 ${loading ? "animate-spin" : "group-hover:rotate-180"}`} />
-          <span>Sync Feed</span>
+          <RefreshCw size={12} className={`transition-transform duration-700 ${loading ? "animate-spin" : "group-hover:rotate-180"}`} />
+          <span>Refresh List</span>
         </motion.button>
       </div>
 
@@ -164,18 +164,18 @@ export default function OrdersTab() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center py-20 rounded-[2rem] border border-dashed border-[var(--border)] bg-[var(--card)]/20 backdrop-blur-sm"
+            className="text-center py-16 rounded-[1.5rem] border border-dashed border-[var(--border)] bg-[var(--card)]/20 backdrop-blur-sm"
           >
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--card)] text-[var(--muted)]/40 mb-4 border border-[var(--border)]">
-              <Filter size={24} />
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[var(--card)] text-[var(--muted)]/40 mb-3 border border-[var(--border)]">
+              <Filter size={20} />
             </div>
-            <h3 className="text-xl font-black uppercase italic">Silence in the Log</h3>
-            <p className="text-[10px] text-[var(--muted)] font-bold uppercase tracking-widest mt-1">Try adjusting your spectral filters</p>
+            <h3 className="text-lg font-black uppercase italic">No Orders Found</h3>
+            <p className="text-[10px] text-[var(--muted)] font-bold uppercase tracking-widest mt-1">Try changing your search or filters</p>
             <button
               onClick={() => { setSearch(""); setStatusFilter("all"); }}
-              className="mt-6 px-6 py-2 rounded-xl bg-[var(--accent)]/10 text-[var(--accent)] text-[10px] font-black uppercase tracking-widest hover:bg-[var(--accent)] transition-all hover:text-white"
+              className="mt-5 px-5 py-2 rounded-lg bg-[var(--accent)]/10 text-[var(--accent)] text-[10px] font-black uppercase tracking-widest hover:bg-[var(--accent)] transition-all hover:text-white"
             >
-              Reset All
+              Clear Filters
             </button>
           </motion.div>
         ) : (

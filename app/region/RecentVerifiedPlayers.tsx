@@ -46,7 +46,7 @@ export default function RecentVerifiedPlayers({
       </div>
 
       {/* ================= LIST ================= */}
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         {players.map((p, index) => (
           <button
             key={`${p.playerId}-${p.zoneId}-${index}`}
@@ -54,10 +54,10 @@ export default function RecentVerifiedPlayers({
             className="
               w-full text-left
               rounded-xl border border-[var(--border)]
-              bg-black/20 hover:bg-black/30
+              bg-[var(--foreground)]/[0.03] hover:bg-[var(--foreground)]/[0.06]
               hover:border-[var(--accent)]
               transition-all
-              p-3
+              p-2.5
               group
             "
           >
