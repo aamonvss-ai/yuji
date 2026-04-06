@@ -8,6 +8,8 @@ const ALLOWED_GAME_SLUGS = [
   // "sgmy-mlbb893",
   "magic-chess-gogo-india924",
   "mlbb-indo42",
+  "mlbbglobal202",          // Global
+  "mlbbtr112",
   // "mlbb-russia953",
   "pubg-mobile138",
   // "genshin-impact742",
