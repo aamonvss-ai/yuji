@@ -16,10 +16,9 @@ export default function TermsAndConditions() {
         </p>
 
         <p className="mb-6 leading-relaxed">
-          Welcome to <strong>{BRAND}</strong>. By accessing or using our website,
-          placing an order, or using any of our services, you agree to be bound by
-          these Terms & Conditions. If you do not agree, please do not use our
-          platform.
+          Welcome to <strong>{BRAND}</strong>. By using our website or placing an
+          order, you agree to these Terms & Conditions. If you do not agree, please
+          do not use this platform.
         </p>
 
         {/* 1 */}
@@ -27,12 +26,10 @@ export default function TermsAndConditions() {
           1. Use of the Platform
         </h2>
         <p className="mb-6 leading-relaxed">
-          You agree to use {BRAND} only for lawful purposes and in compliance with
-          these Terms.
+          You agree to use {BRAND} only for legal purposes and follow these terms.
           <br /><br />
-          You must ensure that all information provided during checkout — such as
-          game ID, server/zone, and contact details — is accurate. Incorrect
-          details may result in failed or irreversible top-ups.
+          You must enter correct details at checkout, like game ID, server/zone,
+          and contact info. Wrong details may cause failed or non-reversible top-ups.
         </p>
 
         {/* 2 */}
@@ -40,15 +37,15 @@ export default function TermsAndConditions() {
           2. Orders & Top-Ups
         </h2>
         <p className="mb-6 leading-relaxed">
-          • All top-up orders are processed automatically or semi-automatically.  
+          • Top-up orders are processed automatically or with limited manual help.  
           <br />
-          • Once an order is successfully delivered, it is considered final.  
+          • Once a top-up is delivered, it is final.  
           <br />
-          • We are not responsible for losses caused by incorrect user input
+          • We are not responsible for losses caused by wrong user input
           (wrong game ID, server, or account).
           <br /><br />
-          By placing an order, you confirm that you are the authorized user or
-          have permission to top up the selected game account.
+          By placing an order, you confirm you own the game account or have permission
+          to top it up.
         </p>
 
         {/* 3 */}
@@ -60,8 +57,8 @@ export default function TermsAndConditions() {
           {BRAND} does not store sensitive payment information such as card
           details or UPI credentials.
           <br /><br />
-          Orders may be delayed or cancelled in cases of payment failure,
-          suspected fraud, or system issues.
+          Orders may be delayed or canceled if payment fails, fraud is suspected,
+          or there is a system issue.
         </p>
 
         {/* 4 */}
@@ -69,14 +66,14 @@ export default function TermsAndConditions() {
           4. Refunds & Cancellations
         </h2>
         <p className="mb-6 leading-relaxed">
-          Due to the digital and instant nature of game top-ups:
+          Because game top-ups are digital and instant:
           <br /><br />
           • Successfully delivered top-ups are <strong>non-refundable</strong>.  
           <br />
-          • Refunds may be considered only if the order fails and the balance is
+          • Refunds may be given only if the order fails and the balance is
           not credited to the game account.
           <br /><br />
-          Any refund decision is at the sole discretion of {BRAND}.
+          Refund approval is decided by {BRAND}.
         </p>
 
         {/* 5 */}
@@ -88,11 +85,11 @@ export default function TermsAndConditions() {
           <br /><br />
           • Attempt to exploit pricing, system bugs, or promotions  
           <br />
-          • Use the platform for fraudulent or unauthorized transactions  
+          • Use the platform for fraud or unauthorized payments  
           <br />
           • Interfere with platform security or automated systems  
           <br />
-          • Resell services without written permission (unless explicitly allowed)
+          • Resell services without written permission (unless clearly allowed)
         </p>
 
         {/* 6 */}
@@ -111,15 +108,15 @@ export default function TermsAndConditions() {
           7. Limitation of Liability
         </h2>
         <p className="mb-6 leading-relaxed">
-          {BRAND} shall not be liable for:
+          {BRAND} is not responsible for:
           <br /><br />
           • Losses caused by incorrect user information  
           <br />
-          • Delays due to maintenance, API downtime, or external providers  
+          • Delays due to maintenance, API downtime, or third-party providers  
           <br />
           • Game account bans or actions taken by game publishers  
           <br />
-          • Indirect or consequential damages
+          • Indirect or secondary damages
         </p>
 
         {/* 8 */}
@@ -127,10 +124,9 @@ export default function TermsAndConditions() {
           8. Changes to Terms
         </h2>
         <p className="leading-relaxed">
-          {BRAND} reserves the right to update these Terms & Conditions at any
-          time. Changes take effect immediately once posted on this page.
-          Continued use of the platform indicates acceptance of the updated
-          terms.
+          {BRAND} may update these Terms & Conditions at any time. Changes start
+          as soon as they are posted on this page. If you keep using the platform,
+          it means you accept the updated terms.
         </p>
       </div>
     </main>

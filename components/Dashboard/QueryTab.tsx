@@ -23,7 +23,7 @@ const SUPPORT_CONFIG = {
   header: {
     title: "Support Center",
     subtitle:
-      "Facing an issue? Contact us instantly or submit a support query and our team will assist you.",
+      "Need help? Contact us now or send a support message.",
   },
 
   contacts: {
@@ -45,7 +45,7 @@ const SUPPORT_CONFIG = {
         href: INSTAGRAM_URL,
         icon: "instagram",
         external: true,
-        desc: "DM for updates"
+        desc: "Message us for updates"
       },
       {
         id: "whatsapp",
@@ -54,7 +54,7 @@ const SUPPORT_CONFIG = {
         href: WHATSAPP_STORE_LINK,
         icon: "whatsapp",
         external: true,
-        desc: "Community & Support"
+        desc: "Community and support"
       },
     ],
   },
@@ -63,7 +63,7 @@ const SUPPORT_CONFIG = {
     "Order Issue",
     "Payment Issue",
     "Wallet Issue",
-    "General Inquiry",
+    "General Question",
   ],
 };
 
@@ -109,7 +109,7 @@ export default function QueryTab() {
       const data = await res.json();
 
       if (data.success) {
-        setQuerySuccess("Your query has been submitted successfully.");
+        setQuerySuccess("Your message was sent.");
       } else {
         setQuerySuccess(data.message || "Something went wrong.");
       }
@@ -117,7 +117,7 @@ export default function QueryTab() {
       setQueryType("");
       setQueryMessage("");
     } catch {
-      setQuerySuccess("Failed to submit query. Please try again.");
+      setQuerySuccess("Could not send message. Please try again.");
     } finally {
       setIsSubmitting(false);
       setTimeout(() => setQuerySuccess(""), 5000);
@@ -187,7 +187,7 @@ export default function QueryTab() {
             <div className="p-2 rounded-lg bg-[var(--accent)]/10 text-[var(--accent)]">
               <FiMessageSquare size={16} />
             </div>
-            <h3 className="text-lg font-bold">Submit a Query</h3>
+            <h3 className="text-lg font-bold">Send a Message</h3>
           </div>
  
           <AnimatePresence>
@@ -211,7 +211,7 @@ export default function QueryTab() {
                 onChange={(e) => setQueryType(e.target.value)}
                 className="w-full p-3 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent)]/10 outline-none transition-all font-bold text-xs appearance-none cursor-pointer"
               >
-                <option value="">Select Category</option>
+                <option value="">Select category</option>
                 {SUPPORT_CONFIG.queryTypes.map((type) => (
                   <option key={type} value={type}>
                     {type}
@@ -241,7 +241,7 @@ export default function QueryTab() {
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               ) : (
                 <>
-                  <FiSend size={14} /> Send Query
+                  <FiSend size={14} /> Send Message
                 </>
               )}
             </motion.button>

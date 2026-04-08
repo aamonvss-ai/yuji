@@ -15,10 +15,9 @@ export default function PrivacyPolicy() {
         </p>
 
         <p className="mb-6 leading-relaxed">
-          At <strong>{BRAND}</strong>, we respect your privacy and are committed to
-          protecting your personal information. This Privacy Policy explains how
-          we collect, use, and safeguard your data when you use our website to
-          purchase game top-ups, browse services, or interact with our platform.
+          At <strong>{BRAND}</strong>, we respect your privacy. This page explains
+          what data we collect, why we use it, and how we protect it when you use
+          our website.
         </p>
 
         {/* 1 */}
@@ -26,19 +25,19 @@ export default function PrivacyPolicy() {
           1. Information We Collect
         </h2>
         <p className="mb-6 leading-relaxed">
-          We may collect the following types of information:
+          We may collect:
           <br /><br />
-          <strong>• Account & Order Information</strong> — such as email address,
-          phone number, game ID, server/zone details, and order history required
+          <strong>• Account and order information</strong> - like your email,
+          phone number, game ID, server/zone details, and order history needed
           to process top-ups.
           <br /><br />
-          <strong>• Payment Information</strong> — payments are handled securely
-          through third-party payment gateways. We do not store sensitive payment
-          details such as card numbers or UPI credentials.
+          <strong>• Payment information</strong> - payments are handled by trusted
+          third-party gateways. We do not store sensitive details like card
+          numbers or UPI PINs.
           <br /><br />
-          <strong>• Technical & Usage Data</strong> — including IP address,
-          browser type, device information, pages visited, and timestamps for
-          security, analytics, and fraud prevention.
+          <strong>• Technical and usage data</strong> - such as IP address,
+          browser type, device info, pages visited, and time logs for security
+          and fraud checks.
         </p>
 
         {/* 2 */}
@@ -46,18 +45,17 @@ export default function PrivacyPolicy() {
           2. How We Use Your Information
         </h2>
         <p className="mb-6 leading-relaxed">
-          Your data is used to:
+          We use your data to:
           <br /><br />
-          • Process and deliver game top-ups accurately  
+          • Process and deliver game top-ups correctly  
           <br />
-          • Verify transactions and prevent fraud or misuse  
+          • Check payments and prevent fraud  
           <br />
-          • Provide customer support and order assistance  
+          • Give customer support  
           <br />
-          • Improve platform performance, reliability, and user experience  
+          • Improve website speed and experience  
           <br /><br />
-          We do <strong>not</strong> sell, rent, or trade your personal information
-          to third parties for marketing purposes.
+          We do <strong>not</strong> sell, rent, or trade your personal information.
         </p>
 
         {/* 3 */}
@@ -65,16 +63,15 @@ export default function PrivacyPolicy() {
           3. Cookies & Tracking
         </h2>
         <p className="mb-6 leading-relaxed">
-          {BRAND} uses cookies and similar technologies to:
+          {BRAND} uses cookies to:
           <br /><br />
           • Remember user preferences  
           <br />
           • Maintain login sessions  
           <br />
-          • Analyze traffic and platform usage  
+          • Understand website traffic  
           <br /><br />
-          You may disable cookies via your browser settings, but certain features
-          of the website may not function properly.
+          You can turn off cookies in your browser, but some features may not work.
         </p>
 
         {/* 4 */}
@@ -86,12 +83,11 @@ export default function PrivacyPolicy() {
           <br /><br />
           • Payment processing  
           <br />
-          • Analytics and performance monitoring  
+          • Analytics and performance tracking  
           <br />
           • Hosting and content delivery  
           <br /><br />
-          These providers operate under their own privacy policies. We recommend
-          reviewing them for additional information on how your data is handled.
+          These providers have their own privacy policies.
         </p>
 
         {/* 5 */}
@@ -99,9 +95,8 @@ export default function PrivacyPolicy() {
           5. Data Security
         </h2>
         <p className="mb-6 leading-relaxed">
-          We implement appropriate technical and organizational measures to
-          protect your data against unauthorized access, alteration, or loss.
-          However, no online platform can guarantee 100% security.
+          We use technical and team processes to protect your data from unauthorized
+          access, changes, or loss. No online platform can promise 100% security.
         </p>
 
         {/* 6 */}
@@ -113,9 +108,9 @@ export default function PrivacyPolicy() {
           <br /><br />
           • Request access to your personal data  
           <br />
-          • Request correction of inaccurate information  
+          • Ask us to fix wrong information  
           <br />
-          • Request deletion of your data (subject to legal and transactional requirements)  
+          • Ask us to delete your data (when allowed by law)  
           <br /><br />
           To exercise these rights, please contact us via our{" "}
           <a href="/contact" className="text-[var(--accent)] hover:underline">
@@ -128,14 +123,12 @@ export default function PrivacyPolicy() {
           7. Policy Updates
         </h2>
         <p className="mb-6 leading-relaxed">
-          We may update this Privacy Policy periodically to reflect changes in
-          our services, technology, or legal requirements. Any updates will be
-          posted on this page with a revised “Last updated” date.
+          We may update this Privacy Policy from time to time. Any update will
+          appear on this page with a new "Last updated" date.
         </p>
 
         <p className="leading-relaxed">
-          If you have any questions or concerns regarding this Privacy Policy,
-          please contact{" "}
+          If you have any questions about this Privacy Policy, please contact{" "}
           <a href="/contact" className="text-[var(--accent)] hover:underline">
             {BRAND} Support
           </a>.

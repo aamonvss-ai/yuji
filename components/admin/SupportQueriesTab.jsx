@@ -152,14 +152,14 @@ export default function SupportQueriesTab() {
         <div>
           <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)]">Support Queries</h2>
           <p className="text-xs text-[var(--muted)] font-medium mt-1">
-            Manage your customer support messages
+            Manage support messages
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="px-3 py-1.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] flex items-center gap-2">
             <span className="text-[10px] font-bold text-[var(--muted)] uppercase">
-              {pagination.total} Total
+              {pagination.total} total
             </span>
           </div>
           <button
@@ -210,7 +210,7 @@ export default function SupportQueriesTab() {
               setPage(1);
               setSearch(e.target.value);
             }}
-            placeholder="Search queries..."
+            placeholder="Search messages..."
             className="w-full h-11 pl-11 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none placeholder:text-[var(--muted)]/40"
           />
         </div>
@@ -287,7 +287,7 @@ export default function SupportQueriesTab() {
               {!queries.length && (
                 <div className="py-16 text-center border border-dashed border-[var(--border)] rounded-2xl">
                   <Inbox className="mx-auto text-[var(--muted)]/20 mb-2" size={32} />
-                  <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-widest">No queries found</p>
+                  <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-widest">No messages found</p>
                 </div>
               )}
 

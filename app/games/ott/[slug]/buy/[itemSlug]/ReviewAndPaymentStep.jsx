@@ -40,7 +40,7 @@ export default function ReviewAndPaymentStep({
   /* ================= PROCEED ================= */
   const handleProceed = async () => {
     if (!paymentMethod) {
-      alert("Please select a payment method");
+      alert("Please choose a payment method");
       return;
     }
 
@@ -100,7 +100,7 @@ export default function ReviewAndPaymentStep({
         <>
           {/* PAYMENT METHOD */}
           <div className="rounded-2xl border border-gray-700 bg-black/30 p-5">
-            <h3 className="text-lg font-semibold mb-4">Payment Method</h3>
+            <h3 className="text-lg font-semibold mb-4">Choose Payment Method</h3>
 
             <div className="space-y-3">
               {/* Wallet (disabled) */}
@@ -121,7 +121,7 @@ export default function ReviewAndPaymentStep({
                     : "border-gray-700 hover:border-gray-500"
                   }`}
               >
-                <span className="font-medium">UPI / QR Payment</span>
+                <span className="font-medium">Pay with UPI</span>
                 <span className="text-xs text-gray-400">Instant</span>
               </button>
             </div>
@@ -209,7 +209,7 @@ export default function ReviewAndPaymentStep({
               className="mt-5 w-full rounded-xl bg-[var(--accent)] text-black py-3 font-semibold
                 disabled:opacity-50 flex justify-center items-center gap-2"
             >
-              {isRedirecting ? "Redirecting…" : "Proceed to Pay"}
+              {isRedirecting ? "Redirecting..." : "Pay Now"}
             </button>
           </div>
         </>
@@ -218,7 +218,7 @@ export default function ReviewAndPaymentStep({
       {/* ================= STEP 3 (UPI) ================= */}
       {step === 3 && paymentMethod === "upi" && (
         <div className="rounded-2xl border border-gray-700 bg-black/30 p-6 text-center">
-          <p className="font-semibold mb-3">Scan & Pay via UPI</p>
+          <p className="font-semibold mb-3">Scan to pay with UPI</p>
 
           <div className="w-52 h-52 mx-auto bg-white p-4 rounded-2xl">
             {upiQR && <Image src={upiQR} alt="UPI QR" width={200} height={200} />}
@@ -228,7 +228,7 @@ export default function ReviewAndPaymentStep({
             onClick={onPaymentComplete}
             className="mt-6 w-full py-3 rounded-xl bg-[var(--accent)] text-black font-semibold"
           >
-            I Have Paid
+            I Paid
           </button>
         </div>
       )}

@@ -10,7 +10,7 @@ export default function ValidationStep({
     <div className="space-y-5">
       {/* HEADER */}
       <div className="flex items-center justify-between mb-2">
-        <h2 className="text-2xl font-bold">Character Verification</h2>
+        <h2 className="text-2xl font-bold">Verify Character</h2>
         <HelpImagePopup />
       </div>
 
@@ -18,7 +18,7 @@ export default function ValidationStep({
       <input
         value={playerId}
         onChange={(e) => setPlayerId(e.target.value)}
-        placeholder="Enter Character ID"
+        placeholder="Enter character ID"
         className="p-3 rounded-lg bg-black/20 border border-gray-700 w-full"
         disabled={loading}
       />
@@ -34,7 +34,7 @@ export default function ValidationStep({
               : "bg-[var(--accent)] text-black hover:opacity-90"
           }`}
       >
-        {loading ? "Validating…" : "Continue"}
+        {loading ? "Checking..." : "Continue"}
       </button>
 
       {/* RECENT VERIFIED PLAYERS */}

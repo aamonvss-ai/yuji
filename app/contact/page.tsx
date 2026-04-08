@@ -15,14 +15,14 @@ export default function ContactPage() {
             Contact Us
           </h1>
           <p className="text-[var(--muted)] leading-relaxed text-lg">
-            Have a question, suggestion, or collaboration idea?  
-            We’d love to hear from you — reach out via email or social media!
+            Have a question or suggestion?
+            Contact us by email or social media.
           </p>
 
           {/* ✉️ Email Highlight Box */}
           <div className="p-6 border border-[var(--border)] rounded-2xl bg-[var(--card)] shadow-lg">
             <p className="text-lg text-[var(--muted)] mb-2">
-              You can directly email us at:
+              You can email us at:
             </p>
             <a
               href="mailto:zyronix.innovations@gmail.com"
@@ -80,7 +80,7 @@ export default function ContactPage() {
 
       {/* ✅ Footer Message */}
       <div className="mt-16 text-center text-[var(--muted)] text-sm">
-        <p>We usually reply within 24 hours ✨</p>
+        <p>We usually reply within 24 hours.</p>
       </div>
     </main>
   );

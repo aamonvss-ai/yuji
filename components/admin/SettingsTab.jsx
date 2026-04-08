@@ -32,7 +32,7 @@ export default function SettingsTab() {
             }
         } catch (err) {
             console.error("Failed to fetch settings", err);
-            showToast("Sync failed", "error");
+            showToast("Could not load settings", "error");
         } finally {
             setLoading(false);
         }
@@ -53,11 +53,11 @@ export default function SettingsTab() {
             const data = await res.json();
             if (data.success) {
                 setSettings(data.settings);
-                showToast(`Maintenance ${updates.maintenanceMode ? "enabled" : "disabled"}`);
+                showToast(`Maintenance mode ${updates.maintenanceMode ? "on" : "off"}`);
             }
         } catch (err) {
             console.error("Failed to update settings", err);
-            showToast("Update failed", "error");
+            showToast("Could not save changes", "error");
         } finally {
             setSaving(false);
         }
@@ -67,7 +67,7 @@ export default function SettingsTab() {
         return (
             <div className="flex flex-col items-center justify-center py-20 opacity-50">
                 <RefreshCcw className="animate-spin text-[var(--accent)] mb-4" size={32} />
-                <p className="text-[10px] font-bold uppercase tracking-widest">Loading Settings</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest">Loading settings</p>
             </div>
         );
     }
@@ -108,7 +108,7 @@ export default function SettingsTab() {
                         </div>
                         <div>
                             <h3 className="font-bold text-[var(--foreground)]">Maintenance Mode</h3>
-                            <p className="text-xs text-[var(--muted)]">Lock public access to the store.</p>
+                            <p className="text-xs text-[var(--muted)]">Hide the store from public users.</p>
                         </div>
                     </div>
 

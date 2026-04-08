@@ -99,7 +99,7 @@ export default function OrdersTab() {
           <div>
             <h2 className="text-xl font-black uppercase tracking-tighter italic">My <span className="text-[var(--accent)]">Orders</span></h2>
             <p className="text-[10px] text-[var(--muted)] font-black uppercase tracking-widest opacity-80 mt-0.5">
-              {loading ? "Loading..." : `${totalCount} orders found`}
+              {loading ? "Loading..." : `${totalCount} orders`}
             </p>
           </div>
         </div>
@@ -113,7 +113,7 @@ export default function OrdersTab() {
                      text-[var(--foreground)] font-black text-[9px] uppercase tracking-widest shadow-sm hover:border-[var(--accent)]/50 transition-all active:scale-95 group"
         >
           <RefreshCw size={12} className={`transition-transform duration-700 ${loading ? "animate-spin" : "group-hover:rotate-180"}`} />
-          <span>Refresh List</span>
+          <span>Refresh</span>
         </motion.button>
       </div>
 
@@ -125,7 +125,7 @@ export default function OrdersTab() {
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search Order ID, Item, or ID..."
+            placeholder="Search order ID or item..."
             className="w-full pl-12 pr-4 py-3 rounded-xl
                        border border-[var(--border)]
                        bg-[var(--card)]/40 backdrop-blur-sm
@@ -158,7 +158,7 @@ export default function OrdersTab() {
         {loading && orders.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20">
             <div className="w-10 h-10 border-2 border-[var(--accent)]/20 border-t-[var(--accent)] rounded-full animate-spin mb-4" />
-            <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest">Querying Orders...</p>
+            <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest">Loading orders...</p>
           </div>
         ) : orders.length === 0 ? (
           <motion.div
@@ -169,8 +169,8 @@ export default function OrdersTab() {
             <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[var(--card)] text-[var(--muted)]/40 mb-3 border border-[var(--border)]">
               <Filter size={20} />
             </div>
-            <h3 className="text-lg font-black uppercase italic">No Orders Found</h3>
-            <p className="text-[10px] text-[var(--muted)] font-bold uppercase tracking-widest mt-1">Try changing your search or filters</p>
+            <h3 className="text-lg font-black uppercase italic">No Orders</h3>
+            <p className="text-[10px] text-[var(--muted)] font-bold uppercase tracking-widest mt-1">Try a different search or filter</p>
             <button
               onClick={() => { setSearch(""); setStatusFilter("all"); }}
               className="mt-5 px-5 py-2 rounded-lg bg-[var(--accent)]/10 text-[var(--accent)] text-[10px] font-black uppercase tracking-widest hover:bg-[var(--accent)] transition-all hover:text-white"

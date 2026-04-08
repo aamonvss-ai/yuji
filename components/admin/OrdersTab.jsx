@@ -173,7 +173,7 @@ export default function OrdersTab() {
         <div>
           <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)]">Orders</h2>
           <p className="text-xs text-[var(--muted)] font-medium mt-1">
-            View and manage customer orders
+            View and manage orders
           </p>
         </div>
 
@@ -232,7 +232,7 @@ export default function OrdersTab() {
               setPage(1);
               setSearch(e.target.value);
             }}
-            placeholder="Search by Order ID, Email, or Game..."
+            placeholder="Search order ID, email, or game..."
             className="w-full h-11 pl-11 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
           />
         </div>
@@ -258,7 +258,7 @@ export default function OrdersTab() {
           </div>
 
           <input
-            placeholder="Game Name"
+            placeholder="Game name"
             value={filters.gameSlug}
             onChange={(e) => {
               setPage(1);
@@ -294,7 +294,7 @@ export default function OrdersTab() {
             }}
             className="h-10 rounded-lg border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-[10px] font-black uppercase tracking-widest hover:bg-[var(--foreground)]/[0.05] transition-all"
           >
-            Reset Filters
+            Clear filters
           </button>
         </div>
       </div>
@@ -309,7 +309,7 @@ export default function OrdersTab() {
             className="py-32 flex flex-col items-center justify-center space-y-4"
           >
             <Loader2 className="animate-spin text-[var(--accent)]" size={32} />
-            <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-[0.2em]">Loading Orders</p>
+            <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-[0.2em]">Loading orders</p>
           </motion.div>
         ) : (
           <motion.div
@@ -452,7 +452,7 @@ export default function OrdersTab() {
             {!orders.length && (
               <div className="py-20 text-center border border-dashed border-[var(--border)] rounded-[2rem]">
                 <ShoppingBag className="mx-auto text-[var(--muted)]/20 mb-4" size={48} />
-                <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">No Orders Found</p>
+                <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">No orders found</p>
               </div>
             )}
 

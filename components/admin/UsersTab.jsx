@@ -159,7 +159,7 @@ export default function UsersTab() {
         <div>
           <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)]">Users</h2>
           <p className="text-sm text-[var(--muted)] mt-1">
-            Manage all registered users and their roles
+            Manage users and roles
           </p>
         </div>
 
@@ -167,7 +167,7 @@ export default function UsersTab() {
           <div className="px-4 py-2 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] flex items-center gap-2.5">
             <Users size={14} className="text-[var(--accent)]" />
             <span className="text-sm font-semibold text-[var(--muted)]">
-              {pagination.total} Users Total
+              {pagination.total} total users
             </span>
           </div>
           <button
@@ -225,7 +225,7 @@ export default function UsersTab() {
               setPage(1);
               setSearch(e.target.value);
             }}
-            placeholder="Search by name, email, or user ID..."
+            placeholder="Search name, email, or user ID..."
             className="w-full h-11 pl-11 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
           />
         </div>
@@ -248,7 +248,7 @@ export default function UsersTab() {
             className="py-32 flex flex-col items-center justify-center space-y-4"
           >
             <Loader2 className="animate-spin text-[var(--accent)]" size={32} />
-            <p className="text-sm text-[var(--muted)] font-medium">Fetching users...</p>
+            <p className="text-sm text-[var(--muted)] font-medium">Loading users...</p>
           </motion.div>
         ) : (
           <motion.div
@@ -381,7 +381,7 @@ export default function UsersTab() {
             {!users.length && (
               <div className="py-24 text-center border border-dashed border-[var(--border)] rounded-[2rem]">
                 <Users className="mx-auto text-[var(--muted)]/20 mb-4" size={48} />
-                <p className="text-sm font-medium text-[var(--muted)]">No users found matching your search.</p>
+                <p className="text-sm font-medium text-[var(--muted)]">No users found for this search.</p>
               </div>
             )}
 
@@ -518,7 +518,7 @@ export default function UsersTab() {
 
               <div className="space-y-6">
                 <div className="space-y-3">
-                  <label className="text-xs font-semibold text-[var(--muted)] ml-1">Role Type</label>
+                  <label className="text-xs font-semibold text-[var(--muted)] ml-1">Role</label>
                   <div className="grid grid-cols-2 gap-2">
                     {["user", "member", "admin", "owner"].map((type) => (
                       <button

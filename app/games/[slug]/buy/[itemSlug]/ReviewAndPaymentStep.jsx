@@ -43,7 +43,7 @@ export default function ReviewAndPaymentStep({
   // Handle proceed to payment
   const handleProceed = async () => {
     if (!paymentMethod) {
-      alert("Please select a payment method");
+      alert("Please choose a payment method");
       return;
     }
 
@@ -125,7 +125,7 @@ export default function ReviewAndPaymentStep({
             />
             <div>
               <h3 className="text-lg font-bold">{itemName}</h3>
-              <p className="text-sm opacity-50">Selected item</p>
+              <p className="text-sm opacity-50">Selected package</p>
             </div>
           </div>
 
@@ -142,7 +142,7 @@ export default function ReviewAndPaymentStep({
                 </div>
                 <div className="flex flex-col min-w-0">
                   <span className="text-[10px] text-[var(--muted)] uppercase font-bold tracking-wider">Email</span>
-                  <span className="font-semibold text-sm truncate">{userEmail || "Not Provided"}</span>
+                  <span className="font-semibold text-sm truncate">{userEmail || "Not provided"}</span>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-3 rounded-xl bg-black/30 border border-white/5 group hover:border-[var(--accent)] transition-colors">
@@ -151,7 +151,7 @@ export default function ReviewAndPaymentStep({
                 </div>
                 <div className="flex flex-col min-w-0">
                   <span className="text-[10px] text-[var(--muted)] uppercase font-bold tracking-wider">Phone</span>
-                  <span className="font-semibold text-sm">{userPhone || "Not Provided"}</span>
+                  <span className="font-semibold text-sm">{userPhone || "Not provided"}</span>
                 </div>
               </div>
             </div>
@@ -161,7 +161,7 @@ export default function ReviewAndPaymentStep({
           <div className="bg-[var(--card)]/40 p-5 rounded-2xl border border-[var(--border)] shadow-sm">
             <h3 className="font-bold text-base mb-4 flex items-center gap-2">
               <span className="w-1.5 h-4 bg-[var(--accent)] rounded-full" />
-              Game Details
+              Game Info
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="flex items-center gap-3 p-3 rounded-xl bg-black/30 border border-white/5 group hover:border-[var(--accent)] transition-colors">
@@ -196,7 +196,7 @@ export default function ReviewAndPaymentStep({
 
           {/* Payment Method */}
           <div className="bg-black/20 p-4 rounded-xl border border-gray-700">
-            <h3 className="font-semibold mb-3">Select Payment Method</h3>
+            <h3 className="font-semibold mb-3">Choose Payment Method</h3>
 
             {/* Wallet Button */}
             <button
@@ -227,13 +227,13 @@ export default function ReviewAndPaymentStep({
                 : "border-gray-700"
                 }`}
             >
-              UPI Payment
+              Pay with UPI
             </button>
           </div>
 
           {/* Price Summary */}
           <div className="bg-black/20 p-4 rounded-xl border border-gray-700">
-            <h3 className="font-semibold mb-2">Price Summary</h3>
+            <h3 className="font-semibold mb-2">Order Summary</h3>
             <div className="flex items-center justify-between">
               <p>Price: ₹{price}</p>
               <p>Discount: -₹{discount}</p>
@@ -254,10 +254,10 @@ export default function ReviewAndPaymentStep({
               {isRedirecting ? (
                 <>
                   <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                  Redirecting…
+                  Redirecting...
                 </>
               ) : (
-                "Proceed to Pay"
+                "Pay Now"
               )}
             </button>
           </div>
@@ -270,13 +270,13 @@ export default function ReviewAndPaymentStep({
           {/* UPI Payment */}
           {paymentMethod === "upi" && (
             <div className="bg-black/20 p-6 rounded-xl border border-gray-700 text-center">
-              <p className="font-semibold mb-3">Scan to Pay</p>
+              <p className="font-semibold mb-3">Scan to pay</p>
 
               <div className="w-48 h-48 mx-auto bg-white p-3 rounded-xl">
                 {upiQR ? (
                   <Image src={upiQR} alt="QR" width={200} height={200} />
                 ) : (
-                  <p>Generating QR...</p>
+                  <p>Creating QR...</p>
                 )}
               </div>
 
@@ -284,7 +284,7 @@ export default function ReviewAndPaymentStep({
                 onClick={onPaymentComplete}
                 className="bg-[var(--accent)] text-black mt-4 w-full py-3 rounded-lg font-semibold"
               >
-                I Have Paid
+                I Paid
               </button>
             </div>
           )}
@@ -296,7 +296,7 @@ export default function ReviewAndPaymentStep({
 
               {walletBalance < totalPrice && (
                 <p className="text-red-400 text-xs mb-3">
-                  Not enough balance to complete this purchase.
+                  Not enough balance for this order.
                 </p>
               )}
 

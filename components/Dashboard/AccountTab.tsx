@@ -23,7 +23,7 @@ export default function AccountTab({ userDetails }: AccountTabProps) {
 
   const handlePasswordUpdate = async () => {
     if (newPass.length < 6) {
-      setPassError("Minimum 6 characters required");
+      setPassError("Password must be at least 6 characters");
       return;
     }
 
@@ -48,11 +48,11 @@ export default function AccountTab({ userDetails }: AccountTabProps) {
       }
 
       setNewPass("");
-      setPassSuccess("Password updated successfully");
+      setPassSuccess("Password updated");
       setTimeout(() => setPassSuccess(""), 2500);
     } catch {
       setLoadingPass(false);
-      setPassError("Failed to update password. Please try again.");
+      setPassError("Could not update password. Please try again.");
     }
   };
 
@@ -77,7 +77,7 @@ export default function AccountTab({ userDetails }: AccountTabProps) {
           <h2 className="text-3xl font-black tracking-tight">{userDetails.name || "Player"}</h2>
           <p className="text-[var(--muted)] font-medium mt-1">{userDetails.email || userDetails.phone}</p>
           <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-4">
-            <span className="px-4 py-1.5 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] text-xs font-bold uppercase tracking-widest border border-[var(--accent)]/10">Verified User</span>
+            <span className="px-4 py-1.5 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] text-xs font-bold uppercase tracking-widest border border-[var(--accent)]/10">Verified</span>
             <span className="px-4 py-1.5 rounded-full bg-green-500/10 text-green-500 text-xs font-bold uppercase tracking-widest border border-green-500/10">Active Member</span>
           </div>
         </div>
@@ -96,7 +96,7 @@ export default function AccountTab({ userDetails }: AccountTabProps) {
         >
           <div className="flex items-center justify-between px-2">
             <h3 className="text-xl font-bold flex items-center gap-2">
-              <FaUser className="text-[var(--accent)]" /> Profile Info
+              <FaUser className="text-[var(--accent)]" /> Profile
             </h3>
             <button className="text-[var(--accent)] text-sm font-bold flex items-center gap-1 hover:underline">
               <FiEdit2 size={14} /> Edit
@@ -105,8 +105,8 @@ export default function AccountTab({ userDetails }: AccountTabProps) {
 
           <div className="space-y-4">
             <InfoCard icon={<FaUser />} label="Full Name" value={userDetails.name || "N/A"} />
-            <InfoCard icon={<FaEnvelope />} label="Email Address" value={userDetails.email || "N/A"} />
-            <InfoCard icon={<FaPhone />} label="Phone Number" value={userDetails.phone || "N/A"} />
+            <InfoCard icon={<FaEnvelope />} label="Email" value={userDetails.email || "N/A"} />
+            <InfoCard icon={<FaPhone />} label="Phone" value={userDetails.phone || "N/A"} />
           </div>
         </motion.section>
 
@@ -158,7 +158,7 @@ export default function AccountTab({ userDetails }: AccountTabProps) {
                 disabled={loadingPass || !newPass}
                 className="w-full py-4 rounded-2xl bg-[var(--accent)] text-white font-bold shadow-xl shadow-[var(--accent)]/20 hover:shadow-[var(--accent)]/40 transition-all disabled:opacity-50"
               >
-                {loadingPass ? "Updating Security..." : "Update Password"}
+                {loadingPass ? "Updating..." : "Update Password"}
               </motion.button>
             </div>
           </div>

@@ -29,17 +29,17 @@ export default function WalletTab({
 
   const handleProceed = async () => {
     if (!amount || Number(amount) < 1) {
-      setAmountError("Minimum amount is ₹1");
+      setAmountError("Amount must be at least ₹1");
       return;
     }
 
     if (!method) {
-      alert("Please select a payment method");
+      alert("Please choose a payment method");
       return;
     }
 
     if (!storedPhone) {
-      alert("Phone number not found. Please log in again.");
+      alert("Phone number not found. Please sign in again.");
       return;
     }
 
@@ -69,7 +69,7 @@ export default function WalletTab({
       window.location.href = data.paymentUrl;
     } catch (err) {
       setLoading(false);
-      alert("Failed to create order");
+      alert("Could not create order");
     }
   };
 
@@ -84,7 +84,7 @@ export default function WalletTab({
           My Wallet
         </h2>
         <div className="hidden md:flex items-center gap-2 text-xs font-bold text-[var(--muted)] uppercase tracking-widest">
-          <FiCheckCircle className="text-green-500" /> Secure Payments
+          <FiCheckCircle className="text-green-500" /> Safe Payments
         </div>
       </div>
 
@@ -97,7 +97,7 @@ export default function WalletTab({
             className="relative overflow-hidden p-8 rounded-[2rem] bg-gradient-to-br from-[var(--accent)] to-[#4f46e5] text-white shadow-2xl shadow-[var(--accent)]/30"
           >
             <div className="relative z-10">
-              <p className="text-sm font-bold opacity-80 uppercase tracking-widest">Current Balance</p>
+              <p className="text-sm font-bold opacity-80 uppercase tracking-widest">Balance</p>
               <h3 className="text-4xl md:text-5xl font-black mt-2 tracking-tighter">
                 ₹{walletBalance.toLocaleString("en-IN")}
               </h3>
@@ -113,7 +113,7 @@ export default function WalletTab({
           </motion.div>
 
           <div className="p-6 rounded-3xl bg-[var(--card)] border border-[var(--border)] space-y-4">
-            <p className="text-sm font-bold text-[var(--muted)] uppercase tracking-wider">Quick Top-up</p>
+            <p className="text-sm font-bold text-[var(--muted)] uppercase tracking-wider">Quick Add</p>
             <div className="flex flex-wrap gap-2">
               {quickAmounts.map((amt) => (
                 <button
@@ -137,7 +137,7 @@ export default function WalletTab({
             {/* Amount Input */}
             <div>
               <label className="text-xs font-bold text-[var(--muted)] uppercase tracking-widest block mb-3">
-                Enter Custom Amount
+                Enter Amount
               </label>
               <div className="relative group">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-2xl font-bold text-[var(--muted)] group-focus-within:text-[var(--accent)] transition-colors">₹</span>
@@ -172,7 +172,7 @@ export default function WalletTab({
             {/* Methods */}
             <div>
               <label className="text-xs font-bold text-[var(--muted)] uppercase tracking-widest block mb-3">
-                Select Method
+                Payment Method
               </label>
               <div className="grid grid-cols-2 gap-4">
                 <button
@@ -214,7 +214,7 @@ export default function WalletTab({
                 <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin" />
               ) : (
                 <>
-                  Top-up Securely <FiArrowRight />
+                  Add Money <FiArrowRight />
                 </>
               )}
             </motion.button>

@@ -49,7 +49,7 @@ export default function AuthPage() {
 
       setTimeout(() => (window.location.href = redirectTo), 1200);
     } catch {
-      setError("Secure protocol failure. Please try again.");
+      setError("Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -109,7 +109,7 @@ export default function AuthPage() {
                   Welcome back
                 </h1>
                 <p className="text-sm text-[var(--muted)] font-medium">
-                  Login to your account to continue
+                  Sign in to continue
                 </p>
               </div>
             </div>
@@ -145,7 +145,7 @@ export default function AuthPage() {
               <div className="relative group/btn overflow-hidden rounded-[1.25rem] border border-white/10 bg-white/5 transition-all duration-300 hover:border-[var(--accent)]/50 hover:bg-white/[0.08]">
                 <GoogleLogin
                   onSuccess={(res) => res.credential && handleGoogleLogin(res.credential)}
-                  onError={() => setError("Google protocol failed")}
+                  onError={() => setError("Google sign-in failed")}
                   theme="filled_black"
                   size="large"
                   shape="pill"
@@ -172,7 +172,7 @@ export default function AuthPage() {
                         />
                       ))}
                     </div>
-                    <span className="text-[10px] text-[var(--accent)] font-bold uppercase tracking-widest">Securing Connection</span>
+                    <span className="text-[10px] text-[var(--accent)] font-bold uppercase tracking-widest">Signing you in</span>
                   </motion.div>
                 )}
               </AnimatePresence>

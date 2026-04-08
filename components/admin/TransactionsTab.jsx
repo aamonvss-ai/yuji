@@ -104,7 +104,7 @@ export default function TransactionsTab() {
         <div>
           <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)]">Transactions</h2>
           <p className="text-xs text-[var(--muted)] font-medium mt-1">
-            Monitor and audit all customer payments
+            View and check customer payments
           </p>
         </div>
 
@@ -134,7 +134,7 @@ export default function TransactionsTab() {
               setPage(1);
               setSearch(e.target.value);
             }}
-            placeholder="Search Order ID, Email, Player ID..."
+            placeholder="Search order ID, email, player ID..."
             className="w-full h-11 pl-11 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
           />
         </div>
@@ -154,7 +154,7 @@ export default function TransactionsTab() {
             className="py-32 flex flex-col items-center justify-center space-y-4"
           >
             <Loader2 className="animate-spin text-[var(--accent)]" size={32} />
-            <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">Loading Transactions</p>
+            <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">Loading transactions</p>
           </motion.div>
         ) : (
           <motion.div
@@ -198,7 +198,7 @@ export default function TransactionsTab() {
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex flex-col max-w-[150px]">
-                            <span className="truncate text-[var(--foreground)] font-medium">{t.email || "Guest User"}</span>
+                            <span className="truncate text-[var(--foreground)] font-medium">{t.email || "Guest"}</span>
                             <span className="text-[10px] text-[var(--muted)]/40 truncate">{t.playerId || "No ID"}</span>
                           </div>
                         </td>
@@ -257,7 +257,7 @@ export default function TransactionsTab() {
                         </div>
                         <div className="truncate">
                           <p className="font-bold text-[var(--foreground)] uppercase">{t.gameSlug}</p>
-                          <p className="text-[var(--muted)]/60 truncate">{t.email || "No Email"}</p>
+                          <p className="text-[var(--muted)]/60 truncate">{t.email || "No email"}</p>
                         </div>
                       </div>
                       <div className="text-right shrink-0">
@@ -273,7 +273,7 @@ export default function TransactionsTab() {
             {!transactions.length && (
               <div className="py-20 text-center border border-dashed border-[var(--border)] rounded-[2rem]">
                 <Hash className="mx-auto text-[var(--muted)]/20 mb-4" size={48} />
-                <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">No Transactions Found</p>
+                <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">No transactions found</p>
               </div>
             )}
 

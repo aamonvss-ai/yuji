@@ -4,7 +4,7 @@ const BRAND = process.env.NEXT_PUBLIC_BRAND_NAME || "Meow Ji";
 
 export const metadata = {
   title: `About | ${BRAND}`,
-  description: `Learn more about ${BRAND} — a fast, secure, and affordable game top-up platform with instant delivery and 24×7 automated service.`,
+  description: `Learn about ${BRAND} - a fast and safe game top-up site with instant delivery.`,
 };
 
 export default function AboutPage() {
@@ -22,8 +22,8 @@ export default function AboutPage() {
         </h1>
 
         <p className="text-[var(--muted)] text-lg max-w-2xl mx-auto">
-          Your trusted destination for instant game top-ups, safe payments, and
-          automated delivery — 24×7 ⚡
+          A simple place for instant game top-ups, safe payments, and
+          auto delivery - 24x7.
         </p>
       </section>
 
@@ -34,16 +34,13 @@ export default function AboutPage() {
         </h2>
 
         <p className="text-[var(--muted)] text-lg leading-relaxed max-w-3xl mx-auto mb-8">
-          {BRAND} was built to make in-game purchases simple, fast, and reliable.
-          We noticed players needed a platform that delivers game currency instantly,
-          without complicated steps or unsafe third-party risks.
+          {BRAND} was made to keep in-game purchases simple and fast.
+          Players can get game currency quickly without hard steps.
         </p>
 
         <p className="text-[var(--muted)] text-lg leading-relaxed max-w-3xl mx-auto">
-          🔹 Instant top-ups for popular games  
-          🔹 Secure & verified payment methods  
-          🔹 Automated delivery with real-time order updates  
-          🔹 Transparent pricing with no hidden fees  
+          Instant top-ups for popular games. Secure and trusted payments.
+          Auto delivery with live order updates. Clear pricing with no hidden fees.
         </p>
       </section>
 
@@ -57,17 +54,17 @@ export default function AboutPage() {
           {[
             {
               title: "Instant Delivery",
-              desc: "Orders are processed automatically and delivered instantly after payment confirmation.",
+              desc: "Orders are processed automatically and sent right after payment is confirmed.",
               icon: "⚡",
             },
             {
               title: "Safe & Secure",
-              desc: "We use trusted payment gateways and verified APIs to ensure maximum security.",
+              desc: "We use trusted payment services and verified APIs to keep your payments safe.",
               icon: "🔐",
             },
             {
               title: "Affordable Pricing",
-              desc: "Competitive prices, regular offers, and no hidden charges — ever.",
+              desc: "Good prices, regular offers, and no hidden charges.",
               icon: "💰",
             },
           ].map((val, i) => (
@@ -99,8 +96,8 @@ export default function AboutPage() {
         </h2>
 
         <p className="text-[var(--muted)] mb-8 max-w-2xl mx-auto text-lg">
-          Thousands of successful top-ups delivered securely.
-          Follow us for offers, updates, and new game launches.
+          We have delivered many successful top-ups.
+          Follow us for offers, updates, and new games.
         </p>
 
         <a

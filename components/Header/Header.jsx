@@ -186,7 +186,7 @@ export default function Header() {
                       className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-[var(--accent)] text-white rounded-xl font-black uppercase text-xs tracking-widest transition-all duration-300 hover:shadow-xl hover:shadow-[var(--accent)]/30 hover:scale-[1.02] active:scale-95"
                     >
                       <User size={14} />
-                      Login / Register
+                      Sign In / Sign Up
                     </button>
                   </div>
                 ) : (
@@ -243,7 +243,7 @@ export default function Header() {
                           { href: "/dashboard", label: "Dashboard", Icon: LayoutDashboard },
                           { href: "/dashboard/order", label: "My Orders", Icon: History },
                           { href: "/leaderboard", label: "Leaderboard", Icon: Award },
-                          { href: "/dashboard/support", label: "Customer Support", Icon: Headphones },
+                          { href: "/dashboard/support", label: "Support", Icon: Headphones },
                         ].map((item, idx) => (
                           <Link
                             key={idx}
@@ -272,7 +272,7 @@ export default function Header() {
                               <div className="w-8 h-8 rounded-lg bg-emerald-500/5 border border-emerald-500/10 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-emerald-500/10">
                                 <Shield size={14} className="text-emerald-500" />
                               </div>
-                              <span className="font-bold text-xs text-[var(--foreground)] group-hover:text-emerald-500 transition-colors tracking-tight">Admin Control</span>
+                              <span className="font-bold text-xs text-[var(--foreground)] group-hover:text-emerald-500 transition-colors tracking-tight">Admin Panel</span>
                             </div>
                             <ChevronRight size={12} className="text-emerald-500 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
                           </Link>
