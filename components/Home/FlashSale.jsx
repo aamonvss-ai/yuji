@@ -47,7 +47,7 @@ export default function FlashSale() {
     }, []);
 
     return (
-        <section className="relative py-2 px-4 overflow-hidden border-b border-[var(--border)] bg-[var(--foreground)]/[0.03]">
+        <section className="relative py-2 px-4 overflow-hidden border-b border-[var(--border)] bg-gray-50/50 dark:bg-white/[0.02]">
             {/* Background Decorative */}
             <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-amber-500/5 blur-[80px] pointer-events-none" />
 
@@ -66,7 +66,7 @@ export default function FlashSale() {
                     <div className="flex items-center gap-1.5 bg-[var(--foreground)]/[0.03] backdrop-blur-md border border-[var(--border)] px-2.5 py-1 rounded-xl shadow-sm">
                         <FiClock className="text-amber-500 animate-pulse hidden sm:block" size={10} />
                         <div className="flex items-center gap-1.5 font-black text-[10px] tabular-nums text-amber-500 uppercase tracking-tighter">
-                            <span className="opacity-40 text-[8px] font-bold text-[var(--foreground)] mr-0.5 hidden md:block">Time Remaining</span>
+                            <span className="opacity-40 text-[8px] font-bold text-[var(--foreground)] mr-0.5 hidden md:block">Time left</span>
                             <div className="bg-amber-500/10 px-1 py-0.5 rounded-md">{String(timeLeft.hours).padStart(2, '0')}</div>
                             <span className="opacity-30 text-[var(--foreground)]">:</span>
                             <div className="bg-amber-500/10 px-1 py-0.5 rounded-md">{String(timeLeft.minutes).padStart(2, '0')}</div>
@@ -78,7 +78,7 @@ export default function FlashSale() {
 
                 {/* Compact Horizontal Slider */}
                 <div className="overflow-x-auto pb-4 custom-scrollbar-premium snap-x snap-mandatory">
-                    <div className="flex gap-4 md:gap-6 px-1 md:justify-center min-w-max md:min-w-0">
+                    <div className="flex gap-3 md:gap-4 px-1 md:justify-center min-w-max md:min-w-0">
                         {flashSaleData.map((item, index) => (
                             <motion.div
                                 key={item.id}
@@ -90,7 +90,7 @@ export default function FlashSale() {
                             >
                                 <Link
                                     href={`/games/${item.slug}`}
-                                    className="group relative block w-[110px] sm:w-[130px] md:w-[170px] bg-[var(--card)] backdrop-blur-lg border border-[var(--border)] rounded-[0.8rem] p-1 md:p-1.5 transition-all duration-500 hover:border-amber-500/30 hover:bg-amber-500/[0.04] shadow-lg"
+                                    className="group relative block w-[105px] sm:w-[125px] md:w-[155px] bg-[#000000] backdrop-blur-lg border border-[var(--border)] rounded-[0.7rem] p-1 md:p-1.5 transition-all duration-500 hover:border-[var(--accent)]/30 hover:bg-[var(--accent)]/[0.04] shadow-lg"
                                 >
                                     {/* Badge */}
                                     <div className="absolute top-2 left-2 z-20">
@@ -115,16 +115,16 @@ export default function FlashSale() {
 
                                     {/* Compact Info */}
                                     <div className="space-y-0 px-1">
-                                        <p className="text-[6px] md:text-[8px] font-bold text-amber-500/80 uppercase tracking-widest truncate">{item.game}</p>
-                                        <h3 className="text-[10px] md:text-[12px] font-black uppercase tracking-tight text-[var(--foreground)] truncate group-hover:text-amber-500 transition-colors leading-tight">
+                                        <p className="text-[6px] md:text-[8px] font-bold text-[var(--accent)]/80 uppercase tracking-widest">{item.game}</p>
+                                        <h3 className="text-[10px] md:text-[12px] font-black uppercase tracking-tight text-white group-hover:text-[var(--accent)] transition-colors leading-tight">
                                             {item.name}
                                         </h3>
 
                                         <div className="flex items-center justify-between pt-0.5">
-                                            <span className="text-[11px] md:text-[14px] font-black italic text-[var(--foreground)]">
+                                            <span className="text-[11px] md:text-[14px] font-black italic text-white">
                                                 {item.price}
                                             </span>
-                                            <span className="text-[8px] md:text-[10px] font-bold text-[var(--muted)] line-through opacity-50 decoration-red-500/50">
+                                            <span className="text-[8px] md:text-[10px] font-bold text-white/40 line-through decoration-red-500/50">
                                                 {item.originalPrice}
                                             </span>
                                         </div>

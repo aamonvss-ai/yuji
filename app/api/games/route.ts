@@ -5,7 +5,7 @@ export const revalidate = 300; // Cache the whole route for 5 minutes
 const ALLOWED_GAME_SLUGS = [
   "mobile-legends988",
   "mlbb-double332",
-  // "sgmy-mlbb893",
+  "sgmy-mlbb893",
   "magic-chess-gogo-india924",
   "mlbb-indo42",
   "mlbbglobal202",          // Global
@@ -68,14 +68,14 @@ const MEMBERSHIPS = [
     category: "Membership",
     available: true,
   },
-  {
-    name: "Reseller Membership",
-    slug: "reseller-membership",
-    image: "/membership/reseller-m.png",
-    type: "reseller",
-    category: "Membership",
-    available: true,
-  },
+  // {
+  //   name: "Reseller Membership",
+  //   slug: "reseller-membership",
+  //   image: "/membership/reseller-m.png",
+  //   type: "reseller",
+  //   category: "Membership",
+  //   available: true,
+  // },
 ];
 
 

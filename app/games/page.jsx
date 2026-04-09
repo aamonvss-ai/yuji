@@ -37,7 +37,7 @@ const SectionHeader = ({ title, count, icon: Icon }) => (
 
     {count !== undefined && (
       <span className="text-[8px] font-black tracking-[0.2em] text-[var(--muted)] uppercase opacity-80">
-        {count} UNITS
+        {count} ITEMS
       </span>
     )}
   </div>
@@ -57,6 +57,7 @@ export default function GamesPage() {
   const [sort, setSort] = useState("az");
   const [hideOOS, setHideOOS] = useState(false);
   const [search, setSearch] = useState("");
+  const [activeTab, setActiveTab] = useState("all");
 
   /* ================= CONFIG ================= */
   const SPECIAL_MLBB_GAME = "MLBB SMALL";
@@ -130,7 +131,7 @@ export default function GamesPage() {
               </p>
             </div>
 
-            <h3 className="text-[11px] md:text-[14px] font-black text-white leading-tight uppercase italic mt-0.5 group-hover:text-[var(--accent)] transition-colors line-clamp-2">
+            <h3 className="text-[11px] md:text-[14px] font-black text-white leading-tight uppercase italic mt-0.5 group-hover:text-[var(--accent)] transition-colors">
               {game.gameName}
             </h3>
 
@@ -206,7 +207,7 @@ export default function GamesPage() {
               className={`h-9 px-3 flex items-center gap-1.5 rounded-lg border text-[9px] font-black uppercase tracking-tight transition-all
               ${activeFilterCount > 0
                   ? "bg-[var(--accent)] text-black border-[var(--accent)]"
-                  : "bg-[var(--card)] border-[var(--border)] text-[var(--foreground)] hover:border-[var(--accent)]/50"}`}
+                  : "bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] hover:border-[var(--accent)]/50"}`}
             >
               <FiFilter size={12} />
               <span className="hidden sm:inline">Filter</span>
@@ -217,48 +218,92 @@ export default function GamesPage() {
           </div>
         </div>
 
-        {/* ================= CONTENT ================= */}
-        <div className="max-w-7xl mx-auto px-4 py-6 space-y-8">
+        {/* ================= CATEGORY FILTER ================= */}
+        <div className="max-w-7xl mx-auto px-4 mt-6">
+          <div className="flex gap-2.5 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {[
+              { id: "all", icon: FiLayers, label: "All" },
+              { id: "mlbb", icon: FiZap, label: "MLBB" },
+              { id: "others", icon: FiGlobe, label: "Others" },
+              { id: "membership", icon: FiShield, label: "Membership" }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-wider transition-all whitespace-nowrap border
+                ${activeTab === tab.id
+                    ? "bg-blue-600 text-white border-blue-500 shadow-lg shadow-blue-600/30"
+                    : "bg-[var(--card)] border border-[var(--border)] text-[var(--muted)] hover:border-[var(--accent)]/50 hover:text-[var(--foreground)]"}`}
+              >
+                <tab.icon size={12} className={activeTab === tab.id ? "text-white" : "text-[var(--accent)]"} />
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
-          {category.map((cat, i) => {
-            const merged = injectSpecialGame(cat);
-            const filtered = processGames(merged);
-            if (!filtered.length) return null;
+        {/* ================= CONTENT ================= */}
+        <div className="max-w-7xl mx-auto px-4 py-6 space-y-10">
+
+          {category
+            .filter(cat => {
+              if (activeTab === "all") return true;
+              if (activeTab === "membership") return false;
+              const isMLBB = cat.categoryTitle?.toLowerCase().includes("mobile legends") || cat.categoryTitle?.toLowerCase().includes("mlbb") || cat.categoryTitle?.toLowerCase().includes("bundle");
+              return activeTab === "mlbb" ? isMLBB : !isMLBB;
+            })
+            .map((cat, i) => {
+              const merged = injectSpecialGame(cat);
+              const filtered = processGames(merged);
+              if (!filtered.length) return null;
+
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: i * 0.05 }}
+                >
+                  <SectionHeader title={cat.categoryTitle} count={filtered.length} icon={FiLayers} />
+                  <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-6">
+                    {filtered.map((game, index) => (
+                      <GameCard key={index} game={game} />
+                    ))}
+                  </div>
+                </motion.div>
+              );
+            })}
+
+          {/* Global Games */}
+          {(() => {
+            const filteredGlobal = processGames(games).filter(g => {
+              if (activeTab === "all") return true;
+              if (activeTab === "membership") return false;
+              const isMLBB = g.gameName?.toLowerCase().includes("mobile legends") || g.gameFrom?.toLowerCase().includes("mobile legends") || g.gameName?.toLowerCase().includes("mlbb") || g.gameName?.toLowerCase().includes("bundle");
+              return activeTab === "mlbb" ? isMLBB : !isMLBB;
+            });
+
+            if (!filteredGlobal.length) return null;
 
             return (
               <motion.div
-                key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: i * 0.05 }}
               >
-                <SectionHeader title={cat.categoryTitle} count={filtered.length} icon={FiLayers} />
+                <SectionHeader title="All Games" count={filteredGlobal.length} icon={FiGlobe} />
                 <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-6">
-                  {filtered.map((game, index) => (
-                    <GameCard key={index} game={game} />
+                  {filteredGlobal.map((game, i) => (
+                    <GameCard key={i} game={game} />
                   ))}
                 </div>
               </motion.div>
             );
-          })}
-
-          {/* Global Games */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-          >
-            <SectionHeader title="Global Games" count={processGames(games).length} icon={FiGlobe} />
-            <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-6">
-              {processGames(games).map((game, i) => (
-                <GameCard key={i} game={game} />
-              ))}
-            </div>
-          </motion.div>
+          })()}
 
           {/* Memberships */}
-          {memberships?.items?.length > 0 && (
+          {(activeTab === "all" || activeTab === "membership") && memberships?.items?.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

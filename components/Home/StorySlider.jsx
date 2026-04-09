@@ -58,8 +58,8 @@ const storyData = [
 
 export default function StorySlider() {
   return (
-    <section className="relative py-10 px-4 overflow-hidden select-none">
-      <div className="max-w-7xl mx-auto flex gap-6 md:gap-10 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory px-4 lg:px-0 scroll-smooth">
+    <section className="relative py-4 px-4 overflow-hidden select-none">
+      <div className="max-w-7xl mx-auto flex gap-4 md:gap-6 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory px-4 lg:px-0 scroll-smooth">
         {storyData.map((item, index) => (
           <motion.div
             key={item.id}
@@ -70,7 +70,7 @@ export default function StorySlider() {
           >
             <Link
               href={item.link}
-              className="group relative flex flex-col items-center min-w-[75px] md:min-w-[95px]"
+              className="group relative flex flex-col items-center min-w-[60px] md:min-w-[76px]"
             >
               <div className="relative">
                 {/* Rotating Orbital Ring (Hover Only) */}
@@ -86,13 +86,13 @@ export default function StorySlider() {
                   {/* Theme Border Accent */}
                   <div className={`absolute inset-0 bg-gradient-to-tr ${item.color} opacity-30 group-hover:opacity-100 transition-opacity duration-500`} />
 
-                  <div className="relative p-[2px] rounded-[1.5rem] bg-[var(--card)]">
-                    <div className="relative w-[68px] h-[68px] md:w-[84px] md:h-[84px] rounded-[1.4rem] overflow-hidden bg-[var(--card)] mask-squircle shadow-inner border border-[var(--border)]">
+                  <div className="relative p-[1.5px] rounded-[1.2rem] bg-[var(--card)]">
+                    <div className="relative w-[52px] h-[52px] md:w-[66px] md:h-[66px] rounded-[1.1rem] overflow-hidden bg-[var(--card)] mask-squircle shadow-inner border border-[var(--border)]">
                       <Image
                         src={item.image}
                         alt={item.title}
                         fill
-                        sizes="(max-width: 768px) 68px, 84px"
+                        sizes="(max-width: 768px) 52px, 66px"
                         className="object-cover transition-all duration-1000 group-hover:scale-125 filter group-hover:brightness-110"
                       />
 
@@ -124,11 +124,11 @@ export default function StorySlider() {
               </div>
 
               {/* Sophisticated Labels */}
-              <div className="mt-4 flex flex-col items-center">
+              <div className="mt-1.5 flex flex-col items-center">
                 <span className="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-[var(--muted)] group-hover:text-[var(--foreground)] transition-all duration-500 transform group-hover:translate-y-[-2px]">
                   {item.title}
                 </span>
-                <div className={`h-[1.5px] w-0 bg-gradient-to-r ${item.color} group-hover:w-full transition-all duration-500 rounded-full mt-1.5`} />
+                <div className={`h-[1.5px] w-0 bg-gradient-to-r ${item.color} group-hover:w-full transition-all duration-500 rounded-full mt-0.5`} />
               </div>
             </Link>
           </motion.div>

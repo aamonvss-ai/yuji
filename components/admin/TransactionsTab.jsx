@@ -103,9 +103,7 @@ export default function TransactionsTab() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)]">Transactions</h2>
-          <p className="text-xs text-[var(--muted)] font-medium mt-1">
-            View and check customer payments
-          </p>
+            See customer payments
         </div>
 
         <div className="flex items-center gap-3">
@@ -326,7 +324,7 @@ export default function TransactionsTab() {
               <div className="p-6 border-b border-[var(--border)] bg-gradient-to-r from-[var(--foreground)]/[0.02] to-transparent">
                 <div className="flex items-start justify-between mb-6">
                   <div className="space-y-1">
-                    <p className="text-[9px] font-black text-[var(--accent)] uppercase tracking-widest leading-none">Reference ID</p>
+                    <p className="text-[9px] font-black text-[var(--accent)] uppercase tracking-widest leading-none">Order ID</p>
                     <h3 className="text-[11px] font-black uppercase italic tracking-tight text-[var(--foreground)] truncate max-w-[300px] font-mono">{selectedTx.orderId}</h3>
                   </div>
                   <button
@@ -339,7 +337,7 @@ export default function TransactionsTab() {
 
                 <div className="flex items-center justify-between p-4.5 rounded-2xl bg-[var(--foreground)]/[0.02] border border-[var(--border)]">
                   <div>
-                    <p className="text-[9px] font-black text-[var(--muted)] uppercase tracking-widest opacity-60">Bill Amount</p>
+                    <p className="text-[9px] font-black text-[var(--muted)] uppercase tracking-widest opacity-60">Total Cost</p>
                     <span className="text-2xl font-black text-emerald-500 tabular-nums">₹{selectedTx.price}</span>
                   </div>
                   {(() => {
