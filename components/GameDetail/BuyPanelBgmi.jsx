@@ -23,10 +23,10 @@ export default function BuyPanelBgmi({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       className="max-w-6xl mx-auto bg-[var(--card)]/50 border border-[var(--border)]
-      rounded-2xl p-4 md:p-5 flex flex-col gap-4 backdrop-blur-md"
+      rounded-2xl p-3 md:p-4 flex flex-col gap-3 backdrop-blur-md"
     >
       <div className="flex gap-4 items-center">
-        <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden border border-white/5">
+        <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-lg overflow-hidden border border-white/5 shrink-0">
           <Image
             src={activeItem?.itemImageId?.image || logo}
             alt={activeItem?.itemName || "Item"}
@@ -36,12 +36,12 @@ export default function BuyPanelBgmi({
         </div>
 
         <div className="flex-1 min-w-0">
-          <h2 className="text-xl font-bold text-[var(--foreground)] truncate">
+          <h2 className="text-lg font-bold text-[var(--foreground)] truncate leading-tight">
             {activeItem?.itemName}
           </h2>
 
           <div className="flex items-center gap-2.5 mt-1">
-            <p className="text-2xl font-black text-[var(--accent)]">
+            <p className="text-xl font-black text-[var(--accent)]">
               ₹{activeItem?.sellingPrice}
             </p>
 

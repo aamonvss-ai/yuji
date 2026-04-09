@@ -11,7 +11,6 @@ const poppins = Poppins({
 
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import SocialFloat from "@/components/SocialFloat/SocialFloat";
 import Chatbot from "@/components/Chatbot/Chatbot";
 
 import Maintenance from "@/components/Maintenance/Maintenance";
@@ -74,7 +73,6 @@ export default async function RootLayout({
           <Header />
           <main className="pt-20">{children}</main>
           <Footer />
-          <SocialFloat />
           <Chatbot />
         </GoogleOAuthProvider>
 

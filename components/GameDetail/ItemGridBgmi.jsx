@@ -10,7 +10,7 @@ export default function ItemGridBgmi({
   buyPanelRef,
 }) {
   return (
-    <div className="max-w-6xl mx-auto mb-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+    <div className="max-w-6xl mx-auto mb-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
       {items.map((item, i) => {
         const isActive = activeItem?.itemSlug === item.itemSlug;
 
@@ -27,7 +27,7 @@ export default function ItemGridBgmi({
                 block: "center",
               });
             }}
-            className={`group relative rounded-xl p-3 md:p-4 cursor-pointer border transition-all duration-300 overflow-hidden
+            className={`group relative rounded-xl p-2.5 md:p-3 cursor-pointer border transition-all duration-300 overflow-hidden
               ${isActive
                 ? "border-[var(--accent)] bg-[var(--accent)]/10 shadow-[0_0_20px_rgba(var(--accent-rgb),0.1)]"
                 : "border-[var(--border)] bg-[var(--card)]/40 hover:border-[var(--accent)]/50 backdrop-blur-sm"

@@ -26,9 +26,9 @@ export default function GameSwitcher() {
     if (isLoading || games.length === 0) return null;
 
     return (
-        <div className="w-full overflow-hidden mb-8">
+        <div className="w-full overflow-hidden mb-3">
             <div className="max-w-6xl mx-auto px-1">
-                <div className="flex items-center gap-3 overflow-x-auto pb-4 pt-1 no-scrollbar mask-fade">
+                <div className="flex items-center gap-2 overflow-x-auto pb-2 pt-0.5 no-scrollbar mask-fade">
                     {games.map((game) => {
                         const isActive = game.gameSlug === slug;
                         return (
@@ -41,15 +41,15 @@ export default function GameSwitcher() {
                                     whileHover={{ y: -2 }}
                                     whileTap={{ scale: 0.95 }}
                                     className={`
-                    flex flex-col items-center gap-2 p-2 rounded-2xl transition-all duration-300
+                    flex flex-col items-center gap-1.5 p-1.5 rounded-xl transition-all duration-300
                     ${isActive
                                             ? "bg-[var(--accent)] text-black shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]"
-                                            : "bg-white/5 hover:bg-white/10 text-white/60 hover:text-white border border-white/5"
+                                            : "bg-[var(--foreground)]/[0.03] hover:bg-[var(--accent)]/10 text-[var(--muted)] hover:text-[var(--foreground)] border border-[var(--border)] uppercase"
                                         }
                   `}
                                 >
                                     <div className={`
-                    w-12 h-12 relative rounded-xl overflow-hidden shadow-lg
+                    w-10 h-10 relative rounded-lg overflow-hidden shadow-lg
                     ${isActive ? "ring-2 ring-black/20" : "grayscale-[0.5] hover:grayscale-0"}
                   `}>
                                         <Image

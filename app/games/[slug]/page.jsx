@@ -129,13 +129,13 @@ export default function GameDetailPage() {
   };
 
   return (
-    <section className="min-h-screen bg-[var(--background)] text-[var(--foreground)] px-4 py-6">
+    <section className="min-h-screen bg-[var(--background)] text-[var(--foreground)] px-4 py-4">
 
       <GameSwitcher />
 
       {/* ================= HEADER ================= */}
-      <div className="max-w-6xl mx-auto mb-6 flex items-center gap-4">
-        <div className="w-14 h-14 relative rounded-lg overflow-hidden">
+      <div className="max-w-6xl mx-auto mb-4 flex items-center gap-3">
+        <div className="w-12 h-12 relative rounded-lg overflow-hidden shrink-0">
           <Image
             src={game?.gameImageId?.image || logo}
             alt={game?.gameName || "Game"}
@@ -145,10 +145,10 @@ export default function GameDetailPage() {
         </div>
 
         <div>
-          <h1 className="text-2xl font-extrabold">
+          <h1 className="text-xl font-bold leading-tight">
             {game?.gameName}
           </h1>
-          <p className="text-xs text-[var(--muted)]">
+          <p className="text-[10px] text-[var(--muted)] uppercase tracking-wider font-semibold">
             {game?.gameFrom}
           </p>
         </div>
@@ -197,8 +197,8 @@ export default function GameDetailPage() {
         </>
       ) : (
         /* ================= EMPTY STATE ================= */
-        <div className="max-w-6xl mx-auto py-20 px-4 text-center border-2 border-dashed border-white/5 rounded-3xl">
-          <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="max-w-6xl mx-auto py-16 px-4 text-center border-2 border-dashed border-[var(--border)] rounded-3xl">
+          <div className="w-12 h-12 bg-[var(--foreground)]/[0.03] rounded-full flex items-center justify-center mx-auto mb-4">
             <Image src={logo} alt="Logo" className="w-8 h-8 opacity-20 grayscale" />
           </div>
           <h3 className="text-xl font-black uppercase tracking-tighter italic">Coming Soon</h3>
