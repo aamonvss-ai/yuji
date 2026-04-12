@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
+import User from "@/models/User";
 import PricingConfig from "@/models/PricingConfig";
+
 import crypto from "crypto";
 
 /* =====================================================
@@ -190,6 +192,32 @@ export async function POST(req: Request) {
     /* ---------- SERVER PRICE ---------- */
     const price = await resolvePrice(gameSlug, itemSlug, userType);
 
+    /* ---------- WALLET PAYMENT CHECK ---------- */
+    let user = null;
+    if (paymentMethod === "wallet") {
+      if (!userId) {
+        return NextResponse.json({
+          success: false,
+          message: "You must be logged in to use wallet",
+        });
+      }
+
+      user = await User.findOne({ userId });
+      if (!user) {
+        return NextResponse.json({
+          success: false,
+          message: "User not found",
+        });
+      }
+
+      if ((user.wallet || 0) < price) {
+        return NextResponse.json({
+          success: false,
+          message: "Insufficient wallet balance",
+        });
+      }
+    }
+
     /* ---------- ORDER ID ---------- */
     const orderId = (
       "YUJITK" +
@@ -213,13 +241,43 @@ export async function POST(req: Request) {
       email: email || null,
       phone: phone || null,
       currency,
-      status: "pending",
-      paymentStatus: "pending",
+      status: paymentMethod === "wallet" ? "success" : "pending",
+      paymentStatus: paymentMethod === "wallet" ? "success" : "pending",
       topupStatus: "pending",
       expiresAt,
     });
 
-    /* ---------- PAYMENT GATEWAY ---------- */
+    /* ---------- RESOLVE PAYMENT FLOW ---------- */
+    if (paymentMethod === "wallet") {
+      // 1. Deduct balance
+      user.wallet -= price;
+      await user.save();
+
+      // 2. Record Wallet Transaction
+      const WalletTransaction = (await import("@/models/WalletTransaction")).default;
+      const transactionId = "TXN" + crypto.randomBytes(6).toString("hex").toUpperCase();
+      
+      await WalletTransaction.create({
+        transactionId,
+        userId,
+        amount: price,
+        type: "spend",
+        status: "success",
+        description: `Purchase: ${itemName}`,
+        metadata: {
+          gameOrderId: orderId,
+          paymentMethod: "wallet",
+        },
+      });
+
+      return NextResponse.json({
+        success: true,
+        orderId,
+        paymentUrl: `${process.env.NEXT_PUBLIC_BASE_URLU || ""}/payment/topup-complete?orderId=${orderId}`,
+      });
+    }
+
+    /* ---------- PAYMENT GATEWAY (For UPI/QR etc) ---------- */
     const formData = new URLSearchParams();
     if (phone) formData.append("customer_mobile", phone);
     formData.append("user_token", process.env.XTRA_USER_TOKEN!);
@@ -253,6 +311,7 @@ export async function POST(req: Request) {
       orderId,
       paymentUrl: data.result.payment_url,
     });
+
   } catch (err: any) {
     console.error("CREATE ORDER ERROR:", err);
     return NextResponse.json(

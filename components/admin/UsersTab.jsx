@@ -19,7 +19,10 @@ import {
   Users,
   IdCard,
   Crown,
+  Plus,
+  Minus,
 } from "lucide-react";
+
 
 export default function UsersTab() {
   const [users, setUsers] = useState([]);
@@ -263,6 +266,7 @@ export default function UsersTab() {
                   <tr className="text-[10px] uppercase font-bold tracking-widest text-[var(--muted)]">
                     <th className="px-6 py-4">User Info</th>
                     <th className="px-6 py-4">Identification</th>
+                    <th className="px-6 py-4">Wallet</th>
                     <th className="px-6 py-4">Role Status</th>
                     <th className="px-6 py-4">Activity</th>
                     <th className="px-6 py-4 text-right">Access Control</th>
@@ -291,6 +295,14 @@ export default function UsersTab() {
                         <div className="flex flex-col">
                           <span className="text-[var(--foreground)] font-black text-[10px] uppercase tracking-widest tabular-nums font-mono">{u.userId}</span>
                           <span className="text-[9px] text-[var(--muted)]/40 font-bold uppercase mt-0.5">Static ID</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex flex-col">
+                          <span className="text-emerald-500 font-black text-xs tabular-nums tracking-tighter">
+                             ₹{u.wallet?.toFixed(2) || "0.00"}
+                          </span>
+                          <span className="text-[9px] text-[var(--muted)]/40 font-bold uppercase mt-0.5">Balance</span>
                         </div>
                       </td>
                       <td className="px-6 py-4">
@@ -353,9 +365,8 @@ export default function UsersTab() {
                          <IdCard size={10} />
                          <span className="text-[9px] font-mono font-black uppercase tracking-tighter truncate max-w-[100px]">{u.userId}</span>
                        </div>
-                       <div className="flex items-center gap-1.5 text-[var(--muted)]/40">
-                         <Calendar size={10} />
-                         <span className="text-[9px] font-bold">{new Date(u.createdAt).toLocaleDateString()}</span>
+                       <div className="flex items-center gap-1.5 text-emerald-500 font-black">
+                         <span className="text-[9px]">₹{u.wallet?.toFixed(2) || "0.00"}</span>
                        </div>
                     </div>
 
@@ -465,6 +476,24 @@ export default function UsersTab() {
               </div>
 
               <div className="flex-1 overflow-y-auto p-6 space-y-8">
+                {/* 💰 WALLET MANAGEMENT */}
+                <DrawerSection icon={<RefreshCcw size={18} />} title="Wallet Management">
+                   <div className="p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 flex items-center justify-between">
+                      <div>
+                        <p className="text-[10px] font-bold text-emerald-500/60 uppercase tracking-widest">Current Balance</p>
+                        <p className="text-2xl font-black text-emerald-500 tabular-nums">₹{selectedUser.wallet?.toFixed(2) || "0.00"}</p>
+                      </div>
+                   </div>
+
+                   <BalanceAdjustor 
+                      userId={selectedUser.userId} 
+                      onSuccess={(newBal) => {
+                        setSelectedUser({ ...selectedUser, wallet: newBal });
+                        fetchUsers();
+                      }} 
+                   />
+                </DrawerSection>
+
                 <DrawerSection icon={<IdCard size={18} />} title="User Information">
                   <DrawerDetail label="Full Name" value={selectedUser.name} />
                   <DrawerDetail label="User ID" value={selectedUser.userId} />
@@ -479,13 +508,14 @@ export default function UsersTab() {
                 <DrawerSection icon={<RefreshCcw size={18} />} title="Activity">
                   <DrawerDetail label="Last Active" value={selectedUser.lastLoginAt ? new Date(selectedUser.lastLoginAt).toLocaleString() : "Never"} />
                   <DrawerDetail label="Last Known IP" value={selectedUser.lastLoginIp} />
-                  <DrawerDetail label="Account Created" value={new Date(selectedUser.createdAt).toLocaleString()} />
+                  <DrawerDetail label="Account Created" value={selectedUser.createdAt ? new Date(selectedUser.createdAt).toLocaleString() : "N/A"} />
                 </DrawerSection>
               </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
+
 
       {/* ================= FILTER MODAL ================= */}
       <AnimatePresence>
@@ -716,17 +746,6 @@ function DrawerSection({ icon, title, children }) {
   );
 }
 
-function DrawerDetail({ label, value }) {
-  return (
-    <div className="flex flex-col gap-1 border-b border-[var(--border)] pb-3">
-      <span className="text-[10px] font-semibold text-[var(--muted)] uppercase tracking-wider">{label}</span>
-      <span className="text-sm font-medium text-[var(--foreground)]">
-        {value || "Not available"}
-      </span>
-    </div>
-  );
-}
-
 function StatItem({ label, value, loading }) {
   return (
     <div className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-xl p-2.5 flex flex-col items-center justify-center relative overflow-hidden transition-all hover:border-[var(--accent)]/20">
@@ -739,3 +758,99 @@ function StatItem({ label, value, loading }) {
     </div>
   );
 }
+
+/* ================= BALANCE ADJUSTOR ================= */
+function BalanceAdjustor({ userId, onSuccess }) {
+  const [amount, setAmount] = useState("");
+  const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleAdjust = async (action) => {
+    if (!amount || isNaN(amount) || Number(amount) <= 0) {
+      alert("Please enter a valid positive amount");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("token");
+
+      const res = await fetch("/api/admin/users/adjust-balance", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          userId,
+          amount: Number(amount),
+          action,
+          description,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        alert(`Successfully ${action === "add" ? "added" : "removed"} ₹${amount}`);
+        setAmount("");
+        setDescription("");
+        onSuccess(data.newBalance);
+      } else {
+        alert(data.message || "Failed to adjust balance");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-4 pt-2">
+      <div className="grid grid-cols-2 gap-3">
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-wider ml-1">Amount (₹)</label>
+          <input
+            type="number"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            placeholder="0.00"
+            className="w-full h-11 px-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.03] text-[var(--foreground)] text-sm focus:border-emerald-500/50 outline-none transition-all"
+          />
+        </div>
+        <div className="space-y-1.5">
+           <label className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-wider ml-1">Reason (Optional)</label>
+           <input
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Bonus, Refund, etc."
+            className="w-full h-11 px-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.03] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <button
+          onClick={() => handleAdjust("add")}
+          disabled={loading}
+          className="h-11 rounded-xl bg-emerald-500 text-white flex items-center justify-center gap-2 font-bold text-xs shadow-lg shadow-emerald-500/20 active:scale-95 transition-all disabled:opacity-50"
+        >
+          <Plus size={16} />
+          Add Money
+        </button>
+        <button
+          onClick={() => handleAdjust("remove")}
+          disabled={loading}
+          className="h-11 rounded-xl bg-rose-500 text-white flex items-center justify-center gap-2 font-bold text-xs shadow-lg shadow-rose-500/20 active:scale-95 transition-all disabled:opacity-50"
+        >
+          <Minus size={16} />
+          Remove Money
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ================= HELPERS ================= */

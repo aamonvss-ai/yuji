@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import QRCode from "qrcode";
-import { Mail, Phone, User, Hash } from "lucide-react";
+import { Mail, Phone, User, Hash, Wallet } from "lucide-react";
+
 
 export default function ReviewAndPaymentStep({
   step,
@@ -103,14 +104,30 @@ export default function ReviewAndPaymentStep({
             <h3 className="text-lg font-semibold mb-4">Choose Payment Method</h3>
 
             <div className="space-y-3">
-              {/* Wallet (disabled) */}
+              {/* Wallet Button */}
               <button
-                disabled
-                className="w-full p-4 rounded-xl border border-gray-700 opacity-50 cursor-not-allowed flex justify-between"
+                onClick={() => {
+                  if (walletBalance < totalPrice) return;
+                  setPaymentMethod("wallet");
+                }}
+                className={`w-full p-4 rounded-xl border-2 text-left transition-all flex items-center justify-between
+                  ${paymentMethod === "wallet"
+                    ? "border-[var(--accent)] bg-[var(--accent)]/15"
+                    : "border-gray-700 hover:border-gray-500"
+                  } ${walletBalance < totalPrice ? "opacity-50 cursor-not-allowed" : ""}`}
               >
-                <span className="font-medium">Wallet</span>
-                <span className="text-sm">₹{walletBalance}</span>
+                <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded-lg ${paymentMethod === "wallet" ? "bg-[var(--accent)] text-black" : "bg-white/5 text-gray-400"}`}>
+                    <Wallet size={18} />
+                  </div>
+                  <div>
+                    <p className="font-bold text-sm">Wallet Balance</p>
+                    <p className="text-xs opacity-60">Pay with your funds</p>
+                  </div>
+                </div>
+                <span className="font-black text-sm">₹{walletBalance.toFixed(2)}</span>
               </button>
+
 
               {/* UPI */}
               <button

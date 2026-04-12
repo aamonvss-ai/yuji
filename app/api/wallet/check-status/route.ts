@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/mongodb";   // ✅ Your correct path
-import User from "@/models/User";            // Make sure this path is correct
+import { connectDB } from "@/lib/mongodb";
+import User from "@/models/User";
+import WalletTransaction from "@/models/WalletTransaction";
+import crypto from "crypto";
 
 export async function POST(req: Request) {
   try {
-    await connectDB(); // 🔥 required for DB operations
+    await connectDB();
 
     const { orderId, userId } = await req.json();
 
@@ -13,6 +15,20 @@ export async function POST(req: Request) {
         { success: false, message: "Missing orderId or userId" },
         { status: 400 }
       );
+    }
+
+    // 1. Check if this order was already processed to prevent double-crediting
+    const existingTx = await WalletTransaction.findOne({
+      "metadata.gatewayOrderId": orderId,
+      status: "success",
+    });
+
+    if (existingTx) {
+      return NextResponse.json({
+        success: true,
+        message: "Payment already processed",
+        amount: existingTx.amount,
+      });
     }
 
     const formData = new URLSearchParams();
@@ -28,7 +44,6 @@ export async function POST(req: Request) {
     const data = await resp.json();
     console.log("Gateway Response:", data);
 
-    // 💳 Gateway success logic
     const gatewaySuccess =
       data?.status == true ||
       data?.result?.txnStatus == "COMPLETED" ||
@@ -50,7 +65,7 @@ export async function POST(req: Request) {
       });
     }
 
-    // 💰 Update User Wallet
+    // 2. Start Wallet Update
     const user = await User.findOne({ userId });
 
     if (!user) {
@@ -60,8 +75,25 @@ export async function POST(req: Request) {
       );
     }
 
+    // 3. Create a success transaction record
+    const transactionId = "TXN" + crypto.randomBytes(6).toString("hex").toUpperCase();
+
+    await WalletTransaction.create({
+      transactionId,
+      userId,
+      amount,
+      type: "topup",
+      status: "success",
+      description: `Wallet top-up via UPI`,
+      metadata: {
+        gatewayOrderId: orderId,
+        paymentMethod: "upi",
+      },
+    });
+
+    // 4. Update user wallet balance
     user.wallet = (user.wallet || 0) + amount;
-    user.order = (user.order || 0) + 1;
+    user.order = (user.order || 0) + 1; // Increment general success order count
 
     await user.save();
 
@@ -79,3 +111,4 @@ export async function POST(req: Request) {
     );
   }
 }
+

@@ -53,7 +53,12 @@ export default function Header() {
         if (data.success) {
           setUser(data.user);
           setImgError(false); // Reset error on new user
+          // Sync wallet balance to localStorage for other components
+          if (data.user.wallet !== undefined) {
+             localStorage.setItem("walletBalance", data.user.wallet.toString());
+          }
         } else {
+
           // Clear everything if token is invalid
           const keysToRemove = ["token", "email", "phone", "userName", "userId", "avatar", "walletBalance"];
           keysToRemove.forEach(key => localStorage.removeItem(key));

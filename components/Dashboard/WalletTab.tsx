@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { FaWallet, FaGooglePay, FaBitcoin } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiPlus, FiArrowRight, FiCheckCircle } from "react-icons/fi";
+import { History } from "lucide-react";
+
 
 interface WalletTabProps {
   walletBalance: number;
@@ -19,15 +21,38 @@ export default function WalletTab({
   const [method, setMethod] = useState("upi");
   const [loading, setLoading] = useState(false);
   const [storedPhone, setStoredPhone] = useState("");
+  const [transactions, setTransactions] = useState<any[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(true);
 
   const quickAmounts = ["100", "500", "1000", "2000", "5000"];
 
   useEffect(() => {
     const phone = localStorage.getItem("phone");
     if (phone) setStoredPhone(phone);
+    fetchTransactions();
   }, []);
 
+  const fetchTransactions = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const res = await fetch("/api/wallet/transactions", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (data.success) {
+        setTransactions(data.transactions);
+      }
+    } catch (err) {
+      console.error("Failed to fetch transactions", err);
+    } finally {
+      setHistoryLoading(false);
+    }
+  };
+
   const handleProceed = async () => {
+
     if (!amount || Number(amount) < 1) {
       setAmountError("Amount must be at least ₹1");
       return;
@@ -221,6 +246,83 @@ export default function WalletTab({
           </div>
         </div>
       </div>
+
+      {/* ================= TRANSACTION HISTORY ================= */}
+      <div className="p-8 rounded-[2rem] bg-[var(--card)] border border-[var(--border)] shadow-xl space-y-6">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-bold">Transaction History</h3>
+          <button 
+            onClick={fetchTransactions}
+            className="text-xs font-bold text-[var(--accent)] hover:underline"
+          >
+            Refresh
+          </button>
+        </div>
+
+        {historyLoading ? (
+          <div className="flex flex-col items-center py-12 gap-4">
+            <div className="w-8 h-8 border-3 border-[var(--accent)]/30 border-t-[var(--accent)] rounded-full animate-spin" />
+            <p className="text-sm font-bold text-[var(--muted)]">Loading transactions...</p>
+          </div>
+        ) : transactions.length === 0 ? (
+          <div className="text-center py-12 space-y-3">
+            <div className="mx-auto w-12 h-12 rounded-2xl bg-[var(--background)] flex items-center justify-center text-[var(--muted)]">
+               <History size={24} />
+            </div>
+            <p className="text-sm font-bold text-[var(--muted)]">No transactions found</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="text-[10px] font-black uppercase tracking-widest text-[var(--muted)] border-b border-[var(--border)]">
+                  <th className="pb-4 px-2">Type</th>
+                  <th className="pb-4 px-2">Amount</th>
+                  <th className="pb-4 px-2">Description</th>
+                  <th className="pb-4 px-2">Date</th>
+                  <th className="pb-4 px-2 text-right">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[var(--border)]">
+                {transactions.map((tx) => (
+                  <tr key={tx._id} className="group hover:bg-[var(--accent)]/[0.02]">
+                    <td className="py-4 px-2">
+                       <span className={`text-[10px] font-black uppercase px-2 py-1 rounded-md ${
+                        tx.type === "topup" ? "bg-green-500/10 text-green-500" :
+                        tx.type === "spend" ? "bg-blue-500/10 text-blue-500" :
+                        "bg-orange-500/10 text-orange-500"
+                      }`}>
+                        {tx.type}
+                      </span>
+                    </td>
+                    <td className="py-4 px-2">
+                      <span className={`font-bold ${tx.type === "topup" ? "text-green-500" : "text-[var(--foreground)]"}`}>
+                        {tx.type === "topup" ? "+" : "-"}₹{tx.amount}
+                      </span>
+                    </td>
+                    <td className="py-4 px-2 text-sm font-medium text-[var(--muted)]">
+                      {tx.description}
+                    </td>
+                    <td className="py-4 px-2 text-xs font-bold text-[var(--muted)]">
+                      {new Date(tx.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="py-4 px-2 text-right">
+                      <span className={`text-[10px] font-bold uppercase ${
+                        tx.status === "success" ? "text-green-500" :
+                        tx.status === "pending" ? "text-orange-500" :
+                        "text-red-500"
+                      }`}>
+                        ● {tx.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
+
   );
 }

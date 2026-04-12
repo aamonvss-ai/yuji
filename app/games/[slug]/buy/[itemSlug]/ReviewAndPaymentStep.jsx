@@ -4,7 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import QRCode from "qrcode";
 import logo from "@/public/logo.png";
-import { Mail, Phone, User, Hash, MapPin } from "lucide-react";
+import { Mail, Phone, User, Hash, MapPin, Wallet } from "lucide-react";
+
 
 export default function ReviewAndPaymentStep({
   step,
@@ -200,18 +201,28 @@ export default function ReviewAndPaymentStep({
 
             {/* Wallet Button */}
             <button
-              disabled
               onClick={() => {
                 if (walletBalance < totalPrice) return;
                 setPaymentMethod("wallet");
               }}
-              className={`w-full p-3 rounded-lg border text-left ${paymentMethod === "wallet"
-                ? "border-[var(--accent)] bg-[var(--accent)]/20"
-                : "border-gray-700"
+              className={`w-full p-4 rounded-xl border-2 text-left transition-all flex items-center justify-between
+                ${paymentMethod === "wallet"
+                  ? "border-[var(--accent)] bg-[var(--accent)]/10"
+                  : "border-gray-700 hover:border-gray-500"
                 } ${walletBalance < totalPrice ? "opacity-50 cursor-not-allowed" : ""}`}
             >
-              Wallet (₹{walletBalance})
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-lg ${paymentMethod === "wallet" ? "bg-[var(--accent)] text-black" : "bg-white/5 text-gray-400"}`}>
+                   <Wallet size={18} />
+                </div>
+                <div>
+                  <p className="font-bold text-sm">Wallet Balance</p>
+                  <p className="text-xs opacity-60">Pay using your loaded balance</p>
+                </div>
+              </div>
+              <span className="font-black">₹{walletBalance.toFixed(2)}</span>
             </button>
+
 
             {walletBalance < totalPrice && (
               <p className="text-red-400 text-xs mt-1">
