@@ -25,7 +25,7 @@ export default function HomeQuickActions() {
     },
     {
       name: "Pass",
-      href: "/games/membership/silver-membership",
+      href: "/games/silver-membership",
       icon: Crown,
       delay: "0.15s",
       color: "text-amber-500",

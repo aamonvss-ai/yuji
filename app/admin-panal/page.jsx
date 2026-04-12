@@ -189,8 +189,8 @@ export default function AdminPanalPage() {
                       <ActionButton
                         href={
                           activeTab === "reseller"
-                            ? "/games/membership/reseller-membership"
-                            : "/games/membership/silver-membership"
+                            ? "/games/reseller-membership"
+                            : "/games/silver-membership"
                         }
                         label={
                           isSilver && activeTab === "silver"

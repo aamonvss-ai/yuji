@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import QRCode from "qrcode";
 import logo from "@/public/logo.png";
-import { Mail, Phone, User, Hash, MapPin, Wallet } from "lucide-react";
+import { Mail, Phone, User, Hash, MapPin, Wallet, QrCode, Lock } from "lucide-react";
 
 
 export default function ReviewAndPaymentStep({
@@ -131,65 +131,65 @@ export default function ReviewAndPaymentStep({
           </div>
 
           {/* User Contact */}
-          <div className="bg-[var(--card)]/40 p-5 rounded-2xl border border-[var(--border)] shadow-sm">
-            <h3 className="font-bold text-base mb-4 flex items-center gap-2">
-              <span className="w-1.5 h-4 bg-[var(--accent)] rounded-full" />
+          <div className="bg-[var(--card)]/40 p-4 rounded-2xl border border-[var(--border)] shadow-sm">
+            <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
+              <span className="w-1 h-3 bg-[var(--accent)] rounded-full" />
               Your Details
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-black/30 border border-white/5 group hover:border-[var(--accent)] transition-colors">
-                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-[var(--accent)]">
-                  <Mail size={18} />
+            <div className="flex flex-wrap sm:flex-nowrap gap-3">
+              <div className="flex-1 flex items-center gap-2 p-2 rounded-xl bg-black/20 border border-white/5 min-w-[140px]">
+                <div className="w-8 h-8 shrink-0 rounded-lg bg-white/5 flex items-center justify-center text-[var(--accent)]">
+                  <Mail size={14} />
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="text-[10px] text-[var(--muted)] uppercase font-bold tracking-wider">Email</span>
-                  <span className="font-semibold text-sm truncate">{userEmail || "Not provided"}</span>
+                  <span className="text-[8px] text-[var(--muted)] uppercase font-bold tracking-wider">Email</span>
+                  <span className="font-semibold text-[11px] truncate">{userEmail || "Not provided"}</span>
                 </div>
               </div>
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-black/30 border border-white/5 group hover:border-[var(--accent)] transition-colors">
-                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-[var(--accent)]">
-                  <Phone size={18} />
+              <div className="flex-1 flex items-center gap-2 p-2 rounded-xl bg-black/20 border border-white/5 min-w-[140px]">
+                <div className="w-8 h-8 shrink-0 rounded-lg bg-white/5 flex items-center justify-center text-[var(--accent)]">
+                  <Phone size={14} />
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="text-[10px] text-[var(--muted)] uppercase font-bold tracking-wider">Phone</span>
-                  <span className="font-semibold text-sm">{userPhone || "Not provided"}</span>
+                  <span className="text-[8px] text-[var(--muted)] uppercase font-bold tracking-wider">Phone</span>
+                  <span className="font-semibold text-[11px]">{userPhone || "Not provided"}</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Game Details */}
-          <div className="bg-[var(--card)]/40 p-5 rounded-2xl border border-[var(--border)] shadow-sm">
-            <h3 className="font-bold text-base mb-4 flex items-center gap-2">
-              <span className="w-1.5 h-4 bg-[var(--accent)] rounded-full" />
+          <div className="bg-[var(--card)]/40 p-4 rounded-2xl border border-[var(--border)] shadow-sm">
+            <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
+              <span className="w-1 h-3 bg-[var(--accent)] rounded-full" />
               Game Info
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-black/30 border border-white/5 group hover:border-[var(--accent)] transition-colors">
-                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-[var(--accent)]">
-                  <User size={18} />
+            <div className="flex flex-wrap sm:flex-nowrap gap-2">
+              <div className="flex-1 flex items-center gap-2 p-2 rounded-xl bg-black/20 border border-white/5 min-w-[100px]">
+                <div className="w-8 h-8 shrink-0 rounded-lg bg-white/5 flex items-center justify-center text-[var(--accent)]">
+                  <User size={14} />
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="text-[10px] text-[var(--muted)] uppercase font-bold tracking-wider">Username</span>
-                  <span className="font-semibold text-sm truncate">{reviewData.userName}</span>
+                  <span className="text-[8px] text-[var(--muted)] uppercase font-bold tracking-wider">User</span>
+                  <span className="font-semibold text-[11px] truncate">{reviewData.userName}</span>
                 </div>
               </div>
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-black/30 border border-white/5 group hover:border-[var(--accent)] transition-colors">
-                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-[var(--accent)]">
-                  <Hash size={18} />
+              <div className="flex-1 flex items-center gap-2 p-2 rounded-xl bg-black/20 border border-white/5 min-w-[100px]">
+                <div className="w-8 h-8 shrink-0 rounded-lg bg-white/5 flex items-center justify-center text-[var(--accent)]">
+                  <Hash size={14} />
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="text-[10px] text-[var(--muted)] uppercase font-bold tracking-wider">User ID</span>
-                  <span className="font-semibold text-sm">{reviewData.playerId}</span>
+                  <span className="text-[8px] text-[var(--muted)] uppercase font-bold tracking-wider">ID</span>
+                  <span className="font-semibold text-[11px]">{reviewData.playerId}</span>
                 </div>
               </div>
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-black/30 border border-white/5 group hover:border-[var(--accent)] transition-colors">
-                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-[var(--accent)]">
-                  <MapPin size={18} />
+              <div className="flex-1 flex items-center gap-2 p-2 rounded-xl bg-black/20 border border-white/5 min-w-[100px]">
+                <div className="w-8 h-8 shrink-0 rounded-lg bg-white/5 flex items-center justify-center text-[var(--accent)]">
+                  <MapPin size={14} />
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="text-[10px] text-[var(--muted)] uppercase font-bold tracking-wider">Zone ID</span>
-                  <span className="font-semibold text-sm">{reviewData.zoneId}</span>
+                  <span className="text-[8px] text-[var(--muted)] uppercase font-bold tracking-wider">Zone</span>
+                  <span className="font-semibold text-[11px]">{reviewData.zoneId}</span>
                 </div>
               </div>
             </div>
@@ -213,7 +213,7 @@ export default function ReviewAndPaymentStep({
             >
               <div className="flex items-center gap-3">
                 <div className={`p-2 rounded-lg ${paymentMethod === "wallet" ? "bg-[var(--accent)] text-black" : "bg-white/5 text-gray-400"}`}>
-                   <Wallet size={18} />
+                  <Wallet size={18} />
                 </div>
                 <div>
                   <p className="font-bold text-sm">Wallet Balance</p>
@@ -233,23 +233,43 @@ export default function ReviewAndPaymentStep({
             {/* UPI Button */}
             <button
               onClick={handleUPI}
-              className={`w-full mt-3 p-3 rounded-lg border text-left ${paymentMethod === "upi"
-                ? "border-[var(--accent)] bg-[var(--accent)]/20"
-                : "border-gray-700"
+              className={`w-full mt-3 p-4 rounded-xl border-2 text-left transition-all flex items-center justify-between
+                ${paymentMethod === "upi"
+                  ? "border-[var(--accent)] bg-[var(--accent)]/10"
+                  : "border-gray-700 hover:border-gray-500"
                 }`}
             >
-              Pay with UPI
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-lg ${paymentMethod === "upi" ? "bg-[var(--accent)] text-black" : "bg-white/5 text-gray-400"}`}>
+                  <QrCode size={18} />
+                </div>
+                <div>
+                  <p className="font-bold text-sm">Pay with UPI</p>
+                  <p className="text-xs opacity-60">Instant payment via any UPI app</p>
+                </div>
+              </div>
             </button>
           </div>
 
           {/* Price Summary */}
           <div className="bg-black/20 p-4 rounded-xl border border-gray-700">
-            <h3 className="font-semibold mb-2">Order Summary</h3>
-            <div className="flex items-center justify-between">
-              <p>Price: ₹{price}</p>
-              <p>Discount: -₹{discount}</p>
+            <h3 className="font-bold text-sm mb-3 flex items-center gap-2 text-[var(--muted)] uppercase tracking-widest">
+              <span className="w-1 h-3 bg-[var(--accent)] rounded-full" />
+              Order Summary
+            </h3>
+            <div className="flex items-center justify-between text-sm mb-1 px-1">
+              <span className="text-[var(--muted)]">Base Price</span>
+              <span className="font-bold">₹{price}</span>
             </div>
-            <p className="text-lg font-bold mt-2">Total: ₹{totalPrice}</p>
+            <div className="flex items-center justify-between text-sm mb-3 px-1">
+              <span className="text-green-500">Discount Applied</span>
+              <span className="font-bold text-green-500">-₹{discount}</span>
+            </div>
+
+            <div className="flex items-center justify-between bg-white/[0.03] p-3 rounded-xl border border-white/5 mb-4">
+              <span className="text-xs font-black uppercase tracking-tighter italic">Total Amount</span>
+              <span className="text-xl font-black text-[var(--accent)] italic">₹{totalPrice}</span>
+            </div>
 
             <button
               onClick={handleProceed}
@@ -268,7 +288,10 @@ export default function ReviewAndPaymentStep({
                   Redirecting...
                 </>
               ) : (
-                "Pay Now"
+                <>
+                  <Lock size={16} />
+                  <span>Pay Now</span>
+                </>
               )}
             </button>
           </div>

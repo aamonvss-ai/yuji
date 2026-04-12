@@ -2,6 +2,7 @@ import HelpImagePopup from "../../../../../components/HelpImage/HelpImagePopup";
 import RecentVerifiedPlayers from "../../../../region/RecentVerifiedPlayers";
 
 export default function ValidationStep({
+  game,
   playerId,
   setPlayerId,
   zoneId,
@@ -20,18 +21,20 @@ export default function ValidationStep({
       <input
         value={playerId}
         onChange={(e) => setPlayerId(e.target.value)}
-        placeholder="Enter player ID"
+        placeholder={game?.inputFieldOne || "Enter player ID"}
         className="p-3 rounded-lg bg-black/20 border border-gray-700 w-full"
         disabled={loading}
       />
 
-      <input
-        value={zoneId}
-        onChange={(e) => setZoneId(e.target.value)}
-        placeholder="Enter zone ID"
-        className="p-3 rounded-lg bg-black/20 border border-gray-700 w-full"
-        disabled={loading}
-      />
+      {(game?.inputFieldTwo || (game?.inputFieldTwoOption && game.inputFieldTwoOption.length > 0)) && (
+        <input
+          value={zoneId}
+          onChange={(e) => setZoneId(e.target.value)}
+          placeholder={game?.inputFieldTwo || "Enter zone ID"}
+          className="p-3 rounded-lg bg-black/20 border border-gray-700 w-full"
+          disabled={loading}
+        />
+      )}
 
       <button
         onClick={onValidate}

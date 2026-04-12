@@ -314,7 +314,7 @@ export default function GamesPage() {
                 {memberships.items.map((plan) => (
                   <Link
                     key={plan.slug}
-                    href={`/games/membership/${plan.slug}`}
+                    href={`/games/${plan.slug}`}
                     className="group relative flex items-center p-4 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--accent)]/30 hover:bg-[var(--card)]/80 transition-all duration-500 shadow-sm"
                   >
                     <div className="relative w-12 h-12 mr-4 group-hover:scale-110 transition-transform duration-500">
@@ -324,6 +324,37 @@ export default function GamesPage() {
                       <p className="text-[8px] font-black text-[var(--accent)] uppercase tracking-widest mb-0.5">{plan.duration}</p>
                       <h3 className="text-xs font-black text-[var(--foreground)] uppercase tracking-tight group-hover:text-[var(--accent)] transition-colors leading-none">
                         {plan.name}
+                      </h3>
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* OTT Subscriptions */}
+          {(activeTab === "all" || activeTab === "others") && otts?.items?.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+            >
+              <SectionHeader title={otts.title} count={otts.items.length} icon={FiZap} />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {otts.items.map((item) => (
+                  <Link
+                    key={item.slug}
+                    href={`/games/${item.slug}`}
+                    className="group relative flex items-center p-4 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--accent)]/30 hover:bg-[var(--card)]/80 transition-all duration-500 shadow-sm"
+                  >
+                    <div className="relative w-12 h-12 mr-4 group-hover:scale-110 transition-transform duration-500">
+                      <Image src={item.image} alt={item.name} fill className="object-cover rounded-lg" />
+                    </div>
+                    <div className="relative z-10">
+                      <p className="text-[8px] font-black text-[var(--accent)] uppercase tracking-widest mb-0.5">{item.category}</p>
+                      <h3 className="text-xs font-black text-[var(--foreground)] uppercase tracking-tight group-hover:text-[var(--accent)] transition-colors leading-none">
+                        {item.name}
                       </h3>
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />

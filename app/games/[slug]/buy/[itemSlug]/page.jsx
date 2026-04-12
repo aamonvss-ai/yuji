@@ -89,19 +89,29 @@ export default function BuyFlowPage() {
   /* ================= VALIDATE PLAYER ================= */
   const handleValidate = async () => {
     setError(""); // reset error
-    if (!playerId || !zoneId) {
-      setError("Please enter Player ID and Zone ID");
+
+    const isZoneRequired = !!(game?.inputFieldTwo || (game?.inputFieldTwoOption && game.inputFieldTwoOption.length > 0));
+
+    if (!playerId || (isZoneRequired && !zoneId)) {
+      setError(isZoneRequired ? "Please enter Player ID and Zone ID" : "Please enter Player ID");
       return;
     }
 
     setLoading(true);
 
-    if (game?.isValidationRequired === false) {
+    const isMLBB = 
+      slug?.includes("mlbb") || 
+      slug?.includes("mobile-legends") || 
+      slug?.includes("bundle") ||
+      game?.gameName?.toLowerCase().includes("mlbb") ||
+      game?.gameName?.toLowerCase().includes("bundle");
+
+    if (game?.isValidationRequired === false || !isMLBB) {
       setReviewData({
-        userName: "Manual Order",
-        region: "Manual",
+        userName: isMLBB ? "Manual Order" : (game?.gameName || "Game Order"),
+        region: "Global",
         playerId,
-        zoneId,
+        zoneId: zoneId || "0000",
       });
       setLoading(false);
       setStep(2);
@@ -120,6 +130,7 @@ export default function BuyFlowPage() {
       if (
         data?.success === 200 &&
         data?.data &&
+        data.data.valid !== false &&
         (data?.data?.username || data?.data?.region)
       ) {
         // Filter restricted regions for mobile-legends988
@@ -219,6 +230,7 @@ export default function BuyFlowPage() {
             {/* STEP 1 */}
             {step === 1 && (
               <ValidationStep
+                game={game}
                 playerId={playerId}
                 setPlayerId={setPlayerId}
                 zoneId={zoneId}

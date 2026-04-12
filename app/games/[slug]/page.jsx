@@ -31,8 +31,6 @@ export default function GameDetailPage() {
   const isBGMI =
     game?.gameName?.toLowerCase() === "pubg mobile" || game?.gameName?.toLowerCase() === "bgmi";
 
-  const isWWM =
-    slug?.toString().toLowerCase().startsWith("where-winds-meet");
 
   /* ================= FETCH GAME ================= */
   useEffect(() => {
@@ -114,17 +112,9 @@ export default function GameDetailPage() {
       image: item.itemImageId?.image || "",
     });
 
-    const isBGMI =
-      game?.gameName?.toLowerCase() === "pubg mobile" || game?.gameName?.toLowerCase() === "bgmi";
-
-    const basePath = isBGMI
-      ? `/games/pubg/${slug}/buy`
-      : isWWM
-        ? `/games/wwm/${slug}/buy`
-        : `/games/${slug}/buy`;
-
+    // GENERIC ROUTE
     router.push(
-      `${basePath}/${item.itemSlug}?${query.toString()}`
+      `/games/${slug}/buy/${item.itemSlug}?${query.toString()}`
     );
   };
 

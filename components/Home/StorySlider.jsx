@@ -52,7 +52,7 @@ const storyData = [
     badge: "VIP",
     color: "from-pink-500 to-rose-600",
     image: "/membership/silver-m.png",
-    link: "/games/membership/silver-membership",
+    link: "/games/silver-membership",
   },
 ];
 
