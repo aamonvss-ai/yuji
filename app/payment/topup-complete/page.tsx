@@ -83,21 +83,10 @@ export default function TopupComplete() {
 
   return (
     <div className="min-h-screen relative flex items-center justify-center bg-[var(--background)] px-4 overflow-hidden">
-      {/* Dynamic Background Elements */}
+      {/* Static Background Decor */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-15%] right-[-10%] w-[50%] h-[50%] bg-[var(--accent)]/10 rounded-full blur-[140px] animate-pulse" />
-        <div className="absolute bottom-[-15%] left-[-10%] w-[50%] h-[50%] bg-purple-500/10 rounded-full blur-[140px] animate-pulse" style={{ animationDelay: '2s' }} />
-
-        {/* Animated Particles */}
-        {[...Array(15)].map((_, i) => (
-          <motion.div
-            key={i}
-            custom={i}
-            variants={particleVariants}
-            animate="animate"
-            className="absolute left-1/2 top-1/2 w-1 h-1 rounded-full bg-[var(--accent)]/40"
-          />
-        ))}
+        <div className="absolute top-[-15%] right-[-10%] w-[50%] h-[50%] bg-[var(--accent)]/5 rounded-full blur-[140px]" />
+        <div className="absolute bottom-[-15%] left-[-10%] w-[50%] h-[50%] bg-purple-500/5 rounded-full blur-[140px]" />
       </div>
 
       <motion.div
@@ -124,16 +113,9 @@ export default function TopupComplete() {
                 className="flex flex-col items-center py-10"
               >
                 <div className="relative mb-10">
-                  <div className="w-24 h-24 rounded-3xl border-4 border-dashed border-[var(--accent)]/30 flex items-center justify-center animate-[spin_10s_linear_infinite]">
-                    <div className="w-16 h-16 rounded-2xl bg-[var(--accent)]/10 flex items-center justify-center animate-[spin_5s_linear_infinite_reverse]">
-                      <Loader2 className="w-10 h-10 animate-spin text-[var(--accent)]" />
-                    </div>
+                  <div className="w-24 h-24 rounded-3xl bg-[var(--accent)]/5 flex items-center justify-center">
+                    <Loader2 className="w-12 h-12 animate-spin text-[var(--accent)]" />
                   </div>
-                  <motion.div
-                    animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.2, 0.1] }}
-                    transition={{ repeat: Infinity, duration: 3 }}
-                    className="absolute inset-[-20%] bg-[var(--accent)] rounded-full -z-10 blur-2xl"
-                  />
                 </div>
 
                 <h1 className="text-3xl font-black text-[var(--foreground)] uppercase tracking-tight mb-4 italic">
@@ -167,27 +149,14 @@ export default function TopupComplete() {
                     <CheckCircle2 size={56} strokeWidth={2.5} />
                   </motion.div>
 
-                  {/* Confetti-like Celebration */}
-                  {[...Array(20)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ scale: 0, x: 0, y: 0 }}
-                      animate={{
-                        scale: [0, 1, 0],
-                        x: (Math.random() - 0.5) * 200,
-                        y: (Math.random() - 0.5) * 200,
-                        rotate: Math.random() * 360
-                      }}
-                      transition={{ duration: 1, delay: 0.4 + Math.random() * 0.5 }}
-                      className={`absolute left-1/2 top-1/2 w-2 h-2 rounded-sm ${['bg-emerald-500', 'bg-yellow-400', 'bg-blue-400', 'bg-pink-400'][i % 4]
-                        }`}
-                    />
-                  ))}
                   <motion.div
-                    animate={{ scale: [1, 2], opacity: [0.3, 0] }}
-                    transition={{ duration: 1.5, repeat: 1 }}
-                    className="absolute inset-0 bg-emerald-500 rounded-full -z-10 blur-xl"
-                  />
+                    initial={{ scale: 0, rotate: -45 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ type: "spring", damping: 15, stiffness: 100, delay: 0.2 }}
+                    className="w-28 h-28 rounded-[2rem] bg-emerald-500/10 border-4 border-emerald-500/20 flex items-center justify-center text-emerald-500 shadow-[0_20px_40px_rgba(16,185,129,0.1)]"
+                  >
+                    <CheckCircle2 size={56} strokeWidth={2.5} />
+                  </motion.div>
                 </div>
 
                 <div className="space-y-2 mb-10">

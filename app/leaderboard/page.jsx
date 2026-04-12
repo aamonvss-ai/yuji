@@ -136,9 +136,8 @@ export default function LeaderboardPage() {
               className="space-y-3"
             >
               {rest.map((item, index) => (
-                <motion.div
+                <div
                   key={index}
-                  variants={itemVariants}
                   className="group flex items-center justify-between p-4 px-6 bg-[var(--card)] border border-[var(--border)] rounded-2xl hover:border-[var(--accent)]/30 transition-all duration-300 shadow-sm"
                 >
                   <div className="flex items-center gap-4">
@@ -164,7 +163,7 @@ export default function LeaderboardPage() {
                       ₹{item.totalSpent.toLocaleString()}
                     </p>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </motion.div>
           </div>
@@ -214,7 +213,7 @@ function PodiumItem({ user, rank, color, icon, delay, isLarge }) {
       </div>
 
       {rank === 1 && (
-        <div className="absolute inset-0 rounded-2xl md:rounded-[2.5rem] bg-[var(--accent)]/5 animate-pulse -z-10" />
+        <div className="absolute inset-0 rounded-2xl md:rounded-[2.5rem] bg-[var(--accent)]/[0.03] -z-10" />
       )}
     </motion.div>
   );

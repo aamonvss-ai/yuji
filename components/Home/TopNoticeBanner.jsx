@@ -78,18 +78,11 @@ export default function TopNoticeBanner() {
 
             {/* Left Section: Icon & Content */}
             <div className="flex items-center gap-4 min-w-0 flex-1">
-              <motion.div
-                className="relative shrink-0"
-                animate={{
-                  scale: [1, 1.05, 1],
-                  filter: ["drop-shadow(0 0 0px var(--accent))", "drop-shadow(0 0 8px var(--accent))", "drop-shadow(0 0 0px var(--accent))"]
-                }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
+<div className="relative shrink-0">
                 <div className="p-2 rounded-xl bg-[var(--accent)]/10 border border-[var(--accent)]/30 text-[var(--accent)]">
                   <FaWhatsapp size={20} />
                 </div>
-              </motion.div>
+</div>
 
               <div className="flex flex-col min-w-0">
                 <AnimatePresence mode="wait">

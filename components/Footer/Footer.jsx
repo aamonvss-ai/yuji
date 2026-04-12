@@ -99,7 +99,7 @@ export default function Footer() {
           <div className="md:col-span-4 space-y-4">
             <Link href="/" className="inline-block group">
               <h2 className="text-2xl font-black tracking-tighter transition-transform duration-300 group-hover:scale-105">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#4f46e5] via-[#22d3ee] to-[#ec4899] bg-[length:200%_auto] animate-gradient-xy filter drop-shadow-[0_2px_10px_rgba(34,211,238,0.3)]">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#4f46e5] via-[#22d3ee] to-[#ec4899] filter drop-shadow-[0_2px_10px_rgba(34,211,238,0.2)]">
                   {BRAND.name}
                 </span>
                 <span className="text-[var(--accent)] drop-shadow-[0_0_12px_var(--accent)]">.</span>
@@ -171,7 +171,7 @@ export default function Footer() {
                 </p>
                 <div className="pt-0.5">
                   <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[8.5px] font-bold bg-green-500/10 text-green-500 border border-green-500/20 whitespace-nowrap">
-                    <span className="w-1 h-1 rounded-full bg-green-500 mr-1 animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5" />
                     SERVICES ACTIVE
                   </span>
                 </div>
@@ -201,7 +201,7 @@ export default function Footer() {
           >
             <div className="flex items-center gap-2.5 px-4 py-2 bg-[var(--background)]/40 rounded-full border border-[var(--border)] backdrop-blur-sm group hover:border-[var(--accent)]/30 transition-all duration-300">
               <span className="text-[10px] font-bold text-[var(--muted)]/80">Made with</span>
-              <FiHeart className="text-red-500 w-3.5 h-3.5 animate-pulse fill-red-500/20" />
+              <FiHeart className="text-red-500 w-3.5 h-3.5 fill-red-500/20" />
               <span className="text-[10px] font-bold text-[var(--muted)]/80">by</span>
               <Link
                 href={TK_CONTACT_LINK}

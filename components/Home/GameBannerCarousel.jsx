@@ -69,19 +69,19 @@ export default function GameBannerCarousel() {
       opacity: 1,
       scale: 1,
       transition: {
-        x: { type: "spring", stiffness: 300, damping: 30 },
-        opacity: { duration: 0.5 },
-        scale: { duration: 0.6 }
+        x: { duration: 0.5, ease: "easeOut" },
+        opacity: { duration: 0.4 },
+        scale: { duration: 0.5 }
       }
     },
     exit: (direction) => ({
       zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
+      x: direction < 0 ? 800 : -800,
       opacity: 0,
-      scale: 0.9,
+      scale: 0.95,
       transition: {
-        x: { type: "spring", stiffness: 300, damping: 30 },
-        opacity: { duration: 0.5 }
+        x: { duration: 0.5, ease: "easeIn" },
+        opacity: { duration: 0.3 }
       }
     })
   };

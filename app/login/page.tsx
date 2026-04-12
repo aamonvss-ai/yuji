@@ -62,12 +62,12 @@ export default function AuthPage() {
 
       {/* --- Premium Background System --- */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* Cinematic Orbs - Simplified for performance */}
+        {/* Cinematic Orbs - Static for performance */}
         <div
-          className="absolute -top-[20%] -left-[20%] w-full h-full bg-gradient-to-br from-[var(--accent)] to-transparent blur-[120px] rounded-full opacity-10 animate-[pulse_8s_ease-in-out_infinite] will-change-transform"
+          className="absolute -top-[20%] -left-[20%] w-full h-full bg-gradient-to-br from-[var(--accent)] to-transparent blur-[120px] rounded-full opacity-[0.07]"
         />
         <div
-          className="absolute -bottom-[20%] -right-[20%] w-full h-full bg-gradient-to-tl from-[#7dd3fc] to-transparent blur-[100px] rounded-full opacity-10 animate-[pulse_10s_ease-in-out_infinite] will-change-transform"
+          className="absolute -bottom-[20%] -right-[20%] w-full h-full bg-gradient-to-tl from-[#7dd3fc] to-transparent blur-[100px] rounded-full opacity-[0.05]"
         />
 
         {/* Subtle Overlay - CSS based instead of SVG filter for low-end device support */}
@@ -166,8 +166,8 @@ export default function AuthPage() {
                       {[0, 1, 2].map((i) => (
                         <motion.div
                           key={i}
-                          animate={{ scale: [1, 1.5, 1], opacity: [0.3, 1, 0.3] }}
-                          transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
+                          animate={{ opacity: [0.3, 1, 0.3] }}
+                          transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.3 }}
                           className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"
                         />
                       ))}

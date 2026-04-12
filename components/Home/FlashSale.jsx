@@ -12,7 +12,7 @@ const flashSaleData = [
         name: "Weekly Pass",
         game: "MLBB",
         image: "/game-assets/weeklypass-new.jpeg",
-        price: "₹143",
+        price: "₹148",
         originalPrice: "₹175",
         slug: "mobile-legends988?type=weekly-pass",
         badge: "Hot"
@@ -23,7 +23,7 @@ const flashSaleData = [
         name: "Weekly Bundle",
         game: "MLBB",
         image: "/game-assets/elite-bundle.jpeg",
-        price: "₹79",
+        price: "₹81",
         originalPrice: "₹100",
         slug: "weeklymonthly-bundle931",
         badge: "Value"
@@ -64,14 +64,14 @@ export default function FlashSale() {
                     </div>
 
                     <div className="flex items-center gap-1.5 bg-[var(--foreground)]/[0.03] backdrop-blur-md border border-[var(--border)] px-2.5 py-1 rounded-xl shadow-sm">
-                        <FiClock className="text-amber-500 animate-pulse hidden sm:block" size={10} />
+                        <FiClock className="text-amber-500 hidden sm:block" size={10} />
                         <div className="flex items-center gap-1.5 font-black text-[10px] tabular-nums text-amber-500 uppercase tracking-tighter">
                             <span className="opacity-40 text-[8px] font-bold text-[var(--foreground)] mr-0.5 hidden md:block">Time left</span>
                             <div className="bg-amber-500/10 px-1 py-0.5 rounded-md">{String(timeLeft.hours).padStart(2, '0')}</div>
                             <span className="opacity-30 text-[var(--foreground)]">:</span>
                             <div className="bg-amber-500/10 px-1 py-0.5 rounded-md">{String(timeLeft.minutes).padStart(2, '0')}</div>
                             <span className="opacity-30 text-[var(--foreground)]">:</span>
-                            <div className="bg-rose-500/10 text-rose-500 px-1 py-0.5 rounded-md animate-pulse">{String(timeLeft.seconds).padStart(2, '0')}</div>
+                            <div className="bg-rose-500/10 text-rose-500 px-1 py-0.5 rounded-md">{String(timeLeft.seconds).padStart(2, '0')}</div>
                         </div>
                     </div>
                 </div>
@@ -80,12 +80,8 @@ export default function FlashSale() {
                 <div className="overflow-x-auto pb-4 custom-scrollbar-premium snap-x snap-mandatory">
                     <div className="flex gap-3 md:gap-4 px-1 md:justify-center min-w-max md:min-w-0">
                         {flashSaleData.map((item, index) => (
-                            <motion.div
+                            <div
                                 key={item.id}
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.4, delay: index * 0.05 }}
-                                viewport={{ once: true }}
                                 className="snap-start"
                             >
                                 <Link
@@ -105,12 +101,9 @@ export default function FlashSale() {
                                             src={item.image}
                                             alt={item.name}
                                             fill
-                                            className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                            className="object-cover transition-transform duration-700 group-hover:scale-105"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-40 transition-opacity group-hover:opacity-60" />
-
-                                        {/* Shimmer Overlay */}
-                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] pointer-events-none" />
                                     </div>
 
                                     {/* Compact Info */}
@@ -130,7 +123,7 @@ export default function FlashSale() {
                                         </div>
                                     </div>
                                 </Link>
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
                 </div>

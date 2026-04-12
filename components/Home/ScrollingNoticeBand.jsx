@@ -73,10 +73,8 @@ export default function ScrollingNoticeBand() {
             >
               {item.type === "status" ? (
                 <div className="flex items-center gap-3">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: item.color }}></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: item.color }}></span>
-                  </span>
+                  <span className="relative flex h-2.5 w-2.5 rounded-full" style={{ backgroundColor: item.color }}></span>
+
                   <span className="text-[11px] font-black tracking-[0.2em] text-[#22c55e]">
                     {item.label}
                   </span>

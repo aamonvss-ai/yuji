@@ -655,21 +655,7 @@ html[data-theme="glass"] .card {
 }
 
 
-@keyframes gradient-xy {
 
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-.animate-gradient-xy {
-  animation: gradient-xy 5s ease infinite;
-}
 
 @keyframes fadeUp {
   from {
