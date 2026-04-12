@@ -2,11 +2,12 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   const { amount, mobile } = await req.json();
+  const customerMobile = mobile || "0000000000";
 
   const orderId = "ORD" + Date.now(); // unique
 
   const formData = new URLSearchParams();
-  formData.append("customer_mobile", mobile);
+  formData.append("customer_mobile", customerMobile);
   formData.append("user_token", process.env.XTRA_USER_TOKEN!);
   formData.append("amount", amount.toString());
   formData.append("order_id", orderId);

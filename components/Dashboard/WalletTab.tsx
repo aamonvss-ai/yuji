@@ -21,6 +21,7 @@ export default function WalletTab({
   const [method, setMethod] = useState("upi");
   const [loading, setLoading] = useState(false);
   const [storedPhone, setStoredPhone] = useState("");
+  const [storedEmail, setStoredEmail] = useState("");
   const [transactions, setTransactions] = useState<any[]>([]);
   const [historyLoading, setHistoryLoading] = useState(true);
 
@@ -28,7 +29,9 @@ export default function WalletTab({
 
   useEffect(() => {
     const phone = localStorage.getItem("phone");
+    const email = localStorage.getItem("email");
     if (phone) setStoredPhone(phone);
+    if (email) setStoredEmail(email);
     fetchTransactions();
   }, []);
 
@@ -63,10 +66,7 @@ export default function WalletTab({
       return;
     }
 
-    if (!storedPhone) {
-      alert("Phone number not found. Please sign in again.");
-      return;
-    }
+    // Removed mandatory phone check as requested by user
 
     setLoading(true);
     const userId = localStorage.getItem("userId");
@@ -77,7 +77,8 @@ export default function WalletTab({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount: Number(amount),
-          mobile: storedPhone,
+          mobile: storedPhone || "0000000000", // Fallback for gateway
+          email: storedEmail,
           userId,
         }),
       });

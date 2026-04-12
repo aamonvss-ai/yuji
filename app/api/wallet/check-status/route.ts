@@ -91,11 +91,16 @@ export async function POST(req: Request) {
       },
     });
 
-    // 4. Update user wallet balance
-    user.wallet = (user.wallet || 0) + amount;
-    user.order = (user.order || 0) + 1; // Increment general success order count
-
-    await user.save();
+    // 4. ATOMIC BALANCE UPDATE
+    await User.findOneAndUpdate(
+      { userId },
+      { 
+        $inc: { 
+          wallet: amount,
+          order: 1 
+        } 
+      }
+    );
 
     return NextResponse.json({
       success: true,

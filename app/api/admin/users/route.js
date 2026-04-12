@@ -55,10 +55,14 @@ export async function GET(req) {
       if (to) filter.createdAt.$lte = new Date(to);
     }
 
+    /* ================= SORTING ================= */
+    const sortField = searchParams.get("sort") === "wallet" ? "wallet" : "createdAt";
+    const sortOrder = -1;
+
     /* ================= QUERY ================= */
     const [users, total] = await Promise.all([
       User.find(filter, "-password")
-        .sort({ createdAt: -1 })
+        .sort({ [sortField]: sortOrder })
         .skip(skip)
         .limit(limit)
         .lean(),

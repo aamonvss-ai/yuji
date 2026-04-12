@@ -249,9 +249,21 @@ export async function POST(req: Request) {
 
     /* ---------- RESOLVE PAYMENT FLOW ---------- */
     if (paymentMethod === "wallet") {
-      // 1. Deduct balance
-      user.wallet -= price;
-      await user.save();
+      // 1. ATOMIC BALANCE DEDUCTION (Prevents race conditions)
+      const updatedUser = await User.findOneAndUpdate(
+        { userId, wallet: { $gte: price } },
+        { $inc: { wallet: -price } },
+        { new: true }
+      );
+
+      if (!updatedUser) {
+        // Rollback order if balance check fails at the last second
+        await Order.deleteOne({ orderId });
+        return NextResponse.json({
+          success: false,
+          message: "Insufficient wallet balance or concurrent request error",
+        });
+      }
 
       // 2. Record Wallet Transaction
       const WalletTransaction = (await import("@/models/WalletTransaction")).default;

@@ -23,9 +23,9 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
 
     const tabCards = [
         { key: "order", label: "Orders", label_alt: "Order History", value: "Archive", href: "/dashboard/order" },
-        // { key: "wallet", label: "Wallet", label_alt: "Balance", value: `₹${walletBalance}`, href: "/dashboard/wallet" },
+        { key: "wallet", label: "Wallet", label_alt: "Balance", value: `₹${walletBalance}`, href: "/dashboard/wallet" },
         { key: "support", label: "Support", label_alt: "Assistance", value: "Help ", href: "/dashboard/support" },
-        // { key: "account", label: "Account", label_alt: "Profile", value: "Settings", href: "/dashboard/account" },
+        { key: "account", label: "Account", label_alt: "Profile", value: "Settings", href: "/dashboard/account" },
     ];
 
     const handleLogout = () => {
@@ -59,19 +59,21 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                         </motion.div>
                     </div>
 
-                    <motion.div
+                    <motion.button
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="flex items-center gap-3 bg-[var(--card)]/30 backdrop-blur-md border border-[var(--border)] px-4 py-2 rounded-2xl"
+                        onClick={() => router.push("/dashboard/wallet")}
+                        className="flex items-center gap-3 bg-[var(--card)]/30 backdrop-blur-md border border-[var(--border)] px-4 py-2 rounded-2xl hover:bg-[var(--card)]/50 transition-all active:scale-95"
                     >
-                        <div className="flex flex-col">
+                        <div className="flex flex-col items-start">
                             <span className="text-[8px] uppercase font-black text-[var(--muted)] tracking-widest leading-none mb-1">Balance</span>
                             <div className="flex items-center gap-1.5 text-lg font-black text-emerald-500">
                                 <Wallet size={14} />
                                 <span>₹{walletBalance}</span>
                             </div>
                         </div>
-                    </motion.div>
+                        <ChevronRight size={14} className="text-[var(--muted)]" />
+                    </motion.button>
                 </div>
             </div>
 

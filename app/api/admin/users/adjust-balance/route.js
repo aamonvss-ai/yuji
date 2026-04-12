@@ -32,20 +32,21 @@ export async function PATCH(req) {
     }
 
     const adjAmount = Number(amount);
-    if (isNaN(adjAmount)) {
-      return Response.json({ message: "Invalid amount" }, { status: 400 });
+    if (isNaN(adjAmount) || adjAmount <= 0) {
+      return Response.json({ message: "Amount must be a positive number" }, { status: 400 });
     }
 
-    /* ================= UPDATE ================= */
-    if (action === "add") {
-      user.wallet = (user.wallet || 0) + adjAmount;
-    } else if (action === "remove") {
-      user.wallet = (user.wallet || 0) - adjAmount;
-    } else {
-      return Response.json({ message: "Invalid action" }, { status: 400 });
-    }
+    /* ================= ATOMIC UPDATE ================= */
+    const update =
+      action === "add" ? { $inc: { wallet: adjAmount } } : { $inc: { wallet: -adjAmount } };
 
-    await user.save();
+    const updatedUser = await User.findOneAndUpdate({ userId }, update, {
+      new: true,
+    });
+
+    if (!updatedUser) {
+      return Response.json({ message: "Failed to update balance" }, { status: 500 });
+    }
 
     /* ================= RECORD TRANSACTION ================= */
     const transactionId = "ADM" + crypto.randomBytes(6).toString("hex").toUpperCase();
@@ -64,7 +65,7 @@ export async function PATCH(req) {
 
     return Response.json({
       success: true,
-      newBalance: user.wallet,
+      newBalance: updatedUser.wallet,
     });
   } catch (err) {
     console.error(err);

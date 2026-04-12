@@ -83,10 +83,10 @@ export default function PaymentComplete() {
 
         {/* ACTION */}
         <button
-          onClick={() => window.close()}
+          onClick={() => window.location.href = "/dashboard/wallet"}
           className="mt-6 w-full rounded-xl bg-[var(--accent)] py-3 font-semibold text-black hover:opacity-90 transition"
         >
-          Close Page
+          Return to Dashboard
         </button>
       </div>
     </div>

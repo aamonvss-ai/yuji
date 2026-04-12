@@ -33,6 +33,7 @@ export default function WalletTransactionsTab() {
   const [usersList, setUsersList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState("wallet"); // "createdAt" or "wallet"
 
   const [page, setPage] = useState(1);
   const [limit] = useState(20);
@@ -49,7 +50,7 @@ export default function WalletTransactionsTab() {
     } else {
       fetchUsers();
     }
-  }, [page, limit, activeSubTab, search]);
+  }, [page, limit, activeSubTab, search, sortBy]);
 
   const fetchTransactions = async () => {
     try {
@@ -80,7 +81,7 @@ export default function WalletTransactionsTab() {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const res = await fetch(`/api/admin/users?page=${page}&limit=${limit}&search=${search}`, {
+      const res = await fetch(`/api/admin/users?page=${page}&limit=${limit}&search=${search}&sort=${sortBy}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -126,14 +127,28 @@ export default function WalletTransactionsTab() {
       </div>
 
       {activeSubTab === "balances" && (
-        <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/40" size={16} />
-          <input
-            value={search}
-            onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-            placeholder="Search user by name, email or ID..."
-            className="w-full h-11 pl-11 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
-          />
+        <div className="flex flex-col md:flex-row gap-3">
+          <div className="relative flex-1">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/40" size={16} />
+            <input
+              value={search}
+              onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+              placeholder="Search user by name, email or ID..."
+              className="w-full h-11 pl-11 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
+            />
+          </div>
+          
+          <button
+            onClick={() => setSortBy(sortBy === "wallet" ? "createdAt" : "wallet")}
+            className={`flex items-center gap-2 px-4 h-11 rounded-xl border transition-all text-xs font-bold uppercase tracking-wider ${
+              sortBy === "wallet" 
+              ? "bg-[var(--accent)]/10 border-[var(--accent)] text-[var(--accent)]" 
+              : "border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--muted)] hover:text-[var(--foreground)]"
+            }`}
+          >
+            <ArrowDownLeft size={16} className={sortBy === "wallet" ? "rotate-180" : ""} />
+            {sortBy === "wallet" ? "Sorted by Balance" : "Sort by Balance"}
+          </button>
         </div>
       )}
 
