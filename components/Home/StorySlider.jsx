@@ -77,17 +77,17 @@ export default function StorySlider() {
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                  className={`absolute -inset-[3px] rounded-[1.8rem] border border-dashed border-[var(--border)] opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                  className={`absolute -inset-[3px] rounded-full border border-dashed border-[var(--border)] opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
                 />
 
-                {/* Main Glass Squircle Container */}
-                <div className={`relative p-[2.5px] rounded-[1.6rem] transition-all duration-500 group-hover:scale-110 shadow-2xl overflow-hidden`}>
+                {/* Main Glass Circle Container */}
+                <div className={`relative p-[2.5px] rounded-full transition-all duration-500 group-hover:scale-110 shadow-2xl overflow-hidden`}>
 
                   {/* Theme Border Accent */}
                   <div className={`absolute inset-0 bg-gradient-to-tr ${item.color} opacity-30 group-hover:opacity-100 transition-opacity duration-500`} />
 
-                  <div className="relative p-[1.5px] rounded-[1.2rem] bg-[var(--card)]">
-                    <div className="relative w-[52px] h-[52px] md:w-[66px] md:h-[66px] rounded-[1.1rem] overflow-hidden bg-[var(--card)] mask-squircle shadow-inner border border-[var(--border)]">
+                  <div className="relative p-[1.5px] rounded-full bg-[var(--card)]">
+                    <div className="relative w-[52px] h-[52px] md:w-[66px] md:h-[66px] rounded-full overflow-hidden bg-[var(--card)] shadow-inner border border-[var(--border)]">
                       <Image
                         src={item.image}
                         alt={item.title}

@@ -302,6 +302,7 @@ export default function Header() {
                         <div className="grid grid-cols-1 gap-0.5">
                           {[
                             { href: "/dashboard", label: "Dashboard", Icon: LayoutDashboard },
+                            { href: "/dashboard/wallet", label: "Wallet", Icon: Wallet },
                             { href: "/dashboard/order", label: "My Orders", Icon: History },
                             { href: "/leaderboard", label: "Leaderboard", Icon: Award },
                             { href: "/dashboard/support", label: "Support", Icon: Headphones },

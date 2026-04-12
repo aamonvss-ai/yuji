@@ -131,15 +131,7 @@ export default function GameBannerCarousel() {
                   </h2>
                 </motion.div>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4, duration: 0.5 }}
-                  className="mt-2"
-                >
-                  {/* Subtle decorative line instead of text */}
-                  <div className="w-20 h-1 bg-[var(--accent)] rounded-full shadow-[0_0_10px_var(--accent)]" />
-                </motion.div>
+
               </div>
             </div>
           </motion.div>

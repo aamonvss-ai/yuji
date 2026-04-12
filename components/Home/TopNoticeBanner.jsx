@@ -12,22 +12,25 @@ const MESSAGE_DURATION = 5000; // 5 seconds per message
 const WHATSAPP_CHANNEL_URL =
   process.env.NEXT_PUBLIC_WHATSAPP_STORE_LINK || "";
 
-// ✅ Rotating messages
+// ✅ Rotating messages with themes
 const MESSAGES = [
   {
-    title: "Join our WhatsApp Channel",
-    subtitle: "Get instant offers, updates & announcements",
-    badge: "VIP ACCESS"
+    title: "Join VIP WhatsApp Channel",
+    subtitle: "Get exclusive offers & instant updates",
+    badge: "OFFER",
+    color: "from-[#0b3c3c] to-[#25d366]" // Deep Contrast WhatsApp Green
   },
   {
-    title: "Account Support Available",
-    subtitle: "Get help with your game accounts & top-ups",
-    badge: "24/7 LIVE"
+    title: "Need Account Support?",
+    subtitle: "Our team is available 24/7 to help you",
+    badge: "HELP",
+    color: "from-[#2e1065] to-[#a855f7]" // Deep Contrast Support Purple
   },
   {
-    title: "Latest MLBB Top-up Updates",
-    subtitle: "New skins and exclusive rewards ready",
-    badge: "NEW OFFERS"
+    title: "MLBB New Skins Ready",
+    subtitle: "Top-up now for exclusive rewards",
+    badge: "NEW",
+    color: "from-[#172554] to-[#3b82f6]" // Deep Contrast MLBB Blue
   },
 ];
 
@@ -40,14 +43,11 @@ export default function TopNoticeBanner() {
     if (!hidden && WHATSAPP_CHANNEL_URL) setVisible(true);
   }, []);
 
-  // 🔁 Rotate message every 5 seconds
   useEffect(() => {
     if (!visible) return;
-
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % MESSAGES.length);
     }, MESSAGE_DURATION);
-
     return () => clearInterval(interval);
   }, [visible]);
 
@@ -56,93 +56,64 @@ export default function TopNoticeBanner() {
   const current = MESSAGES[index];
 
   return (
-    <>
-      <motion.div
-        initial={{ height: 0, opacity: 0 }}
-        animate={{ height: "auto", opacity: 1 }}
-        exit={{ height: 0, opacity: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="relative w-full overflow-hidden border-b border-[var(--border)] bg-gradient-to-r from-[var(--card)]/40 via-[var(--card)]/80 to-[var(--card)]/40 backdrop-blur-xl group"
+    <motion.div
+      initial={{ height: 0, opacity: 0 }}
+      animate={{ height: "auto", opacity: 1 }}
+      className={`relative w-full overflow-hidden bg-gradient-to-r ${current.color} shadow-lg`}
+    >
+      <div
+        className="max-w-7xl mx-auto px-4 py-2.5 cursor-pointer flex items-center justify-between gap-4"
+        onClick={() => window.open(WHATSAPP_CHANNEL_URL, "_blank", "noopener,noreferrer")}
       >
-        {/* Enhanced Animated Accent Background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--accent)]/10 via-transparent to-[var(--accent)]/10 pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
-
-        {/* Subtle radial glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,var(--accent)/5,transparent_70%)] pointer-events-none" />
-
-        <div
-          className="max-w-7xl mx-auto px-4 py-3 cursor-pointer relative z-10"
-          onClick={() => window.open(WHATSAPP_CHANNEL_URL, "_blank", "noopener,noreferrer")}
-        >
-          <div className="flex items-center justify-between gap-4">
-
-            {/* Left Section: Icon & Content */}
-            <div className="flex items-center gap-4 min-w-0 flex-1">
-<div className="relative shrink-0">
-                <div className="p-2 rounded-xl bg-[var(--accent)]/10 border border-[var(--accent)]/30 text-[var(--accent)]">
-                  <FaWhatsapp size={20} />
-                </div>
-</div>
-
-              <div className="flex flex-col min-w-0">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: 20, filter: "blur(4px)" }}
-                    animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                    exit={{ opacity: 0, x: -20, filter: "blur(4px)" }}
-                    transition={{ duration: 0.4 }}
-                    className="flex flex-col"
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="text-[9px] font-black tracking-[0.2em] text-[var(--accent)] uppercase hidden sm:inline px-2 py-0.5 rounded-md bg-[var(--accent)]/5 border border-[var(--accent)]/10">
-                        {current.badge}
-                      </span>
-                      <h3 className="text-xs md:text-sm font-bold bg-gradient-to-r from-[var(--foreground)] to-[var(--foreground)]/60 bg-clip-text text-transparent uppercase tracking-wider truncate">
-                        {current.title}
-                      </h3>
-                    </div>
-                    <p className="text-[10px] md:text-xs text-[var(--muted)] truncate font-medium">
-                      {current.subtitle}
-                    </p>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </div>
-
-            {/* Right Section: Action & Close */}
-            <div className="flex items-center gap-3 shrink-0">
-              <motion.div
-                className="hidden md:flex items-center gap-2 bg-[var(--accent)]/10 hover:bg-[var(--accent)]/20 text-[var(--accent)] px-4 py-1.5 rounded-lg text-[10px] font-black tracking-widest uppercase transition-all border border-[var(--accent)]/20"
-                whileHover={{ scale: 1.05, x: 2 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Connect Panel
-                <FiChevronRight />
-              </motion.div>
-
-              <div className="w-[1px] h-6 bg-[var(--border)] mx-1" />
-
-              <motion.button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  localStorage.setItem(STORAGE_KEY, "true");
-                  setVisible(false);
-                }}
-                className="p-2 text-[var(--muted)] hover:text-[var(--foreground)] transition-colors rounded-lg hover:bg-[var(--accent)]/10"
-                aria-label="Close"
-                whileHover={{ rotate: 90 }}
-              >
-                <FiX size={18} />
-              </motion.button>
-            </div>
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+            <FaWhatsapp size={16} className="text-white" />
           </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={index}
+              initial={{ y: 5, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -5, opacity: 0 }}
+              className="flex flex-col"
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-bold bg-white/20 text-white px-1.5 py-0.5 rounded uppercase tracking-tighter">
+                  {current.badge}
+                </span>
+                <h3 className="text-xs md:text-sm font-black text-white uppercase tracking-tight truncate">
+                  {current.title}
+                </h3>
+              </div>
+              <p className="text-[10px] md:text-[11px] text-white/80 font-medium truncate italic">
+                {current.subtitle}
+              </p>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
-        {/* Corner Accents */}
-        <div className="absolute top-0 left-0 w-1 h-1 border-t border-l border-[var(--accent)]/40" />
-        <div className="absolute bottom-0 right-0 w-1 h-1 border-b border-r border-[var(--accent)]/40" />
-      </motion.div>
-    </>
+        <div className="flex items-center gap-2">
+          <motion.div
+            className="hidden sm:flex items-center gap-1 bg-white/20 hover:bg-white/30 text-white px-3 py-1.5 rounded-full text-[10px] font-bold uppercase transition-all"
+            whileHover={{ scale: 1.05 }}
+          >
+            Join
+            <FiChevronRight />
+          </motion.div>
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              localStorage.setItem(STORAGE_KEY, "true");
+              setVisible(false);
+            }}
+            className="p-1.5 text-white/60 hover:text-white transition-colors"
+          >
+            <FiX size={18} />
+          </button>
+        </div>
+      </div>
+    </motion.div>
   );
 }
