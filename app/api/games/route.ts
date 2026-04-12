@@ -232,11 +232,11 @@ export async function GET() {
         regionalGames,
 
         // 🔥 OTT SECTION
-        otts: {
-          title: "OTT & Social Subscriptions",
-          items: OTTS.filter((o) => o.available),
-          total: OTTS.filter((o) => o.available).length,
-        },
+        // otts: {
+        //   title: "OTT & Social Subscriptions",
+        //   items: OTTS.filter((o) => o.available),
+        //   total: OTTS.filter((o) => o.available).length,
+        // },
         // 🔥 MEMBERSHIP SECTION
         memberships: {
           title: "Memberships & Passes",
