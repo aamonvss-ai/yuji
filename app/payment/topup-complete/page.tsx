@@ -139,50 +139,43 @@ export default function TopupComplete() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="flex flex-col items-center py-6"
               >
-                <div className="relative mb-10 overflow-visible">
+                <div className="relative mb-10 flex justify-center">
                   <motion.div
                     initial={{ scale: 0, rotate: -45 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ type: "spring", damping: 10, stiffness: 100, delay: 0.2 }}
-                    className="w-28 h-28 rounded-[2rem] bg-emerald-500/10 border-4 border-emerald-500/20 flex items-center justify-center text-emerald-500 shadow-[0_20px_40px_rgba(16,185,129,0.2)]"
+                    className="w-28 h-28 rounded-[2rem] bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 shadow-[0_20px_40px_rgba(16,185,129,0.1)] relative"
                   >
-                    <CheckCircle2 size={56} strokeWidth={2.5} />
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ scale: 0, rotate: -45 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ type: "spring", damping: 15, stiffness: 100, delay: 0.2 }}
-                    className="w-28 h-28 rounded-[2rem] bg-emerald-500/10 border-4 border-emerald-500/20 flex items-center justify-center text-emerald-500 shadow-[0_20px_40px_rgba(16,185,129,0.1)]"
-                  >
-                    <CheckCircle2 size={56} strokeWidth={2.5} />
+                    <CheckCircle2 size={56} strokeWidth={2} />
+                    {/* Subtle Glow */}
+                    <div className="absolute inset-0 bg-emerald-500/20 blur-2xl rounded-full -z-10" />
                   </motion.div>
                 </div>
 
-                <div className="space-y-2 mb-10">
-                  <h1 className="text-4xl font-black text-[var(--foreground)] uppercase tracking-tighter italic leading-none">
+                <div className="space-y-2 mb-8">
+                  <h1 className="text-5xl font-black text-[var(--foreground)] uppercase tracking-tighter italic leading-none">
                     Success!
                   </h1>
-                  <p className="text-sm text-[var(--muted)] font-bold tracking-wide uppercase opacity-60">
+                  <p className="text-[10px] text-[var(--muted)] font-black tracking-[0.2em] uppercase opacity-40">
                     Order has been green-lit
                   </p>
                 </div>
 
                 <div className="w-full space-y-4 bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-[2rem] p-6 mb-10 relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 p-4 opacity-5 transition-transform group-hover:scale-110">
-                    <History size={64} />
+                  <div className="absolute -bottom-4 -right-4 opacity-[0.03] transition-transform group-hover:scale-110 group-hover:rotate-12 duration-700">
+                    <History size={120} />
                   </div>
-                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-wider text-[var(--muted)]">
+                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-wider text-[var(--muted)] relative z-10">
                     <span>Transaction ID</span>
-                    <span className="font-mono text-[var(--foreground)] bg-[var(--foreground)]/5 px-2 py-1 rounded-md">
+                    <span className="font-mono text-[var(--foreground)] bg-[var(--foreground)]/5 px-2 py-1 rounded-md border border-[var(--border)]">
                       #{orderData?.orderId?.slice(-8) || 'CONFIRMED'}
                     </span>
                   </div>
                   <div className="h-px bg-[var(--border)] opacity-30" />
-                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-wider text-[var(--muted)]">
+                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-wider text-[var(--muted)] relative z-10">
                     <span>Current Status</span>
                     <span className="flex items-center gap-1.5 text-emerald-500 font-black italic">
-                      <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                       In Processing
                     </span>
                   </div>

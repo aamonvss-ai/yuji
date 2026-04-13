@@ -69,11 +69,11 @@ export async function POST(req: Request) {
       );
     }
 
-    // Already completed → safe exit
-    if (order.status === "success") {
+    // Already fully completed → safe exit
+    if (order.status === "success" && order.topupStatus === "success") {
       return NextResponse.json({
         success: true,
-        message: "Already processed",
+        message: "Order already completed",
         topupResponse: order.externalResponse,
       });
     }
@@ -81,7 +81,7 @@ export async function POST(req: Request) {
     /* =====================================================
        EXPIRE CHECK
     ===================================================== */
-    if (order.expiresAt && Date.now() > order.expiresAt.getTime()) {
+    if (order.expiresAt && Date.now() > order.expiresAt.getTime() && order.paymentStatus !== "success") {
       order.status = "failed";
       order.paymentStatus = "failed";
       await order.save();
@@ -93,77 +93,83 @@ export async function POST(req: Request) {
     }
 
     /* =====================================================
-       CHECK GATEWAY STATUS
+       CHECK GATEWAY STATUS (Skip for Wallet)
     ===================================================== */
-    const formData = new URLSearchParams();
-    formData.append("user_token", process.env.XTRA_USER_TOKEN!);
-    formData.append("order_id", orderId);
+    if (order.paymentMethod !== "wallet") {
+      const formData = new URLSearchParams();
+      formData.append("user_token", process.env.XTRA_USER_TOKEN!);
+      formData.append("order_id", orderId);
 
-    const resp = await fetch(
-      "https://chuimei-pe.in/api/check-order-status",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: formData.toString(),
+      const resp = await fetch(
+        "https://chuimei-pe.in/api/check-order-status",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: formData.toString(),
+        }
+      );
+
+      const data = await resp.json();
+      const txnStatus = data?.result?.txnStatus;
+
+      // ⏳ Pending
+      if (txnStatus === "PENDING") {
+        return NextResponse.json({
+          success: false,
+          message: "Payment pending, please wait",
+        });
       }
-    );
 
-    const data = await resp.json();
-    const txnStatus = data?.result?.txnStatus;
+      // ❌ Failed
+      if (txnStatus !== "SUCCESS" && txnStatus !== "COMPLETED") {
+        order.status = "failed";
+        order.paymentStatus = "failed";
+        order.gatewayResponse = data;
+        await order.save();
 
-    /* =====================================================
-       PAYMENT STATES
-    ===================================================== */
+        return NextResponse.json({
+          success: false,
+          message: "Payment failed",
+        });
+      }
 
-    // ⏳ Pending
-    if (txnStatus === "PENDING") {
-      return NextResponse.json({
-        success: false,
-        message: "Payment pending, please wait",
-      });
-    }
+      /* =====================================================
+         STRICT PRICE CHECK
+      ===================================================== */
+      const paidAmount = Number(
+        data?.result?.amount ||
+        data?.result?.txnAmount ||
+        data?.result?.orderAmount
+      );
 
-    // ❌ Failed
-    if (txnStatus !== "SUCCESS" && txnStatus !== "COMPLETED") {
-      order.status = "failed";
-      order.paymentStatus = "failed";
+      if (!paidAmount || paidAmount !== Number(order.price)) {
+        order.status = "fraud";
+        order.paymentStatus = "failed";
+        order.topupStatus = "failed";
+        order.gatewayResponse = data;
+        await order.save();
+
+        return NextResponse.json({
+          success: false,
+          message: "Payment amount mismatch detected",
+        });
+      }
+
+      /* =====================================================
+         PAYMENT CONFIRMED
+      ===================================================== */
+      order.paymentStatus = "success";
       order.gatewayResponse = data;
       await order.save();
-
-      return NextResponse.json({
-        success: false,
-        message: "Payment failed",
-      });
+    } else {
+      // For wallet, if we are here and paymentStatus is not success, something is wrong
+      if (order.paymentStatus !== "success") {
+        return NextResponse.json({
+          success: false,
+          message: "Wallet payment not confirmed",
+        });
+      }
     }
-
-    /* =====================================================
-       STRICT PRICE CHECK
-    ===================================================== */
-    const paidAmount = Number(
-      data?.result?.amount ||
-      data?.result?.txnAmount ||
-      data?.result?.orderAmount
-    );
-
-    if (!paidAmount || paidAmount !== Number(order.price)) {
-      order.status = "fraud";
-      order.paymentStatus = "failed";
-      order.topupStatus = "failed";
-      order.gatewayResponse = data;
-      await order.save();
-
-      return NextResponse.json({
-        success: false,
-        message: "Payment amount mismatch detected",
-      });
-    }
-
-    /* =====================================================
-       PAYMENT CONFIRMED
-    ===================================================== */
-    order.paymentStatus = "success";
-    order.gatewayResponse = data;
-    await order.save();
 
     /* =====================================================
        TOPUP (IDEMPOTENT)

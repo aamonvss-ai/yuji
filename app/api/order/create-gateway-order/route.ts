@@ -258,7 +258,7 @@ export async function POST(req: Request) {
       email: email || null,
       phone: phone || null,
       currency,
-      status: paymentMethod === "wallet" ? "success" : "pending",
+      status: "pending",
       paymentStatus: paymentMethod === "wallet" ? "success" : "pending",
       topupStatus: "pending",
       expiresAt,
