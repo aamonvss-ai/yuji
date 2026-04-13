@@ -52,26 +52,25 @@ export default function FlashSale() {
             <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-amber-500/5 blur-[80px] pointer-events-none" />
 
             <div className="max-w-7xl mx-auto">
-                {/* Compact Header */}
                 <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                        <div className="p-1 rounded-md bg-amber-500 text-black shadow-[0_0_15px_rgba(245,158,11,0.2)] shrink-0">
+                        <div className="p-1 rounded-md bg-amber-500 text-black shadow-[0_0_15px_rgba(245,158,11,0.5)] shrink-0 animate-pulse">
                             <FiZap size={10} fill="currentColor" />
                         </div>
-                        <h2 className="text-sm sm:text-base font-black uppercase tracking-tighter italic text-[var(--foreground)]">
-                            Flash <span className="text-amber-500">Sale</span>
+                        <h2 className="text-sm sm:text-base font-black uppercase tracking-tight italic bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
+                            Flash Sale
                         </h2>
                     </div>
 
-                    <div className="flex items-center gap-1.5 bg-[var(--foreground)]/[0.03] backdrop-blur-md border border-[var(--border)] px-2.5 py-1 rounded-xl shadow-sm">
+                    <div className="flex items-center gap-1.5 bg-black/5 dark:bg-white/5 backdrop-blur-md border border-[var(--border)] px-2.5 py-1 rounded-xl shadow-sm">
                         <FiClock className="text-amber-500 hidden sm:block" size={10} />
                         <div className="flex items-center gap-1.5 font-black text-[10px] tabular-nums text-amber-500 uppercase tracking-tighter">
                             <span className="opacity-40 text-[8px] font-bold text-[var(--foreground)] mr-0.5 hidden md:block">Time left</span>
-                            <div className="bg-amber-500/10 px-1 py-0.5 rounded-md">{String(timeLeft.hours).padStart(2, '0')}</div>
+                            <div className="bg-amber-500/20 px-1 py-0.5 rounded-md">{String(timeLeft.hours).padStart(2, '0')}</div>
                             <span className="opacity-30 text-[var(--foreground)]">:</span>
-                            <div className="bg-amber-500/10 px-1 py-0.5 rounded-md">{String(timeLeft.minutes).padStart(2, '0')}</div>
+                            <div className="bg-amber-500/20 px-1 py-0.5 rounded-md">{String(timeLeft.minutes).padStart(2, '0')}</div>
                             <span className="opacity-30 text-[var(--foreground)]">:</span>
-                            <div className="bg-rose-500/10 text-rose-500 px-1 py-0.5 rounded-md">{String(timeLeft.seconds).padStart(2, '0')}</div>
+                            <div className="bg-rose-500/20 text-rose-500 px-1 py-0.5 rounded-md">{String(timeLeft.seconds).padStart(2, '0')}</div>
                         </div>
                     </div>
                 </div>
@@ -86,40 +85,42 @@ export default function FlashSale() {
                             >
                                 <Link
                                     href={`/games/${item.slug}`}
-                                    className="group relative block w-[105px] sm:w-[125px] md:w-[155px] bg-[#000000] backdrop-blur-lg border border-[var(--border)] rounded-[0.7rem] p-1 md:p-1.5 transition-all duration-500 hover:border-[var(--accent)]/30 hover:bg-[var(--accent)]/[0.04] shadow-lg"
+                                    className="group relative block w-[105px] sm:w-[125px] md:w-[155px] aspect-[4/5] bg-white dark:bg-black border border-[var(--border)] rounded-[1rem] overflow-hidden transition-all duration-500 hover:border-[var(--accent)] shadow-lg hover:shadow-[var(--accent)]/20"
                                 >
                                     {/* Badge */}
                                     <div className="absolute top-2 left-2 z-20">
-                                        <span className="text-[6px] md:text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded-md bg-amber-500 text-black shadow-lg">
+                                        <span className="text-[6px] md:text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-amber-500 text-black shadow-lg">
                                             {item.badge}
                                         </span>
                                     </div>
 
-                                    {/* Image Container */}
-                                    <div className="relative aspect-square rounded-[0.6rem] overflow-hidden mb-1.5 md:mb-2 ring-1 ring-[var(--border)] bg-black/5">
+                                    {/* Image Container (Whole Card) */}
+                                    <div className="absolute inset-0">
                                         <Image
                                             src={item.image}
                                             alt={item.name}
                                             fill
-                                            className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                            className="object-cover transition-transform duration-1000 group-hover:scale-110"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-40 transition-opacity group-hover:opacity-60" />
-                                    </div>
+                                        
+                                        {/* Bottom Gradient Overlay */}
+                                        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                                        
+                                        {/* Info Overlap */}
+                                        <div className="absolute inset-x-0 bottom-0 p-2 md:p-3 space-y-0">
+                                            <p className="text-[6px] md:text-[8px] font-bold text-amber-500 uppercase tracking-widest mb-0.5">{item.game}</p>
+                                            <h3 className="text-[10px] md:text-[13px] font-black uppercase tracking-tight text-white group-hover:text-amber-500 transition-colors leading-tight line-clamp-1">
+                                                {item.name}
+                                            </h3>
 
-                                    {/* Compact Info */}
-                                    <div className="space-y-0 px-1">
-                                        <p className="text-[6px] md:text-[8px] font-bold text-[var(--accent)]/80 uppercase tracking-widest">{item.game}</p>
-                                        <h3 className="text-[10px] md:text-[12px] font-black uppercase tracking-tight text-white group-hover:text-[var(--accent)] transition-colors leading-tight">
-                                            {item.name}
-                                        </h3>
-
-                                        <div className="flex items-center justify-between pt-0.5">
-                                            <span className="text-[11px] md:text-[14px] font-black italic text-white">
-                                                {item.price}
-                                            </span>
-                                            <span className="text-[8px] md:text-[10px] font-bold text-white/40 line-through decoration-red-500/50">
-                                                {item.originalPrice}
-                                            </span>
+                                            <div className="flex items-center justify-between pt-1">
+                                                <span className="text-[11px] md:text-[15px] font-black italic text-white">
+                                                    {item.price}
+                                                </span>
+                                                <span className="text-[8px] md:text-[10px] font-bold text-white/40 line-through decoration-red-500/50">
+                                                    {item.originalPrice}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </Link>

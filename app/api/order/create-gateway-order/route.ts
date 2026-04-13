@@ -202,6 +202,23 @@ export async function POST(req: Request) {
         });
       }
 
+      // Check Role Authorization
+      const allowedRoles = ["owner", "admin", "member"];
+      if (!allowedRoles.includes(userType)) {
+        return NextResponse.json({
+          success: false,
+          message: "Wallet payments are only available for members and admins",
+        });
+      }
+
+      // Check Transaction Limit (₹1500)
+      if (price > 1500) {
+        return NextResponse.json({
+          success: false,
+          message: "Wallet payments are limited to ₹1500 and below per transaction",
+        });
+      }
+
       user = await User.findOne({ userId });
       if (!user) {
         return NextResponse.json({

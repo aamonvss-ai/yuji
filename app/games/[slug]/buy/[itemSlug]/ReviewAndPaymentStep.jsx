@@ -200,35 +200,54 @@ export default function ReviewAndPaymentStep({
             <h3 className="font-semibold mb-3">Choose Payment Method</h3>
 
             {/* Wallet Button */}
-            <button
-              onClick={() => {
-                if (walletBalance < totalPrice) return;
-                setPaymentMethod("wallet");
-              }}
-              className={`w-full p-4 rounded-xl border-2 text-left transition-all flex items-center justify-between
-                ${paymentMethod === "wallet"
-                  ? "border-[var(--accent)] bg-[var(--accent)]/10"
-                  : "border-gray-700 hover:border-gray-500"
-                } ${walletBalance < totalPrice ? "opacity-50 cursor-not-allowed" : ""}`}
-            >
-              <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${paymentMethod === "wallet" ? "bg-[var(--accent)] text-black" : "bg-white/5 text-gray-400"}`}>
-                  <Wallet size={18} />
-                </div>
-                <div>
-                  <p className="font-bold text-sm">Wallet Balance</p>
-                  <p className="text-xs opacity-60">Pay using your loaded balance</p>
-                </div>
-              </div>
-              <span className="font-black">₹{walletBalance.toFixed(2)}</span>
-            </button>
+            {(() => {
+              const storedUserType = typeof window !== 'undefined' ? localStorage.getItem("userType") || "user" : "user";
+              const allowedRoles = ["owner", "admin", "member"];
+              const isAllowedRole = allowedRoles.includes(storedUserType);
+              const isWithinLimit = totalPrice <= 1500;
 
+              if (!isAllowedRole) return null; // Hide completely for normal users
 
-            {walletBalance < totalPrice && (
-              <p className="text-red-400 text-xs mt-1">
-                Not enough balance. You need ₹{totalPrice}.
-              </p>
-            )}
+              return (
+                <div className="relative">
+                  <button
+                    onClick={() => {
+                      if (!isWithinLimit || walletBalance < totalPrice) return;
+                      setPaymentMethod("wallet");
+                    }}
+                    disabled={!isWithinLimit || walletBalance < totalPrice}
+                    className={`w-full p-4 rounded-xl border-2 text-left transition-all flex items-center justify-between
+                      ${paymentMethod === "wallet"
+                        ? "border-[var(--accent)] bg-[var(--accent)]/10"
+                        : "border-gray-700 hover:border-gray-500"
+                      } ${(!isWithinLimit || walletBalance < totalPrice) ? "opacity-50 cursor-not-allowed" : ""}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`p-2 rounded-lg ${paymentMethod === "wallet" ? "bg-[var(--accent)] text-black" : "bg-white/5 text-gray-400"}`}>
+                        <Wallet size={18} />
+                      </div>
+                      <div>
+                        <p className="font-bold text-sm">Wallet Balance</p>
+                        <p className="text-xs opacity-60">Pay using your loaded balance</p>
+                      </div>
+                    </div>
+                    <span className="font-black">₹{walletBalance.toFixed(2)}</span>
+                  </button>
+
+                  {!isWithinLimit && (
+                    <p className="text-amber-400 text-[10px] mt-1.5 flex items-center gap-1 font-bold">
+                      <Lock size={10} /> Wallet limit is ₹1500. Use UPI for higher amounts.
+                    </p>
+                  )}
+
+                  {isWithinLimit && walletBalance < totalPrice && (
+                    <p className="text-red-400 text-[10px] mt-1.5 font-bold">
+                      Not enough balance. You need ₹{totalPrice.toFixed(2)}.
+                    </p>
+                  )}
+                </div>
+              );
+            })()}
 
             {/* UPI Button */}
             <button

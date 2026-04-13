@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { unstable_cache } from 'next/cache';
-import { Poppins } from "next/font/google";
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-  display: "optional",
-  preload: false,
-});
+// Removed Google Fonts due to build-time network failures
+const poppins = { className: "font-sans" };
 
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";

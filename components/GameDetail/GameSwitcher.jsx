@@ -41,16 +41,16 @@ export default function GameSwitcher() {
                                     whileHover={{ y: -2 }}
                                     whileTap={{ scale: 0.95 }}
                                     className={`
-                    flex flex-col items-center gap-1.5 p-1.5 rounded-xl transition-all duration-300
+                    relative flex flex-col items-center gap-1.5 p-1.5 rounded-xl transition-all duration-300
                     ${isActive
-                                            ? "bg-[var(--accent)] text-black shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]"
-                                            : "bg-[var(--foreground)]/[0.03] hover:bg-[var(--accent)]/10 text-[var(--muted)] hover:text-[var(--foreground)] border border-[var(--border)] uppercase"
+                                            ? "bg-[var(--foreground)]/[0.05] text-[var(--foreground)] pb-2"
+                                            : "bg-transparent text-[var(--muted)] hover:text-[var(--foreground)]"
                                         }
                   `}
                                 >
                                     <div className={`
-                    w-10 h-10 relative rounded-lg overflow-hidden shadow-lg
-                    ${isActive ? "ring-2 ring-black/20" : "grayscale-[0.5] hover:grayscale-0"}
+                    w-10 h-10 relative rounded-lg overflow-hidden transition-all duration-300
+                    ${isActive ? "shadow-md scale-105" : "grayscale-[0.5] hover:grayscale-0 opacity-70 hover:opacity-100"}
                   `}>
                                         <Image
                                             src={game?.gameImageId?.image || "/logo.png"}
@@ -59,9 +59,17 @@ export default function GameSwitcher() {
                                             className="object-cover"
                                         />
                                     </div>
-                                    <span className="text-[10px] font-bold uppercase tracking-wider max-w-[64px] truncate text-center">
+                                    <span className={`text-[10px] font-black uppercase tracking-tight max-w-[70px] leading-[1.1] text-center line-clamp-2 h-[22px] flex items-center justify-center transition-colors ${isActive ? 'text-[var(--foreground)]' : 'text-[var(--muted)]'}`}>
                                         {game.gameName}
                                     </span>
+
+                                    {/* Active Indicator Bar */}
+                                    {isActive && (
+                                        <motion.div
+                                            layoutId="active-nav-line"
+                                            className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-8 h-[2px] bg-[var(--foreground)] rounded-full"
+                                        />
+                                    )}
                                 </motion.div>
                             </Link>
                         );
