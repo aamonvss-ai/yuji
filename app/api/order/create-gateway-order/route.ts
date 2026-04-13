@@ -219,7 +219,7 @@ export async function POST(req: Request) {
         });
       }
 
-      user = await User.findOne({ userId });
+      user = await User.findById(userId);
       if (!user) {
         return NextResponse.json({
           success: false,
@@ -268,7 +268,7 @@ export async function POST(req: Request) {
     if (paymentMethod === "wallet") {
       // 1. ATOMIC BALANCE DEDUCTION (Prevents race conditions)
       const updatedUser = await User.findOneAndUpdate(
-        { userId, wallet: { $gte: price } },
+        { _id: userId, wallet: { $gte: price } },
         { $inc: { wallet: -price } },
         { new: true }
       );

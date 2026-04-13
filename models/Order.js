@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const OrderSchema = new mongoose.Schema(
   {
     orderId: { type: String, required: true, unique: true },
+    userId: { type: String, default: null },
     gameSlug: String,
     itemSlug: String,
     itemName: String,
