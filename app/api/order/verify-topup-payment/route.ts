@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken";
 import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
 import User from "@/models/User";
+import WalletTransaction from "@/models/WalletTransaction";
+import crypto from "crypto";
 
 export async function POST(req: Request) {
   try {
@@ -221,6 +223,33 @@ export async function POST(req: Request) {
     } else {
       order.status = "failed";
       order.topupStatus = "failed";
+
+      // --- AUTOMATIC REFUND FOR WALLET ---
+      if (order.paymentMethod === "wallet" && order.paymentStatus === "success") {
+        try {
+          await User.findByIdAndUpdate(order.userId, {
+            $inc: { wallet: order.price }
+          });
+          
+          const refundTxnId = "REF" + crypto.randomBytes(6).toString("hex").toUpperCase();
+          await WalletTransaction.create({
+            transactionId: refundTxnId,
+            userId: order.userId,
+            amount: order.price,
+            type: "refund",
+            status: "success",
+            description: `Auto-refund: Failed delivery for ${order.itemName}`,
+            metadata: {
+              gameOrderId: order.orderId,
+            }
+          });
+
+          order.status = "refunded";
+        } catch (refundErr) {
+          console.error("CRITICAL: Wallet refund failed for order", order.orderId, refundErr);
+        }
+      }
+
       await order.save();
     }
 

@@ -211,11 +211,11 @@ export async function POST(req: Request) {
         });
       }
 
-      // Check Transaction Limit (₹1500)
-      if (price > 1500) {
+      // Check Transaction Limit (₹500)
+      if (price > 500) {
         return NextResponse.json({
           success: false,
-          message: "Wallet payments are limited to ₹1500 and below per transaction",
+          message: "Wallet payments are limited to ₹500 and below per transaction",
         });
       }
 
