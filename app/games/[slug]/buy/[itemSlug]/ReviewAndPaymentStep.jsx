@@ -206,21 +206,17 @@ export default function ReviewAndPaymentStep({
               const isAllowedRole = allowedRoles.includes(storedUserType);
               const isWithinLimit = totalPrice <= 1500;
 
-              if (!isAllowedRole) return null; // Hide completely for normal users
-
               return (
                 <div className="relative">
                   <button
                     onClick={() => {
-                      if (!isWithinLimit || walletBalance < totalPrice) return;
                       setPaymentMethod("wallet");
                     }}
-                    disabled={!isWithinLimit || walletBalance < totalPrice}
                     className={`w-full p-4 rounded-xl border-2 text-left transition-all flex items-center justify-between
                       ${paymentMethod === "wallet"
                         ? "border-[var(--accent)] bg-[var(--accent)]/10"
                         : "border-gray-700 hover:border-gray-500"
-                      } ${(!isWithinLimit || walletBalance < totalPrice) ? "opacity-50 cursor-not-allowed" : ""}`}
+                      }`}
                   >
                     <div className="flex items-center gap-3">
                       <div className={`p-2 rounded-lg ${paymentMethod === "wallet" ? "bg-[var(--accent)] text-black" : "bg-white/5 text-gray-400"}`}>
@@ -234,15 +230,15 @@ export default function ReviewAndPaymentStep({
                     <span className="font-black">₹{walletBalance.toFixed(2)}</span>
                   </button>
 
-                  {!isWithinLimit && (
+                  {!isAllowedRole && (
                     <p className="text-amber-400 text-[10px] mt-1.5 flex items-center gap-1 font-bold">
-                      <Lock size={10} /> Wallet limit is ₹1500. Use UPI for higher amounts.
+                      <Lock size={10} /> Possibly restricted access (Verified at checkout)
                     </p>
                   )}
 
-                  {isWithinLimit && walletBalance < totalPrice && (
-                    <p className="text-red-400 text-[10px] mt-1.5 font-bold">
-                      Not enough balance. You need ₹{totalPrice.toFixed(2)}.
+                  {isAllowedRole && !isWithinLimit && (
+                    <p className="text-amber-400 text-[10px] mt-1.5 flex items-center gap-1 font-bold">
+                      <Lock size={10} /> Wallet limit is ₹1500. Use UPI for higher amounts.
                     </p>
                   )}
                 </div>
@@ -294,8 +290,7 @@ export default function ReviewAndPaymentStep({
               onClick={handleProceed}
               disabled={
                 isRedirecting ||
-                !paymentMethod ||
-                (paymentMethod === "wallet" && walletBalance < totalPrice)
+                !paymentMethod
               }
               className="
     bg-[var(--accent)] text-black p-3 rounded-lg w-full mt-4 font-semibold

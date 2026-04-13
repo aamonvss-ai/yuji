@@ -40,6 +40,7 @@ export default function AuthPage() {
       localStorage.setItem("userName", data.user.name);
       localStorage.setItem("email", data.user.email);
       localStorage.setItem("userId", data.user.userId);
+      localStorage.setItem("userType", data.user.userType);
       if (data.user.avatar) localStorage.setItem("avatar", data.user.avatar);
 
       setSuccess("Welcome back! Redirecting...");

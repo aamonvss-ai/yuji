@@ -6,6 +6,7 @@ interface UserDetails {
     name: string;
     email: string;
     phone: string;
+    userType: string;
 }
 
 interface DashboardContextType {
@@ -24,6 +25,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
         name: "",
         email: "",
         phone: "",
+        userType: "user",
     });
 
     const token =
@@ -47,8 +49,10 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
                         name: data.user.name,
                         email: data.user.email,
                         phone: data.user.phone,
+                        userType: data.user.userType || "user",
                     });
                     setWalletBalance(data.user.wallet || 0);
+                    localStorage.setItem("userType", data.user.userType || "user");
                 }
             })
             .finally(() => setLoading(false));
