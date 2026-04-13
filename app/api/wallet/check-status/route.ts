@@ -42,7 +42,6 @@ export async function POST(req: Request) {
     });
 
     const data = await resp.json();
-    console.log("Gateway Response:", data);
 
     const gatewaySuccess =
       data?.status == true ||
@@ -94,11 +93,11 @@ export async function POST(req: Request) {
     // 4. ATOMIC BALANCE UPDATE
     await User.findOneAndUpdate(
       { userId },
-      { 
-        $inc: { 
+      {
+        $inc: {
           wallet: amount,
-          order: 1 
-        } 
+          order: 1
+        }
       }
     );
 

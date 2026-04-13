@@ -17,7 +17,6 @@ export async function POST(req: NextRequest) {
   try {
     const rawBody = await readRawBody(req);
 
-    console.log("Raw Body:", rawBody);
 
     let json;
     try {
@@ -32,7 +31,6 @@ export async function POST(req: NextRequest) {
 
     const { status, order_id, remark1 } = json;
 
-    console.log("Webhook Data:", json);
 
     if (status === "SUCCESS") {
       // TODO: update database order → success

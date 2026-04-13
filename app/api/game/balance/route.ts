@@ -28,7 +28,6 @@ export async function GET(req: Request) {
 
     const data = await resp.json();
 
-    console.log("BALANCE API RESPONSE:", data);
 
     return NextResponse.json({ success: true, balance: data });
   } catch (error: any) {
