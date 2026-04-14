@@ -103,7 +103,7 @@ export async function POST(req: Request) {
       formData.append("order_id", orderId);
 
       const resp = await fetch(
-        "https://chuimei-pe.in/api/check-order-status",
+        "https://xyzpay.site/api/check-order-status",
         {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -230,7 +230,7 @@ export async function POST(req: Request) {
           await User.findByIdAndUpdate(order.userId, {
             $inc: { wallet: order.price }
           });
-          
+
           const refundTxnId = "REF" + crypto.randomBytes(6).toString("hex").toUpperCase();
           await WalletTransaction.create({
             transactionId: refundTxnId,

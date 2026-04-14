@@ -285,7 +285,7 @@ export async function POST(req: Request) {
       // 2. Record Wallet Transaction
       const WalletTransaction = (await import("@/models/WalletTransaction")).default;
       const transactionId = "TXN" + crypto.randomBytes(6).toString("hex").toUpperCase();
-      
+
       await WalletTransaction.create({
         transactionId,
         userId,
@@ -317,7 +317,7 @@ export async function POST(req: Request) {
       `${process.env.NEXT_PUBLIC_BASE_URLU}/payment/topup-complete`
     );
 
-    const resp = await fetch("https://chuimei-pe.in/api/create-order", {
+    const resp = await fetch("https://xyzpay.site/api/create-order", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: formData.toString(),
