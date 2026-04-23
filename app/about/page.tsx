@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] transition-colors duration-300">
+    <main className="min-h-screen bg-transparent text-[var(--foreground)] transition-colors duration-300">
       
       {/* 🌟 Hero Section */}
       <section className="relative text-center py-28 px-6 overflow-hidden border-b border-[var(--border)] bg-gradient-to-b from-[var(--card)] to-transparent">

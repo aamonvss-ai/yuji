@@ -72,7 +72,7 @@ export default function GameDetailPage() {
 
   if (notFound || !game) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+      <section className="min-h-screen relative flex flex-col items-center justify-center bg-transparent overflow-hidden px-4 py-20 font-sans selection:bg-[var(--accent)]/30">
         <div className="w-24 h-24 mb-6 opacity-20">
           <Image src={logo} alt="Logo" className="grayscale" />
         </div>
@@ -88,7 +88,7 @@ export default function GameDetailPage() {
         >
           View All Games
         </Link>
-      </div>
+      </section>
     );
   }
 
@@ -119,7 +119,7 @@ export default function GameDetailPage() {
   };
 
   return (
-    <section className="min-h-screen bg-[var(--background)] text-[var(--foreground)] px-4 py-4">
+    <section className="min-h-screen bg-transparent text-[var(--foreground)] px-4 py-4">
 
       <GameSwitcher />
 

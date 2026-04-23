@@ -87,13 +87,13 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative mt-16 border-t border-[var(--border)] bg-[var(--card)]/30 backdrop-blur-xl overflow-hidden">
+    <footer className="relative mt-8 border-t border-[var(--border)] bg-[var(--card)]/30 backdrop-blur-xl overflow-hidden">
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[var(--accent)]/5 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-[var(--accent)]/10 rounded-full blur-[80px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 py-8 lg:py-12 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10">
+      <div className="max-w-7xl mx-auto px-6 py-6 lg:py-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8">
 
           {/* Brand & Description */}
           <div className="md:col-span-4 space-y-4">
@@ -128,11 +128,11 @@ export default function Footer() {
           {/* Links Grid */}
           <div className="md:col-span-5 grid grid-cols-2 gap-4 lg:gap-8">
             {FOOTER_LINKS.map((section) => (
-              <div key={section.title} className="space-y-4">
+              <div key={section.title} className="space-y-2">
                 <h3 className="text-[9px] font-black uppercase tracking-[0.2em] text-[var(--muted)]/60">
                   {section.title}
                 </h3>
-                <ul className="space-y-3">
+                <ul className="space-y-2">
                   {section.links.map((link) => (
                     <li key={link.href}>
                       <Link
@@ -182,14 +182,10 @@ export default function Footer() {
         </div>
 
         {/* Divider & Bottom Bar */}
-        <div className="mt-8 pt-6 border-t border-[var(--border)]/30 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="mt-6 pt-4 border-t border-[var(--border)]/30 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col md:flex-row items-center gap-3 text-center md:text-left">
             <p className="text-[10px] font-semibold text-[var(--muted)]/70 uppercase tracking-widest">
               © {currentYear} {BRAND_NAME}
-            </p>
-            <span className="hidden md:block w-1 h-1 rounded-full bg-[var(--border)]" />
-            <p className="text-xs font-medium text-[var(--muted)]">
-              Best place for game top-ups
             </p>
           </div>
 

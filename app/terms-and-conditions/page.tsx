@@ -4,7 +4,7 @@ const BRAND = process.env.NEXT_PUBLIC_BRAND_NAME || "Meow Ji";
 
 export default function TermsAndConditions() {
   return (
-    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] px-6 py-10">
+    <main className="min-h-screen bg-transparent text-[var(--foreground)] px-6 py-6">
       <div className="max-w-4xl mx-auto">
         
         <h1 className="text-4xl font-bold text-[var(--accent)] mb-6">

@@ -50,7 +50,7 @@ export default function LeaderboardPage() {
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-[var(--background)] px-4 py-12 pb-20">
+      <div className="min-h-screen bg-transparent px-4 py-12 pb-20">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}

@@ -18,7 +18,7 @@ export default function Loader() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="fixed inset-0 z-[999999] flex flex-col items-center justify-center bg-[var(--background)]"
+      className="fixed inset-0 z-[999999] flex flex-col items-center justify-center bg-[var(--background)]/80 backdrop-blur-2xl"
     >
       <div className="relative flex flex-col items-center">
         {/* Minimal Logo with Subtle Shimmer */}

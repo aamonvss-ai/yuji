@@ -38,7 +38,7 @@ export default function RegionPage() {
   };
 
   return (
-    <section className="min-h-screen pt-4 px-4 bg-[var(--background)] text-[var(--foreground)]">
+    <section className="min-h-screen pt-4 px-4 bg-transparent text-[var(--foreground)]">
       <div className="max-w-md mx-auto">
 
         {/* ================= HEADER ================= */}

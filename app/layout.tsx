@@ -66,7 +66,7 @@ export default async function RootLayout({
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
           {isMaintenance && <Maintenance />}
           <Header />
-          <main className="pt-14">{children}</main>
+          <main className="pt-12">{children}</main>
           <Footer />
           <Chatbot />
         </GoogleOAuthProvider>

@@ -34,7 +34,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     };
 
     return (
-        <section className="min-h-screen px-4 md:px-10 py-8 bg-[var(--background)] text-[var(--foreground)] selection:bg-[var(--accent)]/30">
+        <section className="min-h-screen px-4 md:px-10 py-8 bg-transparent text-[var(--foreground)] selection:bg-[var(--accent)]/30">
             {/* HEADER */}
             <div className="max-w-6xl mx-auto mb-8">
                 <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between">

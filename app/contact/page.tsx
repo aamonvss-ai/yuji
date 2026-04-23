@@ -7,7 +7,7 @@ export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] px-6 py-15">
+    <main className="min-h-screen bg-transparent text-[var(--foreground)] px-6 py-15">
       <div className="max-w-5xl mx-auto flex flex-col lg:flex-row gap-12">
         {/* 📨 Left - Contact Info */}
         <div className="flex-1 space-y-6">

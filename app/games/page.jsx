@@ -171,7 +171,7 @@ export default function GamesPage() {
   };
 
   return (
-    <section className="min-h-screen bg-[var(--background)]">
+    <section className="min-h-screen bg-transparent">
 
       {/* Immersive Background Decor */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">

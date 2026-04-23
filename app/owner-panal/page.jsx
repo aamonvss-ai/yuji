@@ -181,7 +181,7 @@ export default function AdminPanalPage() {
 
   return (
     <AuthGuard>
-      <section className="min-h-screen bg-[var(--background)] px-6 py-3">
+      <section className="min-h-screen bg-transparent px-6 py-3">
         <div className="max-w-6xl mx-auto">
           {/* HEADER */}
           <div className="mb-4">

@@ -37,7 +37,7 @@ export default function ServicesPage() {
   ];
 
   return (
-    <section className="min-h-screen px-6 py-24 bg-[var(--background)] text-[var(--foreground)]">
+    <section className="min-h-screen px-6 py-24 bg-transparent text-[var(--foreground)]">
       <div className="max-w-5xl mx-auto text-center">
 
         {/* Header */}

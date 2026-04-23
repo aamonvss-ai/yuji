@@ -64,7 +64,7 @@ export default function AdminPanalPage() {
 
   return (
     <AuthGuard>
-      <section className="min-h-screen bg-[var(--background)] px-6 py-24 flex flex-col items-center overflow-hidden">
+      <section className="min-h-screen bg-transparent px-6 py-24 flex flex-col items-center overflow-hidden">
         {/* Background Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-[var(--accent)]/5 blur-[120px] pointer-events-none" />
 

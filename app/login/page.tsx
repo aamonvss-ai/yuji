@@ -59,7 +59,7 @@ export default function AuthPage() {
   if (!mounted) return null;
 
   return (
-    <section className="min-h-screen relative flex items-center justify-center bg-[var(--background)] overflow-hidden px-4 py-20 font-sans selection:bg-[var(--accent)]/30">
+    <section className="min-h-screen relative flex items-center justify-center bg-transparent overflow-hidden px-4 py-20 font-sans selection:bg-[var(--accent)]/30">
 
       {/* --- Premium Background System --- */}
       <div className="absolute inset-0 z-0 pointer-events-none">
