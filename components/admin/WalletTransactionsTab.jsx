@@ -104,49 +104,49 @@ export default function WalletTransactionsTab() {
 
   return (
     <div className="space-y-6 pb-10">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)]">Wallet Management</h2>
-          <p className="text-sm text-[var(--muted)] mt-1">Manage balances and view history</p>
+          <p className="text-[10px] text-[var(--muted)] font-medium mt-0.5">Manage balances and view history</p>
         </div>
 
-        <div className="flex items-center gap-2 p-1 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)]">
+        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)]">
           <button
             onClick={() => { setActiveSubTab("logs"); setPage(1); }}
-            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${activeSubTab === "logs" ? "bg-[var(--background)] text-[var(--accent)] shadow-sm" : "text-[var(--muted)] hover:text-[var(--foreground)]"}`}
+            className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-tight transition-all ${activeSubTab === "logs" ? "bg-[var(--background)] text-[var(--accent)] shadow-sm" : "text-[var(--muted)] hover:text-[var(--foreground)]"}`}
           >
-            History Logs
+            History
           </button>
           <button
             onClick={() => { setActiveSubTab("balances"); setPage(1); }}
-            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${activeSubTab === "balances" ? "bg-[var(--background)] text-[var(--accent)] shadow-sm" : "text-[var(--muted)] hover:text-[var(--foreground)]"}`}
+            className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-tight transition-all ${activeSubTab === "balances" ? "bg-[var(--background)] text-[var(--accent)] shadow-sm" : "text-[var(--muted)] hover:text-[var(--foreground)]"}`}
           >
-            User Balances
+            Balances
           </button>
         </div>
       </div>
 
       {activeSubTab === "balances" && (
-        <div className="flex flex-col md:flex-row gap-3">
+        <div className="flex flex-col md:flex-row gap-2">
           <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/40" size={16} />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/40" size={14} />
             <input
               value={search}
               onChange={(e) => { setSearch(e.target.value); setPage(1); }}
               placeholder="Search user by name, email or ID..."
-              className="w-full h-11 pl-11 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
+              className="w-full h-10 pl-10 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-xs focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
             />
           </div>
           
           <button
             onClick={() => setSortBy(sortBy === "wallet" ? "createdAt" : "wallet")}
-            className={`flex items-center gap-2 px-4 h-11 rounded-xl border transition-all text-xs font-bold uppercase tracking-wider ${
+            className={`flex items-center justify-center gap-2 px-4 h-10 rounded-xl border transition-all text-[10px] font-black uppercase tracking-wider ${
               sortBy === "wallet" 
               ? "bg-[var(--accent)]/10 border-[var(--accent)] text-[var(--accent)]" 
               : "border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--muted)] hover:text-[var(--foreground)]"
             }`}
           >
-            <ArrowDownLeft size={16} className={sortBy === "wallet" ? "rotate-180" : ""} />
+            <ArrowDownLeft size={14} className={sortBy === "wallet" ? "rotate-180" : ""} />
             {sortBy === "wallet" ? "Sorted by Balance" : "Sort by Balance"}
           </button>
         </div>
@@ -175,14 +175,14 @@ export default function WalletTransactionsTab() {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="px-5 py-2.5 rounded-xl border border-[var(--border)] text-[10px] font-bold uppercase text-[var(--muted)]/60 hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-20 transition-all"
+              className="px-4 py-2 rounded-xl border border-[var(--border)] text-[10px] font-black uppercase text-[var(--muted)]/60 hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-20 transition-all"
             >
-              Previous
+              Prev
             </button>
             <button
               onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
               disabled={page === pagination.totalPages}
-              className="px-5 py-2.5 rounded-xl border border-[var(--border)] text-[10px] font-bold uppercase text-[var(--muted)]/60 hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-20 transition-all"
+              className="px-4 py-2 rounded-xl border border-[var(--border)] text-[10px] font-black uppercase text-[var(--muted)]/60 hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-20 transition-all"
             >
               Next
             </button>
@@ -195,50 +195,89 @@ export default function WalletTransactionsTab() {
 
 function LogsView({ transactions, typeMeta }) {
   return (
-    <div className="rounded-[1.5rem] overflow-hidden border border-[var(--border)] bg-[var(--card)]">
-      <table className="w-full text-left text-sm">
-        <thead className="bg-[var(--foreground)]/[0.03] border-b border-[var(--border)]">
-          <tr className="text-[10px] uppercase font-bold tracking-widest text-[var(--muted)]">
-            <th className="px-6 py-4">Date</th>
-            <th className="px-6 py-4">TX ID</th>
-            <th className="px-6 py-4">User</th>
-            <th className="px-6 py-4">Type</th>
-            <th className="px-6 py-4 text-right">Amount</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-[var(--border)]">
-          {transactions.map((t) => {
-            const meta = typeMeta[t.type] || { label: t.type, class: "", icon: null };
-            return (
-              <tr key={t._id} className="group hover:bg-[var(--foreground)]/[0.02] transition-colors">
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex flex-col">
-                    <span className="text-[var(--foreground)] font-medium text-xs">{new Date(t.createdAt).toLocaleDateString()}</span>
-                    <span className="text-[10px] text-[var(--muted)]/40">{new Date(t.createdAt).toLocaleTimeString()}</span>
-                  </div>
-                </td>
-                <td className="px-6 py-4"><span className="font-mono text-[10px] text-[var(--accent)] uppercase">{t.transactionId}</span></td>
-                <td className="px-6 py-4 font-mono text-[10px] text-[var(--foreground)]">{t.userId}</td>
-                <td className="px-6 py-4">
-                   <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border text-[9px] font-bold uppercase tracking-wider ${meta.class}`}>
+    <div className="space-y-3">
+      {/* DESKTOP TABLE */}
+      <div className="hidden lg:block rounded-[1.5rem] overflow-hidden border border-[var(--border)] bg-[var(--card)]">
+        <table className="w-full text-left text-sm">
+          <thead className="bg-[var(--foreground)]/[0.03] border-b border-[var(--border)]">
+            <tr className="text-[10px] uppercase font-bold tracking-widest text-[var(--muted)]">
+              <th className="px-6 py-4">Date</th>
+              <th className="px-6 py-4">TX ID</th>
+              <th className="px-6 py-4">User</th>
+              <th className="px-6 py-4">Type</th>
+              <th className="px-6 py-4 text-right">Amount</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[var(--border)]">
+            {transactions.map((t) => {
+              const meta = typeMeta[t.type] || { label: t.type, class: "", icon: null };
+              return (
+                <tr key={t._id} className="group hover:bg-[var(--foreground)]/[0.02] transition-colors">
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex flex-col">
+                      <span className="text-[var(--foreground)] font-medium text-xs">{new Date(t.createdAt).toLocaleDateString()}</span>
+                      <span className="text-[10px] text-[var(--muted)]/40">{new Date(t.createdAt).toLocaleTimeString()}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4"><span className="font-mono text-[10px] text-[var(--accent)] uppercase">{t.transactionId}</span></td>
+                  <td className="px-6 py-4 font-mono text-[10px] text-[var(--foreground)]">{t.userId}</td>
+                  <td className="px-6 py-4">
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border text-[9px] font-bold uppercase tracking-wider ${meta.class}`}>
+                      {meta.icon} {meta.label}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-right">
+                    <span className={`text-sm font-black tracking-tighter tabular-nums ${t.type === 'spend' ? 'text-rose-500' : 'text-emerald-500'}`}>
+                      {t.type === 'spend' ? '-' : '+'} ₹{t.amount.toFixed(2)}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {/* MOBILE LIST */}
+      <div className="lg:hidden space-y-2">
+        {transactions.map((t) => {
+          const meta = typeMeta[t.type] || { label: t.type, class: "", icon: null };
+          return (
+            <div key={t._id} className="p-4 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 space-y-3">
+              <div className="flex justify-between items-start">
+                <div className="space-y-1">
+                  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[8px] font-bold uppercase tracking-widest ${meta.class}`}>
                     {meta.icon} {meta.label}
                   </span>
-                </td>
-                <td className="px-6 py-4 text-right">
-                   <span className={`text-sm font-black tracking-tighter tabular-nums ${t.type === 'spend' ? 'text-rose-500' : 'text-emerald-500'}`}>
-                    {t.type === 'spend' ? '-' : '+'} ₹{t.amount.toFixed(2)}
+                  <p className="text-[10px] font-mono text-[var(--accent)] uppercase">{t.transactionId}</p>
+                </div>
+                <span className={`text-lg font-black tracking-tighter tabular-nums ${t.type === 'spend' ? 'text-rose-500' : 'text-emerald-500'}`}>
+                  {t.type === 'spend' ? '-' : '+'}₹{t.amount.toFixed(2)}
+                </span>
+              </div>
+              
+              <div className="flex items-end justify-between border-t border-[var(--border)]/30 pt-2.5">
+                <div className="flex flex-col">
+                  <span className="text-[8px] font-black text-[var(--muted)]/40 uppercase tracking-widest">User ID</span>
+                  <span className="text-[10px] font-bold text-[var(--foreground)] font-mono">{t.userId}</span>
+                </div>
+                <div className="text-right flex flex-col">
+                  <span className="text-[8px] font-black text-[var(--muted)]/40 uppercase tracking-widest">Date & Time</span>
+                  <span className="text-[10px] font-bold text-[var(--muted)]">
+                    {new Date(t.createdAt).toLocaleDateString()} • {new Date(t.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
       {!transactions.length && (
-         <div className="py-20 text-center">
-           <Hash className="mx-auto text-[var(--muted)]/20 mb-4" size={48} />
-           <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">No records found</p>
-         </div>
+        <div className="py-20 text-center border border-dashed border-[var(--border)] rounded-3xl">
+          <Hash className="mx-auto text-[var(--muted)]/20 mb-4" size={48} />
+          <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">No records found</p>
+        </div>
       )}
     </div>
   );
@@ -248,8 +287,9 @@ function BalancesView({ users, onRefresh }) {
   const [selectedUser, setSelectedUser] = useState(null);
 
   return (
-    <div className="space-y-4">
-      <div className="rounded-[1.5rem] overflow-hidden border border-[var(--border)] bg-[var(--card)]">
+    <div className="space-y-3">
+      {/* DESKTOP TABLE */}
+      <div className="hidden lg:block rounded-[1.5rem] overflow-hidden border border-[var(--border)] bg-[var(--card)]">
         <table className="w-full text-left text-sm">
           <thead className="bg-[var(--foreground)]/[0.03] border-b border-[var(--border)]">
             <tr className="text-[10px] uppercase font-bold tracking-widest text-[var(--muted)]">
@@ -282,13 +322,36 @@ function BalancesView({ users, onRefresh }) {
             ))}
           </tbody>
         </table>
-        {!users.length && (
-          <div className="py-20 text-center">
-            <Users className="mx-auto text-[var(--muted)]/20 mb-4" size={48} />
-            <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">No users found</p>
-          </div>
-        )}
       </div>
+
+      {/* MOBILE LIST */}
+      <div className="lg:hidden space-y-2">
+        {users.map((u) => (
+          <div key={u._id} className="p-4 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 flex items-center justify-between gap-4">
+            <div className="min-w-0">
+              <h4 className="text-[11px] font-black text-[var(--foreground)] uppercase tracking-tight truncate">{u.name}</h4>
+              <p className="text-[9px] text-[var(--muted)]/50 font-mono italic mt-0.5">{u.userId}</p>
+              <div className="mt-2 flex items-center gap-1.5">
+                <span className="text-[8px] font-black text-[var(--muted)]/40 uppercase tracking-widest leading-none">Wallet</span>
+                <span className="text-sm font-black text-emerald-500 tabular-nums italic">₹{u.wallet?.toFixed(2) || "0.00"}</span>
+              </div>
+            </div>
+            <button
+              onClick={() => setSelectedUser(u)}
+              className="shrink-0 h-9 px-4 rounded-xl border border-[var(--border)] bg-[var(--accent)] text-white text-[10px] font-black uppercase tracking-wider active:scale-90 transition-all shadow-lg shadow-[var(--accent)]/20"
+            >
+              Manage
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {!users.length && (
+        <div className="py-20 text-center border border-dashed border-[var(--border)] rounded-3xl">
+          <Users className="mx-auto text-[var(--muted)]/20 mb-4" size={48} />
+          <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">No users found</p>
+        </div>
+      )}
 
       <AnimatePresence>
         {selectedUser && (

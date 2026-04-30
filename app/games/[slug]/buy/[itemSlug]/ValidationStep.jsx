@@ -1,6 +1,8 @@
 import HelpImagePopup from "../../../../../components/HelpImage/HelpImagePopup";
 import RecentVerifiedPlayers from "../../../../region/RecentVerifiedPlayers";
 
+import { FiUserCheck } from "react-icons/fi";
+
 export default function ValidationStep({
   game,
   playerId,
@@ -13,39 +15,52 @@ export default function ValidationStep({
 }) {
   return (
     <div className="space-y-5">
-      <div className="flex items-center justify-between mb-2">
-        <h2 className="text-2xl font-bold">Verify Player</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-3xl font-black uppercase tracking-tighter italic">Verify <span className="text-[var(--accent)]">Player</span></h2>
         <HelpImagePopup />
       </div>
 
-      <input
-        value={playerId}
-        onChange={(e) => setPlayerId(e.target.value)}
-        placeholder={game?.inputFieldOne || "Enter player ID"}
-        className="p-3 rounded-lg bg-black/20 border border-gray-700 w-full"
-        disabled={loading}
-      />
+      <div className="space-y-4">
+        <div className="relative group">
+          <input
+            value={playerId}
+            onChange={(e) => setPlayerId(e.target.value)}
+            placeholder={game?.inputFieldOne || "Enter player ID"}
+            className="w-full bg-[var(--foreground)]/[0.05] border-2 border-[var(--border)] rounded-2xl py-3.5 px-5 text-sm focus:outline-none focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] transition-all placeholder:text-[var(--muted)]/40 font-bold tracking-tight backdrop-blur-md"
+            disabled={loading}
+          />
+        </div>
 
-      {(game?.inputFieldTwo || (game?.inputFieldTwoOption && game.inputFieldTwoOption.length > 0)) && (
-        <input
-          value={zoneId}
-          onChange={(e) => setZoneId(e.target.value)}
-          placeholder={game?.inputFieldTwo || "Enter zone ID"}
-          className="p-3 rounded-lg bg-black/20 border border-gray-700 w-full"
-          disabled={loading}
-        />
-      )}
+        {(game?.inputFieldTwo || (game?.inputFieldTwoOption && game.inputFieldTwoOption.length > 0)) && (
+          <div className="relative group">
+            <input
+              value={zoneId}
+              onChange={(e) => setZoneId(e.target.value)}
+              placeholder={game?.inputFieldTwo || "Enter zone ID"}
+              className="w-full bg-[var(--foreground)]/[0.05] border-2 border-[var(--border)] rounded-2xl py-3.5 px-5 text-sm focus:outline-none focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] transition-all placeholder:text-[var(--muted)]/40 font-bold tracking-tight backdrop-blur-md"
+              disabled={loading}
+            />
+          </div>
+        )}
+      </div>
 
       <button
         onClick={onValidate}
         disabled={loading}
-        className={`py-3 rounded-lg w-full font-semibold transition
+        className={`py-4 rounded-2xl w-full font-black uppercase tracking-widest text-xs transition-all duration-300 shadow-lg flex items-center justify-center gap-2
           ${loading
-            ? "bg-gray-600 text-gray-300 cursor-not-allowed"
-            : "bg-[var(--accent)] text-black hover:opacity-90"
+            ? "bg-[var(--border)] text-[var(--muted)] cursor-not-allowed opacity-50"
+            : "bg-gradient-to-r from-[var(--accent)] to-[var(--accent-hover)] text-white hover:scale-[1.02] hover:shadow-[var(--accent)]/40 active:scale-[0.98]"
           }`}
       >
-        {loading ? "Checking..." : "Check"}
+        {loading ? (
+          "Verifying..."
+        ) : (
+          <>
+            <FiUserCheck size={16} />
+            Check Player
+          </>
+        )}
       </button>
 
       {error && (

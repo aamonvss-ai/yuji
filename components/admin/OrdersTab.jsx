@@ -169,19 +169,19 @@ export default function OrdersTab() {
   return (
     <div className="space-y-6 pb-10">
       {/* ================= HEADER ================= */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)]">Orders</h2>
-          <p className="text-xs text-[var(--muted)] font-medium mt-1">
+          <p className="text-[10px] text-[var(--muted)] font-medium mt-0.5">
             View and manage orders
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="px-3 py-1.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] flex items-center gap-2">
+        <div className="flex items-center gap-2">
+          <div className="px-2.5 py-1.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
-            <span className="text-[10px] font-bold text-[var(--muted)] uppercase">
-              {pagination.total} Orders
+            <span className="text-[9px] font-black text-[var(--muted)] uppercase tracking-wider">
+              {pagination.total} ORDERS
             </span>
           </div>
           <button
@@ -189,15 +189,15 @@ export default function OrdersTab() {
               fetchOrders();
               fetchStats();
             }}
-            className="p-2.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] active:scale-95 transition-all"
+            className="p-1.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] transition-all active:scale-90"
           >
-            <RefreshCcw size={16} className={(loading || statsLoading) ? "animate-spin" : ""} />
+            <RefreshCcw size={14} className={(loading || statsLoading) ? "animate-spin" : ""} />
           </button>
         </div>
       </div>
 
       {/* ================= STATS CARDS ================= */}
-      <div className="flex flex-col gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <OrderStatCard
           period="Volume"
           items={[
@@ -502,24 +502,24 @@ export default function OrdersTab() {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed right-0 top-0 h-full w-full max-w-lg bg-[var(--background)] border-l border-[var(--border)] shadow-2xl z-[1110] flex flex-col"
             >
-              <div className="p-6 border-b border-[var(--border)] bg-gradient-to-r from-[var(--foreground)]/[0.02] to-transparent">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="space-y-1">
-                    <p className="text-[9px] font-black text-[var(--accent)] uppercase tracking-widest leading-none">Reference ID</p>
-                    <h3 className="text-[11px] font-black uppercase italic tracking-tight text-[var(--foreground)] truncate max-w-[300px] font-mono">{selectedOrder.orderId}</h3>
+              <div className="p-4 border-b border-[var(--border)] bg-gradient-to-r from-[var(--foreground)]/[0.02] to-transparent">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="space-y-0.5">
+                    <p className="text-[8px] font-black text-[var(--accent)] uppercase tracking-widest leading-none">Reference ID</p>
+                    <h3 className="text-xs font-black uppercase italic tracking-tight text-[var(--foreground)] truncate max-w-[250px] font-mono">{selectedOrder.orderId}</h3>
                   </div>
                   <button
                     onClick={() => setSelectedOrder(null)}
-                    className="w-9 h-9 rounded-full bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--muted)]/40 hover:text-[var(--foreground)] hover:bg-red-500/20 transition-all"
+                    className="w-8 h-8 rounded-full bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--muted)]/40 hover:text-[var(--foreground)] hover:bg-red-500/20 transition-all"
                   >
-                    <X size={18} />
+                    <X size={16} />
                   </button>
                 </div>
 
-                <div className="flex items-center justify-between p-4.5 rounded-2xl bg-[var(--foreground)]/[0.02] border border-[var(--border)]">
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-[var(--foreground)]/[0.02] border border-[var(--border)]">
                   <div>
-                    <p className="text-[9px] font-black text-[var(--muted)] uppercase tracking-widest opacity-60">Bill Amount</p>
-                    <span className="text-2xl font-black text-emerald-500 tabular-nums">₹{selectedOrder.price}</span>
+                    <p className="text-[8px] font-black text-[var(--muted)] uppercase tracking-widest opacity-60">Bill Amount</p>
+                    <span className="text-lg font-black text-emerald-500 tabular-nums leading-none">₹{selectedOrder.price}</span>
                   </div>
                   <StatusDropdown
                     value={selectedOrder.status}
@@ -527,6 +527,7 @@ export default function OrdersTab() {
                       updateOrderStatus(selectedOrder.orderId, v);
                       setSelectedOrder(null);
                     }}
+                    compact
                     options={[
                       { value: "pending", label: "Pending" },
                       { value: "success", label: "Success" },
@@ -537,7 +538,7 @@ export default function OrdersTab() {
                 </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-6 space-y-10">
+              <div className="flex-1 overflow-y-auto p-5 space-y-6">
                 <DrawerSection icon={<Gamepad2 size={16} />} title="Item Details">
                   <DrawerDetail label="Game" value={selectedOrder.gameSlug} emphasize />
                   <DrawerDetail label="Item" value={selectedOrder.itemName} />
@@ -651,21 +652,21 @@ function StatusDropdown({ value, onChange, options, disabled, compact }) {
 
 function DrawerSection({ icon, title, children }) {
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-3 text-[var(--muted)]/40">
-        <div className="p-2 rounded-lg bg-[var(--foreground)]/[0.05] text-[var(--accent)]">{icon}</div>
-        <h4 className="text-[10px] font-black uppercase tracking-[0.2em]">{title}</h4>
-        <div className="h-px flex-1 bg-[var(--border)]" />
+    <div className="space-y-2.5">
+      <div className="flex items-center gap-2.5 text-[var(--muted)]/30">
+        <div className="p-1.5 rounded-lg bg-[var(--foreground)]/[0.05] text-[var(--accent)]">{icon}</div>
+        <h4 className="text-[9px] font-black uppercase tracking-[0.2em]">{title}</h4>
+        <div className="h-px flex-1 bg-[var(--border)]/50" />
       </div>
-      <div className="grid grid-cols-1 gap-4 px-1">{children}</div>
+      <div className="grid grid-cols-1 gap-2.5 px-0.5">{children}</div>
     </div>
   );
 }
 
 function DrawerDetail({ label, value, emphasize }) {
   return (
-    <div className="flex justify-between items-baseline gap-4 group">
-      <span className="text-[9px] font-black text-[var(--muted)]/40 uppercase tracking-tight group-hover:text-[var(--muted)]/60 transition-colors whitespace-nowrap">{label}</span>
+    <div className="flex justify-between items-baseline gap-4 border-b border-[var(--border)]/30 pb-1.5 group">
+      <span className="text-[8px] font-black text-[var(--muted)]/40 uppercase tracking-tight group-hover:text-[var(--muted)]/60 transition-colors whitespace-nowrap">{label}</span>
       <span className={`text-xs font-bold text-right truncate ${emphasize ? "text-[var(--accent)] italic uppercase" : "text-[var(--foreground)]"}`}>
         {value || "N/A"}
       </span>
@@ -675,21 +676,21 @@ function DrawerDetail({ label, value, emphasize }) {
 
 function OrderStatCard({ period, items, icon, color, loading }) {
   return (
-    <div className="p-3 rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-sm flex flex-col sm:flex-row sm:items-center gap-3 relative overflow-hidden group">
-      <div className={`flex items-center gap-3 min-w-[100px] shrink-0 ${color}`}>
-        <div className={`w-9 h-9 rounded-xl bg-current/10 flex items-center justify-center transition-transform group-hover:scale-110`}>
+    <div className="p-1.5 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-2 relative overflow-hidden group">
+      <div className={`flex flex-col items-center justify-center min-w-[70px] shrink-0 ${color} border-r border-[var(--border)] pr-2`}>
+        <div className="mb-0.5">
           {icon}
         </div>
-        <span className="text-xs font-black uppercase tracking-tighter italic">{period}</span>
+        <span className="text-[9px] font-black uppercase italic tracking-tighter">{period}</span>
       </div>
-      <div className="flex-1 grid grid-cols-3 gap-2">
+      <div className="flex-1 grid grid-cols-3 gap-1.5">
         {items.map((item, i) => (
-          <div key={i} className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-xl p-2.5 flex flex-col items-center justify-center relative overflow-hidden transition-colors hover:border-[var(--accent)]/20">
-            <span className="text-[9px] font-black text-[var(--muted)] uppercase opacity-60 mb-0.5">{item.label}</span>
+          <div key={i} className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-xl p-1.5 flex flex-col items-center justify-center relative overflow-hidden transition-colors hover:border-[var(--accent)]/20">
+            <span className="text-[8px] font-black text-[var(--muted)] uppercase opacity-60 mb-0.5">{item.label}</span>
             {loading ? (
               <div className="h-4 w-10 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
             ) : (
-              <span className="text-sm font-black text-[var(--foreground)] tracking-tighter tabular-nums truncate max-w-full">
+              <span className="text-xs font-black text-[var(--foreground)] tracking-tighter tabular-nums truncate max-w-full">
                 {item.value}
               </span>
             )}

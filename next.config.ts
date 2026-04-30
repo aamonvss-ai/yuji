@@ -20,6 +20,10 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "1gamestopup.com", // optional if images come from here later
+      },
+      {
+        protocol: "https",
+        hostname: "ui-avatars.com",
       }
     ],
 

@@ -18,7 +18,9 @@ import {
   History,
   X,
   Instagram,
-  Phone
+  Phone,
+  Search,
+  Command
 } from "lucide-react";
 import { HiGlobeAlt, HiCube } from "react-icons/hi";
 import Image from "next/image";
@@ -32,6 +34,15 @@ export default function Header() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [imgError, setImgError] = useState(false);
+
+  // ---------------- SEARCH STATE ----------------
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const [allGames, setAllGames] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const searchInputRef = useRef(null);
+  const mobileSearchInputRef = useRef(null);
 
   const dropdownRef = useRef(null);
 
@@ -65,7 +76,57 @@ export default function Header() {
         }
       })
       .finally(() => setLoading(false));
+
+    // Fetch games for search
+    fetch("/api/games")
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setAllGames(data.data.games || []);
+        }
+      })
+      .catch(err => console.error("Search fetch failed", err));
   }, []);
+
+  // ---------------- SEARCH LOGIC ----------------
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    const query = searchQuery.toLowerCase();
+    const filtered = allGames.filter(game => 
+      game.gameName.toLowerCase().includes(query) || 
+      game.tagId?.tagName?.toLowerCase().includes(query)
+    ).slice(0, 5); // Limit to top 5 results
+
+    setSearchResults(filtered);
+  }, [searchQuery, allGames]);
+
+  // Keyboard shortcut (Cmd+K)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+      if (e.key === "Escape") {
+        setIsSearchFocused(false);
+        setIsMobileSearchOpen(false);
+        setSearchQuery("");
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // Auto-focus mobile search
+  useEffect(() => {
+    if (isMobileSearchOpen) {
+      setTimeout(() => mobileSearchInputRef.current?.focus(), 100);
+    }
+  }, [isMobileSearchOpen]);
 
   // ---------------- LOGOUT ----------------
   const handleLogout = () => {
@@ -141,6 +202,88 @@ export default function Header() {
           </Link>
         </nav>
 
+        {/* MOBILE SEARCH TOGGLE */}
+        <div className="flex lg:hidden items-center ml-auto mr-1">
+          <button
+            onClick={() => setIsMobileSearchOpen(true)}
+            className="p-2 rounded-full hover:bg-[var(--accent)]/10 text-[var(--muted)] hover:text-[var(--accent)] transition-all"
+          >
+            <Search size={20} />
+          </button>
+        </div>
+
+        {/* SEARCH BAR (Desktop) */}
+        <div className="flex-1 max-w-sm mx-8 hidden lg:block relative">
+          <div className="relative group">
+            <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors ${isSearchFocused ? "text-[var(--accent)]" : "text-[var(--muted)]"}`} />
+            <input
+              ref={searchInputRef}
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setIsSearchFocused(true)}
+              onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
+              placeholder="Search games, regions..."
+              className="w-full bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-2xl py-2 pl-10 pr-12 text-xs focus:outline-none focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] transition-all placeholder:text-[var(--muted)]/40 font-bold tracking-tight"
+            />
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 px-1.5 py-0.5 rounded-md border border-[var(--border)] bg-[var(--card)]/50 pointer-events-none opacity-40">
+              <Command size={10} />
+              <span className="text-[9px] font-black">K</span>
+            </div>
+          </div>
+
+          {/* SEARCH RESULTS DROPDOWN */}
+          <AnimatePresence>
+            {isSearchFocused && searchQuery.trim() !== "" && (
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                className="absolute top-full left-0 right-0 mt-3 bg-[var(--card)]/95 backdrop-blur-2xl border border-[var(--border)] rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden z-[60]"
+              >
+                <div className="p-2">
+                  {searchResults.length > 0 ? (
+                    searchResults.map((game) => (
+                      <Link
+                        key={game.gameSlug}
+                        href={`/games/${game.gameSlug}`}
+                        className="flex items-center gap-3 p-2.5 rounded-2xl hover:bg-[var(--accent)]/10 group transition-all"
+                        onClick={() => {
+                          setSearchQuery("");
+                          setIsSearchFocused(false);
+                        }}
+                      >
+                        <div className="w-10 h-10 rounded-xl overflow-hidden bg-[var(--foreground)]/[0.03] border border-[var(--border)] group-hover:scale-105 transition-transform">
+                          <Image
+                            src={game.gameImageId?.image || "/game-placeholder.png"}
+                            alt={game.gameName}
+                            width={40}
+                            height={40}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-xs font-black uppercase tracking-tight text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors">
+                            {game.gameName}
+                          </span>
+                          <span className="text-[9px] font-bold text-[var(--muted)] uppercase opacity-60">
+                            {game.tagId?.tagName || "Global"} • {game.gameFrom}
+                          </span>
+                        </div>
+                      </Link>
+                    ))
+                  ) : (
+                    <div className="py-8 text-center">
+                      <Search size={24} className="mx-auto text-[var(--muted)]/20 mb-2" />
+                      <p className="text-[10px] font-black uppercase tracking-widest text-[var(--muted)]">No results found</p>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
         {/* RIGHT SIDE */}
         <div className="flex items-center gap-3 relative" ref={dropdownRef}>
           <ThemeToggle />
@@ -153,9 +296,10 @@ export default function Header() {
             }}
             className="group relative w-10 h-10 rounded-full bg-gradient-to-br from-[var(--accent)] to-[#22d3ee] flex items-center justify-center overflow-hidden transition-all duration-300 hover:scale-110 active:scale-95 ring-2 ring-transparent hover:ring-[var(--accent)]/50 shadow-lg"
           >
-            {!loading && user?.avatar && !imgError ? (
+            {!loading && user ? (
               <Image
-                src={user.avatar}
+                key={imgError ? 'fallback' : 'primary'}
+                src={(!imgError && user.avatar) ? user.avatar : `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || "User")}&background=0D8ABC&color=fff&size=128`}
                 alt="User Avatar"
                 width={40}
                 height={40}
@@ -248,9 +392,10 @@ export default function Header() {
                             <div className="relative flex-shrink-0">
                               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--accent)] to-[#22d3ee] p-[1.5px] shadow-lg">
                                 <div className="w-full h-full rounded-[0.7rem] bg-[var(--card)] overflow-hidden flex items-center justify-center">
-                                  {user?.avatar && !imgError ? (
+                                  {!loading && user ? (
                                     <Image
-                                      src={user.avatar}
+                                      key={imgError ? 'fallback-drawer' : 'primary-drawer'}
+                                      src={(!imgError && user.avatar) ? user.avatar : `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || "User")}&background=0D8ABC&color=fff&size=128`}
                                       alt={user.name}
                                       width={48}
                                       height={48}
@@ -402,6 +547,86 @@ export default function Header() {
           }
         }
       `}</style>
+
+      {/* MOBILE SEARCH OVERLAY */}
+      <AnimatePresence>
+        {isMobileSearchOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 bg-[var(--background)] z-[200] flex flex-col"
+          >
+            <div className="flex items-center gap-3 p-4 border-b border-[var(--border)]">
+              <button 
+                onClick={() => {
+                  setIsMobileSearchOpen(false);
+                  setSearchQuery("");
+                }}
+                className="p-2 -ml-2 text-[var(--muted)]"
+              >
+                <X size={24} />
+              </button>
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)]" />
+                <input
+                  ref={mobileSearchInputRef}
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search games..."
+                  className="w-full bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-2xl py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/20 focus:border-[var(--accent)] transition-all font-bold"
+                />
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-4 space-y-2">
+              {searchQuery.trim() === "" ? (
+                <div className="py-12 text-center opacity-40">
+                  <Search size={48} className="mx-auto mb-4" />
+                  <p className="text-xs font-black uppercase tracking-[0.2em]">Start typing to search</p>
+                </div>
+              ) : searchResults.length > 0 ? (
+                searchResults.map((game) => (
+                  <Link
+                    key={game.gameSlug}
+                    href={`/games/${game.gameSlug}`}
+                    className="flex items-center gap-4 p-3 bg-[var(--card)] border border-[var(--border)] rounded-2xl active:scale-[0.98] transition-all"
+                    onClick={() => {
+                      setSearchQuery("");
+                      setIsMobileSearchOpen(false);
+                    }}
+                  >
+                    <div className="w-12 h-12 rounded-xl overflow-hidden border border-[var(--border)]">
+                      <Image
+                        src={game.gameImageId?.image || "/game-placeholder.png"}
+                        alt={game.gameName}
+                        width={48}
+                        height={48}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-sm font-black uppercase italic text-[var(--foreground)]">
+                        {game.gameName}
+                      </span>
+                      <span className="text-[10px] font-bold text-[var(--muted)] uppercase opacity-60">
+                        {game.tagId?.tagName || "Global"} • {game.gameFrom}
+                      </span>
+                    </div>
+                    <ChevronRight size={16} className="ml-auto text-[var(--muted)]/30" />
+                  </Link>
+                ))
+              ) : (
+                <div className="py-12 text-center opacity-40">
+                  <Search size={48} className="mx-auto mb-4" />
+                  <p className="text-xs font-black uppercase tracking-[0.2em]">No games found</p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

@@ -100,32 +100,34 @@ export default function TransactionsTab() {
   return (
     <div className="space-y-6 pb-10">
       {/* ================= HEADER ================= */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)]">Transactions</h2>
+          <p className="text-[10px] text-[var(--muted)] font-medium mt-0.5">
             See customer payments
+          </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="px-3 py-1.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] flex items-center gap-2">
+        <div className="flex items-center gap-2">
+          <div className="px-2.5 py-1.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[10px] font-bold text-[var(--muted)] uppercase">
-              {pagination.total} Transactions
+            <span className="text-[9px] font-black text-[var(--muted)] uppercase tracking-wider">
+              {pagination.total} TOTAL
             </span>
           </div>
           <button
             onClick={fetchTransactions}
-            className="p-2.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] active:scale-95 transition-all"
+            className="p-1.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] transition-all active:scale-90"
           >
-            <RefreshCcw size={16} className={loading ? "animate-spin" : ""} />
+            <RefreshCcw size={14} className={loading ? "animate-spin" : ""} />
           </button>
         </div>
       </div>
 
       {/* ================= SEARCH & FILTER ================= */}
-      <div className="flex flex-col md:flex-row gap-3">
+      <div className="flex flex-col md:flex-row gap-2">
         <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/40" size={16} />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/40" size={14} />
           <input
             value={search}
             onChange={(e) => {
@@ -133,12 +135,12 @@ export default function TransactionsTab() {
               setSearch(e.target.value);
             }}
             placeholder="Search order ID, email, player ID..."
-            className="w-full h-11 pl-11 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
+            className="w-full h-10 pl-10 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-xs focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
           />
         </div>
-        <button className="h-11 px-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] flex items-center justify-center gap-2 hover:bg-[var(--foreground)]/[0.05] transition-all sm:w-max">
-          <Filter size={14} className="text-[var(--accent)]" />
-          <span className="text-xs font-bold uppercase">Filter</span>
+        <button className="h-10 px-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] flex items-center justify-center gap-2 hover:bg-[var(--foreground)]/[0.05] transition-all sm:w-max">
+          <Filter size={12} className="text-[var(--accent)]" />
+          <span className="text-[10px] font-bold uppercase">Filter</span>
         </button>
       </div>
 
@@ -321,29 +323,29 @@ export default function TransactionsTab() {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed right-0 top-0 h-full w-full max-w-lg bg-[var(--background)] border-l border-[var(--border)] shadow-2xl z-[1002] flex flex-col"
             >
-              <div className="p-6 border-b border-[var(--border)] bg-gradient-to-r from-[var(--foreground)]/[0.02] to-transparent">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="space-y-1">
-                    <p className="text-[9px] font-black text-[var(--accent)] uppercase tracking-widest leading-none">Order ID</p>
-                    <h3 className="text-[11px] font-black uppercase italic tracking-tight text-[var(--foreground)] truncate max-w-[300px] font-mono">{selectedTx.orderId}</h3>
+              <div className="p-4 border-b border-[var(--border)] bg-gradient-to-r from-[var(--foreground)]/[0.02] to-transparent">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="space-y-0.5">
+                    <p className="text-[8px] font-black text-[var(--accent)] uppercase tracking-widest leading-none">Order ID</p>
+                    <h3 className="text-xs font-black uppercase italic tracking-tight text-[var(--foreground)] truncate max-w-[250px] font-mono">{selectedTx.orderId}</h3>
                   </div>
                   <button
                     onClick={() => setSelectedTx(null)}
-                    className="w-9 h-9 rounded-full bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--muted)]/40 hover:text-[var(--foreground)] hover:bg-red-500/20 transition-all"
+                    className="w-8 h-8 rounded-full bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--muted)]/40 hover:text-[var(--foreground)] hover:bg-red-500/20 transition-all"
                   >
-                    <X size={18} />
+                    <X size={16} />
                   </button>
                 </div>
 
-                <div className="flex items-center justify-between p-4.5 rounded-2xl bg-[var(--foreground)]/[0.02] border border-[var(--border)]">
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-[var(--foreground)]/[0.02] border border-[var(--border)]">
                   <div>
-                    <p className="text-[9px] font-black text-[var(--muted)] uppercase tracking-widest opacity-60">Total Cost</p>
-                    <span className="text-2xl font-black text-emerald-500 tabular-nums">₹{selectedTx.price}</span>
+                    <p className="text-[8px] font-black text-[var(--muted)] uppercase tracking-widest opacity-60">Total Cost</p>
+                    <span className="text-lg font-black text-emerald-500 tabular-nums leading-none">₹{selectedTx.price}</span>
                   </div>
                   {(() => {
                     const meta = statusMeta[selectedTx.status] || statusMeta.pending;
                     return (
-                      <span className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-[10px] font-bold uppercase tracking-widest ${meta.class}`}>
+                      <span className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-[9px] font-bold uppercase tracking-widest ${meta.class}`}>
                         {meta.icon}
                         {meta.label}
                       </span>
@@ -352,7 +354,7 @@ export default function TransactionsTab() {
                 </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-6 space-y-10">
+              <div className="flex-1 overflow-y-auto p-5 space-y-6">
                 <DrawerSection icon={<Gamepad2 size={16} />} title="Item Details">
                   <DrawerDetail label="Game" value={selectedTx.gameSlug} emphasize />
                   <DrawerDetail label="Item Name" value={selectedTx.itemName} />
@@ -388,22 +390,22 @@ export default function TransactionsTab() {
 
 function DrawerSection({ icon, title, children }) {
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-3 text-[var(--muted)]/40 truncate">
-        <div className="p-2 rounded-lg bg-[var(--foreground)]/[0.05] text-[var(--accent)]">{icon}</div>
-        <h4 className="text-[10px] font-black uppercase tracking-[0.2em]">{title}</h4>
-        <div className="h-px flex-1 bg-[var(--border)]" />
+    <div className="space-y-2.5">
+      <div className="flex items-center gap-2.5 text-[var(--muted)]/30 truncate">
+        <div className="p-1.5 rounded-lg bg-[var(--foreground)]/[0.05] text-[var(--accent)]">{icon}</div>
+        <h4 className="text-[9px] font-black uppercase tracking-[0.2em]">{title}</h4>
+        <div className="h-px flex-1 bg-[var(--border)]/50" />
       </div>
-      <div className="grid grid-cols-1 gap-4 px-1">{children}</div>
+      <div className="grid grid-cols-1 gap-2.5 px-0.5">{children}</div>
     </div>
   );
 }
 
 function DrawerDetail({ label, value, emphasize }) {
   return (
-    <div className="flex justify-between items-baseline gap-4 group">
-      <span className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-tight group-hover:text-[var(--muted)]/60 transition-colors whitespace-nowrap">{label}</span>
-      <span className={`text-sm font-bold text-right truncate ${emphasize ? "text-[var(--accent)] italic uppercase" : "text-[var(--foreground)]"}`}>
+    <div className="flex justify-between items-baseline gap-4 border-b border-[var(--border)]/30 pb-1.5 group">
+      <span className="text-[8px] font-black text-[var(--muted)]/40 uppercase tracking-tight group-hover:text-[var(--muted)]/60 transition-colors whitespace-nowrap">{label}</span>
+      <span className={`text-xs font-bold text-right truncate ${emphasize ? "text-[var(--accent)] italic uppercase" : "text-[var(--foreground)]"}`}>
         {value || "N/A"}
       </span>
     </div>

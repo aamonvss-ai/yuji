@@ -124,7 +124,7 @@ export default function GameDetailPage() {
       <GameSwitcher />
 
       {/* ================= HEADER ================= */}
-      <div className="max-w-6xl mx-auto mb-4 flex items-center gap-3">
+      <div className="max-w-6xl mx-auto mb-3 flex items-center gap-3">
         <div className="w-12 h-12 relative rounded-lg overflow-hidden shrink-0">
           <Image
             src={game?.gameImageId?.image || logo}

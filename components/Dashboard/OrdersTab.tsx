@@ -90,61 +90,48 @@ export default function OrdersTab() {
 
   return (
     <div className="space-y-6">
-      {/* HEADER SECTION */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center text-white shadow-lg shadow-[var(--accent)]/20">
-            <History size={18} />
-          </div>
-          <div>
-            <h2 className="text-xl font-black uppercase tracking-tighter italic">My <span className="text-[var(--accent)]">Orders</span></h2>
-            <p className="text-[10px] text-[var(--muted)] font-black uppercase tracking-widest opacity-80 mt-0.5">
-              {loading ? "Loading..." : `${totalCount} orders`}
-            </p>
-          </div>
+      {/* MINIMAL HEADER */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-black uppercase tracking-tighter italic">Orders</h2>
+          <p className="text-[10px] text-[var(--muted)] font-bold uppercase tracking-[0.2em] opacity-50">
+            {loading ? "Syncing..." : `${totalCount} records`}
+          </p>
         </div>
  
         <motion.button
-          whileHover={{ scale: 1.05, y: -2 }}
+          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={fetchOrders}
           disabled={loading}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--card)] border border-[var(--border)]
-                     text-[var(--foreground)] font-black text-[9px] uppercase tracking-widest shadow-sm hover:border-[var(--accent)]/50 transition-all active:scale-95 group"
+          className="w-10 h-10 rounded-xl bg-[var(--card)] border border-[var(--border)]
+                     text-[var(--muted)] flex items-center justify-center shadow-sm hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all"
         >
-          <RefreshCw size={12} className={`transition-transform duration-700 ${loading ? "animate-spin" : "group-hover:rotate-180"}`} />
-          <span>Refresh</span>
+          <RefreshCw size={16} className={loading ? "animate-spin" : ""} />
         </motion.button>
       </div>
 
-      {/* FILTERS & SEARCH */}
-      <div className="flex flex-col lg:flex-row gap-4">
-        {/* SEARCH */}
-        <div className="flex-1 relative group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/50 group-focus-within:text-[var(--accent)] transition-colors" size={16} />
+      {/* SEARCH & COMPACT FILTERS */}
+      <div className="space-y-4">
+        <div className="relative group">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/30 group-focus-within:text-[var(--accent)] transition-colors" size={16} />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search order ID or item..."
-            className="w-full pl-12 pr-4 py-3 rounded-xl
-                       border border-[var(--border)]
-                       bg-[var(--card)]/40 backdrop-blur-sm
-                       focus:ring-2 focus:ring-[var(--accent)]/20
-                       focus:border-[var(--accent)]/50
-                       text-sm font-medium outline-none transition-all shadow-inner"
+            placeholder="Search Order ID..."
+            className="w-full pl-12 pr-4 py-3 rounded-2xl border border-[var(--border)] bg-[var(--card)]/40 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] transition-all font-bold tracking-tight"
           />
         </div>
 
-        {/* STATUS FILTER */}
-        <div className="flex gap-1.5 p-1 rounded-xl bg-[var(--card)]/30 border border-[var(--border)] overflow-x-auto scrollbar-hide">
+        <div className="flex items-center gap-1.5">
           {statusOptions.map((opt) => (
             <button
               key={opt.value}
               onClick={() => setStatusFilter(opt.value)}
-              className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all
+              className={`flex-1 min-w-0 py-2 rounded-xl text-[9px] font-black uppercase transition-all border text-center truncate
                 ${statusFilter === opt.value
-                  ? "bg-[var(--accent)] text-white shadow-lg shadow-[var(--accent)]/20 scale-[1.02]"
-                  : "text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-black/5"
+                  ? "bg-[var(--accent)] text-white border-[var(--accent)] shadow-md shadow-[var(--accent)]/10"
+                  : "bg-[var(--card)] text-[var(--muted)] border-[var(--border)] hover:border-[var(--accent)]/30"
                 }`}
             >
               {opt.label}

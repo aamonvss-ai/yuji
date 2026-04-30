@@ -28,7 +28,7 @@ export async function POST(req: Request) {
 
     let user = await User.findOne({ email });
 
-    /* ================= CREATE USER IF NEW ================= */
+    /* ================= CREATE OR UPDATE USER ================= */
     if (!user) {
       user = await User.create({
         userId: generateUserId(name || "user", Date.now().toString()),
@@ -42,6 +42,11 @@ export async function POST(req: Request) {
         order: 0,
         userType: "user",
       });
+    } else {
+      // Update missing info for existing users
+      if (!user.avatar && picture) user.avatar = picture;
+      if (!user.googleId) user.googleId = sub;
+      if (user.provider === "local" && !user.password) user.provider = "google";
     }
 
     /* ================= UPDATE LAST LOGIN ================= */

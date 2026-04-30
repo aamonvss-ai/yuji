@@ -6,7 +6,7 @@ export async function POST(request) {
     await connectDB();
     const body = await request.json();
 
-    const { email, phone, type, message } = body;
+    const { email, phone, orderId, type, message } = body;
 
     if (!type || !message) {
       return Response.json(
@@ -18,6 +18,7 @@ export async function POST(request) {
     const newQuery = await SupportQuery.create({
       email: email || null,
       phone: phone || null,
+      orderId: orderId || null,
       type,
       message,
     });

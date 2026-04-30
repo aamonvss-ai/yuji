@@ -8,7 +8,7 @@ import { FaCrown, FaMedal, FaTrophy, FaUserCircle } from "react-icons/fa";
 export default function LeaderboardPage() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [range, setRange] = useState("monthly"); // weekly | monthly
+  const [range, setRange] = useState("monthly"); // monthly | prevMonth
 
   const limit = 10;
 
@@ -60,12 +60,12 @@ export default function LeaderboardPage() {
             Top <span className="text-[var(--accent)]">Legends</span>
           </h1>
           <p className="mt-2 text-[var(--muted)] text-xs md:text-sm font-black uppercase tracking-widest opacity-80">
-            Our top customers of the week and month
+            Our top customers of the month
           </p>
 
           {/* Range Toggle */}
           <div className="flex justify-center mt-8 p-1 bg-[var(--card)] backdrop-blur-xl border border-[var(--border)] rounded-2xl w-fit mx-auto">
-            {["weekly", "monthly"].map((r) => (
+            {["monthly", "prevMonth"].map((r) => (
               <button
                 key={r}
                 onClick={() => setRange(r)}
@@ -74,7 +74,7 @@ export default function LeaderboardPage() {
                   : "text-[var(--muted)] hover:text-[var(--foreground)]"
                   }`}
               >
-                {r === "weekly" ? "This Week" : "This Month"}
+                {r === "monthly" ? "This Month" : "Prev Month"}
               </button>
             ))}
           </div>
@@ -100,6 +100,14 @@ export default function LeaderboardPage() {
           <div className="max-w-4xl mx-auto space-y-12">
             {/* ================= PODIUM ================= */}
             <div className="grid grid-cols-3 gap-2 md:gap-6 items-end pb-10">
+              {/* Rank 2 */}
+              <PodiumItem
+                user={topThree[1]}
+                rank={2}
+                color="text-gray-300"
+                icon={<FaMedal />}
+                delay={0.2}
+              />
               {/* Rank 1 */}
               <PodiumItem
                 user={topThree[0]}
@@ -108,14 +116,6 @@ export default function LeaderboardPage() {
                 icon={<FaCrown />}
                 delay={0.1}
                 isLarge
-              />
-              {/* Rank 2 */}
-              <PodiumItem
-                user={topThree[1]}
-                rank={2}
-                color="text-gray-300"
-                icon={<FaMedal />}
-                delay={0.2}
               />
               {/* Rank 3 */}
               <PodiumItem
@@ -152,9 +152,7 @@ export default function LeaderboardPage() {
                         <p className="text-sm font-bold text-[var(--foreground)] uppercase tracking-tight">
                           {item.user?.name || "Anonymous User"}
                         </p>
-                        <p className="text-[10px] text-[var(--muted)] font-black uppercase tracking-widest leading-none">
-                          {item.totalOrders} Global Orders
-                        </p>
+
                       </div>
                     </div>
                   </div>

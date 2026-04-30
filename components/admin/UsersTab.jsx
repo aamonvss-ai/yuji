@@ -155,19 +155,19 @@ export default function UsersTab() {
   return (
     <div className="space-y-6 pb-10">
       {/* ================= HEADER ================= */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)]">Users</h2>
-          <p className="text-sm text-[var(--muted)] mt-1">
+          <p className="text-[10px] text-[var(--muted)] font-medium mt-0.5">
             Manage users and roles
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="px-4 py-2 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] flex items-center gap-2.5">
-            <Users size={14} className="text-[var(--accent)]" />
-            <span className="text-sm font-semibold text-[var(--muted)]">
-              {pagination.total} total users
+        <div className="flex items-center gap-2">
+          <div className="px-2.5 py-1.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] flex items-center gap-2">
+            <Users size={12} className="text-[var(--accent)]" />
+            <span className="text-[9px] font-black text-[var(--muted)] uppercase tracking-wider">
+              {pagination.total} TOTAL
             </span>
           </div>
           <button
@@ -175,24 +175,22 @@ export default function UsersTab() {
               fetchUsers();
               fetchStats();
             }}
-            className="p-2.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] active:scale-95 transition-all outline-none"
+            className="p-1.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] transition-all active:scale-90"
           >
-            <RefreshCcw size={16} className={(loading || statsLoading) ? "animate-spin" : ""} />
+            <RefreshCcw size={14} className={(loading || statsLoading) ? "animate-spin" : ""} />
           </button>
         </div>
       </div>
 
       {/* ================= STATS CARDS ================= */}
-      <div className="flex flex-col gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {/* Active Users Stats */}
-        <div className="p-3 rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-sm flex flex-col sm:flex-row sm:items-center gap-3 relative overflow-hidden group">
-          <div className="flex items-center gap-3 min-w-[100px] shrink-0 text-[var(--accent)]">
-            <div className="w-9 h-9 rounded-xl bg-current/10 flex items-center justify-center transition-transform group-hover:scale-110">
-              <Users size={16} />
-            </div>
-            <span className="text-xs font-black uppercase tracking-tighter italic">Active</span>
+        <div className="p-1.5 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-2 relative overflow-hidden group">
+          <div className="flex flex-col items-center justify-center min-w-[70px] shrink-0 text-[var(--accent)] border-r border-[var(--border)] pr-2">
+            <Users size={14} className="mb-1" />
+            <span className="text-[9px] font-black uppercase italic tracking-tighter">Active</span>
           </div>
-          <div className="flex-1 grid grid-cols-3 gap-2">
+          <div className="flex-1 grid grid-cols-3 gap-1.5">
             <StatItem label="1D" value={stats.active["1d"]} loading={statsLoading} />
             <StatItem label="7D" value={stats.active["7d"]} loading={statsLoading} />
             <StatItem label="30D" value={stats.active["30d"]} loading={statsLoading} />
@@ -200,14 +198,12 @@ export default function UsersTab() {
         </div>
 
         {/* New Users Stats */}
-        <div className="p-3 rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-sm flex flex-col sm:flex-row sm:items-center gap-3 relative overflow-hidden group">
-          <div className="flex items-center gap-3 min-w-[100px] shrink-0 text-indigo-500">
-            <div className="w-9 h-9 rounded-xl bg-current/10 flex items-center justify-center transition-transform group-hover:scale-110">
-              <User size={16} />
-            </div>
-            <span className="text-xs font-black uppercase tracking-tighter italic">New</span>
+        <div className="p-1.5 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-2 relative overflow-hidden group">
+          <div className="flex flex-col items-center justify-center min-w-[70px] shrink-0 text-indigo-500 border-r border-[var(--border)] pr-2">
+            <User size={14} className="mb-1" />
+            <span className="text-[9px] font-black uppercase italic tracking-tighter">New</span>
           </div>
-          <div className="flex-1 grid grid-cols-3 gap-2">
+          <div className="flex-1 grid grid-cols-3 gap-1.5">
             <StatItem label="1D" value={stats.new["1d"]} loading={statsLoading} />
             <StatItem label="7D" value={stats.new["7d"]} loading={statsLoading} />
             <StatItem label="30D" value={stats.new["30d"]} loading={statsLoading} />
@@ -431,40 +427,42 @@ export default function UsersTab() {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed right-0 top-0 h-full w-full max-w-lg bg-[var(--background)] border-l border-[var(--border)] shadow-2xl z-[1110] flex flex-col"
             >
-              <div className="p-6 border-b border-[var(--border)]">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-lg font-bold text-[var(--foreground)]">User Details</h3>
+              <div className="p-4 border-b border-[var(--border)]">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-base font-bold text-[var(--foreground)]">User Details</h3>
                   <button
                     onClick={() => setSelectedUser(null)}
-                    className="w-9 h-9 rounded-full bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-red-500/10 transition-all outline-none"
+                    className="w-8 h-8 rounded-full bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-red-500/10 transition-all outline-none"
                   >
-                    <X size={18} />
+                    <X size={16} />
                   </button>
                 </div>
 
-                <div className="flex items-center gap-4">
-                  <div className="relative">
-                    <Avatar user={selectedUser} size="lg" />
+                <div className="flex items-center gap-3">
+                  <div className="relative shrink-0">
+                    <Avatar user={selectedUser} size="md" />
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <h4 className="text-lg font-bold text-[var(--foreground)] truncate leading-tight">{selectedUser.name}</h4>
-                    <div className="flex items-center gap-2 mt-1 mb-3">
-                      <span className="text-[11px] text-[var(--muted)]/60 font-mono tracking-wider">{selectedUser.userId}</span>
+                  <div className="flex-1 flex items-center justify-between gap-4 min-w-0">
+                    <div className="min-w-0">
+                      <h4 className="text-sm font-bold text-[var(--foreground)] truncate leading-tight">{selectedUser.name}</h4>
+                      <p className="text-[10px] text-[var(--muted)]/50 font-mono tracking-wider mt-0.5">{selectedUser.userId}</p>
                     </div>
-                    <RoleDropdown
-                      value={selectedUser.userType}
-                      compact
-                      direction="down"
-                      disabled={updatingUserId === selectedUser.userId || selectedUser.userType === "owner"}
-                      onChange={(v) => {
-                        changeUserRole(selectedUser.userId, v);
-                      }}
-                    />
+                    <div className="shrink-0">
+                      <RoleDropdown
+                        value={selectedUser.userType}
+                        compact
+                        direction="down"
+                        disabled={updatingUserId === selectedUser.userId || selectedUser.userType === "owner"}
+                        onChange={(v) => {
+                          changeUserRole(selectedUser.userId, v);
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-6 space-y-8">
+              <div className="flex-1 overflow-y-auto p-5 space-y-5">
                 <DrawerSection icon={<IdCard size={18} />} title="User Information">
                   <DrawerDetail label="Full Name" value={selectedUser.name} />
                   <DrawerDetail label="User ID" value={selectedUser.userId} />
@@ -706,21 +704,21 @@ function Avatar({ user, size = "md" }) {
 /* ================= HELPERS ================= */
 function DrawerSection({ icon, title, children }) {
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-3 text-[var(--muted)]/40">
+    <div className="space-y-2.5">
+      <div className="flex items-center gap-2.5 text-[var(--muted)]/30">
         <div className="text-[var(--accent)]">{icon}</div>
-        <h4 className="text-xs font-bold uppercase tracking-widest">{title}</h4>
+        <h4 className="text-[9px] font-black uppercase tracking-[0.2em]">{title}</h4>
       </div>
-      <div className="grid grid-cols-1 gap-4 px-1">{children}</div>
+      <div className="grid grid-cols-1 gap-2.5 px-0.5">{children}</div>
     </div>
   );
 }
 
 function DrawerDetail({ label, value }) {
   return (
-    <div className="flex flex-col gap-1 border-b border-[var(--border)] pb-3">
-      <span className="text-[10px] font-semibold text-[var(--muted)] uppercase tracking-wider">{label}</span>
-      <span className="text-sm font-medium text-[var(--foreground)]">
+    <div className="flex flex-col gap-0.5 border-b border-[var(--border)]/50 pb-1.5">
+      <span className="text-[8px] font-bold text-[var(--muted)]/50 uppercase tracking-widest leading-none">{label}</span>
+      <span className="text-xs font-bold text-[var(--foreground)] truncate">
         {value || "Not available"}
       </span>
     </div>
@@ -729,12 +727,12 @@ function DrawerDetail({ label, value }) {
 
 function StatItem({ label, value, loading }) {
   return (
-    <div className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-xl p-2.5 flex flex-col items-center justify-center relative overflow-hidden transition-all hover:border-[var(--accent)]/20">
+    <div className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-xl p-1.5 flex flex-col items-center justify-center relative overflow-hidden transition-all hover:border-[var(--accent)]/20">
       <span className="text-[9px] font-black text-[var(--muted)] uppercase opacity-60 mb-0.5">{label}</span>
       {loading ? (
         <div className="h-4 w-10 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
       ) : (
-        <span className="text-sm font-black text-[var(--foreground)] tracking-tighter tabular-nums">{value}</span>
+        <span className="text-xs font-black text-[var(--foreground)] tracking-tighter tabular-nums">{value}</span>
       )}
     </div>
   );

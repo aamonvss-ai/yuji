@@ -11,7 +11,14 @@ export default function Chatbot() {
     const [messages, setMessages] = useState<{ text: string; isUser: boolean }[]>([]);
     const [inputValue, setInputValue] = useState("");
     const [isVisible, setIsVisible] = useState(true);
+    const [isTyping, setIsTyping] = useState(false);
     const lastScrollY = useRef(0);
+
+    const SUGGESTIONS = [
+        "How to buy?",
+        "Is it safe?",
+        "Contact Support"
+    ];
 
     // Don't show in games section
     const isHidden = pathname?.startsWith("/games");
@@ -58,27 +65,41 @@ export default function Chatbot() {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages, isOpen]);
 
-    const handleSendMessage = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!inputValue.trim()) return;
+    const handleSendMessage = (text: string) => {
+        if (!text.trim()) return;
 
-        const userMessage = inputValue.trim();
+        const userMessage = text.trim();
         setMessages((prev) => [...prev, { text: userMessage, isUser: true }]);
         setInputValue("");
+        setIsTyping(true);
 
-        // Simple bot logic
+        // Bot logic
         setTimeout(() => {
             let botReply = "";
             const lowerMsg = userMessage.toLowerCase();
 
-            if (lowerMsg === "hi" || lowerMsg === "hello" || lowerMsg === "hey" || lowerMsg === "hola") {
-                botReply = "Hello! How can I help you today?";
+            if (lowerMsg.includes("hi") || lowerMsg.includes("hello")) {
+                botReply = "Hello! I'm your Yuji Support Assistant. How can I help you today?";
+            } else if (lowerMsg.includes("how to buy")) {
+                botReply = "To purchase diamonds:\n1. Select your game\n2. Choose a package\n3. Enter your Player ID & Zone\n4. Complete the payment\n\nYour diamonds will be delivered instantly!";
+            } else if (lowerMsg.includes("safe")) {
+                botReply = "Absolutely! We use official channels for top-ups, and our platform is protected by SSL encryption. Your account is 100% secure with Yuji.";
+            } else if (lowerMsg.includes("order status") || lowerMsg.includes("where is my")) {
+                botReply = "You can check your order status in the 'History' tab of your profile. Most orders are processed within 1-5 minutes.";
+            } else if (lowerMsg.includes("refund")) {
+                botReply = "Refunds are processed if the order fails. Please contact our WhatsApp support with your Order ID for assistance.";
             } else {
-                botReply = `You can reach our support team at:\n\n📧 Email: ${supportEmail}\n📱 WhatsApp: ${whatsappNumber}`;
+                botReply = `I'm here to help! You can also talk to a human expert at:\n\n📧 Email: ${supportEmail}\n📱 WhatsApp: ${whatsappNumber}`;
             }
 
             setMessages((prev) => [...prev, { text: botReply, isUser: false }]);
-        }, 600);
+            setIsTyping(false);
+        }, 800);
+    };
+
+    const handleFormSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        handleSendMessage(inputValue);
     };
 
     if (isHidden) return null;
@@ -102,7 +123,7 @@ export default function Chatbot() {
                         animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20, x: -20 }}
                         transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                        className="absolute bottom-20 left-0 w-[300px] sm:w-[350px] h-[450px] bg-[#0a0a0a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl flex flex-col"
+                        className="absolute bottom-20 left-0 w-[300px] sm:w-[350px] h-[480px] bg-[var(--card)] border border-[var(--border)] rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden backdrop-blur-2xl flex flex-col"
                     >
                         {/* Header */}
                         <div className="bg-gradient-to-r from-[var(--accent)]/10 to-transparent p-4 border-b border-white/5 flex items-center gap-3 shrink-0">
@@ -110,22 +131,44 @@ export default function Chatbot() {
                                 <Bot size={18} />
                             </div>
                             <div>
-                                <h3 className="text-white font-bold text-sm">Support Assistant</h3>
-                                <p className="text-xs text-white/50">Online • 24/7</p>
+                                <h3 className="text-[var(--foreground)] font-black uppercase tracking-tight text-sm">Assistant</h3>
+                                <div className="flex items-center gap-1.5">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                                    <p className="text-[10px] text-[var(--muted)] font-bold uppercase tracking-widest">Live Support</p>
+                                </div>
                             </div>
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className="ml-auto text-white/50 hover:text-white transition-colors"
+                                className="ml-auto w-8 h-8 rounded-full flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/5 transition-all"
                             >
                                 <X size={18} />
                             </button>
                         </div>
 
                         {/* Messages Area */}
-                        <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                        <div className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar">
                             {messages.length === 0 && (
-                                <div className="text-center text-white/40 text-sm mt-10">
-                                    <p>Say "Hi" to start a conversation!</p>
+                                <div className="space-y-6 mt-4">
+                                    <div className="text-center">
+                                        <div className="w-12 h-12 rounded-2xl bg-[var(--accent)]/10 flex items-center justify-center mx-auto mb-3">
+                                            <Bot className="text-[var(--accent)]" size={24} />
+                                        </div>
+                                        <h4 className="text-[var(--foreground)] font-black uppercase text-sm tracking-tight">How can we help?</h4>
+                                        <p className="text-[10px] text-[var(--muted)] font-bold uppercase tracking-widest mt-1">Select a topic to start</p>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 gap-2">
+                                        {SUGGESTIONS.map((s) => (
+                                            <button
+                                                key={s}
+                                                onClick={() => handleSendMessage(s)}
+                                                className="text-left px-4 py-3 rounded-2xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] text-[var(--foreground)] text-xs font-bold hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/30 transition-all flex items-center justify-between group"
+                                            >
+                                                {s}
+                                                <Send size={12} className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all" />
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
                             )}
                             {messages.map((msg, idx) => (
@@ -134,31 +177,40 @@ export default function Chatbot() {
                                     className={`flex ${msg.isUser ? "justify-end" : "justify-start"}`}
                                 >
                                     <div
-                                        className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-wrap ${msg.isUser
-                                            ? "bg-[var(--accent)] text-black rounded-tr-none font-medium"
-                                            : "bg-white/10 text-white rounded-tl-none border border-white/5"
+                                        className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm whitespace-pre-wrap shadow-sm ${msg.isUser
+                                            ? "bg-[var(--accent)] text-black rounded-tr-none font-bold italic"
+                                            : "bg-[var(--foreground)]/[0.03] text-[var(--foreground)] rounded-tl-none border border-[var(--border)] font-medium"
                                             }`}
                                     >
                                         {msg.text}
                                     </div>
                                 </div>
                             ))}
+                             {isTyping && (
+                                <div className="flex justify-start">
+                                    <div className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-2xl px-4 py-2 flex gap-1">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-bounce" />
+                                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-bounce [animation-delay:0.2s]" />
+                                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-bounce [animation-delay:0.4s]" />
+                                    </div>
+                                </div>
+                            )}
                             <div ref={messagesEndRef} />
                         </div>
 
                         {/* Input Area */}
-                        <form onSubmit={handleSendMessage} className="p-3 bg-black/20 border-t border-white/5 shrink-0 flex gap-2">
+                        <form onSubmit={handleFormSubmit} className="p-3 bg-[var(--background)]/50 border-t border-[var(--border)] shrink-0 flex gap-2">
                             <input
                                 type="text"
                                 placeholder="Type a message..."
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
-                                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-[var(--accent)]/50 focus:bg-white/10 transition-all"
+                                className="flex-1 bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-xl px-4 py-2.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)]/40 focus:outline-none focus:border-[var(--accent)]/50 focus:bg-[var(--foreground)]/[0.05] transition-all font-bold tracking-tight"
                             />
                             <button
                                 type="submit"
                                 disabled={!inputValue.trim()}
-                                className="w-10 h-10 rounded-xl bg-[var(--accent)] text-black flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--accent)]/80 transition-colors"
+                                className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--accent)] to-[var(--accent-hover)] text-white flex items-center justify-center shadow-lg shadow-[var(--accent)]/10 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                             >
                                 <Send size={18} />
                             </button>

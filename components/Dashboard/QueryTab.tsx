@@ -80,6 +80,8 @@ const ICON_MAP: Record<string, JSX.Element> = {
 
 export default function QueryTab() {
   const [queryType, setQueryType] = useState("");
+  const [queryPhone, setQueryPhone] = useState("");
+  const [queryOrderId, setQueryOrderId] = useState("");
   const [queryMessage, setQueryMessage] = useState("");
   const [querySuccess, setQuerySuccess] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -99,7 +101,8 @@ export default function QueryTab() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: storedEmail || null,
-          phone: storedPhone || null,
+          phone: queryPhone || storedPhone || null,
+          orderId: queryOrderId || null,
           token: storedToken || null,
           type: queryType,
           message: queryMessage,
@@ -115,6 +118,8 @@ export default function QueryTab() {
       }
 
       setQueryType("");
+      setQueryPhone("");
+      setQueryOrderId("");
       setQueryMessage("");
     } catch {
       setQuerySuccess("Could not send message. Please try again.");
@@ -220,10 +225,33 @@ export default function QueryTab() {
               </select>
             </div>
  
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-[9px] font-black uppercase tracking-widest text-[var(--muted)] block mb-1.5 px-1">WhatsApp No</label>
+                <input
+                  type="text"
+                  className="w-full p-3 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent)]/10 outline-none transition-all font-bold text-xs"
+                  placeholder="e.g. 9876..."
+                  value={queryPhone}
+                  onChange={(e) => setQueryPhone(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="text-[9px] font-black uppercase tracking-widest text-[var(--muted)] block mb-1.5 px-1">Order ID (Opt)</label>
+                <input
+                  type="text"
+                  className="w-full p-3 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent)]/10 outline-none transition-all font-bold text-xs"
+                  placeholder="e.g. ORD..."
+                  value={queryOrderId}
+                  onChange={(e) => setQueryOrderId(e.target.value)}
+                />
+              </div>
+            </div>
+
             <div>
               <label className="text-[9px] font-black uppercase tracking-widest text-[var(--muted)] block mb-1.5 px-1">Message</label>
               <textarea
-                className="w-full p-3 rounded-xl h-32 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent)]/10 outline-none transition-all resize-none text-xs placeholder:text-[var(--muted)]/50"
+                className="w-full p-3 rounded-xl h-24 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent)]/10 outline-none transition-all resize-none text-xs placeholder:text-[var(--muted)]/50"
                 placeholder="How can we help?"
                 value={queryMessage}
                 onChange={(e) => setQueryMessage(e.target.value)}

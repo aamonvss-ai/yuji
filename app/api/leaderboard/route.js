@@ -17,16 +17,20 @@ function verifyUser(req) {
 /* ================= DATE HELPERS ================= */
 function getDateFilter(range) {
   const now = new Date();
-
-  if (range === "weekly") {
-    const weekStart = new Date(now);
-    weekStart.setDate(now.getDate() - 7);
-    return { $gte: weekStart };
-  }
+  const year = now.getFullYear();
+  const month = now.getMonth();
 
   if (range === "monthly") {
-    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    // Current month start
+    const monthStart = new Date(year, month, 1);
     return { $gte: monthStart };
+  }
+
+  if (range === "prevMonth") {
+    // Previous month start and end
+    const prevMonthStart = new Date(year, month - 1, 1);
+    const prevMonthEnd = new Date(year, month, 0, 23, 59, 59, 999);
+    return { $gte: prevMonthStart, $lte: prevMonthEnd };
   }
 
   return null; // all-time

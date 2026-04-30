@@ -16,7 +16,9 @@ import {
   ChevronRight,
   ChevronDown,
   Filter,
-  Inbox
+  Inbox,
+  Hash,
+  Smartphone
 } from "lucide-react";
 
 export default function SupportQueriesTab() {
@@ -148,18 +150,18 @@ export default function SupportQueriesTab() {
   return (
     <div className="space-y-6 pb-6 px-4 md:px-0 max-w-full overflow-x-hidden">
       {/* ================= HEADER ================= */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)]">Support Queries</h2>
-          <p className="text-xs text-[var(--muted)] font-medium mt-1">
+          <p className="text-[10px] text-[var(--muted)] font-medium mt-0.5">
             Manage support messages
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="px-3 py-1.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] flex items-center gap-2">
-            <span className="text-[10px] font-bold text-[var(--muted)] uppercase">
-              {pagination.total} total
+        <div className="flex items-center gap-2">
+          <div className="px-2.5 py-1.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] flex items-center gap-2">
+            <span className="text-[9px] font-black text-[var(--muted)] uppercase tracking-wider">
+              {pagination.total} TOTAL
             </span>
           </div>
           <button
@@ -167,9 +169,9 @@ export default function SupportQueriesTab() {
               fetchQueries();
               fetchStats();
             }}
-            className="p-2 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)]"
+            className="p-1.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] transition-all active:scale-90"
           >
-            <RefreshCcw size={16} className={(loading || statsLoading) ? "animate-spin" : ""} />
+            <RefreshCcw size={14} className={(loading || statsLoading) ? "animate-spin" : ""} />
           </button>
         </div>
       </div>
@@ -266,6 +268,11 @@ export default function SupportQueriesTab() {
                         <span className="text-[9px] font-medium text-[var(--muted)]/60 truncate">
                           {new Date(q.createdAt).toLocaleDateString()}
                         </span>
+                        {q.orderId && (
+                          <span className="text-[9px] font-bold text-[var(--accent)] opacity-60 flex items-center gap-1">
+                            <Hash size={10} /> {q.orderId}
+                          </span>
+                        )}
                       </div>
 
                       <h4 className="text-sm font-bold text-[var(--foreground)] truncate group-hover:text-[var(--accent)]">
@@ -351,8 +358,10 @@ export default function SupportQueriesTab() {
               <div className="p-6 space-y-6 max-h-[75vh] overflow-y-auto">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <DetailBlock label="Email" value={activeQuery.email || "N/A"} icon={<Mail size={12} />} />
-                  <DetailBlock label="Phone" value={activeQuery.phone || "N/A"} icon={<Phone size={12} />} />
-                  <DetailBlock label="Type" value={activeQuery.type} emphasize icon={<MessageSquare size={12} />} />
+                  <DetailBlock label="Acc. Phone" value={activeQuery.phone || "N/A"} icon={<Phone size={12} />} />
+                  <DetailBlock label="WhatsApp" value={activeQuery.phone || "N/A"} icon={<Smartphone size={12} />} emphasize />
+                  <DetailBlock label="Order ID" value={activeQuery.orderId || "N/A"} icon={<Hash size={12} />} emphasize />
+                  <DetailBlock label="Type" value={activeQuery.type} icon={<MessageSquare size={12} />} />
                   <DetailBlock label="Date" value={new Date(activeQuery.createdAt).toLocaleString()} icon={<Clock size={12} />} />
                 </div>
 
@@ -472,21 +481,21 @@ function DetailBlock({ label, value, emphasize, icon }) {
 
 function QueryStatCard({ label, items, icon, color, loading }) {
   return (
-    <div className="p-2.5 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-4 relative overflow-hidden group">
-      <div className={`flex items-center gap-2.5 min-w-[90px] md:min-w-[120px] shrink-0 ${color}`}>
-        <div className={`w-8 h-8 rounded-xl bg-current/10 flex items-center justify-center transition-transform group-hover:scale-110`}>
+    <div className="p-1.5 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-2 relative overflow-hidden group">
+      <div className={`flex flex-col items-center justify-center min-w-[70px] shrink-0 ${color} border-r border-[var(--border)] pr-2`}>
+        <div className={`w-7 h-7 rounded-lg bg-current/10 flex items-center justify-center transition-transform group-hover:scale-110`}>
           {icon}
         </div>
-        <span className="text-[10px] font-black uppercase tracking-wider opacity-80">{label}</span>
+        <span className="text-[9px] font-black uppercase tracking-tighter italic opacity-80 mt-1">{label}</span>
       </div>
-      <div className="flex-1 grid grid-cols-3 gap-2">
+      <div className="flex-1 grid grid-cols-3 gap-1.5">
         {items.map((item, i) => (
-          <div key={i} className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-lg p-2 flex flex-col items-center justify-center relative overflow-hidden">
+          <div key={i} className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-lg p-1.5 flex flex-col items-center justify-center relative overflow-hidden">
             <span className="text-[8px] font-black text-[var(--muted)]/40 uppercase mb-0.5">{item.label}</span>
             {loading ? (
               <div className="h-4 w-8 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
             ) : (
-              <span className="text-sm font-black text-[var(--foreground)] tracking-tighter tabular-nums">{item.value}</span>
+              <span className="text-xs font-black text-[var(--foreground)] tracking-tighter tabular-nums">{item.value}</span>
             )}
           </div>
         ))}

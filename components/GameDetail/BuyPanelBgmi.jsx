@@ -64,10 +64,10 @@ export default function BuyPanelBgmi({
       <button
         onClick={() => onBuy(activeItem)}
         disabled={redirecting}
-        className={`w-full h-12 rounded-xl font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2
+        className={`w-full h-12 rounded-xl font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-[var(--accent)]/10
           ${redirecting
             ? "bg-[var(--border)] text-[var(--muted)] cursor-not-allowed"
-            : "bg-[var(--accent)] text-black hover:opacity-90 active:scale-[0.98]"
+            : "bg-gradient-to-r from-[var(--accent)] to-[var(--accent-hover)] text-white hover:scale-[1.02] hover:shadow-[var(--accent)]/30 active:scale-[0.98]"
           }`}
       >
         {redirecting ? (

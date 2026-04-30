@@ -6,6 +6,7 @@ const SupportQuerySchema = new mongoose.Schema(
     phone: { type: String, default: null },
     type: { type: String, required: true },
     message: { type: String, required: true },
+    orderId: { type: String, default: null },
 
     // 👇 new field
     status: {

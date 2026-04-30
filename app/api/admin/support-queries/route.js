@@ -40,6 +40,7 @@ export async function GET(req) {
         { phone: { $regex: search, $options: "i" } },
         { message: { $regex: search, $options: "i" } },
         { type: { $regex: search, $options: "i" } },
+        { orderId: { $regex: search, $options: "i" } },
       ];
     }
 

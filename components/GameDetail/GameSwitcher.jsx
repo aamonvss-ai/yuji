@@ -26,9 +26,9 @@ export default function GameSwitcher() {
     if (isLoading || games.length === 0) return null;
 
     return (
-        <div className="w-full overflow-hidden mb-3">
-            <div className="max-w-6xl mx-auto px-1">
-                <div className="flex items-center gap-2 overflow-x-auto pb-2 pt-0.5 no-scrollbar mask-fade">
+        <div className="w-full overflow-hidden mb-1">
+            <div className="max-w-6xl mx-auto px-0">
+                <div className="flex items-center gap-1 overflow-x-auto pb-2 pt-0.5 no-scrollbar mask-fade">
                     {games.map((game) => {
                         const isActive = game.gameSlug === slug;
                         return (

@@ -3,8 +3,9 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { FiZap, FiClock, FiChevronRight } from "react-icons/fi";
+import { FiZap, FiChevronRight } from "react-icons/fi";
 import { useEffect, useState } from "react";
+import Countdown from "./Countdown";
 
 const flashSaleData = [
     {
@@ -12,10 +13,11 @@ const flashSaleData = [
         name: "Weekly Pass",
         game: "MLBB",
         image: "/game-assets/weeklypass-new.jpeg",
-        price: "₹148",
+        price: "₹149",
         originalPrice: "₹175",
         slug: "mobile-legends988?type=weekly-pass",
-        badge: "Hot"
+        badge: "Hot",
+        sold: 62 // Percentage sold
     },
 
     {
@@ -23,28 +25,16 @@ const flashSaleData = [
         name: "Weekly Bundle",
         game: "MLBB",
         image: "/game-assets/elite-bundle.jpeg",
-        price: "₹81",
+        price: "₹85",
         originalPrice: "₹100",
         slug: "weeklymonthly-bundle931",
-        badge: "Value"
+        badge: "Value",
+        sold: 85 // Percentage sold
     },
 
 ];
 
 export default function FlashSale() {
-    const [timeLeft, setTimeLeft] = useState({ hours: 12, minutes: 45, seconds: 30 });
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setTimeLeft(prev => {
-                if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-                if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
-                if (prev.hours > 0) return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
-                return { hours: 23, minutes: 59, seconds: 59 };
-            });
-        }, 1000);
-        return () => clearInterval(timer);
-    }, []);
 
     return (
         <section className="relative py-2 px-4 overflow-hidden border-b border-[var(--border)] bg-gray-50/50 dark:bg-white/[0.02]">
@@ -62,17 +52,7 @@ export default function FlashSale() {
                         </h2>
                     </div>
 
-                    <div className="flex items-center gap-1.5 bg-black/5 dark:bg-white/5 backdrop-blur-md border border-[var(--border)] px-2.5 py-1 rounded-xl shadow-sm">
-                        <FiClock className="text-amber-500 hidden sm:block" size={10} />
-                        <div className="flex items-center gap-1.5 font-black text-[10px] tabular-nums text-amber-500 uppercase tracking-tighter">
-                            <span className="opacity-40 text-[8px] font-bold text-[var(--foreground)] mr-0.5 hidden md:block">Time left</span>
-                            <div className="bg-amber-500/20 px-1 py-0.5 rounded-md">{String(timeLeft.hours).padStart(2, '0')}</div>
-                            <span className="opacity-30 text-[var(--foreground)]">:</span>
-                            <div className="bg-amber-500/20 px-1 py-0.5 rounded-md">{String(timeLeft.minutes).padStart(2, '0')}</div>
-                            <span className="opacity-30 text-[var(--foreground)]">:</span>
-                            <div className="bg-rose-500/20 text-rose-500 px-1 py-0.5 rounded-md">{String(timeLeft.seconds).padStart(2, '0')}</div>
-                        </div>
-                    </div>
+                    <Countdown />
                 </div>
 
                 {/* Compact Horizontal Slider */}
@@ -102,10 +82,15 @@ export default function FlashSale() {
                                             fill
                                             className="object-cover transition-transform duration-1000 group-hover:scale-110"
                                         />
-                                        
+
+                                        {/* Shimmer Glint Effect */}
+                                        <div className="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+                                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
+                                        </div>
+
                                         {/* Bottom Gradient Overlay */}
                                         <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black via-black/40 to-transparent" />
-                                        
+
                                         {/* Info Overlap */}
                                         <div className="absolute inset-x-0 bottom-0 p-2 md:p-3 space-y-0">
                                             <p className="text-[6px] md:text-[8px] font-bold text-amber-500 uppercase tracking-widest mb-0.5">{item.game}</p>
@@ -120,6 +105,21 @@ export default function FlashSale() {
                                                 <span className="text-[8px] md:text-[10px] font-bold text-white/40 line-through decoration-red-500/50">
                                                     {item.originalPrice}
                                                 </span>
+                                            </div>
+
+                                            {/* Progress Bar */}
+                                            <div className="pt-2 space-y-1">
+                                                <div className="flex justify-between text-[6px] md:text-[7px] font-black uppercase tracking-widest text-white/60">
+                                                    <span>Limited Stock</span>
+                                                </div>
+                                                <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+                                                    <motion.div 
+                                                        initial={{ width: 0 }}
+                                                        whileInView={{ width: `${item.sold}%` }}
+                                                        transition={{ duration: 1, ease: "easeOut" }}
+                                                        className="h-full bg-gradient-to-r from-amber-500 to-orange-500"
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

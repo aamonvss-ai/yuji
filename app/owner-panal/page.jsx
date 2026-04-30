@@ -181,7 +181,7 @@ export default function AdminPanalPage() {
 
   return (
     <AuthGuard>
-      <section className="min-h-screen bg-transparent px-6 py-3">
+      <section className="min-h-screen bg-transparent px-2 py-2">
         <div className="max-w-6xl mx-auto">
           {/* HEADER */}
           <div className="mb-4">
@@ -287,7 +287,7 @@ export default function AdminPanalPage() {
 
 
           {/* PANEL */}
-          <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6">
+          <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3">
             {activeTab === "users" && (
               <UsersTab
 

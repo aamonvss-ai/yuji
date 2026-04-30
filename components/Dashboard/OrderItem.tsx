@@ -101,22 +101,21 @@ export default function OrderItem({ order }: { order: OrderType }) {
         <div className="p-2.5 md:p-3">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-2.5">
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 flex-wrap mb-1">
-                <span className={`flex items-center gap-1 px-1.5 py-0.5 rounded-lg text-[8px] font-black uppercase tracking-tighter border ${config.colors}`}>
-                   {config.icon}
-                   {config.label}
-                 </span>
-                 <span className="text-[8px] font-black text-[var(--muted)] bg-[var(--foreground)]/5 px-1.5 py-0.5 rounded-lg border border-[var(--border)] flex items-center gap-1 uppercase tracking-tighter italic">
-                   <Hash size={10} /> {order.orderId}
-                 </span>
-               </div>
- 
-               <h3 className="font-black text-xs uppercase tracking-tight truncate">{order.itemName}</h3>
- 
-               <div className="flex items-center gap-2.5 text-[9px] text-[var(--muted)] font-black uppercase tracking-widest mt-1">
-                 <span className="flex items-center gap-1 opacity-70"><Calendar size={10} /> {new Date(order.createdAt).toLocaleDateString()}</span>
-                 <span className="flex items-center gap-1 text-[var(--accent)]"><Zap size={10} fill="currentColor" /> {getGameName(order.gameSlug)}</span>
-               </div>
+              <div className="flex items-center gap-2 mb-1">
+                 <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest border ${config.colors}`}>
+                    {config.label}
+                  </span>
+                  <span className="text-[8px] font-bold text-[var(--muted)] opacity-50 uppercase tracking-tighter italic">
+                    #{order.orderId}
+                  </span>
+              </div>
+
+              <h3 className="font-black text-sm uppercase tracking-tight truncate text-[var(--foreground)]">{order.itemName}</h3>
+
+              <div className="flex items-center gap-3 text-[9px] text-[var(--muted)] font-bold uppercase tracking-widest mt-1 opacity-60">
+                <span>{new Date(order.createdAt).toLocaleDateString()}</span>
+                <span className="text-[var(--accent)]">{getGameName(order.gameSlug)}</span>
+              </div>
              </div>
  
             <div className="flex items-center justify-between md:items-center gap-3">
@@ -154,12 +153,12 @@ export default function OrderItem({ order }: { order: OrderType }) {
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="overflow-hidden"
             >
-              <div className="px-3 pb-3 pt-1 border-t border-[var(--border)]/50">
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 mt-2">
-                  <DetailItem label="Player ID" value={order.playerId} icon={<User size={10} />} mono />
-                  <DetailItem label="Zone ID" value={order.zoneId || "N/A"} icon={<Grid size={10} />} mono />
-                  <DetailItem label="Payment" value={order.paymentMethod.toUpperCase()} icon={<CreditCard size={10} />} />
-                  <DetailItem label="Package" value={order.itemName} icon={<Package size={10} />} />
+              <div className="px-3 pb-3 pt-1 border-t border-[var(--border)]/30">
+                <div className="grid grid-cols-2 gap-2 mt-2">
+                  <DetailItem label="Player ID" value={order.playerId} mono />
+                  <DetailItem label="Zone ID" value={order.zoneId || "N/A"} mono />
+                  <DetailItem label="Payment" value={order.paymentMethod} />
+                  <DetailItem label="Package" value={order.itemName} />
                 </div>
               </div>
             </motion.div>
@@ -173,23 +172,18 @@ export default function OrderItem({ order }: { order: OrderType }) {
 /* ================= HELPERS ================= */
 
 function DetailItem({
-  icon,
   label,
   value,
   mono,
 }: {
-  icon: React.ReactNode;
   label: string;
   value: string;
   mono?: boolean;
 }) {
   return (
-    <div className="flex flex-col gap-0.5 p-2 rounded-lg bg-[var(--foreground)]/5 border border-[var(--border)] transition-colors hover:border-[var(--accent)]/20 min-w-0">
-      <div className="flex items-center gap-1 text-[var(--accent)] text-[8px] font-black uppercase tracking-tighter italic opacity-80">
-        {icon}
-        <span>{label}</span>
-      </div>
-      <span className={`text-[10px] font-black tracking-tight ${mono ? "font-mono" : ""} truncate uppercase`}>
+    <div className="flex items-center justify-between p-2 rounded-xl bg-[var(--foreground)]/[0.02] border border-[var(--border)]">
+      <span className="text-[8px] font-bold text-[var(--muted)] uppercase tracking-widest">{label}</span>
+      <span className={`text-[10px] font-black tracking-tight ${mono ? "font-mono" : ""} truncate uppercase text-[var(--foreground)]`}>
         {value}
       </span>
     </div>
