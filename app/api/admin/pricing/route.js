@@ -116,7 +116,7 @@ export async function PATCH(req) {
     }
 
     const body = await req.json();
-    let { userType, slabs = [], overrides = [] } = body;
+    let { userType, slabs = [], overrides = [], gameOverrides = [] } = body;
 
     if (!userType) {
       return NextResponse.json(
@@ -191,6 +191,8 @@ export async function PATCH(req) {
         gameSlug: o.gameSlug,
         itemSlug: o.itemSlug,
         fixedPrice: o.fixedPrice,
+        isOverride: o.isOverride ?? false,
+        isOutOfStock: o.isOutOfStock ?? false,
       });
     }
 

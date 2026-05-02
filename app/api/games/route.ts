@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+import { connectDB } from "@/lib/mongodb";
+import PricingConfig from "@/models/PricingConfig";
+import jwt from "jsonwebtoken";
 
 export const revalidate = 60; // Cache the whole route for 1 minutes
 
@@ -80,8 +83,25 @@ const MEMBERSHIPS = [
 
 
 /* ================= API ================= */
-export async function GET() {
+export async function GET(req: Request) {
   try {
+    /* ===== OPTIONAL AUTH ===== */
+    let userType = "user";
+    const auth = req.headers.get("authorization");
+
+    if (auth?.startsWith("Bearer ")) {
+      try {
+        const decoded: any = jwt.verify(
+          auth.split(" ")[1],
+          process.env.JWT_SECRET!
+        );
+        if (decoded?.userType) userType = decoded.userType;
+      } catch { }
+    }
+
+    await connectDB();
+    const pricingConfig = await PricingConfig.findOne({ userType }).lean();
+
     const response = await fetch("https://game-off-ten.vercel.app/api/v1/game", {
       method: "GET",
       headers: {
@@ -95,6 +115,14 @@ export async function GET() {
     /* ================= NORMALIZE GAME ================= */
     const normalizeGame = (game: any) => {
       let updatedGame = { ...game };
+
+      // Check for stock override
+      const gameOverride = pricingConfig?.gameOverrides?.find(
+        (o: any) => o.gameSlug === game.gameSlug
+      );
+      if (gameOverride?.isOutOfStock) {
+        updatedGame.gameAvailablity = false;
+      }
 
       // Rename MLBB SMALL/PHP → MLBB SMALL
       if (updatedGame.gameName === "MLBB SMALL/PHP") {

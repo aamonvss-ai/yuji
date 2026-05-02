@@ -295,6 +295,7 @@ export async function GET(req, { params }) {
     data.data.itemId = data.data.itemId.map((item) => {
       const basePrice = Number(item.sellingPrice);
       let finalPrice = basePrice;
+      let itemOutOfStock = false;
 
       const override = pricingConfig?.overrides?.find(
         (o) =>
@@ -302,8 +303,21 @@ export async function GET(req, { params }) {
           o.itemSlug === item.itemSlug
       );
 
-      if (override?.fixedPrice != null) {
-        finalPrice = override.fixedPrice;
+      if (override) {
+        if (override.isOutOfStock) {
+          itemOutOfStock = true;
+        }
+
+        if (override.isOverride) {
+          finalPrice = override.fixedPrice;
+        } else {
+          const slab = pricingConfig?.slabs?.find(
+            (s) => basePrice >= s.min && basePrice < s.max
+          );
+          if (slab) {
+            finalPrice = basePrice * (1 + slab.percent / 100);
+          }
+        }
       } else {
         const slab = pricingConfig?.slabs?.find(
           (s) => basePrice >= s.min && basePrice < s.max
@@ -316,8 +330,9 @@ export async function GET(req, { params }) {
       return {
         ...item,
         sellingPrice: Math.ceil(finalPrice),
+        itemAvailablity: !itemOutOfStock && item.itemAvailablity !== false,
       };
-    });
+    }).filter(item => item.itemAvailablity !== false);
 
     return NextResponse.json(data);
   } catch (err) {
