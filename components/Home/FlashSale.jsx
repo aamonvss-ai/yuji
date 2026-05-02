@@ -31,6 +31,17 @@ const flashSaleData = [
         badge: "Value",
         sold: 85 // Percentage sold
     },
+    {
+        id: 5,
+        name: "Monthly Bundle",
+        game: "MLBB",
+        image: "/game-assets/elite-bundle.jpeg",
+        price: "₹395",
+        originalPrice: "₹450",
+        slug: "weeklymonthly-bundle931",
+        badge: "Value",
+        sold: 15 // Percentage sold
+    },
 
 ];
 
@@ -113,7 +124,7 @@ export default function FlashSale() {
                                                     <span>Limited Stock</span>
                                                 </div>
                                                 <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
-                                                    <motion.div 
+                                                    <motion.div
                                                         initial={{ width: 0 }}
                                                         whileInView={{ width: `${item.sold}%` }}
                                                         transition={{ duration: 1, ease: "easeOut" }}
