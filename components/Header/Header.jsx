@@ -180,7 +180,7 @@ export default function Header() {
             width={80}
             height={24}
             priority
-            className="object-contain"
+            className="object-contain logo-img"
           />
         </Link>
 
