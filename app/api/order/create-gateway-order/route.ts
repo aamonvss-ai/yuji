@@ -81,7 +81,7 @@ async function resolvePrice(
       headers: {
         "x-api-key": process.env.API_SECRET_KEY!,
       },
-      next: { revalidate: 3600 } // Cache for 1 hour to reduce server load
+      next: { revalidate: 60 } // Cache for 1 min to reduce server load
     }
   );
 

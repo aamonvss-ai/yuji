@@ -28,7 +28,7 @@ const getCachedPricingConfig = unstable_cache(
     return await PricingConfig.findOne({ userType: role }).lean();
   },
   ['pricing-config'],
-  { revalidate: 300 }
+  { revalidate: 60 }
 );
 
 /* ================= MEMBERSHIP CONFIG ================= */
@@ -276,7 +276,7 @@ export async function GET(req, { params }) {
       `https://game-off-ten.vercel.app/api/v1/game/${slug}`,
       {
         headers: { "x-api-key": process.env.API_SECRET_KEY },
-        next: { revalidate: 300 } // Cache for 5 minutes
+        next: { revalidate: 60 } // Cache for 5 minutes
       }
     );
 

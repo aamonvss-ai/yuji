@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export const revalidate = 300; // Cache the whole route for 5 minutes
+export const revalidate = 60; // Cache the whole route for 1 minutes
 
 const ALLOWED_GAME_SLUGS = [
   "mobile-legends988",
@@ -87,7 +87,7 @@ export async function GET() {
       headers: {
         "x-api-key": process.env.API_SECRET_KEY!,
       },
-      next: { revalidate: 300 }, // Cache for 5 minutes
+      next: { revalidate: 60 }, // Cache for 1 minutes
     });
 
     const data = await response.json();
