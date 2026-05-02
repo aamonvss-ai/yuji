@@ -87,7 +87,7 @@ export default function AdminPanalPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="relative overflow-hidden bg-[var(--card)]/40 backdrop-blur-2xl border border-white/5 rounded-[2.5rem] p-8 md:p-10 shadow-2xl mb-10"
+            className="relative overflow-hidden bg-[var(--card)]/40 backdrop-blur-2xl border border-[var(--border)] rounded-[2.5rem] p-8 md:p-10 shadow-2xl mb-10"
           >
             <div className="absolute top-0 right-0 p-6 opacity-10">
               <FaShieldAlt className="text-8xl" />
@@ -97,13 +97,13 @@ export default function AdminPanalPage() {
               <div className="space-y-1">
                 <p className="text-[10px] font-black uppercase tracking-widest text-[var(--muted)]">Initial Status</p>
                 <div className="flex items-center gap-3">
-                  <div className={`p-3 rounded-2xl bg-black/40 border border-white/5 
+                  <div className={`p-3 rounded-2xl bg-[var(--foreground)]/5 border border-[var(--border)] 
                     ${isOwner ? "text-yellow-400" : isReseller ? "text-yellow-500" : isSilver ? "text-blue-400" : "text-[var(--muted)]"}`}>
                     {isOwner ? <FaCrown className="text-2xl" /> : isReseller ? <FaUserTie className="text-2xl" /> : isSilver ? <FaStar className="text-2xl" /> : <FaGem className="text-2xl" />}
                   </div>
                   <div>
                     <h2 className={`text-2xl md:text-3xl font-black uppercase tracking-tighter 
-                      ${isOwner ? "text-yellow-400" : isReseller ? "text-yellow-500" : isSilver ? "text-blue-400" : "text-white"}`}>
+                      ${isOwner ? "text-yellow-400" : isReseller ? "text-yellow-500" : isSilver ? "text-blue-400" : "text-[var(--foreground)]"}`}>
                       {currentTier}
                     </h2>
                     <p className="text-xs font-bold text-[var(--muted)] uppercase tracking-widest">
@@ -114,7 +114,7 @@ export default function AdminPanalPage() {
               </div>
 
               {(isSilver || isReseller) && expiry && (
-                <div className="h-2 w-full md:w-48 bg-white/5 rounded-full overflow-hidden">
+                <div className="h-2 w-full md:w-48 bg-[var(--foreground)]/5 rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${Math.min(100, (daysLeft / 30) * 100)}%` }}
@@ -130,12 +130,12 @@ export default function AdminPanalPage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-center py-16 bg-[var(--card)]/20 border border-white/5 rounded-[2.5rem] backdrop-blur-md"
+              className="text-center py-16 bg-[var(--card)]/20 border border-[var(--border)] rounded-[2.5rem] backdrop-blur-md"
             >
               <div className="w-20 h-20 bg-yellow-400/10 border border-yellow-400/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_50px_rgba(250,204,21,0.1)]">
                 <FaCrown className="text-4xl text-yellow-400" />
               </div>
-              <p className="text-2xl font-black uppercase tracking-tighter">Ultimate Control Active</p>
+              <p className="text-2xl font-black uppercase tracking-tighter text-[var(--foreground)]">Ultimate Control Active</p>
               <p className="text-sm text-[var(--muted)] font-medium mt-2 max-w-md mx-auto">
                 You possess full administrative authority and lifetime premium access to every module in the Digital Universe.
               </p>
@@ -146,7 +146,7 @@ export default function AdminPanalPage() {
           {!isOwner && (
             <div className="space-y-8">
               {/* Tabs */}
-              <div className="flex justify-center p-1.5 bg-black/40 backdrop-blur-xl border border-white/5 rounded-2xl max-w-xs mx-auto">
+              <div className="flex justify-center p-1.5 bg-[var(--foreground)]/5 backdrop-blur-xl border border-[var(--border)] rounded-2xl max-w-xs mx-auto">
                 <PlanTab
                   active={activeTab === "silver"}
                   label="Silver"
@@ -224,7 +224,7 @@ function PlanTab({ active, label, icon, onClick }) {
                   flex items-center justify-center gap-2 transition-all duration-300
         ${active
           ? "bg-[var(--accent)] text-black shadow-lg"
-          : "text-[var(--muted)] hover:text-white"
+          : "text-[var(--muted)] hover:text-[var(--foreground)]"
         }`}
     >
       {icon}
@@ -242,12 +242,12 @@ function PerkList({ perks }) {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: i * 0.1 }}
-          className="flex items-start gap-4 p-5 bg-[var(--card)]/30 border border-white/5 rounded-3xl backdrop-blur-md"
+          className="flex items-start gap-4 p-5 bg-[var(--card)]/30 border border-[var(--border)] rounded-3xl backdrop-blur-md"
         >
           <div className="p-2 rounded-xl bg-green-500/10 border border-green-500/20 text-green-500">
             <FaCheckCircle className="text-sm" />
           </div>
-          <span className="text-sm font-medium text-white/80 leading-snug">{perk}</span>
+          <span className="text-sm font-medium text-[var(--foreground)]/80 leading-snug">{perk}</span>
         </motion.div>
       ))}
     </div>
@@ -261,10 +261,10 @@ function ActionButton({ href, label, type, disabled }) {
         href={disabled ? "#" : href}
         className={`inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-500 shadow-2xl
           ${disabled
-            ? "bg-white/5 text-white/20 border border-white/10 cursor-not-allowed"
+            ? "bg-[var(--foreground)]/5 text-[var(--muted)] border border-[var(--border)] cursor-not-allowed"
             : type === "reseller"
               ? "bg-yellow-500 text-black shadow-yellow-500/20"
-              : "bg-white text-black shadow-white/10"
+              : "bg-[var(--foreground)] text-[var(--background)] shadow-white/10"
           }`}
       >
         {label}

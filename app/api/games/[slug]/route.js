@@ -20,6 +20,7 @@ const ALLOWED_GAME_SLUGS = [
   "where-winds-meet280",
   "mlbb-smallphp980",
   "weeklymonthly-bundle931",
+  "8ballpool498",
 ];
 
 const getCachedPricingConfig = unstable_cache(

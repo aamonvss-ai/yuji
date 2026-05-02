@@ -541,7 +541,7 @@ export default function UsersTab() {
                     type="date"
                     value={filters.from}
                     onChange={(e) => setFilters({ ...filters, from: e.target.value })}
-                    className="w-full h-11 px-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.03] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40 [color-scheme:dark]"
+                    className="w-full h-11 px-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.03] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40 dark:[color-scheme:dark]"
                   />
                 </div>
 
@@ -551,7 +551,7 @@ export default function UsersTab() {
                     type="date"
                     value={filters.to}
                     onChange={(e) => setFilters({ ...filters, to: e.target.value })}
-                    className="w-full h-11 px-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.03] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40 [color-scheme:dark]"
+                    className="w-full h-11 px-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.03] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40 dark:[color-scheme:dark]"
                   />
                 </div>
               </div>
