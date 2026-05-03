@@ -15,8 +15,57 @@ import { connectDB } from "@/lib/mongodb";
 import SystemSettings from "@/models/SystemSettings";
 
 export const metadata: Metadata = {
-  title: "MLBB Top Up India – Cheap Mobile Legends Diamonds | Yujimlbb",
+  title: {
+    default: "MLBB Top Up India – Cheap Mobile Legends Diamonds | Yujimlbb",
+    template: "%s | Yujimlbb"
+  },
   description: "Buy Mobile Legends diamonds at the cheapest price in India. Instant delivery, trusted service & secure payment only at Yujimlbb.com.",
+  keywords: ["MLBB Top Up", "Mobile Legends Diamonds", "Cheap MLBB Diamonds India", "MLBB Recharge India", "Yuji MLBB", "Instant Diamond Delivery"],
+  authors: [{ name: "Yujimlbb" }],
+  creator: "Yujimlbb",
+  publisher: "Yujimlbb",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL("https://yujimlbb.com"),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "MLBB Top Up India – Cheap Mobile Legends Diamonds | Yujimlbb",
+    description: "Buy Mobile Legends diamonds at the cheapest price in India. Instant delivery, trusted service & secure payment only at Yujimlbb.com.",
+    url: "https://yujimlbb.com",
+    siteName: "Yujimlbb",
+    images: [
+      {
+        url: "/logo.png",
+        width: 800,
+        height: 600,
+        alt: "Yujimlbb Logo",
+      },
+    ],
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MLBB Top Up India – Cheap Mobile Legends Diamonds | Yujimlbb",
+    description: "Buy Mobile Legends diamonds at the cheapest price in India. Instant delivery, trusted service & secure payment only at Yujimlbb.com.",
+    images: ["/logo.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   verification: {
     google: "SIX1trDeaETK7DDO7IlpYofg4A3QMOENWAid77zLzgU",
   },
@@ -49,6 +98,46 @@ export default async function RootLayout({
       <head>
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Yujimlbb",
+              "url": "https://yujimlbb.com",
+              "logo": "https://yujimlbb.com/logo.png",
+              "sameAs": [
+                "https://www.facebook.com/yujimlbb",
+                "https://www.instagram.com/yujimlbb",
+                "https://twitter.com/yujimlbb"
+              ],
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+91-XXXXXXXXXX",
+                "contactType": "customer service",
+                "areaServed": "IN",
+                "availableLanguage": "en"
+              }
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Yujimlbb",
+              "url": "https://yujimlbb.com",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://yujimlbb.com/games?search={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            }),
+          }}
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `
