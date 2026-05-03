@@ -13,6 +13,7 @@ const ALLOWED_GAME_SLUGS = [
   "mlbb-indo42",
   "mlbbglobal202",          // Global
   "mlbbtr112",
+  "mlbbbr178",
   // "mlbb-russia953",
   "pubg-mobile138",
   // "genshin-impact742",

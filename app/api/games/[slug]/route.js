@@ -19,6 +19,7 @@ const ALLOWED_GAME_SLUGS = [
   "wuthering-of-waves464",
   "where-winds-meet280",
   "mlbb-smallphp980",
+  "mlbbbr178",
   "weeklymonthly-bundle931",
   "8ballpool498",
 ];
