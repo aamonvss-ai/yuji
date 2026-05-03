@@ -56,7 +56,7 @@ export default function GameSwitcher() {
                                             src={game?.gameImageId?.image || "/logo.png"}
                                             alt={game.gameName}
                                             fill
-                                            className="object-cover"
+                                            className={`object-cover ${!(game?.gameImageId?.image) ? "logo-img" : ""}`}
                                         />
                                     </div>
                                     <span className={`text-[10px] font-black uppercase tracking-tight max-w-[70px] leading-[1.1] text-center line-clamp-2 h-[22px] flex items-center justify-center transition-colors ${isActive ? 'text-[var(--foreground)]' : 'text-[var(--muted)]'}`}>

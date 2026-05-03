@@ -83,7 +83,7 @@ export default function AuthPage() {
       >
         {/* --- Card Container --- */}
         <div className="relative">
-          <div className="relative rounded-[2.5rem] bg-[var(--card)]/75 backdrop-blur-md border border-white/10 shadow-xl overflow-hidden p-8 sm:p-12">
+          <div className="relative rounded-[2.5rem] bg-[var(--card)]/75 backdrop-blur-md border border-[var(--border)] shadow-xl overflow-hidden p-8 sm:p-12">
 
             {/* BRANDING SECTION */}
             <div className="mb-10 text-center">
@@ -91,14 +91,14 @@ export default function AuthPage() {
                 {/* Logo Halo - Performance standard blur */}
                 <div className="absolute inset-0 bg-[var(--accent)]/10 blur-md rounded-full" />
 
-                <div className="relative h-full w-full rounded-2xl bg-gradient-to-b from-white/10 to-transparent p-[1px]">
-                  <div className="h-full w-full rounded-2xl bg-[#0a0a0a]/80 backdrop-blur-sm flex items-center justify-center border border-white/5">
+                <div className="relative h-full w-full rounded-2xl bg-gradient-to-b from-[var(--accent)]/20 to-transparent p-[1px]">
+                  <div className="h-full w-full rounded-2xl bg-[var(--card)] backdrop-blur-sm flex items-center justify-center border border-[var(--border)] shadow-sm">
                     <Image
                       src="/logo.png"
                       alt="yuji Logo"
                       width={44}
                       height={44}
-                      className="object-contain"
+                      className="object-contain logo-img"
                       priority
                     />
                   </div>
@@ -143,7 +143,7 @@ export default function AuthPage() {
 
             {/* AUTH ACTIONS */}
             <div className="space-y-6">
-              <div className="relative group/btn overflow-hidden rounded-[1.25rem] border border-white/10 bg-white/5 transition-all duration-300 hover:border-[var(--accent)]/50 hover:bg-white/[0.08]">
+              <div className="relative group/btn overflow-hidden rounded-[1.25rem] border border-[var(--border)] bg-[var(--foreground)]/[0.03] transition-all duration-300 hover:border-[var(--accent)]/50 hover:bg-[var(--foreground)]/[0.05]">
                 <GoogleLogin
                   onSuccess={(res) => res.credential && handleGoogleLogin(res.credential)}
                   onError={() => setError("Google sign-in failed")}
@@ -181,14 +181,14 @@ export default function AuthPage() {
 
             {/* FOOTER */}
             <div className="mt-12 space-y-6">
-              <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+              <div className="h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
 
               <div className="flex flex-col items-center gap-5">
                 <p className="text-[10px] text-[var(--muted)] tracking-wide leading-relaxed text-center px-4">
                   By signing in, you agree to our{" "}
-                  <button className="text-[var(--foreground)] font-bold hover:text-[var(--accent)] transition-colors underline underline-offset-4 decoration-white/20">Terms of Service</button>
+                  <button className="text-[var(--foreground)] font-bold hover:text-[var(--accent)] transition-colors underline underline-offset-4 decoration-[var(--border)]">Terms of Service</button>
                   {" "}and{" "}
-                  <button className="text-[var(--foreground)] font-bold hover:text-[var(--accent)] transition-colors underline underline-offset-4 decoration-white/20">Privacy Policy</button>
+                  <button className="text-[var(--foreground)] font-bold hover:text-[var(--accent)] transition-colors underline underline-offset-4 decoration-[var(--border)]">Privacy Policy</button>
                 </p>
 
                 <Link

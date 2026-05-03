@@ -31,7 +31,7 @@ export default function BuyPanel({
             src={activeItem?.itemImageId?.image || logo}
             alt={activeItem?.itemName || "Item"}
             fill
-            className="object-cover"
+            className={`object-cover ${!(activeItem?.itemImageId?.image) ? "logo-img" : ""}`}
           />
         </div>
 
