@@ -15,6 +15,7 @@ import ItemGridBgmi from "@/components/GameDetail/ItemGridBgmi";
 import BuyPanelBgmi from "@/components/GameDetail/BuyPanelBgmi";
 import GameSwitcher from "@/components/GameDetail/GameSwitcher";
 import AuthGuard from "@/components/AuthGuard";
+import GameDetailSkeleton from "@/components/GameDetail/GameDetailSkeleton";
 
 export default function GameDetailPage() {
   const { slug } = useParams();
@@ -67,7 +68,7 @@ export default function GameDetailPage() {
 
   /* ================= RENDER STATES ================= */
   if (isLoading) {
-    return <Loader />;
+    return <GameDetailSkeleton />;
   }
 
   if (notFound || !game) {

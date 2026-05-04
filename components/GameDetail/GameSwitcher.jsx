@@ -28,7 +28,13 @@ export default function GameSwitcher() {
     return (
         <div className="w-full overflow-hidden mb-1">
             <div className="max-w-6xl mx-auto px-0">
-                <div className="flex items-center gap-1 overflow-x-auto pb-2 pt-0.5 no-scrollbar mask-fade">
+            <div className="flex items-center gap-2 mb-1 px-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
+                <h3 className="text-[9px] font-black uppercase tracking-widest text-[var(--muted)] opacity-60 italic">
+                    Quick Game Switch
+                </h3>
+            </div>
+            <div className="flex items-center gap-1 overflow-x-auto pb-2 pt-0.5 no-scrollbar mask-fade">
                     {games.map((game) => {
                         const isActive = game.gameSlug === slug;
                         return (

@@ -75,7 +75,7 @@ export default function ReviewAndPaymentStep({
         itemSlug,
         itemName,
         playerId: reviewData.playerId,
-        zoneId: reviewData.zoneId,
+        zoneId: reviewData.zoneId || "NA",
         paymentMethod,
         email: userEmail || null,
         phone: storedPhone,
@@ -111,93 +111,102 @@ export default function ReviewAndPaymentStep({
 
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       {/* STEP 2: Review Content */}
       {step === 2 && (
         <>
           {/* Item Card */}
-          <div className="flex items-center gap-4 bg-black/20 p-4 rounded-xl border border-gray-700">
-            <Image
-              src={itemImage || logo}
-              alt="Item"
-              width={65}
-              height={65}
-              className="rounded-xl"
-            />
+          <div className="flex items-center gap-3 bg-[var(--card)] p-3 rounded-xl border border-[var(--border)] shadow-sm">
+            <div className="w-12 h-12 relative rounded-lg overflow-hidden border border-[var(--border)]/50">
+              <Image
+                src={itemImage || logo}
+                alt="Item"
+                fill
+                className="object-cover"
+              />
+            </div>
             <div>
-              <h3 className="text-lg font-bold">{itemName}</h3>
-              <p className="text-sm opacity-50">Selected package</p>
+              <h3 className="text-base font-black uppercase tracking-tight italic leading-tight">{itemName}</h3>
+              <p className="text-[9px] font-bold text-[var(--muted)] uppercase tracking-widest opacity-60">Package</p>
             </div>
           </div>
 
           {/* User Contact */}
-          <div className="bg-[var(--card)]/40 p-4 rounded-2xl border border-[var(--border)] shadow-sm">
-            <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-              <span className="w-1 h-3 bg-[var(--accent)] rounded-full" />
+          <div className="bg-[var(--card)] p-3.5 rounded-2xl border border-[var(--border)] shadow-sm">
+            <h3 className="font-black text-[9px] mb-2 flex items-center gap-1.5 text-[var(--muted)] uppercase tracking-[0.2em]">
+              <span className="w-1.5 h-1.5 bg-[var(--accent)] rounded-full animate-pulse" />
               Your Details
             </h3>
-            <div className="flex flex-wrap sm:flex-nowrap gap-3">
-              <div className="flex-1 flex items-center gap-2 p-2 rounded-xl bg-black/20 border border-white/5 min-w-[140px]">
-                <div className="w-8 h-8 shrink-0 rounded-lg bg-white/5 flex items-center justify-center text-[var(--accent)]">
-                  <Mail size={14} />
+            <div className="flex flex-wrap sm:flex-nowrap gap-2">
+              <div className="flex-1 flex items-center gap-2 p-2 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 min-w-[130px]">
+                <div className="w-7 h-7 shrink-0 rounded-lg bg-[var(--accent)]/10 flex items-center justify-center text-[var(--accent)]">
+                  <Mail size={13} />
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="text-[8px] text-[var(--muted)] uppercase font-bold tracking-wider">Email</span>
-                  <span className="font-semibold text-[11px] truncate">{userEmail || "Not provided"}</span>
+                  <span className="text-[8px] text-[var(--muted)] uppercase font-black tracking-widest opacity-50">Email</span>
+                  <span className="font-black text-[10px] truncate uppercase italic">{userEmail || "Not provided"}</span>
                 </div>
               </div>
-              <div className="flex-1 flex items-center gap-2 p-2 rounded-xl bg-black/20 border border-white/5 min-w-[140px]">
-                <div className="w-8 h-8 shrink-0 rounded-lg bg-white/5 flex items-center justify-center text-[var(--accent)]">
-                  <Phone size={14} />
+              <div className="flex-1 flex items-center gap-2 p-2 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 min-w-[130px]">
+                <div className="w-7 h-7 shrink-0 rounded-lg bg-[var(--accent)]/10 flex items-center justify-center text-[var(--accent)]">
+                  <Phone size={13} />
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="text-[8px] text-[var(--muted)] uppercase font-bold tracking-wider">Phone</span>
-                  <span className="font-semibold text-[11px]">{userPhone || "Not provided"}</span>
+                  <span className="text-[8px] text-[var(--muted)] uppercase font-black tracking-widest opacity-50">Phone</span>
+                  <span className="font-black text-[10px] uppercase italic">{userPhone || "Not provided"}</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Game Details */}
-          <div className="bg-[var(--card)]/40 p-4 rounded-2xl border border-[var(--border)] shadow-sm">
-            <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-              <span className="w-1 h-3 bg-[var(--accent)] rounded-full" />
+          <div className="bg-[var(--card)] p-3.5 rounded-2xl border border-[var(--border)] shadow-sm">
+            <h3 className="font-black text-[9px] mb-2 flex items-center gap-1.5 text-[var(--muted)] uppercase tracking-[0.2em]">
+              <span className="w-1.5 h-1.5 bg-[var(--accent)] rounded-full animate-pulse" />
               Game Info
             </h3>
-            <div className="flex flex-wrap sm:flex-nowrap gap-2">
-              <div className="flex-1 flex items-center gap-2 p-2 rounded-xl bg-black/20 border border-white/5 min-w-[100px]">
-                <div className="w-8 h-8 shrink-0 rounded-lg bg-white/5 flex items-center justify-center text-[var(--accent)]">
-                  <User size={14} />
+            <div className="space-y-2">
+              {/* Row 1: User */}
+              <div className="flex items-center gap-2 p-2 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50">
+                <div className="w-7 h-7 shrink-0 rounded-lg bg-[var(--accent)]/10 flex items-center justify-center text-[var(--accent)]">
+                  <User size={13} />
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="text-[8px] text-[var(--muted)] uppercase font-bold tracking-wider">User</span>
-                  <span className="font-semibold text-[11px] truncate">{reviewData.userName}</span>
+                  <span className="text-[8px] text-[var(--muted)] uppercase font-black tracking-widest opacity-50">User</span>
+                  <span className="font-black text-[11px] truncate uppercase italic">{reviewData.userName}</span>
                 </div>
               </div>
-              <div className="flex-1 flex items-center gap-2 p-2 rounded-xl bg-black/20 border border-white/5 min-w-[100px]">
-                <div className="w-8 h-8 shrink-0 rounded-lg bg-white/5 flex items-center justify-center text-[var(--accent)]">
-                  <Hash size={14} />
+
+              {/* Row 2: ID & Zone */}
+              <div className="grid grid-cols-2 gap-2">
+                <div className="flex items-center gap-2 p-2 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50">
+                  <div className="w-7 h-7 shrink-0 rounded-lg bg-[var(--accent)]/10 flex items-center justify-center text-[var(--accent)]">
+                    <Hash size={13} />
+                  </div>
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-[8px] text-[var(--muted)] uppercase font-black tracking-widest opacity-50">ID</span>
+                    <span className="font-black text-[11px] uppercase italic">{reviewData.playerId}</span>
+                  </div>
                 </div>
-                <div className="flex flex-col min-w-0">
-                  <span className="text-[8px] text-[var(--muted)] uppercase font-bold tracking-wider">ID</span>
-                  <span className="font-semibold text-[11px]">{reviewData.playerId}</span>
-                </div>
-              </div>
-              <div className="flex-1 flex items-center gap-2 p-2 rounded-xl bg-black/20 border border-white/5 min-w-[100px]">
-                <div className="w-8 h-8 shrink-0 rounded-lg bg-white/5 flex items-center justify-center text-[var(--accent)]">
-                  <MapPin size={14} />
-                </div>
-                <div className="flex flex-col min-w-0">
-                  <span className="text-[8px] text-[var(--muted)] uppercase font-bold tracking-wider">Zone</span>
-                  <span className="font-semibold text-[11px]">{reviewData.zoneId}</span>
+                <div className="flex items-center gap-2 p-2 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50">
+                  <div className="w-7 h-7 shrink-0 rounded-lg bg-[var(--accent)]/10 flex items-center justify-center text-[var(--accent)]">
+                    <MapPin size={13} />
+                  </div>
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-[8px] text-[var(--muted)] uppercase font-black tracking-widest opacity-50">Zone</span>
+                    <span className="font-black text-[10px] uppercase italic">{reviewData.zoneId || "NA"}</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Payment Method */}
-          <div className="bg-black/20 p-4 rounded-xl border border-gray-700">
-            <h3 className="font-semibold mb-3">Choose Payment Method</h3>
+          <div className="bg-[var(--card)] p-3.5 rounded-2xl border border-[var(--border)] shadow-sm">
+            <h3 className="font-black text-[9px] mb-2 flex items-center gap-1.5 text-[var(--muted)] uppercase tracking-[0.2em]">
+              <span className="w-1.5 h-1.5 bg-[var(--accent)] rounded-full animate-pulse" />
+              Payment Method
+            </h3>
 
             {/* Wallet Button */}
             {(() => {
@@ -212,34 +221,37 @@ export default function ReviewAndPaymentStep({
                     onClick={() => {
                       setPaymentMethod("wallet");
                     }}
-                    className={`w-full p-4 rounded-xl border-2 text-left transition-all flex items-center justify-between
+                    className={`w-full p-2.5 rounded-xl border-2 text-left transition-all flex items-center justify-between
                       ${paymentMethod === "wallet"
-                        ? "border-[var(--accent)] bg-[var(--accent)]/10"
-                        : "border-gray-700 hover:border-gray-500"
+                        ? "border-[var(--accent)] bg-[var(--accent)]/5"
+                        : "border-[var(--border)] hover:border-[var(--accent)]/20"
                       }`}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className={`p-2 rounded-lg ${paymentMethod === "wallet" ? "bg-[var(--accent)] text-black" : "bg-white/5 text-gray-400"}`}>
-                        <Wallet size={18} />
+                    <div className="flex items-center gap-2.5">
+                      <div className={`p-2 rounded-lg ${paymentMethod === "wallet" ? "bg-[var(--accent)] text-black" : "bg-[var(--foreground)]/[0.03] text-[var(--muted)]"}`}>
+                        <Wallet size={16} />
                       </div>
                       <div>
-                        <p className="font-bold text-sm">Wallet Balance</p>
-                        <p className="text-xs opacity-60">Pay using your loaded balance</p>
+                        <p className="font-black text-[10px] uppercase italic tracking-tight">Wallet Balance</p>
+                        <p className="text-[8px] font-bold text-[var(--muted)] uppercase opacity-60">Pay with balance</p>
                       </div>
                     </div>
-                    <span className="font-black">₹{walletBalance.toFixed(2)}</span>
+                    <span className="font-black text-xs italic">₹{walletBalance.toFixed(2)}</span>
                   </button>
 
-                  {!isAllowedRole && (
-                    <p className="text-amber-400 text-[10px] mt-1.5 flex items-center gap-1 font-bold">
-                      <Lock size={10} /> Possibly restricted access (Verified at checkout)
-                    </p>
-                  )}
-
-                  {!isWithinLimit && (
-                    <p className="text-amber-400 text-[10px] mt-1.5 flex items-center gap-1 font-bold">
-                      <Lock size={10} /> Wallet limit is ₹500. Use UPI for higher amounts.
-                    </p>
+                  {(!isAllowedRole || !isWithinLimit) && (
+                    <div className="flex gap-2 mt-1 px-1">
+                      {!isAllowedRole && (
+                        <p className="text-amber-500 text-[7px] flex items-center gap-1 font-black uppercase tracking-widest opacity-80">
+                          <Lock size={8} /> Restricted
+                        </p>
+                      )}
+                      {!isWithinLimit && (
+                        <p className="text-amber-500 text-[7px] flex items-center gap-1 font-black uppercase tracking-widest opacity-80">
+                          <Lock size={8} /> Limit ₹500
+                        </p>
+                      )}
+                    </div>
                   )}
                 </div>
               );
@@ -248,65 +260,67 @@ export default function ReviewAndPaymentStep({
             {/* UPI Button */}
             <button
               onClick={handleUPI}
-              className={`w-full mt-3 p-4 rounded-xl border-2 text-left transition-all flex items-center justify-between
+              className={`w-full mt-2 p-2.5 rounded-xl border-2 text-left transition-all flex items-center justify-between
                 ${paymentMethod === "upi"
-                  ? "border-[var(--accent)] bg-[var(--accent)]/10"
-                  : "border-gray-700 hover:border-gray-500"
+                  ? "border-[var(--accent)] bg-[var(--accent)]/5"
+                  : "border-[var(--border)] hover:border-[var(--accent)]/20"
                 }`}
             >
-              <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${paymentMethod === "upi" ? "bg-[var(--accent)] text-black" : "bg-white/5 text-gray-400"}`}>
-                  <QrCode size={18} />
+              <div className="flex items-center gap-2.5">
+                <div className={`p-2 rounded-lg ${paymentMethod === "upi" ? "bg-[var(--accent)] text-black" : "bg-[var(--foreground)]/[0.03] text-[var(--muted)]"}`}>
+                  <QrCode size={16} />
                 </div>
                 <div>
-                  <p className="font-bold text-sm">Pay with UPI</p>
-                  <p className="text-xs opacity-60">Instant payment via any UPI app</p>
+                  <p className="font-black text-[10px] uppercase italic tracking-tight">Pay with UPI</p>
+                  <p className="text-[8px] font-bold text-[var(--muted)] uppercase opacity-60">Instant payment</p>
                 </div>
               </div>
             </button>
           </div>
 
           {/* Price Summary */}
-          <div className="bg-black/20 p-4 rounded-xl border border-gray-700">
-            <h3 className="font-bold text-sm mb-3 flex items-center gap-2 text-[var(--muted)] uppercase tracking-widest">
-              <span className="w-1 h-3 bg-[var(--accent)] rounded-full" />
+          <div className="bg-[var(--foreground)]/[0.03] p-4 rounded-2xl border border-[var(--border)] shadow-sm">
+            <h3 className="font-black text-[9px] mb-3 flex items-center gap-1.5 text-[var(--muted)] uppercase tracking-[0.2em]">
+              <span className="w-1.5 h-1.5 bg-[var(--accent)] rounded-full animate-pulse" />
               Order Summary
             </h3>
-            <div className="flex items-center justify-between text-sm mb-1 px-1">
-              <span className="text-[var(--muted)]">Base Price</span>
-              <span className="font-bold">₹{price}</span>
-            </div>
-            <div className="flex items-center justify-between text-sm mb-3 px-1">
-              <span className="text-green-500">Discount Applied</span>
-              <span className="font-bold text-green-500">-₹{discount}</span>
+            
+            <div className="space-y-1.5 mb-3 px-1">
+              <div className="flex items-center justify-between text-[10px]">
+                <span className="text-[var(--muted)] font-medium">Base Price</span>
+                <span className="font-bold text-[var(--foreground)]">₹{price}</span>
+              </div>
+              {discount > 0 && (
+                <div className="flex items-center justify-between text-[10px]">
+                  <span className="text-emerald-500 font-medium">Discount Applied</span>
+                  <span className="font-bold text-emerald-500">-₹{discount}</span>
+                </div>
+              )}
             </div>
 
-            <div className="flex items-center justify-between bg-white/[0.03] p-3 rounded-xl border border-white/5 mb-4">
-              <span className="text-xs font-black uppercase tracking-tighter italic">Total Amount</span>
-              <span className="text-xl font-black text-[var(--accent)] italic">₹{totalPrice}</span>
+            <div className="flex items-center justify-between bg-[var(--accent)]/5 p-3 rounded-xl border border-[var(--accent)]/10 mb-3">
+              <span className="text-[9px] font-black uppercase tracking-widest text-[var(--muted)] italic">Total Amount</span>
+              <span className="text-xl font-black text-[var(--accent)] italic tracking-tighter">₹{totalPrice}</span>
             </div>
 
             <button
               onClick={handleProceed}
-              disabled={
-                isRedirecting ||
-                !paymentMethod
-              }
-              className="
-    bg-[var(--accent)] text-black p-3 rounded-lg w-full mt-4 font-semibold
-    disabled:opacity-50 flex items-center justify-center gap-2
-  "            >
-              {isRedirecting ? (
-                <>
-                  <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                  Redirecting...
-                </>
-              ) : (
-                <>
-                  <Lock size={16} />
-                  <span>Pay Now</span>
-                </>
-              )}
+              disabled={isRedirecting || !paymentMethod}
+              className="group relative w-full py-3 px-6 rounded-xl bg-[var(--accent)] text-black font-black uppercase text-[10px] tracking-[0.2em] transition-all duration-300 hover:scale-[1.02] active:scale-95 disabled:opacity-50 shadow-xl shadow-[var(--accent)]/20"
+            >
+              <div className="flex items-center justify-center gap-2">
+                {isRedirecting ? (
+                  <>
+                    <span className="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                    <span>Redirecting...</span>
+                  </>
+                ) : (
+                  <>
+                    <Lock size={12} className="group-hover:rotate-12 transition-transform" />
+                    <span>Pay Now</span>
+                  </>
+                )}
+              </div>
             </button>
           </div>
         </>

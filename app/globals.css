@@ -530,6 +530,7 @@ body::before {
   background-repeat: no-repeat;
   z-index: -1;
   opacity: 0.15; /* Suble blend with active theme */
+  filter: blur(4px); /* Subtle blur as requested */
   pointer-events: none;
 }
 

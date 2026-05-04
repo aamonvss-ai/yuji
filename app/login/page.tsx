@@ -59,7 +59,7 @@ export default function AuthPage() {
   if (!mounted) return null;
 
   return (
-    <section className="min-h-screen relative flex items-center justify-center bg-transparent overflow-hidden px-4 py-20 font-sans selection:bg-[var(--accent)]/30">
+    <section className="min-h-screen relative flex items-start justify-center bg-transparent overflow-hidden px-4 pt-10 pb-10 font-sans selection:bg-[var(--accent)]/30">
 
       {/* --- Premium Background System --- */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -83,33 +83,31 @@ export default function AuthPage() {
       >
         {/* --- Card Container --- */}
         <div className="relative">
-          <div className="relative rounded-[2.5rem] bg-[var(--card)]/75 backdrop-blur-md border border-[var(--border)] shadow-xl overflow-hidden p-8 sm:p-12">
+          <div className="relative p-8 sm:p-12">
 
             {/* BRANDING SECTION */}
             <div className="mb-10 text-center">
-              <div className="mx-auto mb-6 h-20 w-20 relative">
+              <div className="mx-auto mb-6 h-32 w-32 relative">
                 {/* Logo Halo - Performance standard blur */}
-                <div className="absolute inset-0 bg-[var(--accent)]/10 blur-md rounded-full" />
+                <div className="absolute inset-0 bg-[var(--accent)]/15 blur-2xl rounded-full scale-125" />
 
-                <div className="relative h-full w-full rounded-2xl bg-gradient-to-b from-[var(--accent)]/20 to-transparent p-[1px]">
-                  <div className="h-full w-full rounded-2xl bg-[var(--card)] backdrop-blur-sm flex items-center justify-center border border-[var(--border)] shadow-sm">
-                    <Image
-                      src="/logo.png"
-                      alt="yuji Logo"
-                      width={44}
-                      height={44}
-                      className="object-contain logo-img"
-                      priority
-                    />
-                  </div>
+                <div className="relative h-full w-full flex items-center justify-center">
+                  <Image
+                    src="/logo.png"
+                    alt="yuji Logo"
+                    width={96}
+                    height={96}
+                    className="object-contain logo-img"
+                    priority
+                  />
                 </div>
               </div>
 
               <div className="space-y-1">
-                <h1 className="text-3xl font-extrabold tracking-tight text-[var(--foreground)]">
+                <h1 className="text-4xl font-extrabold tracking-tight text-[var(--foreground)]">
                   Welcome back
                 </h1>
-                <p className="text-sm text-[var(--muted)] font-medium">
+                <p className="text-base text-[var(--muted)] font-medium">
                   Sign in to continue
                 </p>
               </div>

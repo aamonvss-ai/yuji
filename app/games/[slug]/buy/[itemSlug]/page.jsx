@@ -7,9 +7,17 @@ import ValidationStep from "./ValidationStep";
 import ReviewAndPaymentStep from "./ReviewAndPaymentStep";
 import { saveVerifiedPlayer } from "@/utils/storage/verifiedPlayerStorage";
 
+import { FaUserCheck, FaClipboardCheck, FaWallet } from "react-icons/fa";
+
 export default function BuyFlowPage() {
   const { slug, itemSlug } = useParams();
   const params = useSearchParams();
+
+  const steps = [
+    { num: 1, title: "1.Validate", Icon: FaUserCheck },
+    { num: 2, title: "2.Review", Icon: FaClipboardCheck },
+    { num: 3, title: "3.Payment", Icon: FaWallet },
+  ];
 
   /* ================= FLOW STATE ================= */
   const [step, setStep] = useState(1);
@@ -71,15 +79,14 @@ export default function BuyFlowPage() {
           return;
         }
 
-        const sellingPrice = Number(foundItem.sellingPrice);
-        const dummyPrice = Number(foundItem.dummyPrice || 0);
-        const calculatedDiscount =
-          dummyPrice > sellingPrice ? dummyPrice - sellingPrice : 0;
+        const sPrice = Number(foundItem.sellingPrice);
+        const dPrice = Number(foundItem.dummyPrice || sPrice);
+        const calcDiscount = dPrice > sPrice ? dPrice - sPrice : 0;
 
         setItem(foundItem);
-        setPrice(sellingPrice);
-        setDiscount(calculatedDiscount);
-        setTotalPrice(sellingPrice);
+        setPrice(dPrice);
+        setDiscount(calcDiscount);
+        setTotalPrice(sPrice);
       })
       .catch(() => {
         alert("Failed to load item price");
@@ -90,7 +97,7 @@ export default function BuyFlowPage() {
   /* ================= PLAYER VALIDATION ================= */
   const handleValidate = async () => {
     setError(""); // reset error
-    
+
     const fieldOneLabel = game?.inputFieldOne || "Player ID";
     const fieldTwoLabel = game?.inputFieldTwo || "Zone ID";
     const hasFieldTwo = !!(game?.inputFieldTwo || (game?.inputFieldTwoOption && game.inputFieldTwoOption.length > 0));
@@ -175,7 +182,7 @@ export default function BuyFlowPage() {
           userName: username,
           region,
           playerId,
-          zoneId,
+          zoneId: zoneId || "NA",
         });
 
         setLoading(false);
@@ -217,19 +224,19 @@ export default function BuyFlowPage() {
             />
           </div>
 
-          {[1, 2, 3].map((num) => (
-            <div key={num} className="relative z-10 flex flex-col items-center w-1/3">
+          {steps.map((s) => (
+            <div key={s.num} className="relative z-10 flex flex-col items-center w-1/3">
               <div
-                className={`w-10 h-10 flex items-center justify-center rounded-full border-2 font-semibold text-sm
-                ${step >= num
-                    ? "border-[var(--accent)] bg-[var(--accent)] text-black"
-                    : "border-gray-600 bg-[var(--card)] text-gray-400"}`}
+                className={`w-11 h-11 flex items-center justify-center rounded-full border-2 transition-all duration-500
+                ${step >= s.num
+                    ? "border-[var(--accent)] bg-[var(--accent)] text-black shadow-lg shadow-[var(--accent)]/30 scale-110"
+                    : "border-gray-700 bg-[var(--card)] text-gray-500 scale-100"}`}
               >
-                {num}
+                <s.Icon size={18} />
               </div>
 
-              <p className={`text-sm mt-2 ${step >= num ? "text-[var(--accent)]" : "text-gray-500"}`}>
-                {num === 1 ? "Validate" : num === 2 ? "Review" : "Payment"}
+              <p className={`text-[10px] font-black uppercase tracking-widest mt-3 transition-colors duration-500 ${step >= s.num ? "text-[var(--accent)]" : "text-gray-500 opacity-50"}`}>
+                {s.title}
               </p>
             </div>
           ))}

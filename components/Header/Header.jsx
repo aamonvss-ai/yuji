@@ -422,12 +422,28 @@ export default function Header() {
                                 {user.email}
                               </p>
                               
-                              {/* Wallet Mini-Badge */}
-                              <div className="flex items-center gap-1.5 mt-1 px-2 py-0.5 rounded-full bg-[var(--accent)]/10 border border-[var(--accent)]/20 w-fit">
-                                <Wallet size={8} className="text-[var(--accent)]" />
-                                <span className="text-[9px] font-black text-[var(--accent)] uppercase tracking-wider">
-                                  ₹{user.wallet?.toFixed(2) || "0.00"}
-                                </span>
+                              {/* Badges Row */}
+                              <div className="flex items-center gap-2 mt-1.5">
+                                {/* Wallet Mini-Badge */}
+                                <div className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-[var(--accent)]/10 border border-[var(--accent)]/20">
+                                  <Wallet size={8} className="text-[var(--accent)]" />
+                                  <span className="text-[9px] font-black text-[var(--accent)] uppercase tracking-tight">
+                                    ₹{user.wallet?.toFixed(2) || "0.00"}
+                                  </span>
+                                </div>
+
+                                {/* User Type Badge */}
+                                <div className={`flex items-center px-2 py-0.5 rounded-md border font-black text-[8px] uppercase tracking-wider ${
+                                  user.userType === 'owner' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500' :
+                                  user.userType === 'admin' ? 'bg-blue-500/10 border-blue-500/20 text-blue-500' :
+                                  user.userType === 'member' ? 'bg-purple-500/10 border-purple-500/20 text-purple-500' :
+                                  'bg-[var(--muted)]/10 border-[var(--border)] text-[var(--muted)]'
+                                }`}>
+                                  {user.userType === 'owner' ? 'Owner' :
+                                   user.userType === 'admin' ? 'Reseller' :
+                                   user.userType === 'member' ? 'Member Reseller' :
+                                   'User'}
+                                </div>
                               </div>
                             </div>
                           </div>

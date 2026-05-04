@@ -60,17 +60,14 @@ export default function TopupComplete() {
   }, []);
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center bg-transparent px-4">
+    <div className="min-h-[80vh] flex items-start justify-center bg-transparent px-4 pt-20">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-sm"
       >
-        <div className="rounded-[2.5rem] border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-xl p-8 text-center shadow-2xl relative overflow-hidden">
-          {/* Status Bar */}
-          <div className={`absolute top-0 left-0 right-0 h-1.5 ${status === 'success' ? 'bg-emerald-500' :
-            status === 'failed' ? 'bg-rose-500' : 'bg-[var(--accent)]'
-            }`} />
+        <div className="p-8 text-center relative">
+
 
           <AnimatePresence mode="wait">
             {status === "checking" && (
