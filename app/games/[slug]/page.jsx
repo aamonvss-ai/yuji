@@ -155,6 +155,7 @@ export default function GameDetailPage() {
               activeItem={activeItem}
               setActiveItem={setActiveItem}
               buyPanelRef={buyPanelRef}
+              gameImage={game?.gameImageId?.image}
             />
           ) : (
             <ItemGrid
@@ -162,6 +163,7 @@ export default function GameDetailPage() {
               activeItem={activeItem}
               setActiveItem={setActiveItem}
               buyPanelRef={buyPanelRef}
+              gameImage={game?.gameImageId?.image}
             />
           )}
 

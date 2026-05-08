@@ -217,15 +217,15 @@ export default function BuyFlowPage() {
       <section className="min-h-screen bg-transparent text-[var(--foreground)] px-4 py-4 md:px-8 lg:py-8">
         <div className="max-w-6xl mx-auto">
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             
             {/* LEFT COLUMN: HERO & RELATED */}
             <div className="lg:col-span-5 space-y-6">
               
               {/* HERO CARD */}
-              <div className="bg-[var(--card)]/20 backdrop-blur-xl border border-[var(--border)] rounded-[2.5rem] p-6 shadow-xl relative overflow-hidden group">
-                <div className="flex items-center gap-6 relative z-10">
-                  <div className="w-24 h-24 md:w-32 md:h-32 relative rounded-[1.5rem] overflow-hidden border-4 border-[var(--card)]/50 shadow-2xl rotate-[-3deg] group-hover:rotate-0 transition-all duration-700">
+              <div className="bg-[var(--card)]/20 backdrop-blur-xl border border-[var(--border)] rounded-[2rem] p-4 shadow-xl relative overflow-hidden group">
+                <div className="flex items-center gap-4 relative z-10">
+                  <div className="w-20 h-20 md:w-24 md:h-24 relative rounded-2xl overflow-hidden border-2 border-[var(--card)]/50 shadow-2xl rotate-[-2deg] group-hover:rotate-0 transition-all duration-700">
                     <Image
                       src={item?.itemImageId?.image || fallbackImage || logo}
                       alt={item?.itemName || "Item"}
@@ -239,11 +239,11 @@ export default function BuyFlowPage() {
                         • Instant Delivery
                       </span>
                     </div>
-                    <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tighter italic leading-none mb-1">
+                    <h1 className="text-xl md:text-2xl font-black uppercase tracking-tighter italic leading-none mb-1">
                       {item?.itemName || fallbackName}
                     </h1>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-3xl font-black text-[var(--accent)] italic tracking-tighter">₹{price}</span>
+                      <span className="text-2xl font-black text-[var(--accent)] italic tracking-tighter">₹{price}</span>
                       {dummyPrice > price && (
                         <span className="text-sm font-bold opacity-30 line-through">₹{dummyPrice}</span>
                       )}
@@ -297,7 +297,7 @@ export default function BuyFlowPage() {
             <div className="lg:col-span-7 space-y-6">
               
               {/* 1. PLAYER INFO */}
-              <div className={`bg-[var(--card)]/30 backdrop-blur-xl border-2 transition-all duration-500 rounded-[2.5rem] p-7 shadow-2xl relative overflow-hidden ${!isVerified ? 'border-[var(--accent)]/30' : 'border-transparent'}`}>
+              <div className={`bg-[var(--card)]/30 backdrop-blur-xl border-2 transition-all duration-500 rounded-[2rem] p-5 shadow-2xl relative overflow-hidden ${!isVerified ? 'border-[var(--accent)]/30' : 'border-transparent'}`}>
                 {/* Progress Indicator */}
                 <div className="absolute top-0 left-0 h-1 bg-[var(--accent)] transition-all duration-700" style={{ width: isVerified ? '100%' : '50%' }} />
                 
@@ -312,7 +312,7 @@ export default function BuyFlowPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div className="relative group">
                     <div className="absolute left-5 top-1/2 -translate-y-1/2 opacity-30 group-focus-within:opacity-100 group-focus-within:text-[var(--accent)] transition-all">
-                      <FaUser size={16} />
+                      <FaUser size={14} />
                     </div>
                     <input
                       value={playerId}
@@ -321,14 +321,14 @@ export default function BuyFlowPage() {
                         setIsVerified(false);
                       }}
                       placeholder={game?.inputFieldOne || "User ID"}
-                      className="w-full bg-[var(--foreground)]/[0.03] border-2 border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] rounded-2xl py-4 pl-14 pr-5 text-sm font-bold tracking-tight outline-none transition-all shadow-inner placeholder:opacity-20"
+                      className="w-full bg-[var(--foreground)]/[0.03] border-2 border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] rounded-xl py-3 pl-12 pr-4 text-xs font-bold tracking-tight outline-none transition-all shadow-inner placeholder:opacity-20"
                     />
                   </div>
 
                   {(game?.inputFieldTwo || (game?.inputFieldTwoOption && game.inputFieldTwoOption.length > 0)) && (
                     <div className="relative group">
                       <div className="absolute left-5 top-1/2 -translate-y-1/2 opacity-30 group-focus-within:opacity-100 group-focus-within:text-[var(--accent)] transition-all">
-                        <FaHistory size={16} className="rotate-90" />
+                        <FaHistory size={14} className="rotate-90" />
                       </div>
                       <input
                         value={zoneId}
@@ -337,7 +337,7 @@ export default function BuyFlowPage() {
                           setIsVerified(false);
                         }}
                         placeholder={game?.inputFieldTwo || "Server ID"}
-                        className="w-full bg-[var(--foreground)]/[0.03] border-2 border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] rounded-2xl py-4 pl-14 pr-5 text-sm font-bold tracking-tight outline-none transition-all shadow-inner placeholder:opacity-20"
+                        className="w-full bg-[var(--foreground)]/[0.03] border-2 border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] rounded-xl py-3 pl-12 pr-4 text-xs font-bold tracking-tight outline-none transition-all shadow-inner placeholder:opacity-20"
                       />
                     </div>
                   )}
@@ -346,7 +346,7 @@ export default function BuyFlowPage() {
                 <button
                   onClick={handleValidate}
                   disabled={loading}
-                  className={`w-full py-4 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] italic transition-all duration-500 flex items-center justify-center gap-3 mb-6 shadow-xl border-2
+                  className={`w-full py-3.5 rounded-xl font-black uppercase tracking-[0.2em] text-[9px] italic transition-all duration-500 flex items-center justify-center gap-3 mb-6 shadow-xl border-2
                     ${loading 
                       ? "opacity-50 cursor-not-allowed border-transparent bg-[var(--foreground)]/[0.05]" 
                       : isVerified 
@@ -414,7 +414,7 @@ export default function BuyFlowPage() {
               </div>
 
               {/* 2. PAYMENT */}
-              <div className={`bg-[var(--card)]/30 backdrop-blur-xl border-2 transition-all duration-700 rounded-[2.5rem] p-7 shadow-2xl relative overflow-hidden ${isVerified ? 'border-[var(--accent)]/30 opacity-100' : 'border-transparent opacity-40'}`}>
+              <div className={`bg-[var(--card)]/30 backdrop-blur-xl border-2 transition-all duration-700 rounded-[2rem] p-5 shadow-2xl relative overflow-hidden ${isVerified ? 'border-[var(--accent)]/30 opacity-100' : 'border-transparent opacity-40'}`}>
                 {/* Lock Overlay for UX */}
                 {!isVerified && <div className="absolute inset-0 z-20 cursor-not-allowed" title="Verify player info first" />}
                 
@@ -481,7 +481,7 @@ export default function BuyFlowPage() {
                 <button
                   onClick={handleProceed}
                   disabled={payLoading || !isVerified}
-                  className={`w-full py-5 rounded-[1.75rem] font-black uppercase tracking-[0.3em] text-[11px] italic transition-all duration-700 shadow-2xl flex items-center justify-center gap-3
+                  className={`w-full py-4 rounded-[1.25rem] font-black uppercase tracking-[0.3em] text-[10px] italic transition-all duration-700 shadow-2xl flex items-center justify-center gap-3
                     ${!isVerified 
                       ? "bg-[var(--foreground)]/[0.05] text-[var(--foreground)]/10 cursor-not-allowed shadow-none" 
                       : "bg-[var(--accent)] text-black hover:bg-[var(--accent)] hover:brightness-110 shadow-[var(--accent)]/30 hover:scale-[1.02]"}`}
@@ -502,11 +502,7 @@ export default function BuyFlowPage() {
                   </p>
                 )}
 
-                <div className="mt-8 flex items-center justify-center gap-5 text-[10px] font-black uppercase tracking-[0.1em] opacity-40 italic">
-                  <div className="flex items-center gap-2"><FaShieldAlt size={12} className="text-[var(--accent)]" /> Secure SSL</div>
-                  <div className="w-1 h-1 bg-[var(--foreground)]/20 rounded-full" />
-                  <div className="flex items-center gap-2"><FaWallet size={12} className="text-[var(--accent)]" /> 256-bit Encrypted</div>
-                </div>
+
               </div>
 
             </div>

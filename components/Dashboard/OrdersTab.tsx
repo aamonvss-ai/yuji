@@ -89,13 +89,16 @@ export default function OrdersTab() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-full mx-auto space-y-5 px-1">
       {/* MINIMAL HEADER */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between px-1">
         <div>
-          <h2 className="text-2xl font-black uppercase tracking-tighter italic">Orders</h2>
-          <p className="text-[10px] text-[var(--muted)] font-bold uppercase tracking-[0.2em] opacity-50">
-            {loading ? "Syncing..." : `${totalCount} records`}
+          <h2 className="text-xl font-black uppercase tracking-tighter italic flex items-center gap-3">
+            <div className="w-1.5 h-6 bg-[var(--accent)] rounded-full" />
+            Orders
+          </h2>
+          <p className="text-[9px] text-[var(--muted)] font-black uppercase tracking-[0.2em] opacity-40 italic mt-0.5">
+            {loading ? "Syncing database..." : `${totalCount} records identified`}
           </p>
         </div>
  
@@ -104,34 +107,34 @@ export default function OrdersTab() {
           whileTap={{ scale: 0.95 }}
           onClick={fetchOrders}
           disabled={loading}
-          className="w-10 h-10 rounded-xl bg-[var(--card)] border border-[var(--border)]
+          className="w-9 h-9 rounded-xl bg-[var(--card)]/30 backdrop-blur-md border border-[var(--border)]
                      text-[var(--muted)] flex items-center justify-center shadow-sm hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all"
         >
-          <RefreshCw size={16} className={loading ? "animate-spin" : ""} />
+          <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
         </motion.button>
       </div>
 
       {/* SEARCH & COMPACT FILTERS */}
-      <div className="space-y-4">
+      <div className="space-y-3">
         <div className="relative group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/30 group-focus-within:text-[var(--accent)] transition-colors" size={16} />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/30 group-focus-within:text-[var(--accent)] transition-colors" size={14} />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search Order ID..."
-            className="w-full pl-12 pr-4 py-3 rounded-2xl border border-[var(--border)] bg-[var(--card)]/40 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] transition-all font-bold tracking-tight"
+            className="w-full pl-11 pr-4 py-3 rounded-xl border border-[var(--border)] bg-[var(--card)]/20 backdrop-blur-md text-[11px] focus:outline-none focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)]/30 transition-all font-black uppercase italic tracking-tighter shadow-inner placeholder:opacity-20"
           />
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1 overflow-x-auto no-scrollbar pb-1">
           {statusOptions.map((opt) => (
             <button
               key={opt.value}
               onClick={() => setStatusFilter(opt.value)}
-              className={`flex-1 min-w-0 py-2 rounded-xl text-[9px] font-black uppercase transition-all border text-center truncate
+              className={`flex-none px-4 py-2 rounded-lg text-[9px] font-black uppercase transition-all border italic tracking-widest
                 ${statusFilter === opt.value
-                  ? "bg-[var(--accent)] text-white border-[var(--accent)] shadow-md shadow-[var(--accent)]/10"
-                  : "bg-[var(--card)] text-[var(--muted)] border-[var(--border)] hover:border-[var(--accent)]/30"
+                  ? "bg-[var(--accent)] text-black border-[var(--accent)] shadow-lg shadow-[var(--accent)]/20 scale-[1.02]"
+                  : "bg-[var(--foreground)]/[0.03] text-[var(--muted)] border-transparent hover:border-[var(--accent)]/30"
                 }`}
             >
               {opt.label}
@@ -166,7 +169,7 @@ export default function OrdersTab() {
             </button>
           </motion.div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-2.5">
             <AnimatePresence mode="popLayout">
               {orders.map((order, idx) => (
                 <motion.div

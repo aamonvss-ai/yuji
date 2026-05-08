@@ -130,23 +130,27 @@ export default function QueryTab() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-full mx-auto space-y-5 px-1">
  
       {/* ================= HEADER ================= */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
+        className="px-1"
       >
-        <h2 className="text-2xl font-black uppercase tracking-tighter italic">Support <span className="text-[var(--accent)]">Center</span></h2>
-        <p className="text-[var(--muted)] text-xs font-black uppercase tracking-widest opacity-80 mt-1 max-w-2xl">
-          Contact us for help with your orders or account
+        <h2 className="text-xl font-black uppercase tracking-tighter italic flex items-center gap-3">
+          <div className="w-1.5 h-6 bg-[var(--accent)] rounded-full" />
+          Support <span className="text-[var(--accent)]">Hub</span>
+        </h2>
+        <p className="text-[var(--muted)] text-[9px] font-black uppercase tracking-[0.2em] opacity-40 mt-1 italic">
+          Resolution center for orders and account inquiries
         </p>
       </motion.div>
  
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         {/* ================= CONTACT SECTION ================= */}
         <div className="lg:col-span-5 space-y-4">
-          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--muted)] px-1">
+          <h3 className="text-[9px] font-black uppercase tracking-[0.2em] text-[var(--muted)] px-1 italic opacity-40">
             {SUPPORT_CONFIG.contacts.title}
           </h3>
  
@@ -155,25 +159,25 @@ export default function QueryTab() {
               .filter((item) => item.href && item.value)
               .map((item, idx) => (
                 <motion.a
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.1 }}
+                  transition={{ delay: idx * 0.05 }}
                   key={item.id}
                   href={item.href}
                   target={item.external ? "_blank" : undefined}
                   rel={item.external ? "noopener noreferrer" : undefined}
-                  className="group flex items-center gap-3 p-3 rounded-xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--accent)]/50 transition-all shadow-sm"
+                  className="group flex items-center gap-3 p-3 rounded-xl bg-[var(--card)]/20 backdrop-blur-md border border-[var(--border)] hover:border-[var(--accent)]/50 transition-all shadow-sm"
                 >
-                  <div className="w-10 h-10 rounded-lg bg-[var(--foreground)]/[0.03] flex items-center justify-center text-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-white transition-all">
+                  <div className="w-9 h-9 rounded-lg bg-[var(--foreground)]/[0.03] flex items-center justify-center text-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-black transition-all">
                     {ICON_MAP[item.icon]}
                   </div>
  
                   <div className="flex-1 min-w-0">
-                    <p className="font-bold text-xs flex items-center gap-1.5">
+                    <p className="font-black text-[10px] uppercase italic flex items-center gap-1.5 tracking-tight">
                       {item.title}
-                      {item.external && <FiExternalLink size={10} className="opacity-0 group-hover:opacity-100 transition-opacity" />}
+                      {item.external && <FiExternalLink size={10} className="opacity-30 group-hover:opacity-100 transition-opacity" />}
                     </p>
-                    <p className="text-[9px] font-bold text-[var(--muted)] uppercase tracking-tight truncate">
+                    <p className="text-[8px] font-black text-[var(--muted)] uppercase tracking-widest opacity-40 italic">
                       {item.desc}
                     </p>
                   </div>
@@ -186,13 +190,13 @@ export default function QueryTab() {
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="lg:col-span-7 p-6 rounded-[1.5rem] bg-[var(--card)] border border-[var(--border)] shadow-xl space-y-4"
+          className="lg:col-span-7 p-5 rounded-[2rem] bg-[var(--card)]/30 backdrop-blur-md border border-[var(--border)] shadow-xl space-y-5"
         >
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-1 px-1">
             <div className="p-2 rounded-lg bg-[var(--accent)]/10 text-[var(--accent)]">
-              <FiMessageSquare size={16} />
+              <FiMessageSquare size={14} />
             </div>
-            <h3 className="text-lg font-bold">Send a Message</h3>
+            <h3 className="text-sm font-black uppercase italic tracking-tighter">Direct Query</h3>
           </div>
  
           <AnimatePresence>
@@ -201,22 +205,22 @@ export default function QueryTab() {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                className="rounded-xl bg-green-500/10 text-green-500 p-3 text-[10px] font-black uppercase tracking-widest border border-green-500/10 flex items-center gap-2"
+                className="rounded-xl bg-green-500/10 text-green-500 p-3 text-[9px] font-black uppercase tracking-[0.2em] border border-green-500/10 flex items-center gap-2 italic"
               >
                 {querySuccess}
               </motion.div>
             )}
           </AnimatePresence>
  
-          <div className="space-y-3">
+          <div className="space-y-4">
             <div>
-              <label className="text-[9px] font-black uppercase tracking-widest text-[var(--muted)] block mb-1.5 px-1">Category</label>
+              <label className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] block mb-1.5 px-1 opacity-40 italic">Category</label>
               <select
                 value={queryType}
                 onChange={(e) => setQueryType(e.target.value)}
-                className="w-full p-3 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent)]/10 outline-none transition-all font-bold text-xs appearance-none cursor-pointer"
+                className="w-full p-3 rounded-xl bg-[var(--foreground)]/[0.03] border border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] outline-none transition-all font-black uppercase italic tracking-tighter text-[10px] appearance-none cursor-pointer shadow-inner"
               >
-                <option value="">Select category</option>
+                <option value="">Select Department</option>
                 {SUPPORT_CONFIG.queryTypes.map((type) => (
                   <option key={type} value={type}>
                     {type}
@@ -227,32 +231,32 @@ export default function QueryTab() {
  
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-[9px] font-black uppercase tracking-widest text-[var(--muted)] block mb-1.5 px-1">WhatsApp No</label>
+                <label className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] block mb-1.5 px-1 opacity-40 italic">Phone Reference</label>
                 <input
                   type="text"
-                  className="w-full p-3 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent)]/10 outline-none transition-all font-bold text-xs"
-                  placeholder="e.g. 9876..."
+                  className="w-full p-3 rounded-xl bg-[var(--foreground)]/[0.03] border border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] outline-none transition-all font-black uppercase italic tracking-tighter text-[10px] shadow-inner"
+                  placeholder="91 000..."
                   value={queryPhone}
                   onChange={(e) => setQueryPhone(e.target.value)}
                 />
               </div>
               <div>
-                <label className="text-[9px] font-black uppercase tracking-widest text-[var(--muted)] block mb-1.5 px-1">Order ID (Opt)</label>
+                <label className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] block mb-1.5 px-1 opacity-40 italic">Order Ref (Opt)</label>
                 <input
                   type="text"
-                  className="w-full p-3 rounded-xl bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent)]/10 outline-none transition-all font-bold text-xs"
-                  placeholder="e.g. ORD..."
+                  className="w-full p-3 rounded-xl bg-[var(--foreground)]/[0.03] border border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] outline-none transition-all font-black uppercase italic tracking-tighter text-[10px] shadow-inner"
+                  placeholder="#ORD-..."
                   value={queryOrderId}
                   onChange={(e) => setQueryOrderId(e.target.value)}
                 />
               </div>
             </div>
-
+ 
             <div>
-              <label className="text-[9px] font-black uppercase tracking-widest text-[var(--muted)] block mb-1.5 px-1">Message</label>
+              <label className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] block mb-1.5 px-1 opacity-40 italic">Inquiry Details</label>
               <textarea
-                className="w-full p-3 rounded-xl h-24 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent)]/10 outline-none transition-all resize-none text-xs placeholder:text-[var(--muted)]/50"
-                placeholder="How can we help?"
+                className="w-full p-3 rounded-xl h-20 bg-[var(--foreground)]/[0.03] border border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] outline-none transition-all resize-none text-[10px] font-bold placeholder:text-[var(--muted)]/20 shadow-inner"
+                placeholder="Describe your issue..."
                 value={queryMessage}
                 onChange={(e) => setQueryMessage(e.target.value)}
               />
@@ -263,13 +267,13 @@ export default function QueryTab() {
               whileTap={{ scale: 0.99 }}
               disabled={!queryType || isSubmitting}
               onClick={handleSubmit}
-              className="w-full py-3 rounded-xl bg-[var(--accent)] text-white font-black uppercase tracking-[0.1em] text-xs shadow-xl shadow-[var(--accent)]/20 hover:shadow-[var(--accent)]/40 transition-all disabled:opacity-50 disabled:grayscale flex items-center justify-center gap-2"
+              className="w-full py-4 rounded-xl bg-[var(--accent)] text-black font-black uppercase tracking-[0.3em] text-[10px] italic shadow-lg shadow-[var(--accent)]/20 hover:brightness-110 transition-all disabled:opacity-30 disabled:grayscale flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
               ) : (
                 <>
-                  <FiSend size={14} /> Send Message
+                  <FiSend size={12} /> Dispatch Query
                 </>
               )}
             </motion.button>

@@ -177,8 +177,8 @@ export default function Header() {
           <Image
             src={logo}
             alt="yuji Logo"
-            width={80}
-            height={24}
+            width={100}
+            height={30}
             priority
             className="object-contain logo-img"
           />
@@ -203,7 +203,7 @@ export default function Header() {
         </nav>
 
         {/* MOBILE SEARCH TOGGLE */}
-        <div className="flex lg:hidden items-center ml-auto mr-1">
+        <div className="flex lg:hidden items-center ml-auto mr-4">
           <button
             onClick={() => setIsMobileSearchOpen(true)}
             className="p-2 rounded-full hover:bg-[var(--accent)]/10 text-[var(--muted)] hover:text-[var(--accent)] transition-all"
@@ -213,7 +213,7 @@ export default function Header() {
         </div>
 
         {/* SEARCH BAR (Desktop) */}
-        <div className="flex-1 max-w-sm mx-8 hidden lg:block relative">
+        <div className="flex-1 max-w-sm ml-4 mr-12 hidden lg:block relative">
           <div className="relative group">
             <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors ${isSearchFocused ? "text-[var(--accent)]" : "text-[var(--muted)]"}`} />
             <input
@@ -286,8 +286,6 @@ export default function Header() {
 
         {/* RIGHT SIDE */}
         <div className="flex items-center gap-3 relative" ref={dropdownRef}>
-          <ThemeToggle />
-
           {/* USER AVATAR BUTTON */}
           <button
             onClick={() => {
@@ -336,7 +334,10 @@ export default function Header() {
                   className="fixed right-0 top-0 h-screen w-72 bg-[var(--card)]/95 backdrop-blur-2xl border-l border-[var(--border)] shadow-[-20px_0_50px_rgba(0,0,0,0.3)] z-[101] flex flex-col pt-4"
                 >
                   <div className="flex items-center justify-between px-5 mb-2">
-                    <h2 className="text-[10px] font-black uppercase tracking-widest text-[var(--muted)] opacity-50">Account</h2>
+                    <div className="flex items-center gap-4">
+                      <h2 className="text-[10px] font-black uppercase tracking-widest text-[var(--muted)] opacity-50">Change Theme</h2>
+                      <ThemeToggle />
+                    </div>
                     <button 
                       onClick={() => setUserMenuOpen(false)}
                       className="p-1.5 rounded-full bg-[var(--foreground)]/[0.03] hover:bg-[var(--accent)]/10 text-[var(--muted)] hover:text-[var(--accent)] transition-all"

@@ -2,12 +2,15 @@
 
 import { motion } from "framer-motion";
 import { FiCheckCircle } from "react-icons/fi";
+import Image from "next/image";
+import logo from "@/public/logo.png";
 
 export default function ItemGrid({
   items,
   activeItem,
   setActiveItem,
   buyPanelRef,
+  gameImage
 }) {
   return (
     <div className="max-w-6xl mx-auto mb-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
@@ -38,7 +41,7 @@ export default function ItemGrid({
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="absolute top-2 right-2 text-[var(--accent)]"
+                className="absolute top-2 right-2 text-[var(--accent)] z-20"
               >
                 <FiCheckCircle className="w-4 h-4" />
               </motion.div>
@@ -46,7 +49,14 @@ export default function ItemGrid({
 
             <div className="flex flex-col gap-1.5 relative z-10">
               <div className="flex items-center gap-2">
-                <span className="text-base drop-shadow-sm">💎</span>
+                <div className="relative w-5 h-5 shrink-0 rounded overflow-hidden">
+                  <Image 
+                    src={item.itemImageId?.image || gameImage || logo} 
+                    alt={item.itemName} 
+                    fill 
+                    className="object-cover"
+                  />
+                </div>
                 <h3 className="text-[13px] font-bold text-[var(--foreground)] truncate leading-tight">
                   {item.itemName}
                 </h3>

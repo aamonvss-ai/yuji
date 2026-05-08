@@ -21,24 +21,28 @@ import Loader from "@/components/Loader/Loader";
 /* ===================== SUB-COMPONENTS ===================== */
 
 const SectionHeader = ({ title, count, icon: Icon }) => (
-  <div className="flex items-center justify-between mb-4 group">
-    <div className="flex items-center gap-2">
+  <div className="flex items-center justify-between mb-6 group px-1">
+    <div className="flex items-center gap-3">
       <div className="relative">
-        <div className="p-1.5 rounded-lg bg-[var(--card)] border border-[var(--border)] text-[var(--accent)]">
-          {Icon && <Icon size={14} />}
+        <div className="p-2 rounded-xl bg-gradient-to-br from-[var(--accent)]/20 to-transparent border border-[var(--accent)]/20 text-[var(--accent)] shadow-[0_0_15px_rgba(var(--accent-rgb),0.1)]">
+          {Icon && <Icon size={16} />}
         </div>
+        <div className="absolute inset-0 bg-[var(--accent)] blur-xl opacity-20" />
       </div>
-      <div>
-        <h2 className="text-sm md:text-base font-black tracking-tight text-[var(--foreground)] uppercase italic leading-none">
+      <div className="flex flex-col">
+        <h2 className="text-sm md:text-lg font-black tracking-tight text-[var(--foreground)] uppercase italic leading-none">
           {title}
         </h2>
+        <div className="h-[2px] w-8 bg-[var(--accent)] mt-1.5 rounded-full opacity-50 group-hover:w-full transition-all duration-500" />
       </div>
     </div>
 
     {count !== undefined && (
-      <span className="text-[8px] font-black tracking-[0.2em] text-[var(--muted)] uppercase opacity-80">
-        {count} ITEMS
-      </span>
+      <div className="px-3 py-1 rounded-full bg-[var(--card)] border border-[var(--border)] shadow-sm">
+        <span className="text-[8px] md:text-[9px] font-black tracking-[0.2em] text-[var(--muted)] uppercase opacity-80">
+          {count} <span className="hidden sm:inline">Available</span> Items
+        </span>
+      </div>
     )}
   </div>
 );
@@ -109,62 +113,64 @@ export default function GamesPage() {
     return (
       <Link
         href={disabled ? "#" : `/games/${game.gameSlug}`}
-        className={`group relative rounded-2xl overflow-hidden bg-[var(--card)] border border-[var(--border)] transition-all duration-500
-        ${disabled ? "opacity-30 grayscale cursor-not-allowed shadow-none" : "hover:border-[var(--accent)]/40 hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] hover:-translate-y-2"}`}
+        className={`group block transition-all duration-500 ${disabled ? "opacity-40 grayscale cursor-not-allowed" : "hover:-translate-y-2"}`}
       >
-        <div className="relative aspect-[4/5.5]">
+        {/* Image Container (Compact Portrait) */}
+        <div className="relative aspect-[3.5/4.5] rounded-2xl md:rounded-3xl overflow-hidden bg-[var(--card)] border border-[var(--border)] transition-all duration-500 group-hover:border-[var(--accent)]/50 group-hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.3)]">
           {/* Main Image */}
           <Image
             src={game.gameImageId?.image || logo}
             alt={game.gameName}
             fill
-            sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 15vw"
-            className={`object-cover transition-all duration-[1s] ease-out ${!disabled && "group-hover:scale-110"}`}
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className={`object-cover transition-all duration-[1.5s] ease-out ${!disabled && "group-hover:scale-110"}`}
           />
 
-          {/* Information Section (Top) */}
-          <div className="absolute top-0 left-0 right-0 p-3 md:p-4 space-y-1 z-20">
-            <div className="flex items-center gap-1.5">
-              <div className="w-1 h-1 rounded-full bg-[var(--accent)] shadow-[0_0_8px_var(--accent)]" />
-              <p className="text-[7px] md:text-[9px] font-black text-[var(--accent)] uppercase tracking-[0.2em] opacity-80">
-                {game.gameFrom}
-              </p>
+          {/* Tag Overlay (Top Left) */}
+          {!disabled && game.tagId && (
+            <div className="absolute top-3 left-3 md:top-4 md:left-4 z-10">
+              <div 
+                className="flex items-center gap-1.5 px-3 py-1 rounded-xl border border-white/10 backdrop-blur-md shadow-2xl transition-all duration-500 group-hover:bg-white/10"
+                style={{ background: `${game.tagId.tagBackground}aa` }}
+              >
+                <FiGlobe size={10} className="text-white/60" style={{ color: game.tagId.tagColor }} />
+                <span
+                  className="text-[7px] md:text-[9px] font-black uppercase tracking-widest"
+                  style={{ color: game.tagId.tagColor }}
+                >
+                  {game.tagId.tagName}
+                </span>
+              </div>
             </div>
+          )}
 
-            <h3 className="text-[11px] md:text-[14px] font-black text-white leading-tight uppercase italic mt-0.5 group-hover:text-[var(--accent)] transition-colors">
+          {/* Premium Shine & Glow */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-[var(--accent)]/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+          <div className="absolute inset-0 translate-x-[-150%] group-hover:translate-x-[150%] bg-gradient-to-r from-transparent via-white/5 to-transparent transition-transform duration-[1.5s] ease-in-out pointer-events-none" />
+
+          {/* Maintenance Overlay */}
+          {disabled && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-[4px]">
+              <div className="px-5 py-2 bg-black/80 border border-white/10 text-[10px] font-black uppercase tracking-[0.3em] text-white rounded-full shadow-2xl">
+                Offline
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Content Below Image */}
+        <div className="mt-2.5 px-1">
+          <div className="flex flex-col gap-0.5">
+            <h3 className="text-[9px] md:text-[12px] font-black text-[var(--foreground)] leading-tight uppercase italic truncate group-hover:text-[var(--accent)] transition-colors duration-300">
               {game.gameName}
             </h3>
-
-            {/* Minimalist Accent Line */}
-            <div className="h-[2px] w-4 bg-[var(--accent)] group-hover:w-12 transition-all duration-700 rounded-full" />
+            <div className="flex items-center gap-1.5 opacity-50 group-hover:opacity-100 transition-all duration-300">
+              <div className="h-[1.5px] w-3 bg-[var(--accent)] rounded-full" />
+              <span className="text-[6px] md:text-[8px] font-black text-[var(--accent)] uppercase tracking-widest italic">
+                {game.gameFrom || "Global"}
+              </span>
+            </div>
           </div>
-
-          {/* Premium Gradient Overlay (Top Focused) */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/20 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
-
-          {/* Reactive Shine Effect */}
-          <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-gradient-to-r from-transparent via-white/5 to-transparent transition-transform duration-1000 ease-in-out pointer-events-none" />
-
-          {/* Bottom Info: Tag/Badge moved to bottom */}
-          {!disabled && game.tagId && (
-            <div className="absolute bottom-3 left-3 z-10">
-              <span
-                className="text-[7px] md:text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-md shadow-2xl backdrop-blur-md border border-white/10"
-                style={{ background: `${game.tagId.tagBackground}cc`, color: game.tagId.tagColor }}
-              >
-                {game.tagId.tagName}
-              </span>
-            </div>
-          )}
-
-          {/* Out of Stock Overlay */}
-          {disabled && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[2px]">
-              <span className="px-3 py-1 bg-black/60 border border-white/10 text-[8px] font-black uppercase tracking-[0.2em] text-white rounded-full">
-                Offline
-              </span>
-            </div>
-          )}
         </div>
       </Link>
     );
@@ -182,37 +188,37 @@ export default function GamesPage() {
       <div className="relative z-10">
         {/* ================= SEARCH AREA ================= */}
         <div className="bg-transparent px-4 py-2 mt-4">
-          <div className="max-w-7xl mx-auto flex items-center gap-2">
-            <div className="relative flex-1">
-              <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 w-3 h-3" />
+          <div className="max-w-7xl mx-auto flex items-center gap-3">
+            <div className="relative flex-1 group">
+              <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)] w-4 h-4 transition-colors group-focus-within:text-[var(--accent)]" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search..."
-                className="w-full h-9 pl-9 pr-8 rounded-lg bg-[var(--card)] border border-[var(--border)] text-[10px] font-bold tracking-widest uppercase focus:border-[var(--accent)]/30 outline-none transition-all placeholder:text-[var(--muted)]/50 text-[var(--foreground)]"
+                placeholder="Search for your favorite game..."
+                className="w-full h-11 pl-11 pr-10 rounded-2xl bg-[var(--card)]/50 backdrop-blur-md border border-[var(--border)] text-[10px] md:text-xs font-bold tracking-wider uppercase focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent)]/10 outline-none transition-all placeholder:text-[var(--muted)]/40 text-[var(--foreground)] shadow-sm"
               />
               {search && (
                 <button
                   onClick={() => setSearch("")}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-red-500 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-lg hover:bg-rose-500/10 text-[var(--muted)] hover:text-rose-500 transition-all"
                 >
-                  <FiX size={12} />
+                  <FiX size={14} />
                 </button>
               )}
             </div>
 
             <button
               onClick={() => setShowFilter(true)}
-              className={`h-9 px-3 flex items-center gap-1.5 rounded-lg border text-[9px] font-black uppercase tracking-tight transition-all
+              className={`h-11 px-4 flex items-center gap-2 rounded-2xl border text-[10px] font-black uppercase tracking-widest transition-all shadow-sm
               ${activeFilterCount > 0
-                  ? "bg-[var(--accent)] text-black border-[var(--accent)]"
-                  : "bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] hover:border-[var(--accent)]/50"}`}
+                  ? "bg-[var(--accent)] text-black border-[var(--accent)] shadow-lg shadow-[var(--accent)]/20"
+                  : "bg-[var(--card)]/50 backdrop-blur-md border border-[var(--border)] text-[var(--foreground)] hover:border-[var(--accent)]/50 hover:bg-[var(--card)]"}`}
             >
-              <FiFilter size={12} />
-              <span className="hidden sm:inline">Filter</span>
+              <FiFilter size={14} />
+              <span className="hidden sm:inline">Refine</span>
               {activeFilterCount > 0 && (
-                <span className="flex items-center justify-center w-3.5 h-3.5 rounded bg-black/20 text-[7px]">{activeFilterCount}</span>
+                <span className="flex items-center justify-center w-4 h-4 rounded-md bg-black/20 text-[8px]">{activeFilterCount}</span>
               )}
             </button>
           </div>
@@ -243,7 +249,7 @@ export default function GamesPage() {
         </div>
 
         {/* ================= CONTENT ================= */}
-        <div className="max-w-7xl mx-auto px-4 py-6 space-y-10">
+        <div className="max-w-7xl mx-auto px-4 py-6 space-y-8">
 
           {category
             .filter(cat => {
@@ -266,7 +272,7 @@ export default function GamesPage() {
                   transition={{ duration: 0.5, delay: i * 0.05 }}
                 >
                   <SectionHeader title={cat.categoryTitle} count={filtered.length} icon={FiLayers} />
-                  <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-6">
+                  <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-3 md:gap-4">
                     {filtered.map((game, index) => (
                       <GameCard key={index} game={game} />
                     ))}
@@ -293,7 +299,7 @@ export default function GamesPage() {
                 viewport={{ once: true, margin: "-50px" }}
               >
                 <SectionHeader title="All Games" count={filteredGlobal.length} icon={FiGlobe} />
-                <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-6">
+                <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-3 md:gap-4">
                   {filteredGlobal.map((game, i) => (
                     <GameCard key={i} game={game} />
                   ))}
@@ -310,23 +316,33 @@ export default function GamesPage() {
               viewport={{ once: true, margin: "-50px" }}
             >
               <SectionHeader title={memberships.title} count={memberships.items.length} icon={FiShield} />
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                 {memberships.items.map((plan) => (
                   <Link
                     key={plan.slug}
                     href={`/games/${plan.slug}`}
-                    className="group relative flex items-center p-4 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--accent)]/30 hover:bg-[var(--card)]/80 transition-all duration-500 shadow-sm"
+                    className="group relative flex items-center p-5 rounded-[1.5rem] bg-gradient-to-br from-[var(--card)] to-transparent border border-[var(--border)] hover:border-[var(--accent)]/40 transition-all duration-500 shadow-xl shadow-black/5 overflow-hidden"
                   >
-                    <div className="relative w-12 h-12 mr-4 group-hover:scale-110 transition-transform duration-500">
-                      <Image src={plan.image} alt={plan.name} fill className="object-contain" />
+                    <div className="relative w-16 h-16 mr-5 flex-shrink-0">
+                      <div className="absolute inset-0 bg-[var(--accent)]/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <Image src={plan.image} alt={plan.name} fill className="object-contain relative z-10 group-hover:scale-110 transition-transform duration-700" />
                     </div>
-                    <div className="relative z-10">
-                      <p className="text-[8px] font-black text-[var(--accent)] uppercase tracking-widest mb-0.5">{plan.duration}</p>
-                      <h3 className="text-xs font-black text-[var(--foreground)] uppercase tracking-tight group-hover:text-[var(--accent)] transition-colors leading-none">
+                    <div className="relative z-10 flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="h-[1px] w-3 bg-[var(--accent)]" />
+                        <p className="text-[8px] md:text-[9px] font-black text-[var(--accent)] uppercase tracking-[0.2em]">{plan.duration}</p>
+                      </div>
+                      <h3 className="text-xs md:text-sm font-black text-[var(--foreground)] uppercase tracking-tight group-hover:text-[var(--accent)] transition-colors leading-tight italic">
                         {plan.name}
                       </h3>
+                      <p className="text-[9px] font-bold text-[var(--muted)] opacity-50 mt-1 uppercase">Exclusive Access</p>
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
+                    
+                    {/* Decorative Elements */}
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
+                      <FiShield size={40} className="rotate-12" />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-1000" />
                   </Link>
                 ))}
               </div>
@@ -341,23 +357,33 @@ export default function GamesPage() {
               viewport={{ once: true, margin: "-50px" }}
             >
               <SectionHeader title={otts.title} count={otts.items.length} icon={FiZap} />
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                 {otts.items.map((item) => (
                   <Link
                     key={item.slug}
                     href={`/games/${item.slug}`}
-                    className="group relative flex items-center p-4 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--accent)]/30 hover:bg-[var(--card)]/80 transition-all duration-500 shadow-sm"
+                    className="group relative flex items-center p-5 rounded-[1.5rem] bg-gradient-to-br from-[var(--card)] to-transparent border border-[var(--border)] hover:border-[var(--accent)]/40 transition-all duration-500 shadow-xl shadow-black/5 overflow-hidden"
                   >
-                    <div className="relative w-12 h-12 mr-4 group-hover:scale-110 transition-transform duration-500">
-                      <Image src={item.image} alt={item.name} fill className="object-cover rounded-lg" />
+                    <div className="relative w-16 h-16 mr-5 flex-shrink-0">
+                      <div className="absolute inset-0 bg-[var(--accent)]/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <Image src={item.image} alt={item.name} fill className="object-cover rounded-xl relative z-10 group-hover:scale-110 transition-transform duration-700" />
                     </div>
-                    <div className="relative z-10">
-                      <p className="text-[8px] font-black text-[var(--accent)] uppercase tracking-widest mb-0.5">{item.category}</p>
-                      <h3 className="text-xs font-black text-[var(--foreground)] uppercase tracking-tight group-hover:text-[var(--accent)] transition-colors leading-none">
+                    <div className="relative z-10 flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="h-[1px] w-3 bg-[var(--accent)]" />
+                        <p className="text-[8px] md:text-[9px] font-black text-[var(--accent)] uppercase tracking-[0.2em]">{item.category}</p>
+                      </div>
+                      <h3 className="text-xs md:text-sm font-black text-[var(--foreground)] uppercase tracking-tight group-hover:text-[var(--accent)] transition-colors leading-tight italic">
                         {item.name}
                       </h3>
+                      <p className="text-[9px] font-bold text-[var(--muted)] opacity-50 mt-1 uppercase">Premium Sub</p>
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
+
+                    {/* Decorative Elements */}
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
+                      <FiZap size={40} className="-rotate-12" />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-1000" />
                   </Link>
                 ))}
               </div>

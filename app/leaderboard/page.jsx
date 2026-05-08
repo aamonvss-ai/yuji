@@ -50,31 +50,37 @@ export default function LeaderboardPage() {
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-transparent px-4 py-12 pb-20">
+      <div className="min-h-screen bg-transparent px-4 py-8 pb-20">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-4xl mx-auto text-center mb-10"
+          className="max-w-3xl mx-auto text-center mb-10"
         >
-          <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter italic">
+          <div className="inline-flex items-center gap-3 mb-2">
+            <div className="w-8 h-px bg-gradient-to-r from-transparent to-[var(--accent)]" />
+            <FaTrophy className="text-[var(--accent)]" size={16} />
+            <div className="w-8 h-px bg-gradient-to-l from-transparent to-[var(--accent)]" />
+          </div>
+          <h1 className="text-3xl md:text-4xl font-black uppercase tracking-tighter italic">
             Top <span className="text-[var(--accent)]">Legends</span>
           </h1>
-          <p className="mt-2 text-[var(--muted)] text-xs md:text-sm font-black uppercase tracking-widest opacity-80">
-            Our top customers of the month
+          <p className="mt-1 text-[var(--muted)] text-[9px] font-black uppercase tracking-[0.2em] opacity-40 italic">
+            Elite customer rankings of the cycle
           </p>
-
+ 
           {/* Range Toggle */}
-          <div className="flex justify-center mt-8 p-1 bg-[var(--card)] backdrop-blur-xl border border-[var(--border)] rounded-2xl w-fit mx-auto">
+          <div className="flex justify-center mt-6 p-1 bg-[var(--card)]/30 backdrop-blur-md border border-[var(--border)] rounded-xl w-fit mx-auto shadow-xl">
             {["monthly", "prevMonth"].map((r) => (
               <button
                 key={r}
                 onClick={() => setRange(r)}
-                className={`px-8 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${range === r
-                  ? "bg-[var(--accent)] text-black shadow-lg"
-                  : "text-[var(--muted)] hover:text-[var(--foreground)]"
+                className={`px-6 py-2 rounded-lg text-[8px] font-black uppercase tracking-widest transition-all duration-500 italic
+                  ${range === r
+                    ? "bg-[var(--accent)] text-black shadow-lg shadow-[var(--accent)]/20"
+                    : "text-[var(--muted)] hover:text-[var(--foreground)] opacity-60 hover:opacity-100"
                   }`}
               >
-                {r === "monthly" ? "This Month" : "Prev Month"}
+                {r === "monthly" ? "This Cycle" : "Previous"}
               </button>
             ))}
           </div>
@@ -97,14 +103,14 @@ export default function LeaderboardPage() {
             </p>
           </motion.div>
         ) : (
-          <div className="max-w-4xl mx-auto space-y-12">
+          <div className="max-w-3xl mx-auto space-y-8">
             {/* ================= PODIUM ================= */}
-            <div className="grid grid-cols-3 gap-2 md:gap-6 items-end pb-10">
+            <div className="grid grid-cols-3 gap-2 md:gap-4 items-end pb-4 pt-4">
               {/* Rank 2 */}
               <PodiumItem
                 user={topThree[1]}
                 rank={2}
-                color="text-gray-300"
+                color="text-gray-400"
                 icon={<FaMedal />}
                 delay={0.2}
               />
@@ -112,7 +118,7 @@ export default function LeaderboardPage() {
               <PodiumItem
                 user={topThree[0]}
                 rank={1}
-                color="text-yellow-400"
+                color="text-[var(--accent)]"
                 icon={<FaCrown />}
                 delay={0.1}
                 isLarge
@@ -121,43 +127,42 @@ export default function LeaderboardPage() {
               <PodiumItem
                 user={topThree[2]}
                 rank={3}
-                color="text-orange-400"
+                color="text-amber-700"
                 icon={<FaMedal />}
                 delay={0.3}
               />
             </div>
-
+ 
             {/* ================= LIST ================= */}
             <motion.div
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="space-y-3"
+              className="space-y-2"
             >
               {rest.map((item, index) => (
                 <div
                   key={index}
-                  className="group flex items-center justify-between p-4 px-6 bg-[var(--card)] border border-[var(--border)] rounded-2xl hover:border-[var(--accent)]/30 transition-all duration-300 shadow-sm"
+                  className="group flex items-center justify-between p-2.5 px-5 bg-[var(--card)]/20 backdrop-blur-md border border-[var(--border)] rounded-xl hover:border-[var(--accent)]/30 transition-all duration-300 shadow-sm"
                 >
                   <div className="flex items-center gap-4">
-                    <span className="w-8 text-sm font-black text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors">
+                    <span className="w-6 text-[10px] font-black text-[var(--muted)] opacity-30 group-hover:text-[var(--accent)] group-hover:opacity-100 transition-all italic">
                       #{index + 4}
                     </span>
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[var(--foreground)]/5 overflow-hidden flex items-center justify-center border border-[var(--border)]">
-                        <FaUserCircle className="text-2xl text-[var(--muted)]/40" />
+                      <div className="w-8 h-8 rounded-full bg-[var(--foreground)]/[0.03] overflow-hidden flex items-center justify-center border border-[var(--border)]/50 group-hover:border-[var(--accent)]/30 transition-all">
+                        <FaUserCircle className="text-lg text-[var(--muted)]/20 group-hover:text-[var(--accent)]/20" />
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-[var(--foreground)] uppercase tracking-tight">
-                          {item.user?.name || "Anonymous User"}
+                        <p className="text-[11px] font-black text-[var(--foreground)] uppercase tracking-tight italic leading-tight">
+                          {item.user?.name || "Legend"}
                         </p>
-
                       </div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-black text-[var(--accent)] tracking-tighter">
+                    <p className="text-sm font-black text-[var(--accent)] tracking-tighter italic">
                       ₹{item.totalSpent.toLocaleString()}
                     </p>
                   </div>
@@ -181,37 +186,37 @@ function PodiumItem({ user, rank, color, icon, delay, isLarge }) {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.8, type: "spring" }}
-      className={`relative flex flex-col items-center p-3 md:p-6 bg-[var(--card)] border border-[var(--border)] rounded-2xl md:rounded-[2.5rem] shadow-sm ${isLarge
-        ? "scale-105 md:scale-110 z-10 bg-gradient-to-t from-[var(--accent)]/10 to-[var(--card)] border-[var(--accent)]/20 shadow-2xl"
-        : "scale-90 md:scale-95 opacity-80"
+      className={`relative flex flex-col items-center p-3 md:p-4 bg-[var(--card)]/30 backdrop-blur-md border border-[var(--border)] rounded-xl md:rounded-[2rem] shadow-xl ${isLarge
+        ? "scale-105 md:scale-110 z-10 bg-gradient-to-t from-[var(--accent)]/[0.05] to-[var(--card)]/30 border-[var(--accent)]/30 shadow-[var(--accent)]/10"
+        : "scale-90 md:scale-95 opacity-60 grayscale-[0.2]"
         }`}
     >
-      <div className={`absolute -top-4 md:-top-6 text-2xl md:text-4xl ${color} drop-shadow-[0_0_15px_var(--accent)]/20`}>
+      <div className={`absolute -top-3 md:-top-4 text-xl md:text-3xl ${color} drop-shadow-[0_0_10px_currentColor]`}>
         {icon}
       </div>
 
-      <div className={`relative rounded-full border-2 p-0.5 md:p-1 overflow-hidden mb-2 md:mb-4 ${rank === 1 ? "w-16 h-16 md:w-24 md:h-24 border-[var(--accent)]" : "w-12 h-12 md:w-20 md:h-20 border-[var(--border)]"
+      <div className={`relative rounded-full border p-0.5 md:p-1 overflow-hidden mb-2 md:mb-3 ${rank === 1 ? "w-12 h-12 md:w-20 md:h-20 border-[var(--accent)] shadow-[0_0_20px_rgba(var(--accent-rgb),0.2)]" : "w-10 h-10 md:w-16 md:h-16 border-[var(--border)]"
         }`}>
-        <div className="w-full h-full rounded-full bg-[var(--foreground)]/5 flex items-center justify-center">
-          <FaUserCircle className={`text-2xl md:text-4xl ${rank === 1 ? "text-[var(--accent)]/50" : "text-[var(--muted)]/20"}`} />
+        <div className="w-full h-full rounded-full bg-[var(--foreground)]/[0.03] flex items-center justify-center">
+          <FaUserCircle className={`text-xl md:text-3xl ${rank === 1 ? "text-[var(--accent)]/40" : "text-[var(--muted)]/20"}`} />
         </div>
       </div>
 
       <div className="text-center w-full">
-        <p className={`text-[10px] md:text-sm font-black uppercase tracking-tighter truncate px-1 ${rank === 1 ? "text-[var(--foreground)]" : "text-[var(--foreground)]/80"
+        <p className={`text-[9px] md:text-[11px] font-black uppercase tracking-tighter truncate px-1 italic ${rank === 1 ? "text-[var(--foreground)]" : "text-[var(--foreground)]/60"
           }`}>
           {user.user?.name || "Legend"}
         </p>
-        <p className={`text-xs md:text-xl font-black mt-0.5 md:mt-1 ${color} tracking-tighter text-center`}>
+        <p className={`text-xs md:text-base font-black mt-0.5 ${color} tracking-tighter text-center italic`}>
           ₹{user.totalSpent.toLocaleString()}
         </p>
-        <div className="mt-2 md:mt-3 inline-flex items-center gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-[var(--foreground)]/5 border border-[var(--border)]">
-          <span className="text-[7px] md:text-[9px] font-black uppercase tracking-widest text-[var(--muted)]">#{rank}</span>
+        <div className={`mt-2 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 ${rank === 1 ? 'border-[var(--accent)]/30' : ''}`}>
+          <span className="text-[7px] md:text-[8px] font-black uppercase tracking-widest text-[var(--muted)] opacity-60">#{rank}</span>
         </div>
       </div>
 
       {rank === 1 && (
-        <div className="absolute inset-0 rounded-2xl md:rounded-[2.5rem] bg-[var(--accent)]/[0.03] -z-10" />
+        <div className="absolute inset-0 rounded-xl md:rounded-[2rem] bg-[var(--accent)]/[0.02] -z-10 shadow-inner" />
       )}
     </motion.div>
   );

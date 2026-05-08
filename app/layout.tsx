@@ -103,22 +103,22 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Organization",
+              "@type": "LocalBusiness",
               "name": "Yujimlbb",
               "url": "https://yujimlbb.com",
               "logo": "https://yujimlbb.com/logo.png",
+              "image": "https://yujimlbb.com/logo.png",
+              "description": "Premium game top-up service in India. Buy MLBB Diamonds and credits instantly.",
+              "priceRange": "₹",
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "IN"
+              },
               "sameAs": [
                 "https://www.facebook.com/yujimlbb",
                 "https://www.instagram.com/yujimlbb",
                 "https://twitter.com/yujimlbb"
-              ],
-              "contactPoint": {
-                "@type": "ContactPoint",
-                "telephone": "+91-XXXXXXXXXX",
-                "contactType": "customer service",
-                "areaServed": "IN",
-                "availableLanguage": "en"
-              }
+              ]
             }),
           }}
         />
@@ -127,14 +127,27 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "WebSite",
-              "name": "Yujimlbb",
-              "url": "https://yujimlbb.com",
-              "potentialAction": {
-                "@type": "SearchAction",
-                "target": "https://yujimlbb.com/games?search={search_term_string}",
-                "query-input": "required name=search_term_string"
-              }
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://yujimlbb.com"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Games",
+                  "item": "https://yujimlbb.com/games"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": "Leaderboard",
+                  "item": "https://yujimlbb.com/leaderboard"
+                }
+              ]
             }),
           }}
         />

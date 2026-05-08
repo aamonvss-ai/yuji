@@ -59,7 +59,7 @@ export default function AuthPage() {
   if (!mounted) return null;
 
   return (
-    <section className="min-h-screen relative flex items-start justify-center bg-transparent overflow-hidden px-4 pt-10 pb-10 font-sans selection:bg-[var(--accent)]/30">
+    <section className="min-h-screen relative flex items-start justify-center bg-transparent overflow-hidden px-4 pt-0 pb-4 font-sans selection:bg-[var(--accent)]/30">
 
       {/* --- Premium Background System --- */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -83,20 +83,20 @@ export default function AuthPage() {
       >
         {/* --- Card Container --- */}
         <div className="relative">
-          <div className="relative p-8 sm:p-12">
+          <div className="relative p-4 sm:p-6">
 
             {/* BRANDING SECTION */}
-            <div className="mb-10 text-center">
-              <div className="mx-auto mb-6 h-32 w-32 relative">
-                {/* Logo Halo - Performance standard blur */}
-                <div className="absolute inset-0 bg-[var(--accent)]/15 blur-2xl rounded-full scale-125" />
+            <div className="mb-1 text-center">
+              <div className="mx-auto mb-0 h-52 w-52 relative">
+                {/* Logo Halo - Enhanced for larger size */}
+                <div className="absolute inset-0 bg-[var(--accent)]/10 blur-3xl rounded-full scale-110" />
 
                 <div className="relative h-full w-full flex items-center justify-center">
                   <Image
                     src="/logo.png"
                     alt="yuji Logo"
-                    width={96}
-                    height={96}
+                    width={240}
+                    height={240}
                     className="object-contain logo-img"
                     priority
                   />
@@ -104,10 +104,10 @@ export default function AuthPage() {
               </div>
 
               <div className="space-y-1">
-                <h1 className="text-4xl font-extrabold tracking-tight text-[var(--foreground)]">
+                <h1 className="text-2xl font-black tracking-tighter text-[var(--foreground)] uppercase italic">
                   Welcome back
                 </h1>
-                <p className="text-base text-[var(--muted)] font-medium">
+                <p className="text-[10px] text-[var(--muted)] font-black uppercase tracking-widest opacity-60">
                   Sign in to continue
                 </p>
               </div>
@@ -140,7 +140,7 @@ export default function AuthPage() {
             </AnimatePresence>
 
             {/* AUTH ACTIONS */}
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div className="relative group/btn overflow-hidden rounded-[1.25rem] border border-[var(--border)] bg-[var(--foreground)]/[0.03] transition-all duration-300 hover:border-[var(--accent)]/50 hover:bg-[var(--foreground)]/[0.05]">
                 <GoogleLogin
                   onSuccess={(res) => res.credential && handleGoogleLogin(res.credential)}
@@ -178,7 +178,7 @@ export default function AuthPage() {
             </div>
 
             {/* FOOTER */}
-            <div className="mt-12 space-y-6">
+            <div className="mt-4 space-y-4">
               <div className="h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
 
               <div className="flex flex-col items-center gap-5">
