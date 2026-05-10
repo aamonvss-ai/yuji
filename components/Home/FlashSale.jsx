@@ -21,7 +21,7 @@ const flashSaleData = [
     },
 
     {
-        id: 5,
+        id: 2,
         name: "Weekly Bundle",
         game: "MLBB",
         image: "/game-assets/elite-bundle.jpeg",
@@ -32,7 +32,7 @@ const flashSaleData = [
         sold: 85 // Percentage sold
     },
     {
-        id: 5,
+        id: 3,
         name: "Monthly Bundle",
         game: "MLBB",
         image: "/game-assets/elite-bundle.jpeg",
@@ -69,7 +69,7 @@ export default function FlashSale() {
                 {/* Compact Horizontal Slider */}
                 <div className="overflow-x-auto pb-4 custom-scrollbar-premium snap-x snap-mandatory">
                     <div className="flex gap-3 md:gap-4 px-1 md:justify-center min-w-max md:min-w-0">
-                        {flashSaleData.map((item, index) => (
+                        {flashSaleData.map((item, index) => item && (
                             <div
                                 key={item.id}
                                 className="snap-start"
