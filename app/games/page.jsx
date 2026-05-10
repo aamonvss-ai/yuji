@@ -65,7 +65,7 @@ export default function GamesPage() {
 
   /* ================= CONFIG ================= */
   const SPECIAL_MLBB_GAME = "MLBB SMALL";
-  const outOfStockGames = ["Genshin Impact", "Honor Of Kings", "TEST 1", "Wuthering of Waves", "Mobile Legends Backup"];
+  const outOfStockGames = ["Genshin Impact", "TEST 1", "Wuthering of Waves", "Mobile Legends Backup"];
 
   const isOutOfStock = (name) => outOfStockGames.includes(name);
 
@@ -129,7 +129,7 @@ export default function GamesPage() {
           {/* Tag Overlay (Top Left) */}
           {!disabled && game.tagId && (
             <div className="absolute top-3 left-3 md:top-4 md:left-4 z-10">
-              <div 
+              <div
                 className="flex items-center gap-1.5 px-3 py-1 rounded-xl border border-white/10 backdrop-blur-md shadow-2xl transition-all duration-500 group-hover:bg-white/10"
                 style={{ background: `${game.tagId.tagBackground}aa` }}
               >
@@ -337,7 +337,7 @@ export default function GamesPage() {
                       </h3>
                       <p className="text-[9px] font-bold text-[var(--muted)] opacity-50 mt-1 uppercase">Exclusive Access</p>
                     </div>
-                    
+
                     {/* Decorative Elements */}
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
                       <FiShield size={40} className="rotate-12" />

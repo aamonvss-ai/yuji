@@ -22,6 +22,7 @@ const ALLOWED_GAME_SLUGS = [
   "mlbbbr178",
   "weeklymonthly-bundle931",
   "8ballpool498",
+  "honor-of-kings57"
 ];
 
 const getCachedPricingConfig = unstable_cache(

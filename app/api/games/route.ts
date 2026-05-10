@@ -23,6 +23,7 @@ const ALLOWED_GAME_SLUGS = [
   "mlbb-smallphp980",
   "weeklymonthly-bundle931",
   "8ballpool498",
+  "honor-of-kings57"
 ];
 
 /* ================= IMAGES ================= */

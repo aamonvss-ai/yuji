@@ -15,6 +15,7 @@ import StorySlider from "./StorySlider";
 
 
 import FlashSale from "./FlashSale";
+import CommunityPopup from "./CommunityPopup";
 
 
 export default function HeroSection() {
@@ -22,6 +23,7 @@ export default function HeroSection() {
 
   return (
     <>
+      <CommunityPopup />
       <TopNoticeBanner />
       <GameBannerCarousel />
       <StorySlider />

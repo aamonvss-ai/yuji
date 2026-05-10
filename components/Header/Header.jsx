@@ -286,6 +286,7 @@ export default function Header() {
 
         {/* RIGHT SIDE */}
         <div className="flex items-center gap-3 relative" ref={dropdownRef}>
+          <ThemeToggle />
           {/* USER AVATAR BUTTON */}
           <button
             onClick={() => {
@@ -333,11 +334,7 @@ export default function Header() {
                   transition={{ type: "spring", damping: 25, stiffness: 200 }}
                   className="fixed right-0 top-0 h-screen w-72 bg-[var(--card)]/95 backdrop-blur-2xl border-l border-[var(--border)] shadow-[-20px_0_50px_rgba(0,0,0,0.3)] z-[101] flex flex-col pt-4"
                 >
-                  <div className="flex items-center justify-between px-5 mb-2">
-                    <div className="flex items-center gap-4">
-                      <h2 className="text-[10px] font-black uppercase tracking-widest text-[var(--muted)] opacity-50">Change Theme</h2>
-                      <ThemeToggle />
-                    </div>
+                  <div className="flex items-center justify-end px-5 mb-2">
                     <button 
                       onClick={() => setUserMenuOpen(false)}
                       className="p-1.5 rounded-full bg-[var(--foreground)]/[0.03] hover:bg-[var(--accent)]/10 text-[var(--muted)] hover:text-[var(--accent)] transition-all"
