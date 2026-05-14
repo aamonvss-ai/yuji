@@ -53,8 +53,8 @@ export default function HomeQuickActions() {
   ];
 
   return (
-    <section className="w-full px-2 py-4">
-      <div className="max-w-6xl mx-auto grid grid-cols-5 gap-1.5 sm:gap-3">
+    <section className="w-full py-4">
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-5 gap-1.5 sm:gap-3">
         {actions.map((action, index) => (
           <Link
             key={action.name}

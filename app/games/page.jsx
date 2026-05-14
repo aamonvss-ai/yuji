@@ -21,19 +21,19 @@ import Loader from "@/components/Loader/Loader";
 /* ===================== SUB-COMPONENTS ===================== */
 
 const SectionHeader = ({ title, count, icon: Icon }) => (
-  <div className="flex items-center justify-between mb-6 group px-1">
-    <div className="flex items-center gap-3">
+  <div className="flex items-center justify-between mb-4 group">
+    <div className="flex items-center gap-4">
       <div className="relative">
-        <div className="p-2 rounded-xl bg-gradient-to-br from-[var(--accent)]/20 to-transparent border border-[var(--accent)]/20 text-[var(--accent)] shadow-[0_0_15px_rgba(var(--accent-rgb),0.1)]">
-          {Icon && <Icon size={16} />}
+        <div className="w-9 h-9 md:w-11 md:h-11 rounded-full bg-gradient-to-br from-[var(--accent)]/20 to-transparent border border-[var(--accent)]/20 text-[var(--accent)] shadow-[0_0_20px_rgba(var(--accent-rgb),0.1)] flex items-center justify-center shrink-0">
+          {Icon && <Icon size={18} />}
         </div>
-        <div className="absolute inset-0 bg-[var(--accent)] blur-xl opacity-20" />
+        <div className="absolute inset-0 bg-[var(--accent)] blur-2xl opacity-20" />
       </div>
       <div className="flex flex-col">
-        <h2 className="text-sm md:text-lg font-black tracking-tight text-[var(--foreground)] uppercase italic leading-none">
+        <h2 className="text-lg md:text-2xl font-black tracking-tighter text-[var(--foreground)] uppercase italic leading-none">
           {title}
         </h2>
-        <div className="h-[2px] w-8 bg-[var(--accent)] mt-1.5 rounded-full opacity-50 group-hover:w-full transition-all duration-500" />
+        <div className="h-[3px] w-10 bg-[var(--accent)] mt-1 rounded-full opacity-50 group-hover:w-full transition-all duration-500" />
       </div>
     </div>
 
@@ -159,14 +159,13 @@ export default function GamesPage() {
         </div>
 
         {/* Content Below Image */}
-        <div className="mt-2.5 px-1">
-          <div className="flex flex-col gap-0.5">
-            <h3 className="text-[9px] md:text-[12px] font-black text-[var(--foreground)] leading-tight uppercase italic truncate group-hover:text-[var(--accent)] transition-colors duration-300">
+        <div className="mt-1.5 px-0.5">
+          <div className="flex flex-col">
+            <h3 className="text-[9px] md:text-[11px] font-black text-[var(--foreground)] leading-tight uppercase italic truncate group-hover:text-[var(--accent)] transition-colors duration-300">
               {game.gameName}
             </h3>
-            <div className="flex items-center gap-1.5 opacity-50 group-hover:opacity-100 transition-all duration-300">
-              <div className="h-[1.5px] w-3 bg-[var(--accent)] rounded-full" />
-              <span className="text-[6px] md:text-[8px] font-black text-[var(--accent)] uppercase tracking-widest italic">
+            <div className="flex items-center gap-1 opacity-40 group-hover:opacity-100 transition-all duration-300">
+              <span className="text-[6px] md:text-[7px] font-black text-[var(--accent)] uppercase tracking-[0.15em] italic">
                 {game.gameFrom || "Global"}
               </span>
             </div>
@@ -187,8 +186,8 @@ export default function GamesPage() {
 
       <div className="relative z-10">
         {/* ================= SEARCH AREA ================= */}
-        <div className="bg-transparent px-4 py-2 mt-4">
-          <div className="max-w-7xl mx-auto flex items-center gap-3">
+        <div className="bg-transparent py-2 mt-4">
+          <div className="max-w-7xl mx-auto px-4 flex items-center gap-3">
             <div className="relative flex-1 group">
               <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)] w-4 h-4 transition-colors group-focus-within:text-[var(--accent)]" />
               <input
@@ -225,31 +224,76 @@ export default function GamesPage() {
         </div>
 
         {/* ================= CATEGORY FILTER ================= */}
-        <div className="max-w-7xl mx-auto px-4 mt-6">
-          <div className="flex gap-2.5 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="max-w-7xl mx-auto px-4 mt-4">
+          <div className="flex gap-2 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory">
             {[
-              { id: "all", icon: FiLayers, label: "All" },
-              { id: "mlbb", icon: FiZap, label: "MLBB" },
-              { id: "others", icon: FiGlobe, label: "Others" },
-              { id: "membership", icon: FiShield, label: "Membership" }
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-wider transition-all whitespace-nowrap border
-                ${activeTab === tab.id
-                    ? "bg-blue-600 text-white border-blue-500 shadow-lg shadow-blue-600/30"
-                    : "bg-[var(--card)] border border-[var(--border)] text-[var(--muted)] hover:border-[var(--accent)]/50 hover:text-[var(--foreground)]"}`}
-              >
-                <tab.icon size={12} className={activeTab === tab.id ? "text-white" : "text-[var(--accent)]"} />
-                {tab.label}
-              </button>
-            ))}
+              { id: "all", icon: FiLayers, label: "All", color: "from-blue-500 to-indigo-600", glow: "rgba(59,130,246,0.5)" },
+              { id: "mlbb", icon: FiZap, label: "MLBB", color: "from-amber-400 to-orange-600", glow: "rgba(245,158,11,0.5)" },
+              { id: "others", icon: FiGlobe, label: "Others", color: "from-emerald-400 to-teal-600", glow: "rgba(16,185,129,0.5)" },
+              { id: "membership", icon: FiShield, label: "Membership", color: "from-purple-500 to-pink-600", glow: "rgba(168,85,247,0.5)" }
+            ].map((tab) => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className="relative group outline-none snap-start"
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`
+                      relative flex items-center gap-2 px-3.5 py-1.5 rounded-xl
+                      text-[9px] font-black uppercase tracking-[0.12em] transition-all duration-500
+                      border backdrop-blur-xl overflow-hidden
+                      ${isActive
+                        ? `bg-gradient-to-br ${tab.color} text-white border-white/20 shadow-2xl shadow-[${tab.glow}]`
+                        : "bg-[var(--card)]/40 border-[var(--border)] text-[var(--muted)] hover:border-[var(--accent)]/40 hover:text-[var(--foreground)]"}
+                    `}
+                  >
+                    {/* Active State Background Animation */}
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeTabGlow"
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_3s_infinite]"
+                      />
+                    )}
+
+                    <tab.icon
+                      size={14}
+                      className={`relative z-10 transition-colors duration-500 ${isActive ? "text-white" : "text-[var(--accent)] group-hover:text-[var(--foreground)]"}`}
+                    />
+
+                    <span className="relative z-10 whitespace-nowrap italic">
+                      {tab.label}
+                    </span>
+
+                    {/* Subtle Internal Glow for Active */}
+                    {isActive && (
+                      <div className="absolute inset-0 bg-white/10 opacity-50 mix-blend-overlay" />
+                    )}
+                  </motion.div>
+
+                  {/* Underline Indicator */}
+                  <AnimatePresence>
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeUnderline"
+                        className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-gradient-to-r ${tab.color} blur-[1px]`}
+                        initial={{ opacity: 0, width: 0 }}
+                        animate={{ opacity: 1, width: 32 }}
+                        exit={{ opacity: 0, width: 0 }}
+                      />
+                    )}
+                  </AnimatePresence>
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {/* ================= CONTENT ================= */}
-        <div className="max-w-7xl mx-auto px-4 py-6 space-y-8">
+        <div className="max-w-7xl mx-auto px-4 py-4 space-y-6">
 
           {category
             .filter(cat => {

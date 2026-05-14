@@ -58,8 +58,8 @@ const storyData = [
 
 export default function StorySlider() {
   return (
-    <section className="relative py-4 px-4 overflow-hidden select-none">
-      <div className="max-w-7xl mx-auto flex gap-4 md:gap-6 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory px-4 lg:px-0 scroll-smooth">
+    <section className="relative py-4 overflow-hidden select-none">
+      <div className="max-w-7xl mx-auto flex gap-4 md:gap-6 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory px-4 scroll-smooth">
         {storyData.map((item, index) => (
           <motion.div
             key={item.id}

@@ -21,8 +21,8 @@ const ITEMS = [
 
 export default function TrustHighlights() {
   return (
-    <section className="py-12 px-6">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-12">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-3 md:grid-cols-6 gap-8 md:gap-4">
           {ITEMS.map((item, i) => (
             <motion.div

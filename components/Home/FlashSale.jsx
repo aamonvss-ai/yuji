@@ -13,7 +13,7 @@ const flashSaleData = [
         name: "Weekly Pass",
         game: "MLBB",
         image: "/game-assets/weeklypass-new.jpeg",
-        price: "₹149",
+        price: "₹152",
         originalPrice: "₹175",
         slug: "mobile-legends988?type=weekly-pass",
         badge: "Hot",
@@ -25,7 +25,7 @@ const flashSaleData = [
         name: "Weekly Bundle",
         game: "MLBB",
         image: "/game-assets/elite-bundle.jpeg",
-        price: "₹85",
+        price: "₹87",
         originalPrice: "₹100",
         slug: "weeklymonthly-bundle931",
         badge: "Value",
@@ -36,7 +36,7 @@ const flashSaleData = [
         name: "Monthly Bundle",
         game: "MLBB",
         image: "/game-assets/elite-bundle.jpeg",
-        price: "₹395",
+        price: "₹399",
         originalPrice: "₹450",
         slug: "weeklymonthly-bundle931",
         badge: "Value",
@@ -48,19 +48,25 @@ const flashSaleData = [
 export default function FlashSale() {
 
     return (
-        <section className="relative py-2 px-4 overflow-hidden border-b border-[var(--border)] bg-gray-50/50 dark:bg-white/[0.02]">
+        <section className="relative py-2 overflow-hidden border-b border-[var(--border)] bg-gray-50/50 dark:bg-white/[0.02]">
             {/* Background Decorative */}
             <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-amber-500/5 blur-[80px] pointer-events-none" />
 
-            <div className="max-w-7xl mx-auto">
-                <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                        <div className="p-1 rounded-md bg-amber-500 text-black shadow-[0_0_15px_rgba(245,158,11,0.5)] shrink-0 animate-pulse">
-                            <FiZap size={10} fill="currentColor" />
+            <div className="max-w-7xl mx-auto px-4">
+                <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2.5">
+                        <div className="relative">
+                            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-amber-500 text-black shadow-[0_0_20px_rgba(245,158,11,0.6)] flex items-center justify-center shrink-0 z-10 relative">
+                                <FiZap size={16} fill="currentColor" />
+                            </div>
+                            <div className="absolute inset-0 bg-amber-500 blur-2xl opacity-40 animate-pulse" />
                         </div>
-                        <h2 className="text-sm sm:text-base font-black uppercase tracking-tight italic bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
-                            Flash Sale
-                        </h2>
+                        <div className="flex flex-col">
+                            <h2 className="text-sm md:text-lg font-black italic uppercase tracking-tighter bg-gradient-to-r from-amber-400 via-orange-500 to-rose-600 bg-clip-text text-transparent leading-none">
+                                Flash Sale
+                            </h2>
+                            <div className="h-[2px] w-8 bg-gradient-to-r from-amber-500 to-rose-500 mt-0.5 rounded-full shadow-[0_2px_10px_rgba(245,158,11,0.5)]" />
+                        </div>
                     </div>
 
                     <Countdown />
@@ -68,7 +74,7 @@ export default function FlashSale() {
 
                 {/* Compact Horizontal Slider */}
                 <div className="overflow-x-auto pb-4 custom-scrollbar-premium snap-x snap-mandatory">
-                    <div className="flex gap-3 md:gap-4 px-1 md:justify-center min-w-max md:min-w-0">
+                    <div className="flex gap-2.5 md:gap-4 px-1 md:justify-center min-w-max md:min-w-0">
                         {flashSaleData.map((item, index) => item && (
                             <div
                                 key={item.id}
@@ -76,7 +82,7 @@ export default function FlashSale() {
                             >
                                 <Link
                                     href={`/games/${item.slug}`}
-                                    className="group relative block w-[105px] sm:w-[125px] md:w-[155px] aspect-[4/5] bg-white dark:bg-black border border-[var(--border)] rounded-[1rem] overflow-hidden transition-all duration-500 hover:border-[var(--accent)] shadow-lg hover:shadow-[var(--accent)]/20"
+                                    className="group relative block w-[95px] sm:w-[125px] md:w-[155px] aspect-[4/5] bg-white dark:bg-black border border-[var(--border)] rounded-[1rem] overflow-hidden transition-all duration-500 hover:border-[var(--accent)] shadow-lg hover:shadow-[var(--accent)]/20"
                                 >
                                     {/* Badge */}
                                     <div className="absolute top-2 left-2 z-20">
