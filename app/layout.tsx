@@ -116,7 +116,7 @@ export default async function RootLayout({
               },
               "sameAs": [
                 "https://www.facebook.com/yujimlbb",
-                "https://www.instagram.com/yujimlbb",
+                "https://www.instagram.com/yujimlbb_official",
                 "https://twitter.com/yujimlbb"
               ]
             }),

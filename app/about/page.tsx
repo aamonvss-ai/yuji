@@ -10,7 +10,7 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-transparent text-[var(--foreground)] transition-colors duration-300">
-      
+
       {/* 🌟 Hero Section */}
       <section className="relative text-center py-28 px-6 overflow-hidden border-b border-[var(--border)] bg-gradient-to-b from-[var(--card)] to-transparent">
         <div className="absolute inset-0 -z-10">
@@ -18,7 +18,7 @@ export default function AboutPage() {
         </div>
 
         <h1 className="text-5xl md:text-6xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] to-purple-500">
-           {BRAND}
+          {BRAND}
         </h1>
 
         <p className="text-[var(--muted)] text-lg max-w-2xl mx-auto">
@@ -101,7 +101,7 @@ export default function AboutPage() {
         </p>
 
         <a
-          href="https://instagram.com/mlbbtopup.in"
+          href="https://www.instagram.com/yujimlbb_official"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-3 bg-gradient-to-r from-[var(--accent)] to-purple-600 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:scale-110 hover:shadow-[0_0_20px_var(--accent)] transition-all duration-300"

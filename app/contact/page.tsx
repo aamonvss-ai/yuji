@@ -35,7 +35,7 @@ export default function ContactPage() {
           {/* 🌐 Social Links */}
           <div className="flex gap-5 mt-6">
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/yujimlbb_official"
               target="_blank"
               className="p-3 rounded-full bg-[var(--card)] border border-[var(--border)] hover:bg-[var(--accent)] hover:text-white transition-all"
             >
