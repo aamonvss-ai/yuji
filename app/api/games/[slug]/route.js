@@ -11,18 +11,19 @@ const ALLOWED_GAME_SLUGS = [
   "mlbbglobal202",          // Global
   "mlbbtr112",
   "magic-chess-gogo-india924",
-  "mlbb-indo42",
+  // "mlbb-indo42",
   // "mlbb-russia953",
   "pubg-mobile138",
   "genshin-impact742",
   "honor-of-kings57",
   "wuthering-of-waves464",
   "where-winds-meet280",
-  "mlbb-smallphp980",
+  // "mlbb-smallphp980",
   "mlbbbr178",
   "weeklymonthly-bundle931",
   "8ballpool498",
-  "honor-of-kings57"
+  "honor-of-kings57",
+  "mobile-legends-exclusive266"
 ];
 
 const getCachedPricingConfig = unstable_cache(

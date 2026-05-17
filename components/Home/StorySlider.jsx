@@ -43,7 +43,7 @@ const storyData = [
     badge: "Fast",
     color: "from-cyan-400 to-sky-600",
     image: "/game-assets/3_cj6nj4.jpg",
-    link: "/games/mlbb-smallphp980",
+    link: "/games/mobile-legends-exclusive266",
   },
 
   {
