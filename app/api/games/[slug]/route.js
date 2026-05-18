@@ -5,7 +5,7 @@ import PricingConfig from "@/models/PricingConfig";
 import { unstable_cache } from 'next/cache';
 
 const ALLOWED_GAME_SLUGS = [
-  "mobile-legends988",
+  "mobile-legends270",
   "mlbb-double332",
   "sgmy-mlbb893",
   "mlbbglobal202",          // Global
@@ -20,10 +20,10 @@ const ALLOWED_GAME_SLUGS = [
   "where-winds-meet280",
   // "mlbb-smallphp980",
   "mlbbbr178",
-  "weeklymonthly-bundle931",
+  "weeklymonthly-bundle261",
   "8ballpool498",
   "honor-of-kings57",
-  "mobile-legends-exclusive266"
+  "mobile-legends-exclusive952"
 ];
 
 const getCachedPricingConfig = unstable_cache(

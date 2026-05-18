@@ -9,10 +9,10 @@ import { saveVerifiedPlayer, getVerifiedPlayers } from "@/utils/storage/verified
 import HelpImagePopup from "../../../../../components/HelpImage/HelpImagePopup";
 import logo from "@/public/logo.png";
 
-import { 
-  FaUserCheck, 
-  FaWallet, 
-  FaCheckCircle, 
+import {
+  FaUserCheck,
+  FaWallet,
+  FaCheckCircle,
   FaHistory,
   FaArrowRight,
   FaShieldAlt,
@@ -126,7 +126,7 @@ export default function BuyFlowPage() {
     }
 
     try {
-      const baseGameId = isMLBB ? "mobile-legends988" : (game?.gameId || slug);
+      const baseGameId = isMLBB ? "mobile-legends270" : (game?.gameId || slug);
       const productId = `${baseGameId}_${item?.itemId || itemSlug}`;
 
       const nameRes = await fetch("/api/check-region/namecheck", {
@@ -139,9 +139,9 @@ export default function BuyFlowPage() {
       if ((nameData?.success === 200 || nameData?.success === true) && (nameData?.data?.username || nameData?.data?.name)) {
         const username = nameData?.data?.username || nameData?.data?.name || "Unknown";
         const region = nameData?.data?.region || "Global";
-        
+
         // Filter restricted regions
-        const restrictedSlugs = ["mobile-legends988", "mlbb-double332", "weeklymonthly-bundle931"];
+        const restrictedSlugs = ["mobile-legends270", "mlbb-double332", "weeklymonthly-bundle261"];
         if (restrictedSlugs.includes(slug)) {
           const restrictedRegions = ["INDO", "ID", "PH", "SG", "RU", "MY", "MM"];
           if (restrictedRegions.includes(region.toUpperCase())) {
@@ -187,7 +187,7 @@ export default function BuyFlowPage() {
         phone: userPhone || localStorage.getItem("phone"),
         currency: "INR",
       };
-      
+
       const token = localStorage.getItem("token");
       const res = await fetch("/api/order/create-gateway-order", {
         method: "POST",
@@ -216,12 +216,12 @@ export default function BuyFlowPage() {
     <AuthGuard>
       <section className="min-h-screen bg-transparent text-[var(--foreground)] px-4 py-4 md:px-8 lg:py-8">
         <div className="max-w-6xl mx-auto">
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            
+
             {/* LEFT COLUMN: HERO & RELATED */}
             <div className="lg:col-span-5 space-y-6">
-              
+
               {/* HERO CARD */}
               <div className="bg-[var(--card)]/20 backdrop-blur-xl border border-[var(--border)] rounded-[2rem] p-4 shadow-xl relative overflow-hidden group">
                 <div className="flex items-center gap-4 relative z-10">
@@ -256,7 +256,7 @@ export default function BuyFlowPage() {
                     {discountPercent}% OFF
                   </div>
                 )}
-                
+
                 <div className="absolute top-4 right-4 opacity-20">
                   <MdHelpOutline size={20} />
                 </div>
@@ -280,7 +280,7 @@ export default function BuyFlowPage() {
                       <p className="text-base font-black italic tracking-tighter">₹{r.sellingPrice}</p>
                     </Link>
                   ))}
-                  
+
                   {/* Active Item */}
                   <div className="flex-shrink-0 w-24 md:w-32 snap-start bg-[var(--card)]/30 border-2 border-[var(--accent)] p-2.5 rounded-2xl relative shadow-lg">
                     <p className="text-[8px] font-bold text-[var(--accent)] uppercase tracking-tight mb-0.5 truncate">{item?.itemName}</p>
@@ -295,12 +295,12 @@ export default function BuyFlowPage() {
 
             {/* RIGHT COLUMN: INFO & PAYMENT */}
             <div className="lg:col-span-7 space-y-6">
-              
+
               {/* 1. PLAYER INFO */}
               <div className={`bg-[var(--card)]/30 backdrop-blur-xl border-2 transition-all duration-500 rounded-[2rem] p-5 shadow-2xl relative overflow-hidden ${!isVerified ? 'border-[var(--accent)]/30' : 'border-transparent'}`}>
                 {/* Progress Indicator */}
                 <div className="absolute top-0 left-0 h-1 bg-[var(--accent)] transition-all duration-700" style={{ width: isVerified ? '100%' : '50%' }} />
-                
+
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-3">
                     <div className={`w-1 h-8 rounded-full transition-colors duration-500 ${isVerified ? 'bg-green-500' : 'bg-[var(--accent)]'}`} />
@@ -347,10 +347,10 @@ export default function BuyFlowPage() {
                   onClick={handleValidate}
                   disabled={loading}
                   className={`w-full py-3.5 rounded-xl font-black uppercase tracking-[0.2em] text-[9px] italic transition-all duration-500 flex items-center justify-center gap-3 mb-6 shadow-xl border-2
-                    ${loading 
-                      ? "opacity-50 cursor-not-allowed border-transparent bg-[var(--foreground)]/[0.05]" 
-                      : isVerified 
-                        ? "bg-green-500 text-white border-green-500 shadow-green-500/20" 
+                    ${loading
+                      ? "opacity-50 cursor-not-allowed border-transparent bg-[var(--foreground)]/[0.05]"
+                      : isVerified
+                        ? "bg-green-500 text-white border-green-500 shadow-green-500/20"
                         : "bg-[var(--accent)]/10 text-[var(--accent)] border-[var(--accent)]/20 hover:bg-[var(--accent)] hover:text-black hover:border-[var(--accent)]"}`}
                 >
                   {loading ? (
@@ -377,14 +377,14 @@ export default function BuyFlowPage() {
                       <FaHistory size={10} className="opacity-20" />
                       <span className="font-black text-[9px] uppercase tracking-widest opacity-30">Recent Players</span>
                     </div>
-                    <button 
+                    <button
                       onClick={() => setShowRecent(!showRecent)}
                       className="text-[9px] font-black uppercase tracking-widest text-[var(--accent)] hover:underline"
                     >
                       {showRecent ? "HIDE" : "SHOW"}
                     </button>
                   </div>
-                  
+
                   {showRecent && (
                     <div className="space-y-2 animate-fadeUp">
                       {recentPlayers.length > 0 ? (
@@ -417,7 +417,7 @@ export default function BuyFlowPage() {
               <div className={`bg-[var(--card)]/30 backdrop-blur-xl border-2 transition-all duration-700 rounded-[2rem] p-5 shadow-2xl relative overflow-hidden ${isVerified ? 'border-[var(--accent)]/30 opacity-100' : 'border-transparent opacity-40'}`}>
                 {/* Lock Overlay for UX */}
                 {!isVerified && <div className="absolute inset-0 z-20 cursor-not-allowed" title="Verify player info first" />}
-                
+
                 <div className="flex items-center gap-3 mb-6">
                   <div className={`w-1 h-8 rounded-full transition-colors duration-500 ${isVerified ? 'bg-[var(--accent)]' : 'bg-[var(--foreground)]/10'}`} />
                   <h2 className="text-xl font-black uppercase tracking-tighter italic">2. Payment</h2>
@@ -482,8 +482,8 @@ export default function BuyFlowPage() {
                   onClick={handleProceed}
                   disabled={payLoading || !isVerified}
                   className={`w-full py-4 rounded-[1.25rem] font-black uppercase tracking-[0.3em] text-[10px] italic transition-all duration-700 shadow-2xl flex items-center justify-center gap-3
-                    ${!isVerified 
-                      ? "bg-[var(--foreground)]/[0.05] text-[var(--foreground)]/10 cursor-not-allowed shadow-none" 
+                    ${!isVerified
+                      ? "bg-[var(--foreground)]/[0.05] text-[var(--foreground)]/10 cursor-not-allowed shadow-none"
                       : "bg-[var(--accent)] text-black hover:bg-[var(--accent)] hover:brightness-110 shadow-[var(--accent)]/30 hover:scale-[1.02]"}`}
                 >
                   {payLoading ? (

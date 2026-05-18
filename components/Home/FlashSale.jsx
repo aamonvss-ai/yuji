@@ -15,7 +15,7 @@ const flashSaleData = [
         image: "/game-assets/weeklypass-new.jpeg",
         price: "₹149",
         originalPrice: "₹175",
-        slug: "mobile-legends988?type=weekly-pass",
+        slug: "mobile-legends270?type=weekly-pass",
         badge: "Hot",
         sold: 62 // Percentage sold
     },
@@ -27,7 +27,7 @@ const flashSaleData = [
         image: "/game-assets/elite-bundle.jpeg",
         price: "₹85",
         originalPrice: "₹100",
-        slug: "weeklymonthly-bundle931",
+        slug: "weeklymonthly-bundle261",
         badge: "Value",
         sold: 85 // Percentage sold
     },
@@ -38,7 +38,7 @@ const flashSaleData = [
         image: "/game-assets/elite-bundle.jpeg",
         price: "₹405",
         originalPrice: "₹450",
-        slug: "weeklymonthly-bundle931",
+        slug: "weeklymonthly-bundle261",
         badge: "Value",
         sold: 15 // Percentage sold
     },

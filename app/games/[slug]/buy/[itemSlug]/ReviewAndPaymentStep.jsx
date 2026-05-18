@@ -54,7 +54,7 @@ export default function ReviewAndPaymentStep({
     const restrictedRegions = ["INDO", "ID", "PH", "SG", "RU", "MY", "MM"];
     const playerRegion = reviewData.region?.toUpperCase();
 
-    if ((slug === "mobile-legends988" || slug === "mlbb-double332") && restrictedRegions.includes(playerRegion)) {
+    if ((slug === "mobile-legends270" || slug === "mlbb-double332") && restrictedRegions.includes(playerRegion)) {
       alert(`Orders from ${playerRegion} region are not allowed for this product.`);
       setIsRedirecting(false);
       return;
@@ -284,7 +284,7 @@ export default function ReviewAndPaymentStep({
               <span className="w-1.5 h-1.5 bg-[var(--accent)] rounded-full animate-pulse" />
               Order Summary
             </h3>
-            
+
             <div className="space-y-1.5 mb-3 px-1">
               <div className="flex items-center justify-between text-[10px]">
                 <span className="text-[var(--muted)] font-medium">Base Price</span>

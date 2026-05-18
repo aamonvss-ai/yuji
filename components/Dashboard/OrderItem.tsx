@@ -40,7 +40,7 @@ export type OrderType = {
 const getGameName = (slug: string) => {
   const s = slug.toLowerCase();
   const mlbbSlugs = [
-    "mobile-legends988", "mlbb-smallphp638", "mlbb-double332",
+    "mobile-legends270", "mlbb-smallphp638", "mlbb-double332",
     "sgmy-mlbb893", "value-pass-ml948", "mlbb-russia953", "mlbb-indo42",
   ];
   if (mlbbSlugs.some((k) => s.includes(k))) return "Mobile Legends";
@@ -102,12 +102,12 @@ export default function OrderItem({ order }: { order: OrderType }) {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-0.5">
-                 <span className={`px-1.5 py-0.5 rounded text-[7px] font-black uppercase tracking-[0.2em] border ${config.colors} italic`}>
-                    {config.label}
-                  </span>
-                  <span className="text-[7px] font-black text-[var(--muted)] opacity-30 uppercase tracking-widest italic">
-                    #{order.orderId}
-                  </span>
+                <span className={`px-1.5 py-0.5 rounded text-[7px] font-black uppercase tracking-[0.2em] border ${config.colors} italic`}>
+                  {config.label}
+                </span>
+                <span className="text-[7px] font-black text-[var(--muted)] opacity-30 uppercase tracking-widest italic">
+                  #{order.orderId}
+                </span>
               </div>
 
               <h3 className="font-black text-[11px] md:text-xs uppercase tracking-tight truncate text-[var(--foreground)] leading-tight italic">{order.itemName}</h3>
@@ -117,8 +117,8 @@ export default function OrderItem({ order }: { order: OrderType }) {
                 <span className="w-1 h-1 bg-[var(--border)] rounded-full" />
                 <span className="text-[var(--accent)]">{getGameName(order.gameSlug)}</span>
               </div>
-             </div>
- 
+            </div>
+
             <div className="flex items-center justify-between md:items-center gap-3">
               <div className="text-sm font-black text-[var(--foreground)] tracking-tighter italic">₹{order.price}</div>
               <div className="flex items-center gap-1">
