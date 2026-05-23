@@ -20,7 +20,13 @@ export const metadata: Metadata = {
     template: "%s | Yujimlbb"
   },
   description: "Buy Mobile Legends diamonds at the cheapest price in India. Instant delivery, trusted service & secure payment only at Yujimlbb.com.",
-  keywords: ["MLBB Top Up", "Mobile Legends Diamonds", "Cheap MLBB Diamonds India", "MLBB Recharge India", "Yuji MLBB", "Instant Diamond Delivery"],
+  keywords: [
+    "MLBB Top Up", "Mobile Legends Diamonds", "Cheap MLBB Diamonds India", "MLBB Recharge India", 
+    "Yuji MLBB", "Instant Diamond Delivery", "buy mlbb diamonds", "mobile legends top up center", 
+    "mlbb diamonds cheap price", "yujimlbb top up", "buy diamonds mlbb india", "mlbb recharge center", 
+    "mobile legends bang bang top up", "mlbb store", "mobile legends top up site", "buy game credits india", 
+    "ml diamonds india"
+  ],
   authors: [{ name: "Yujimlbb" }],
   creator: "Yujimlbb",
   publisher: "Yujimlbb",

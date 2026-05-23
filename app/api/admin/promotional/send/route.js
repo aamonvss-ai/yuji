@@ -40,6 +40,11 @@ export async function POST(req) {
       },
     ].filter(acc => acc.user && acc.pass).map(acc => 
       nodemailer.createTransport({
+        pool: true,
+        maxConnections: 1, // Limit connections per account
+        maxMessages: 100,  // Max messages per connection before reconnecting
+        rateDelta: 1000,   // Delay between messages (if supported, but we will add manual delay)
+        rateLimit: 1,      // 1 message per rateDelta
         service: "gmail",
         auth: { user: acc.user, pass: acc.pass },
       })
@@ -64,6 +69,8 @@ export async function POST(req) {
     let errorCount = 0;
     const logs = [];
 
+    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
     // 🚀 Start sending in background (but we wait for it to finish for simple implementation)
     // For large lists, this should be a background job.
     for (let i = 0; i < recipients.length; i++) {
@@ -73,6 +80,8 @@ export async function POST(req) {
       const senderEmail = i % transporters.length === 0 ? process.env.GMAIL_USER : process.env.GMAIL_USER1;
 
       try {
+        if (i > 0) await delay(1000); // 1-second delay between emails
+
         await transporter.sendMail({
           from: `"${header || "Promotion"}" <${senderEmail}>`,
           to: recipient.email,

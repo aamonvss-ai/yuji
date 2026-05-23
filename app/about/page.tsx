@@ -5,6 +5,14 @@ const BRAND = process.env.NEXT_PUBLIC_BRAND_NAME || "Meow Ji";
 export const metadata = {
   title: `About | ${BRAND}`,
   description: `Learn about ${BRAND} - a fast and safe game top-up site with instant delivery.`,
+  keywords: [
+    "about yujimlbb",
+    "mlbb top up trusted site",
+    "mobile legends top up india",
+    "safe game top up",
+    "instant diamond delivery",
+    "yuji top up"
+  ],
 };
 
 export default function AboutPage() {
