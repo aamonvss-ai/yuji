@@ -3,6 +3,12 @@
 import { useState } from "react";
 import { FaInstagram, FaTwitter, FaDiscord, FaEnvelope } from "react-icons/fa";
 
+export const metadata = {
+  title: "Contact Us | Yujimlbb Support",
+  description: "Get in touch with the Yujimlbb support team for help with your MLBB diamond top-ups, orders, or general inquiries.",
+  keywords: ["contact yujimlbb", "yuji support", "mlbb top up help", "customer service top up", "game recharge support"]
+};
+
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
 

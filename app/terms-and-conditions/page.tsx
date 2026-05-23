@@ -2,6 +2,12 @@
 
 const BRAND = process.env.NEXT_PUBLIC_BRAND_NAME || "Meow Ji";
 
+export const metadata = {
+  title: "Terms & Conditions | Yujimlbb",
+  description: "Read the Terms and Conditions for using Yujimlbb to purchase game top-ups, MLBB diamonds, and other virtual credits safely.",
+  keywords: ["terms and conditions", "yujimlbb terms", "game top up rules", "refund policy top up"]
+};
+
 export default function TermsAndConditions() {
   return (
     <main className="min-h-screen bg-transparent text-[var(--foreground)] px-6 py-6">

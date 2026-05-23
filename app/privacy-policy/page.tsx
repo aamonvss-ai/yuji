@@ -2,6 +2,12 @@
 
 const BRAND = process.env.NEXT_PUBLIC_BRAND_NAME || "Meow Ji";
 
+export const metadata = {
+  title: "Privacy Policy | Yujimlbb",
+  description: "Read our privacy policy to understand how we collect, use, and protect your data when you use our game top-up services.",
+  keywords: ["privacy policy", "yujimlbb privacy", "data protection game site", "secure top up policy"]
+};
+
 export default function PrivacyPolicy() {
   return (
     <main className="min-h-screen bg-transparent text-[var(--foreground)] px-6 py-10">
