@@ -6,10 +6,12 @@ import Link from "next/link";
 import { FiZap, FiChevronRight } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import Countdown from "./Countdown";
+import { useCurrency } from "@/components/CurrencyContext";
 
 export default function FlashSale() {
     const [config, setConfig] = useState(null);
     const [loading, setLoading] = useState(true);
+    const { formatPrice } = useCurrency();
 
     useEffect(() => {
         const cached = localStorage.getItem("yuji_flash_sale");
@@ -108,10 +110,10 @@ export default function FlashSale() {
 
                                             <div className="flex items-center justify-between pt-1">
                                                 <span className="text-[11px] md:text-[15px] font-black italic text-white">
-                                                    {item.price}
+                                                    {formatPrice(parseFloat(String(item.price).replace(/[^\d.]/g, '')))}
                                                 </span>
                                                 <span className="text-[8px] md:text-[10px] font-bold text-white/40 line-through decoration-red-500/50">
-                                                    {item.originalPrice}
+                                                    {formatPrice(parseFloat(String(item.originalPrice).replace(/[^\d.]/g, '')))}
                                                 </span>
                                             </div>
 

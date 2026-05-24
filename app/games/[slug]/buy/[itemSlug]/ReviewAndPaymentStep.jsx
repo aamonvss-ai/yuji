@@ -5,6 +5,7 @@ import Image from "next/image";
 import QRCode from "qrcode";
 import logo from "@/public/logo.png";
 import { Mail, Phone, User, Hash, MapPin, Wallet, QrCode, Lock } from "lucide-react";
+import { useCurrency } from "@/components/CurrencyContext";
 
 
 export default function ReviewAndPaymentStep({
@@ -27,6 +28,7 @@ export default function ReviewAndPaymentStep({
 }) {
   const [upiQR, setUpiQR] = useState("");
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const { formatPrice } = useCurrency();
 
 
   // Generate UPI QR
@@ -236,7 +238,7 @@ export default function ReviewAndPaymentStep({
                         <p className="text-[8px] font-bold text-[var(--muted)] uppercase opacity-60">Pay with balance</p>
                       </div>
                     </div>
-                    <span className="font-black text-xs italic">₹{walletBalance.toFixed(2)}</span>
+                    <span className="font-black text-xs italic">{formatPrice(walletBalance)}</span>
                   </button>
 
                   {(!isAllowedRole || !isWithinLimit) && (
@@ -248,7 +250,7 @@ export default function ReviewAndPaymentStep({
                       )}
                       {!isWithinLimit && (
                         <p className="text-amber-500 text-[7px] flex items-center gap-1 font-black uppercase tracking-widest opacity-80">
-                          <Lock size={8} /> Limit ₹1000
+                          <Lock size={8} /> Limit {formatPrice(1000)}
                         </p>
                       )}
                     </div>
@@ -288,19 +290,19 @@ export default function ReviewAndPaymentStep({
             <div className="space-y-1.5 mb-3 px-1">
               <div className="flex items-center justify-between text-[10px]">
                 <span className="text-[var(--muted)] font-medium">Base Price</span>
-                <span className="font-bold text-[var(--foreground)]">₹{price}</span>
+                <span className="font-bold text-[var(--foreground)]">{formatPrice(price)}</span>
               </div>
               {discount > 0 && (
                 <div className="flex items-center justify-between text-[10px]">
                   <span className="text-emerald-500 font-medium">Discount Applied</span>
-                  <span className="font-bold text-emerald-500">-₹{discount}</span>
+                  <span className="font-bold text-emerald-500">-{formatPrice(discount)}</span>
                 </div>
               )}
             </div>
 
             <div className="flex items-center justify-between bg-[var(--accent)]/5 p-3 rounded-xl border border-[var(--accent)]/10 mb-3">
               <span className="text-[9px] font-black uppercase tracking-widest text-[var(--muted)] italic">Total Amount</span>
-              <span className="text-xl font-black text-[var(--accent)] italic tracking-tighter">₹{totalPrice}</span>
+              <span className="text-xl font-black text-[var(--accent)] italic tracking-tighter">{formatPrice(totalPrice)}</span>
             </div>
 
             <button
@@ -354,7 +356,7 @@ export default function ReviewAndPaymentStep({
           {/* Wallet Payment */}
           {paymentMethod === "wallet" && (
             <div className="bg-black/20 p-6 rounded-xl border border-gray-700 text-center">
-              <p className="mb-2">Wallet Balance: ₹{walletBalance}</p>
+              <p className="mb-2">Wallet Balance: {formatPrice(walletBalance)}</p>
 
               {walletBalance < totalPrice && (
                 <p className="text-red-400 text-xs mb-3">
@@ -367,7 +369,7 @@ export default function ReviewAndPaymentStep({
                 disabled={walletBalance < totalPrice}
                 className="bg-[var(--accent)] text-black w-full py-3 rounded-lg font-semibold disabled:opacity-50"
               >
-                Pay ₹{totalPrice}
+                Pay {formatPrice(totalPrice)}
               </button>
             </div>
           )}

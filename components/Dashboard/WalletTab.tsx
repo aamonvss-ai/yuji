@@ -5,6 +5,7 @@ import { FaWallet, FaGooglePay, FaBitcoin } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiPlus, FiArrowRight, FiCheckCircle } from "react-icons/fi";
 import { History } from "lucide-react";
+import { useCurrency } from "@/components/CurrencyContext";
 
 
 interface WalletTabProps {
@@ -24,6 +25,7 @@ export default function WalletTab({
   const [storedEmail, setStoredEmail] = useState("");
   const [transactions, setTransactions] = useState<any[]>([]);
   const [historyLoading, setHistoryLoading] = useState(true);
+  const { formatPrice } = useCurrency();
 
   // Crypto Specific State
   const [usdtAmount, setUsdtAmount] = useState("10");
@@ -33,7 +35,7 @@ export default function WalletTab({
   const [activeCryptoTxId, setActiveCryptoTxId] = useState("");
   const [hashSubmitModal, setHashSubmitModal] = useState<string | null>(null);
 
-  const RATE = 98;
+  const RATE = Number(process.env.NEXT_PUBLIC_USDT_RATE) || 98;
   const depositAddress = "0x3e51e7cbae36bce80b2c6432a2add6130d184a94"; 
   const quickAmounts = ["50", "100", "200", "500"];
   const quickUsdt = ["1", "5", "10", "20"];
@@ -204,7 +206,7 @@ export default function WalletTab({
             <div className="relative z-10">
               <p className="text-[9px] font-black opacity-60 uppercase tracking-[0.2em] italic">Current Balance</p>
               <h3 className="text-3xl md:text-4xl font-black mt-1 tracking-tighter italic">
-                ₹{walletBalance.toLocaleString("en-IN")}
+                {formatPrice(walletBalance)}
               </h3>
               <div className="mt-6 flex items-center gap-2 text-[8px] font-black bg-white/10 w-fit px-3 py-1 rounded-full backdrop-blur-md border border-white/10">
                 <div className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_8px_rgba(74,222,128,0.5)]" />
@@ -308,7 +310,7 @@ export default function WalletTab({
                   </div>
                   <div className="text-left">
                     <p className="text-[11px] font-black uppercase italic tracking-tight">Crypto / USDT</p>
-                    <p className="text-[8px] font-bold opacity-30 uppercase tracking-widest text-[var(--accent)]">1 USDT = {RATE} Coins</p>
+                    <p className="text-[8px] font-bold opacity-30 uppercase tracking-widest text-[var(--accent)]">1 USDT = {RATE} Rs</p>
                   </div>
                 </button>
               </div>
@@ -330,7 +332,7 @@ export default function WalletTab({
                     </div>
                     <div className="flex justify-between items-center mt-3 px-1">
                       <span className="text-[10px] font-bold text-[var(--muted)] uppercase">You Receive:</span>
-                      <span className="text-lg font-black text-[var(--accent)] italic">{(Number(usdtAmount) * RATE).toLocaleString()} Coins</span>
+                      <span className="text-lg font-black text-[var(--accent)] italic">{(Number(usdtAmount) * RATE).toLocaleString()} Rs</span>
                     </div>
                   </div>
 
@@ -369,7 +371,7 @@ export default function WalletTab({
                     </div>
                     <div className="bg-[var(--card)] p-3 rounded-xl border border-[var(--border)] text-center">
                       <p className="text-[8px] text-[var(--muted)] font-black uppercase mb-1">Receive</p>
-                      <p className="text-lg font-black text-[var(--accent)] italic">{Number(usdtAmount) * RATE} Coins</p>
+                      <p className="text-lg font-black text-[var(--accent)] italic">{Number(usdtAmount) * RATE} Rs</p>
                     </div>
                   </div>
 

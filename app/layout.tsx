@@ -14,6 +14,8 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { connectDB } from "@/lib/mongodb";
 import SystemSettings from "@/models/SystemSettings";
 
+import { CurrencyProvider } from "@/components/CurrencyContext";
+
 export const metadata: Metadata = {
   title: {
     default: "MLBB Top Up India – Cheap Mobile Legends Diamonds | Yujimlbb",
@@ -172,13 +174,14 @@ export default async function RootLayout({
       </head>
       <body className={poppins.className}>
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
-          {isMaintenance && <Maintenance />}
-          <Header />
-          <main className="pt-12">{children}</main>
-          <Footer />
-          <Chatbot />
+          <CurrencyProvider>
+            {isMaintenance && <Maintenance />}
+            <Header />
+            <main className="pt-12">{children}</main>
+            <Footer />
+            <Chatbot />
+          </CurrencyProvider>
         </GoogleOAuthProvider>
-
       </body>
       <GoogleAnalytics gaId="G-7MQ5K05HZQ" />
       {/* <script src="https://quge5.com/88/tag.min.js" data-zone="191906" async data-cfasync="false"></script> */}

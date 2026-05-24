@@ -19,6 +19,7 @@ import {
   Zap
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCurrency } from "@/components/CurrencyContext";
 
 /* ================= TYPES ================= */
 
@@ -53,6 +54,7 @@ const getGameName = (slug: string) => {
 export default function OrderItem({ order }: { order: OrderType }) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const { formatPrice } = useCurrency();
 
   const status = (order.topupStatus || order.status).toLowerCase();
 
@@ -120,7 +122,7 @@ export default function OrderItem({ order }: { order: OrderType }) {
             </div>
 
             <div className="flex items-center justify-between md:items-center gap-3">
-              <div className="text-sm font-black text-[var(--foreground)] tracking-tighter italic">₹{order.price}</div>
+              <div className="text-sm font-black text-[var(--foreground)] tracking-tighter italic">{formatPrice(order.price)}</div>
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => {

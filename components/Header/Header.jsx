@@ -25,6 +25,7 @@ import {
 import { HiGlobeAlt, HiCube } from "react-icons/hi";
 import Image from "next/image";
 import logo from "@/public/logo.png";
+import { useCurrency } from "@/components/CurrencyContext";
 
 
 export default function Header() {
@@ -34,6 +35,8 @@ export default function Header() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [imgError, setImgError] = useState(false);
+
+  const { currency, setCurrency } = useCurrency();
 
   // ---------------- SEARCH STATE ----------------
   const [searchQuery, setSearchQuery] = useState("");
@@ -172,7 +175,7 @@ export default function Header() {
         {/* LOGO */}
         <Link
           href="/"
-          className="flex items-center transition-transform duration-300 hover:scale-105"
+          className="flex items-center transition-transform duration-300 hover:scale-105 -ml-4 lg:-ml-8"
         >
           <Image
             src={logo}
@@ -185,7 +188,7 @@ export default function Header() {
         </Link>
 
         {/* DESKTOP NAV */}
-        <nav className="hidden md:flex items-center space-x-1 text-[var(--muted)]">
+        {/* <nav className="hidden md:flex items-center space-x-1 text-[var(--muted)]">
           <Link
             href="/region"
             className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 hover:text-[var(--foreground)] hover:bg-[var(--accent)]/10"
@@ -200,7 +203,7 @@ export default function Header() {
             <HiCube size={18} />
             <span>Services</span>
           </Link>
-        </nav>
+        </nav> */}
 
         {/* MOBILE SEARCH TOGGLE */}
         <div className="flex lg:hidden items-center ml-auto mr-4">
@@ -286,6 +289,15 @@ export default function Header() {
 
         {/* RIGHT SIDE */}
         <div className="flex items-center gap-3 relative" ref={dropdownRef}>
+          
+          {/* CURRENCY TOGGLE */}
+          <button
+            onClick={() => setCurrency(currency === "INR" ? "USDT" : "INR")}
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/30 transition-all font-black text-[10px] tracking-widest text-[var(--muted)] hover:text-[var(--accent)]"
+          >
+            {currency === "INR" ? "₹ INR" : "$ USDT"}
+          </button>
+
           <ThemeToggle />
           {/* USER AVATAR BUTTON */}
           <button
@@ -293,7 +305,7 @@ export default function Header() {
               if (loading) return;
               setUserMenuOpen(!userMenuOpen);
             }}
-            className="group relative w-10 h-10 rounded-full bg-gradient-to-br from-[var(--accent)] to-[#22d3ee] flex items-center justify-center overflow-hidden transition-all duration-300 hover:scale-110 active:scale-95 ring-2 ring-transparent hover:ring-[var(--accent)]/50 shadow-lg"
+            className="group relative w-8 h-8 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-[var(--accent)] to-[#22d3ee] flex items-center justify-center overflow-hidden transition-all duration-300 hover:scale-110 active:scale-95 ring-2 ring-transparent hover:ring-[var(--accent)]/50 shadow-lg"
           >
             {!loading && user ? (
               <Image
@@ -306,7 +318,7 @@ export default function Header() {
                 onError={() => setImgError(true)}
               />
             ) : (
-              <User className="text-white w-5 h-5" />
+              <User className="text-white w-4 h-4 md:w-5 md:h-5" />
             )}
 
             {/* Subtle glow effect */}

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { FiCheckCircle } from "react-icons/fi";
 import Image from "next/image";
 import logo from "@/public/logo.png";
+import { useCurrency } from "@/components/CurrencyContext";
 
 export default function ItemGrid({
   items,
@@ -12,6 +13,8 @@ export default function ItemGrid({
   buyPanelRef,
   gameImage
 }) {
+  const { formatPrice } = useCurrency();
+
   return (
     <div className="max-w-6xl mx-auto mb-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
       {items.map((item, i) => {
@@ -64,10 +67,10 @@ export default function ItemGrid({
 
               <div className="flex items-center justify-between mt-1">
                 <div className="flex items-baseline gap-1.5 ">
-                  <span className="text-base font-black text-[var(--accent)]">₹{item.sellingPrice}</span>
+                  <span className="text-base font-black text-[var(--accent)]">{formatPrice(item.sellingPrice)}</span>
                   {item.dummyPrice && (
                     <span className="text-[10px] line-through text-[var(--muted)] opacity-50 font-medium">
-                      ₹{item.dummyPrice}
+                      {formatPrice(item.dummyPrice)}
                     </span>
                   )}
                 </div>

@@ -18,11 +18,14 @@ export async function POST(req) {
         const userId = decoded.userId;
 
         const body = await req.json();
-        const { usdtAmount, coinsAmount } = body;
+        const { usdtAmount } = body;
 
-        if (!usdtAmount || !coinsAmount) {
+        if (!usdtAmount) {
             return NextResponse.json({ success: false, message: "Missing required fields" }, { status: 400 });
         }
+
+        const RATE = Number(process.env.NEXT_PUBLIC_USDT_RATE) || 98;
+        const coinsAmount = Number(usdtAmount) * RATE;
 
         const transactionId = "CRYPTO_" + crypto.randomBytes(6).toString("hex").toUpperCase();
 

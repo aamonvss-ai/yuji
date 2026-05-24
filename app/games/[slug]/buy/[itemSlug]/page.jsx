@@ -20,11 +20,13 @@ import {
 } from "react-icons/fa";
 import { MdOutlineSmartphone, MdHelpOutline } from "react-icons/md";
 import { IoWalletOutline } from "react-icons/io5";
+import { useCurrency } from "@/components/CurrencyContext";
 
 export default function BuyFlowPage() {
   const { slug, itemSlug } = useParams();
   const params = useSearchParams();
   const router = useRouter();
+  const { formatPrice } = useCurrency();
 
   /* ================= FLOW STATE ================= */
   const [playerId, setPlayerId] = useState("");
@@ -243,9 +245,9 @@ export default function BuyFlowPage() {
                       {item?.itemName || fallbackName}
                     </h1>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-black text-[var(--accent)] italic tracking-tighter">₹{price}</span>
+                      <span className="text-2xl font-black text-[var(--accent)] italic tracking-tighter">{formatPrice(price)}</span>
                       {dummyPrice > price && (
-                        <span className="text-sm font-bold opacity-30 line-through">₹{dummyPrice}</span>
+                        <span className="text-sm font-bold opacity-30 line-through">{formatPrice(dummyPrice)}</span>
                       )}
                     </div>
                   </div>
@@ -277,14 +279,14 @@ export default function BuyFlowPage() {
                       className="flex-shrink-0 w-24 md:w-32 snap-start bg-[var(--card)]/10 hover:bg-[var(--card)]/30 border-2 border-transparent hover:border-[var(--accent)]/20 p-2.5 rounded-2xl transition-all duration-300 group shadow-sm hover:shadow-xl hover:-translate-y-1"
                     >
                       <p className="text-[8px] font-bold opacity-40 uppercase tracking-tight mb-0.5 truncate group-hover:text-[var(--accent)] transition-colors">{r.itemName}</p>
-                      <p className="text-base font-black italic tracking-tighter">₹{r.sellingPrice}</p>
+                      <p className="text-base font-black italic tracking-tighter">{formatPrice(r.sellingPrice)}</p>
                     </Link>
                   ))}
 
                   {/* Active Item */}
                   <div className="flex-shrink-0 w-24 md:w-32 snap-start bg-[var(--card)]/30 border-2 border-[var(--accent)] p-2.5 rounded-2xl relative shadow-lg">
                     <p className="text-[8px] font-bold text-[var(--accent)] uppercase tracking-tight mb-0.5 truncate">{item?.itemName}</p>
-                    <p className="text-base font-black text-[var(--accent)] italic tracking-tighter">₹{price}</p>
+                    <p className="text-base font-black text-[var(--accent)] italic tracking-tighter">{formatPrice(price)}</p>
                     <div className="absolute top-1 right-1">
                       <FaCheckCircle className="text-[var(--accent)]" size={10} />
                     </div>
@@ -458,7 +460,7 @@ export default function BuyFlowPage() {
                       </div>
                       <div className="text-left">
                         <p className="font-black text-sm uppercase italic tracking-tight">My Wallet</p>
-                        <p className="text-[9px] font-bold opacity-30 uppercase tracking-wider">Balance: ₹{walletBalance.toFixed(2)}</p>
+                        <p className="text-[9px] font-bold opacity-30 uppercase tracking-wider">Balance: {formatPrice(walletBalance)}</p>
                       </div>
                     </div>
                     <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${paymentMethod === "wallet" ? "border-[var(--accent)] bg-[var(--accent)]" : "border-[var(--border)]"}`}>
@@ -469,7 +471,7 @@ export default function BuyFlowPage() {
 
                 <div className="flex items-center justify-between px-2 mb-6">
                   <span className="font-black text-[10px] uppercase tracking-[0.3em] opacity-30 italic">Total Amount</span>
-                  <span className="text-4xl font-black italic tracking-tighter">₹{price}</span>
+                  <span className="text-4xl font-black italic tracking-tighter">{formatPrice(price)}</span>
                 </div>
 
                 {error && !loading && (

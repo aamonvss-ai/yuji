@@ -4,6 +4,7 @@ import Image from "next/image";
 import logo from "@/public/logo.png";
 import { motion } from "framer-motion";
 import { FiArrowRight } from "react-icons/fi";
+import { useCurrency } from "@/components/CurrencyContext";
 
 export default function BuyPanelBgmi({
   activeItem,
@@ -11,6 +12,8 @@ export default function BuyPanelBgmi({
   redirecting,
   buyPanelRef,
 }) {
+  const { formatPrice } = useCurrency();
+
   if (!activeItem) return null;
 
   const discount = activeItem?.dummyPrice
@@ -42,13 +45,13 @@ export default function BuyPanelBgmi({
 
           <div className="flex items-center gap-2.5 mt-1">
             <p className="text-xl font-black text-[var(--accent)]">
-              ₹{activeItem?.sellingPrice}
+              {formatPrice(activeItem?.sellingPrice)}
             </p>
 
             {activeItem?.dummyPrice && (
               <div className="flex items-center gap-2">
                 <p className="text-xs line-through text-[var(--muted)] opacity-50 font-bold">
-                  ₹{activeItem?.dummyPrice}
+                  {formatPrice(activeItem?.dummyPrice)}
                 </p>
                 {discount > 0 && (
                   <span className="text-[10px] font-bold text-green-500">
