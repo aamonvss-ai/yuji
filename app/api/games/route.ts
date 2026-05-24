@@ -103,16 +103,16 @@ export async function GET(req: Request) {
       } catch { }
     }
 
-    await connectDB();
-    const pricingConfig = await PricingConfig.findOne({ userType }).lean();
-
-    const response = await fetch("https://game-off-ten.vercel.app/api/v1/game", {
-      method: "GET",
-      headers: {
-        "x-api-key": process.env.API_SECRET_KEY!,
-      },
-      next: { revalidate: 60 }, // Cache for 1 minutes
-    });
+    const [pricingConfig, response] = await Promise.all([
+      connectDB().then(() => PricingConfig.findOne({ userType }).lean()),
+      fetch("https://game-off-ten.vercel.app/api/v1/game", {
+        method: "GET",
+        headers: {
+          "x-api-key": process.env.API_SECRET_KEY!,
+        },
+        next: { revalidate: 60 }, // Cache for 1 minutes
+      })
+    ]);
 
     const data = await response.json();
 

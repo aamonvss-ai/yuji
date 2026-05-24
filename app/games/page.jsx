@@ -71,13 +71,33 @@ export default function GamesPage() {
 
   /* ================= FETCH ================= */
   useEffect(() => {
+    const cached = localStorage.getItem("yuji_games_cache");
+    if (cached) {
+      try {
+        const data = JSON.parse(cached);
+        setCategory(data.category || []);
+        setOtts(data.otts || null);
+        setMemberships(data.memberships || null);
+        setGames((data.games || []).map((g) => g.gameName === "PUBG Mobile" ? { ...g, gameName: "PUBG Mobile" } : g));
+        setLoading(false);
+      } catch (e) {}
+    }
+
     fetch("/api/games")
       .then((res) => res.json())
       .then((data) => {
-        setCategory(data?.data?.category || []);
-        setOtts(data?.data?.otts || null);
-        setMemberships(data?.data?.memberships || null);
-        setGames((data?.data?.games || []).map((g) => g.gameName === "PUBG Mobile" ? { ...g, gameName: "PUBG Mobile" } : g));
+        const payload = {
+          category: data?.data?.category || [],
+          otts: data?.data?.otts || null,
+          memberships: data?.data?.memberships || null,
+          games: data?.data?.games || []
+        };
+        localStorage.setItem("yuji_games_cache", JSON.stringify(payload));
+        
+        setCategory(payload.category);
+        setOtts(payload.otts);
+        setMemberships(payload.memberships);
+        setGames(payload.games.map((g) => g.gameName === "PUBG Mobile" ? { ...g, gameName: "PUBG Mobile" } : g));
       })
       .finally(() => setLoading(false));
   }, []);

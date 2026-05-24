@@ -1,6 +1,4 @@
-"use client";
 
-import { useState } from "react";
 import { FaInstagram, FaTwitter, FaDiscord, FaEnvelope } from "react-icons/fa";
 
 export const metadata = {
@@ -10,7 +8,6 @@ export const metadata = {
 };
 
 export default function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
 
   return (
     <main className="min-h-screen bg-transparent text-[var(--foreground)] px-6 py-15">

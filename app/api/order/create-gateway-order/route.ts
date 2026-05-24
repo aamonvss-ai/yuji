@@ -214,19 +214,19 @@ export async function POST(req: Request) {
       }
 
       // Check Role Authorization
-      const allowedRoles = ["owner", "admin", "member"];
+      const allowedRoles = ["owner", "admin", "member", "user"];
       if (!allowedRoles.includes(userType)) {
         return NextResponse.json({
           success: false,
-          message: "Wallet payments are only available for members and admins",
+          message: "Wallet payments are available for all logged-in users",
         });
       }
 
-      // Check Transaction Limit (₹500)
-      if (price > 500) {
+      // Check Transaction Limit (₹1000)
+      if (price > 1000) {
         return NextResponse.json({
           success: false,
-          message: "Wallet payments are limited to ₹500 and below per transaction",
+          message: "Wallet payments are limited to ₹1000 and below per transaction",
         });
       }
 

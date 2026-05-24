@@ -1,4 +1,3 @@
-"use client";
 
 const BRAND = process.env.NEXT_PUBLIC_BRAND_NAME || "Meow Ji";
 

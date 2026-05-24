@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiX, FiMessageSquare, FiArrowRight } from "react-icons/fi";
+import { FiX } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa6";
 
 const CommunityPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
   const WHATSAPP_LINK = process.env.NEXT_PUBLIC_WHATSAPP_STORE_LINK || "https://whatsapp.com/channel/0029VbBpAyQ1HsppFN2mW336";
-  const QR_CODE_URL = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(WHATSAPP_LINK)}`;
+  const QR_CODE_URL = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(WHATSAPP_LINK)}`;
 
   useEffect(() => {
     const hasSeenPopup = sessionStorage.getItem("has_seen_community_popup_v2");
@@ -36,7 +37,7 @@ const CommunityPopup = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={handleClose}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/60 backdrop-blur-md"
           />
 
           <motion.div
@@ -44,61 +45,62 @@ const CommunityPopup = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 400 }}
-            className="relative w-full max-w-[310px] bg-[var(--card)] border border-[var(--border)] rounded-[2.5rem] p-6 shadow-2xl overflow-hidden"
+            className="relative w-full max-w-[280px] bg-[var(--card)] border border-[var(--border)]/60 rounded-[1.5rem] p-6 shadow-2xl overflow-hidden"
           >
             {/* Close Button */}
             <button
               onClick={handleClose}
-              className="absolute top-5 right-5 text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
+              className="absolute top-3 right-3 p-2 text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--accent)]/10 rounded-full transition-all z-10"
             >
-              <FiX size={20} />
+              <FiX size={18} />
             </button>
 
-            <div className="flex flex-col items-center text-center">
+            <div className="flex flex-col items-center text-center mt-1">
               {/* Icon Container */}
-              <div className="w-12 h-12 bg-[var(--accent)]/10 rounded-2xl flex items-center justify-center mb-5 border border-[var(--accent)]/20 shadow-sm">
-                <FiMessageSquare size={22} className="text-[var(--accent)]" />
+              <div className="w-12 h-12 bg-[#25D366]/10 text-[#25D366] rounded-full flex items-center justify-center mb-4 shadow-sm border border-[#25D366]/20">
+                <FaWhatsapp size={24} />
               </div>
 
               {/* Title Content */}
-              <div className="mb-6">
-                <h2 className="text-xl font-black text-[var(--foreground)] uppercase tracking-tight leading-tight italic">
-                  Official Channel
+              <div className="mb-5 space-y-1.5">
+                <h2 className="text-xl font-bold text-[var(--foreground)] tracking-tight">
+                  Join Community
                 </h2>
-                <p className="text-[9px] font-black text-[var(--muted)] uppercase tracking-[0.2em] opacity-60">
-                  Updates & Giveaways
+                <p className="text-[13px] text-[var(--muted)] leading-relaxed max-w-[220px] mx-auto">
+                  Scan to get our latest updates & exclusive offers.
                 </p>
               </div>
 
               {/* QR Code Section */}
-              <div className="relative mb-6 bg-white p-3.5 rounded-[1.8rem] shadow-lg border border-[var(--border)]/50 group transition-transform hover:scale-105 duration-300">
+              <div className="relative mb-5 bg-white p-3 rounded-[1.125rem] shadow-sm border border-black/5 dark:border-white/10 group hover:shadow-md transition-all duration-300">
                 <img
                   src={QR_CODE_URL}
-                  alt="QR Code"
-                  className="w-32 h-32 object-contain"
+                  alt="WhatsApp QR Code"
+                  className="w-[120px] h-[120px] object-contain mx-auto"
                 />
               </div>
 
               {/* Action Button */}
               <button
                 onClick={handleJoin}
-                className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-[var(--accent)] text-white rounded-2xl font-black uppercase text-[11px] tracking-widest transition-all hover:opacity-90 active:scale-95 shadow-lg shadow-[var(--accent)]/20 mb-5"
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-xl font-semibold text-[14px] transition-all active:scale-[0.98] shadow-lg shadow-[#25D366]/25 mb-3"
               >
-                Join Now <FiArrowRight size={14} />
+                <FaWhatsapp size={18} />
+                Open WhatsApp
               </button>
 
               {/* Dismiss Action */}
               <button
                 onClick={handleClose}
-                className="text-[9px] font-black text-[var(--muted)] uppercase tracking-[0.2em] hover:text-[var(--foreground)] transition-colors opacity-40 hover:opacity-100"
+                className="text-[12px] font-medium text-[var(--muted)] hover:text-[var(--foreground)] transition-colors py-1"
               >
                 Maybe Later
               </button>
             </div>
 
             {/* Background Glows (Theme Aware) */}
-            <div className="absolute -top-16 -right-16 w-32 h-32 bg-[var(--accent)] opacity-10 blur-[60px] pointer-events-none" />
-            <div className="absolute -bottom-16 -left-16 w-32 h-32 bg-[var(--accent)] opacity-5 blur-[60px] pointer-events-none" />
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#25D366] opacity-[0.06] blur-[60px] pointer-events-none rounded-full" />
+            <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-[#25D366] opacity-[0.06] blur-[60px] pointer-events-none rounded-full" />
           </motion.div>
         </div>
       )}

@@ -211,9 +211,9 @@ export default function ReviewAndPaymentStep({
             {/* Wallet Button */}
             {(() => {
               const storedUserType = typeof window !== 'undefined' ? localStorage.getItem("userType") || "user" : "user";
-              const allowedRoles = ["owner", "admin", "member"];
+              const allowedRoles = ["owner", "admin", "member", "user"];
               const isAllowedRole = allowedRoles.includes(storedUserType);
-              const isWithinLimit = totalPrice <= 500;
+              const isWithinLimit = totalPrice <= 1000;
 
               return (
                 <div className="relative">
@@ -248,7 +248,7 @@ export default function ReviewAndPaymentStep({
                       )}
                       {!isWithinLimit && (
                         <p className="text-amber-500 text-[7px] flex items-center gap-1 font-black uppercase tracking-widest opacity-80">
-                          <Lock size={8} /> Limit ₹500
+                          <Lock size={8} /> Limit ₹1000
                         </p>
                       )}
                     </div>

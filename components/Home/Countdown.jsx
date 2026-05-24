@@ -3,20 +3,39 @@
 import { useState, useEffect, memo } from "react";
 import { FiClock } from "react-icons/fi";
 
-const Countdown = memo(function Countdown() {
-    const [timeLeft, setTimeLeft] = useState({ hours: 12, minutes: 45, seconds: 30 });
+const Countdown = memo(function Countdown({ endTime }) {
+    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
     useEffect(() => {
+        if (!endTime) return;
+
+        const targetDate = new Date(endTime).getTime();
+
         const timer = setInterval(() => {
-            setTimeLeft(prev => {
-                if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-                if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
-                if (prev.hours > 0) return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
-                return { hours: 23, minutes: 59, seconds: 59 };
-            });
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                clearInterval(timer);
+                setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Cap at 24 hours if we don't want to show days, but here we can just show total hours
+            const totalHours = (days * 24) + hours;
+
+            setTimeLeft({ hours: totalHours, minutes, seconds });
         }, 1000);
+
         return () => clearInterval(timer);
-    }, []);
+    }, [endTime]);
+
+    if (!endTime) return null;
 
     return (
         <div className="flex items-center gap-1.5 bg-black/5 dark:bg-white/5 backdrop-blur-md border border-[var(--border)] px-2.5 py-1 rounded-xl shadow-sm">

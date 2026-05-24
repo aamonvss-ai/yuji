@@ -7,45 +7,34 @@ import { FiZap, FiChevronRight } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import Countdown from "./Countdown";
 
-const flashSaleData = [
-    {
-        id: 1,
-        name: "Weekly Pass",
-        game: "MLBB",
-        image: "/game-assets/weeklypass-new.jpeg",
-        price: "₹149",
-        originalPrice: "₹175",
-        slug: "mobile-legends270?type=weekly-pass",
-        badge: "Hot",
-        sold: 62 // Percentage sold
-    },
-
-    {
-        id: 2,
-        name: "Weekly Bundle",
-        game: "MLBB",
-        image: "/game-assets/elite-bundle.jpeg",
-        price: "₹85",
-        originalPrice: "₹100",
-        slug: "weeklymonthly-bundle261",
-        badge: "Value",
-        sold: 85 // Percentage sold
-    },
-    {
-        id: 3,
-        name: "Monthly Bundle",
-        game: "MLBB",
-        image: "/game-assets/elite-bundle.jpeg",
-        price: "₹405",
-        originalPrice: "₹450",
-        slug: "weeklymonthly-bundle261",
-        badge: "Value",
-        sold: 15 // Percentage sold
-    },
-
-];
-
 export default function FlashSale() {
+    const [config, setConfig] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const cached = localStorage.getItem("yuji_flash_sale");
+        if (cached) {
+            try {
+                setConfig(JSON.parse(cached));
+                setLoading(false);
+            } catch (e) {}
+        }
+
+        fetch("/api/public/flash-sale")
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    setConfig(data);
+                    localStorage.setItem("yuji_flash_sale", JSON.stringify(data));
+                }
+            })
+            .finally(() => setLoading(false));
+    }, []);
+
+    if (loading && !config) return null;
+    if (!config || !config.isActive) return null;
+
+    const flashSaleData = config.items || [];
 
     return (
         <section className="relative py-2 overflow-hidden border-b border-[var(--border)] bg-gray-50/50 dark:bg-white/[0.02]">
@@ -69,7 +58,7 @@ export default function FlashSale() {
                         </div>
                     </div>
 
-                    <Countdown />
+                    <Countdown endTime={config.endTime} />
                 </div>
 
                 {/* Compact Horizontal Slider */}
@@ -77,7 +66,7 @@ export default function FlashSale() {
                     <div className="flex gap-2.5 md:gap-4 px-1 md:justify-center min-w-max md:min-w-0">
                         {flashSaleData.map((item, index) => item && (
                             <div
-                                key={item.id}
+                                key={item.id || index}
                                 className="snap-start"
                             >
                                 <Link
@@ -85,11 +74,13 @@ export default function FlashSale() {
                                     className="group relative block w-[95px] sm:w-[125px] md:w-[155px] aspect-[4/5] bg-white dark:bg-black border border-[var(--border)] rounded-[1rem] overflow-hidden transition-all duration-500 hover:border-[var(--accent)] shadow-lg hover:shadow-[var(--accent)]/20"
                                 >
                                     {/* Badge */}
-                                    <div className="absolute top-2 left-2 z-20">
-                                        <span className="text-[6px] md:text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-amber-500 text-black shadow-lg">
-                                            {item.badge}
-                                        </span>
-                                    </div>
+                                    {item.badge && (
+                                        <div className="absolute top-2 left-2 z-20">
+                                            <span className="text-[6px] md:text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full bg-amber-500 text-black shadow-lg">
+                                                {item.badge}
+                                            </span>
+                                        </div>
+                                    )}
 
                                     {/* Image Container (Whole Card) */}
                                     <div className="absolute inset-0">

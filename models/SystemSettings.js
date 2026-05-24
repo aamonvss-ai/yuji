@@ -6,6 +6,23 @@ const SystemSettingsSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        flashSale: {
+            isActive: { type: Boolean, default: false },
+            endTime: { type: Date },
+            items: [
+                {
+                    id: String,
+                    name: String,
+                    game: String,
+                    image: String,
+                    price: String,
+                    originalPrice: String,
+                    slug: String,
+                    badge: String,
+                    sold: Number
+                }
+            ]
+        }
     },
     { timestamps: true }
 );
