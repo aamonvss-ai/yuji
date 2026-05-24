@@ -23,14 +23,13 @@ const WalletTransactionSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["pending", "success", "failed"],
+      enum: ["pending", "success", "failed", "waiting"],
       default: "pending",
     },
     description: String,
     metadata: {
-      gatewayOrderId: String,
-      gameOrderId: String,
-      paymentMethod: String,
+      type: mongoose.Schema.Types.Mixed,
+      default: {}
     },
   },
   { timestamps: true }

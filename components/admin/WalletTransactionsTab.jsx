@@ -24,7 +24,10 @@ import {
   Gift,
   Plus,
   Minus,
-  Users
+  Users,
+  CheckCircle,
+  Copy,
+  ExternalLink
 } from "lucide-react";
 
 export default function WalletTransactionsTab() {
@@ -43,6 +46,32 @@ export default function WalletTransactionsTab() {
     page: 1,
     totalPages: 1,
   });
+
+  /* ================= CONFIRM / REJECT CRYPTO ================= */
+  const handleVerifyCrypto = async (txId, action) => {
+    if (!confirm(`Are you sure you want to ${action} this crypto deposit?`)) return;
+    
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch("/api/admin/wallet/verify-crypto", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ transactionId: txId, action })
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert(`Successfully ${action}ed`);
+        fetchTransactions();
+      } else {
+        alert(data.message || "Failed to verify");
+      }
+    } catch (err) {
+      alert("Error verifying crypto deposit");
+    }
+  };
 
   useEffect(() => {
     if (activeSubTab === "logs") {
@@ -159,7 +188,7 @@ export default function WalletTransactionsTab() {
             <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">Loading data</p>
           </div>
         ) : activeSubTab === "logs" ? (
-          <LogsView transactions={transactions} typeMeta={typeMeta} />
+          <LogsView transactions={transactions} typeMeta={typeMeta} handleVerifyCrypto={handleVerifyCrypto} />
         ) : (
           <BalancesView users={usersList} onRefresh={fetchUsers} />
         )}
@@ -193,7 +222,7 @@ export default function WalletTransactionsTab() {
   );
 }
 
-function LogsView({ transactions, typeMeta }) {
+function LogsView({ transactions, typeMeta, handleVerifyCrypto }) {
   return (
     <div className="space-y-3">
       {/* DESKTOP TABLE */}
@@ -220,7 +249,49 @@ function LogsView({ transactions, typeMeta }) {
                     </div>
                   </td>
                   <td className="px-6 py-4"><span className="font-mono text-[10px] text-[var(--accent)] uppercase">{t.transactionId}</span></td>
-                  <td className="px-6 py-4 font-mono text-[10px] text-[var(--foreground)]">{t.userId}</td>
+                  <td className="px-6 py-4 font-mono text-[10px] text-[var(--foreground)]">
+                    {t.userId}
+                    {t.status === "pending" && (
+                        <div className="block mt-1">
+                            <span className="bg-orange-500/10 text-orange-500 border-orange-500/20 text-[9px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded border">
+                                Pending
+                            </span>
+                        </div>
+                    )}
+                    {t.metadata?.paymentMethod === "crypto" && (
+                        <div className="mt-2 p-2 bg-[var(--foreground)]/[0.02] border border-[var(--border)] rounded-lg text-left">
+                           <div className="flex items-center justify-between">
+                              <span className="text-[8px] font-bold text-green-500 uppercase tracking-widest mb-1">Crypto Deposit</span>
+                              <span className="text-[10px] font-black text-white">{t.metadata?.usdtAmount} USDT</span>
+                           </div>
+                           <div className="flex items-center gap-2 mt-1">
+                              <span className="text-[8px] font-mono text-[var(--muted)] opacity-60 truncate max-w-[120px]">{t.metadata?.txHash}</span>
+                              <div className="flex items-center gap-1">
+                                <button onClick={() => navigator.clipboard.writeText(t.metadata?.txHash)} className="p-1 rounded bg-[var(--foreground)]/[0.05] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black transition-colors" title="Copy Hash"><Copy size={10}/></button>
+                                <a href={`https://bscscan.com/tx/${t.metadata?.txHash}`} target="_blank" rel="noopener noreferrer" className="p-1 rounded bg-[var(--foreground)]/[0.05] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black transition-colors" title="View on BscScan">
+                                  <ExternalLink size={10}/>
+                                </a>
+                              </div>
+                           </div>
+                           {t.status === "pending" && (
+                             <div className="flex items-center gap-2 mt-2">
+                               <button 
+                                 onClick={() => handleVerifyCrypto(t.transactionId, "approve")}
+                                 className="flex-1 py-1 rounded bg-green-500/20 text-green-500 border border-green-500/30 text-[8px] font-black uppercase tracking-widest hover:bg-green-500 hover:text-black transition-colors"
+                               >
+                                 Approve
+                               </button>
+                               <button 
+                                 onClick={() => handleVerifyCrypto(t.transactionId, "reject")}
+                                 className="flex-1 py-1 rounded bg-red-500/20 text-red-500 border border-red-500/30 text-[8px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-colors"
+                               >
+                                 Reject
+                               </button>
+                             </div>
+                           )}
+                        </div>
+                    )}
+                  </td>
                   <td className="px-6 py-4">
                     <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border text-[9px] font-bold uppercase tracking-wider ${meta.class}`}>
                       {meta.icon} {meta.label}
@@ -249,12 +320,53 @@ function LogsView({ transactions, typeMeta }) {
                   <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[8px] font-bold uppercase tracking-widest ${meta.class}`}>
                     {meta.icon} {meta.label}
                   </span>
-                  <p className="text-[10px] font-mono text-[var(--accent)] uppercase">{t.transactionId}</p>
+                  <p className="text-[10px] font-mono text-[var(--accent)] uppercase break-all">{t.transactionId}</p>
                 </div>
-                <span className={`text-lg font-black tracking-tighter tabular-nums ${t.type === 'spend' ? 'text-rose-500' : 'text-emerald-500'}`}>
-                  {t.type === 'spend' ? '-' : '+'}₹{t.amount.toFixed(2)}
-                </span>
+                <div className="text-right flex flex-col items-end shrink-0 pl-2">
+                  <span className={`text-lg font-black tracking-tighter tabular-nums ${t.type === 'spend' ? 'text-rose-500' : 'text-emerald-500'}`}>
+                    {t.type === 'spend' ? '-' : '+'}₹{t.amount.toFixed(2)}
+                  </span>
+                  {t.status === "pending" && (
+                    <span className="bg-orange-500/10 text-orange-500 border-orange-500/20 text-[9px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded border mt-1 block w-fit">
+                        Pending
+                    </span>
+                  )}
+                </div>
               </div>
+
+              {t.metadata?.paymentMethod === "crypto" && (
+                <div className="p-2.5 bg-[var(--foreground)]/[0.02] border border-[var(--border)] rounded-lg text-left mt-2">
+                   <div className="flex items-center justify-between mb-1">
+                      <span className="text-[8px] font-bold text-green-500 uppercase tracking-widest">Crypto Deposit</span>
+                      <span className="text-[10px] font-black text-white">{t.metadata?.usdtAmount} USDT</span>
+                   </div>
+                   <div className="flex items-center justify-between gap-2 mt-1">
+                      <span className="text-[9px] font-mono text-[var(--muted)] opacity-60 truncate">{t.metadata?.txHash}</span>
+                      <div className="flex items-center gap-1 shrink-0">
+                        <button onClick={() => navigator.clipboard.writeText(t.metadata?.txHash)} className="p-1.5 rounded bg-[var(--foreground)]/[0.05] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black transition-colors" title="Copy Hash"><Copy size={12}/></button>
+                        <a href={`https://bscscan.com/tx/${t.metadata?.txHash}`} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded bg-[var(--foreground)]/[0.05] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black transition-colors" title="View on BscScan">
+                          <ExternalLink size={12}/>
+                        </a>
+                      </div>
+                   </div>
+                   {t.status === "pending" && (
+                     <div className="flex items-center gap-2 mt-3">
+                       <button 
+                         onClick={() => handleVerifyCrypto(t.transactionId, "approve")}
+                         className="flex-1 py-2 rounded-lg bg-green-500/20 text-green-500 border border-green-500/30 text-[9px] font-black uppercase tracking-widest hover:bg-green-500 hover:text-black transition-colors active:scale-95"
+                       >
+                         Approve
+                       </button>
+                       <button 
+                         onClick={() => handleVerifyCrypto(t.transactionId, "reject")}
+                         className="flex-1 py-2 rounded-lg bg-red-500/20 text-red-500 border border-red-500/30 text-[9px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-colors active:scale-95"
+                       >
+                         Reject
+                       </button>
+                     </div>
+                   )}
+                </div>
+              )}
               
               <div className="flex items-end justify-between border-t border-[var(--border)]/30 pt-2.5">
                 <div className="flex flex-col">
