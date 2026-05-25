@@ -128,6 +128,35 @@ export default function SettingsTab() {
                 </div>
             </div>
 
+            {/* TRANSLATOR TOGGLE CARD */}
+            <div className={`p-6 rounded-3xl border transition-all duration-300 ${settings.enableAutoTranslation ? "bg-blue-500/5 border-blue-500/20" : "bg-[var(--foreground)]/[0.02] border-[var(--border)]"}`}>
+                <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${settings.enableAutoTranslation ? "bg-blue-500 text-white" : "bg-[var(--foreground)]/5 text-[var(--muted)]"}`}>
+                            <span className="font-bold text-lg">A/अ</span>
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-[var(--foreground)]">Google Translate</h3>
+                            <p className="text-xs text-[var(--muted)]">Enable multi-language translation for users.</p>
+                        </div>
+                    </div>
+
+                    <button
+                        onClick={() => updateSettings({ enableAutoTranslation: !settings.enableAutoTranslation })}
+                        disabled={saving}
+                        className={`relative w-14 h-7 rounded-full transition-colors flex items-center p-1
+                            ${settings.enableAutoTranslation ? "bg-blue-500" : "bg-[var(--foreground)]/10"}
+                            ${saving ? "opacity-50 cursor-wait" : "cursor-pointer"}`}
+                    >
+                        <motion.div
+                            animate={{ x: settings.enableAutoTranslation ? 28 : 0 }}
+                            className="w-5 h-5 bg-white rounded-full shadow-sm"
+                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                        />
+                    </button>
+                </div>
+            </div>
+
             <p className="text-[10px] text-center text-[var(--muted)] uppercase tracking-widest opacity-30">
                 System Core v2.4.9
             </p>

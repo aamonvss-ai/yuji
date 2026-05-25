@@ -50,7 +50,7 @@ export async function PATCH(req) {
         }
 
         const body = await req.json();
-        const { maintenanceMode } = body;
+        const { maintenanceMode, seoTitle, seoDescription, seoKeywords, enableAutoTranslation } = body;
 
         let settings = await SystemSettings.findOne();
         if (!settings) {
@@ -58,6 +58,10 @@ export async function PATCH(req) {
         }
 
         if (maintenanceMode !== undefined) settings.maintenanceMode = maintenanceMode;
+        if (enableAutoTranslation !== undefined) settings.enableAutoTranslation = enableAutoTranslation;
+        if (seoTitle !== undefined) settings.seoTitle = seoTitle;
+        if (seoDescription !== undefined) settings.seoDescription = seoDescription;
+        if (seoKeywords !== undefined) settings.seoKeywords = seoKeywords;
         await settings.save();
 
         return NextResponse.json({ success: true, settings });

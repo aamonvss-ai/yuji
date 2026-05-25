@@ -750,3 +750,64 @@ html[data-theme="glass"] .card {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+/* Google Translate Overrides */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+iframe.skiptranslate {
+  display: none !important;
+}
+/* New Google Translate widget classes */
+.VIpgJd-Zvi9od-aZ2wEe-wOHMyf,
+.VIpgJd-Zvi9od-aZ2wEe-wOHMyf-ti6hGc {
+  display: none !important;
+}
+body, html {
+  top: 0px !important;
+  position: static !important;
+}
+.skiptranslate > iframe.goog-te-banner-frame {
+  display: none !important;
+}
+#goog-gt-tt, .goog-te-balloon-frame {
+  display: none !important;
+  visibility: hidden !important;
+}
+/* Force dropdown menu overlay to appear above drawer */
+.goog-te-menu-frame,
+.VIpgJd-Zvi9od-xl07Ob-OEVmcd,
+.VIpgJd-Zvi9od-vH1Gmc-OEVmcd {
+  z-index: 999999999 !important;
+}
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+/* Hide "Powered by Google" but keep the dropdown */
+.goog-te-gadget {
+  font-family: inherit !important;
+  font-size: 0px !important;
+  color: transparent !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+/* Hide the Google logo */
+.goog-logo-link {
+  display: none !important;
+}
+.goog-te-gadget img {
+  display: none !important;
+}
+.goog-te-gadget .goog-te-combo {
+  font-size: 12px !important;
+  color: var(--foreground) !important;
+  border-radius: 8px !important;
+  padding: 6px 10px !important;
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  margin: 0 !important;
+  cursor: pointer;
+  outline: none !important;
+  font-weight: 700 !important;
+}

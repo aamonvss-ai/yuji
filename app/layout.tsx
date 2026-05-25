@@ -13,84 +13,112 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { connectDB } from "@/lib/mongodb";
 import SystemSettings from "@/models/SystemSettings";
+import GoogleTranslate from "@/components/GoogleTranslate";
 
 import { CurrencyProvider } from "@/components/CurrencyContext";
 
-export const metadata: Metadata = {
-  title: {
-    default: "MLBB Top Up India – Cheap Mobile Legends Diamonds | Yujimlbb",
-    template: "%s | Yujimlbb"
-  },
-  description: "Buy Mobile Legends diamonds at the cheapest price in India. Instant delivery, trusted service & secure payment only at Yujimlbb.com.",
-  keywords: [
+export async function generateMetadata(): Promise<Metadata> {
+  let title = "MLBB Top Up India – Cheap Mobile Legends Diamonds | Yujimlbb";
+  let description = "Buy Mobile Legends diamonds at the cheapest price in India. Instant delivery, trusted service & secure payment only at Yujimlbb.com.";
+  let keywords = [
     "MLBB Top Up", "Mobile Legends Diamonds", "Cheap MLBB Diamonds India", "MLBB Recharge India", 
     "Yuji MLBB", "Instant Diamond Delivery", "buy mlbb diamonds", "mobile legends top up center", 
     "mlbb diamonds cheap price", "yujimlbb top up", "buy diamonds mlbb india", "mlbb recharge center", 
     "mobile legends bang bang top up", "mlbb store", "mobile legends top up site", "buy game credits india", 
     "ml diamonds india"
-  ],
-  authors: [{ name: "Yujimlbb" }],
-  creator: "Yujimlbb",
-  publisher: "Yujimlbb",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL("https://yujimlbb.com"),
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    title: "MLBB Top Up India – Cheap Mobile Legends Diamonds | Yujimlbb",
-    description: "Buy Mobile Legends diamonds at the cheapest price in India. Instant delivery, trusted service & secure payment only at Yujimlbb.com.",
-    url: "https://yujimlbb.com",
-    siteName: "Yujimlbb",
-    images: [
-      {
-        url: "/logo.png",
-        width: 800,
-        height: 600,
-        alt: "Yujimlbb Logo",
-      },
-    ],
-    locale: "en_IN",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "MLBB Top Up India – Cheap Mobile Legends Diamonds | Yujimlbb",
-    description: "Buy Mobile Legends diamonds at the cheapest price in India. Instant delivery, trusted service & secure payment only at Yujimlbb.com.",
-    images: ["/logo.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+  ];
+
+  try {
+    await connectDB();
+    const settings = await SystemSettings.findOne();
+    if (settings) {
+      if (settings.seoTitle) title = settings.seoTitle;
+      if (settings.seoDescription) description = settings.seoDescription;
+      if (settings.seoKeywords && settings.seoKeywords.length > 0) {
+        // Append new keywords to default keywords
+        keywords = [...keywords, ...settings.seoKeywords];
+      }
+    }
+  } catch (err) {
+    console.error("Failed to fetch settings for metadata", err);
+  }
+
+  return {
+    title: {
+      default: title,
+      template: "%s | Yujimlbb"
+    },
+    description: description,
+    keywords: keywords,
+    authors: [{ name: "Yujimlbb" }],
+    creator: "Yujimlbb",
+    publisher: "Yujimlbb",
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
+    metadataBase: new URL("https://yujimlbb.com"),
+    alternates: {
+      canonical: "/",
+    },
+    openGraph: {
+      title: title,
+      description: description,
+      url: "https://yujimlbb.com",
+      siteName: "Yujimlbb",
+      images: [
+        {
+          url: "/logo.png",
+          width: 800,
+          height: 600,
+          alt: "Yujimlbb Logo",
+        },
+      ],
+      locale: "en_IN",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: title,
+      description: description,
+      images: ["/logo.png"],
+    },
+    robots: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
-  },
-  verification: {
-    google: "SIX1trDeaETK7DDO7IlpYofg4A3QMOENWAid77zLzgU",
-  },
-};
+    verification: {
+      google: "SIX1trDeaETK7DDO7IlpYofg4A3QMOENWAid77zLzgU",
+    },
+  };
+}
 
-const getMaintenanceMode = unstable_cache(
+const getSystemSettingsCache = unstable_cache(
   async () => {
     try {
       await connectDB();
       const settings = await SystemSettings.findOne();
-      return settings?.maintenanceMode || false;
+      return {
+        maintenanceMode: settings?.maintenanceMode || false,
+        enableAutoTranslation: settings?.enableAutoTranslation || false
+      };
     } catch (err) {
-      console.error("Failed to fetch maintenance mode", err);
-      return false;
+      console.error("Failed to fetch system settings", err);
+      return {
+        maintenanceMode: false,
+        enableAutoTranslation: false
+      };
     }
   },
-  ['maintenance-mode'],
+  ['system-settings-cache'],
   { revalidate: 60 } // Cache for 1 minute
 );
 
@@ -99,7 +127,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const isMaintenance = await getMaintenanceMode();
+  const { maintenanceMode, enableAutoTranslation } = await getSystemSettingsCache();
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -175,8 +203,8 @@ export default async function RootLayout({
       <body className={poppins.className}>
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
           <CurrencyProvider>
-            {isMaintenance && <Maintenance />}
-            <Header />
+            {maintenanceMode && <Maintenance />}
+            <Header enableAutoTranslation={enableAutoTranslation} />
             <main className="pt-12">{children}</main>
             <Footer />
             <Chatbot />

@@ -28,7 +28,7 @@ import logo from "@/public/logo.png";
 import { useCurrency } from "@/components/CurrencyContext";
 
 
-export default function Header() {
+export default function Header({ enableAutoTranslation = false }) {
   const [scrolled, setScrolled] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
@@ -162,6 +162,33 @@ export default function Header() {
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
+
+  // ---------------- GOOGLE TRANSLATE ----------------
+  useEffect(() => {
+    // Only load the script after loading is false, so the div is guaranteed to be in the DOM
+    if (enableAutoTranslation && !loading) {
+      const scriptId = 'google-translate-script';
+      if (!document.getElementById(scriptId)) {
+        // Define the global callback function BEFORE appending the script
+        window.googleTranslateElementInit = () => {
+          new window.google.translate.TranslateElement(
+            { 
+              pageLanguage: 'en',
+              includedLanguages: 'en,hi,bn,te,mr,ta,ur,gu,kn,ml,pa,or,as,mai,bho,sd,ne,ks,sa,doi,gom,brx,mni-Mtei,sat,lus', 
+              autoDisplay: false
+            },
+            'google_translate_element'
+          );
+        };
+
+        const script = document.createElement('script');
+        script.id = scriptId;
+        script.type = 'text/javascript';
+        script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+        document.head.appendChild(script);
+      }
+    }
+  }, [enableAutoTranslation, loading]);
 
   return (
     <header
@@ -329,8 +356,6 @@ export default function Header() {
           {/* USER SLIDER (DRAWER) */}
           <AnimatePresence>
             {userMenuOpen && !loading && (
-              <>
-                {/* Backdrop */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -338,11 +363,13 @@ export default function Header() {
                   onClick={() => setUserMenuOpen(false)}
                   className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]"
                 />
+            )}
+          </AnimatePresence>
 
+          {!loading && (
                 <motion.div
-                  initial={{ x: "100%" }}
-                  animate={{ x: 0 }}
-                  exit={{ x: "100%" }}
+                  initial={false}
+                  animate={{ x: userMenuOpen ? 0 : "100%" }}
                   transition={{ type: "spring", damping: 25, stiffness: 200 }}
                   className="fixed right-0 top-0 h-screen w-72 bg-[var(--card)]/95 backdrop-blur-2xl border-l border-[var(--border)] shadow-[-20px_0_50px_rgba(0,0,0,0.3)] z-[101] flex flex-col pt-4"
                 >
@@ -379,11 +406,11 @@ export default function Header() {
                           <Link
                             key={idx}
                             href={item.href}
-                            className="flex items-center justify-between px-3 py-3 rounded-xl transition-all duration-300 hover:bg-[var(--accent)]/5 group"
+                            className="flex items-center justify-between px-3 py-2 rounded-xl transition-all duration-300 hover:bg-[var(--accent)]/5 group"
                             onClick={() => setUserMenuOpen(false)}
                           >
                             <div className="flex items-center gap-3">
-                              <div className="w-9 h-9 rounded-lg bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-[var(--accent)]/10 group-hover:border-[var(--accent)]/20">
+                              <div className="w-8 h-8 rounded-lg bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-[var(--accent)]/10 group-hover:border-[var(--accent)]/20">
                                 <item.Icon size={16} className="text-[var(--muted)] transition-colors duration-300 group-hover:text-[var(--accent)]" />
                               </div>
                               <span className="font-bold text-xs text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors tracking-tight font-black uppercase italic">{item.label}</span>
@@ -396,7 +423,7 @@ export default function Header() {
                   ) : (
                     <>
                       {/* USER PROFILE HEADER */}
-                      <div className="px-4 py-5 border-b border-[var(--border)]/30 bg-gradient-to-br from-[var(--accent)]/2 to-transparent">
+                      <div className="px-4 py-4 border-b border-[var(--border)]/30 bg-gradient-to-br from-[var(--accent)]/2 to-transparent">
                         <div className="flex items-center justify-between gap-3">
                           <div className="flex items-center gap-3 min-w-0">
                             <div className="relative flex-shrink-0">
@@ -469,7 +496,7 @@ export default function Header() {
                       </div>
 
                       {/* MENU ITEMS */}
-                      <div className="flex-1 overflow-y-auto px-3 py-4 scrollbar-none">
+                      <div className="flex-1 overflow-y-auto px-3 py-2 scrollbar-none">
                         <div className="grid grid-cols-1 gap-0.5">
                           {[
                             { href: "/dashboard", label: "Dashboard", Icon: LayoutDashboard },
@@ -481,11 +508,11 @@ export default function Header() {
                             <Link
                               key={idx}
                               href={item.href}
-                              className="flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-300 hover:bg-[var(--accent)]/5 group"
+                              className="flex items-center justify-between px-3 py-2 rounded-xl transition-all duration-300 hover:bg-[var(--accent)]/5 group"
                               onClick={() => setUserMenuOpen(false)}
                             >
                               <div className="flex items-center gap-3">
-                                <div className="w-9 h-9 rounded-lg bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-[var(--accent)]/10 group-hover:border-[var(--accent)]/20">
+                                <div className="w-8 h-8 rounded-lg bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-[var(--accent)]/10 group-hover:border-[var(--accent)]/20">
                                   <item.Icon size={14} className="text-[var(--muted)] transition-colors duration-300 group-hover:text-[var(--accent)]" />
                                 </div>
                                 <span className="font-bold text-xs text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors tracking-tight font-black uppercase italic">{item.label}</span>
@@ -496,15 +523,15 @@ export default function Header() {
 
                           {/* ADMIN PANEL (Conditional) */}
                           {user.userType === "owner" && (
-                            <div className="mt-4 mb-2 px-1">
-                              <p className="text-[9px] font-black uppercase tracking-widest text-emerald-500/50 mb-2 px-3">Management</p>
+                            <div className="mt-2 mb-1 px-1">
+                              <p className="text-[9px] font-black uppercase tracking-widest text-emerald-500/50 mb-1 px-3">Management</p>
                               <Link
                                 href="/owner-panal"
-                                className="flex items-center justify-between px-3 py-3 rounded-xl transition-all duration-300 bg-emerald-500/[0.03] border border-emerald-500/10 hover:bg-emerald-500/10 hover:border-emerald-500/20 group relative overflow-hidden"
+                                className="flex items-center justify-between px-3 py-2 rounded-xl transition-all duration-300 bg-emerald-500/[0.03] border border-emerald-500/10 hover:bg-emerald-500/10 hover:border-emerald-500/20 group relative overflow-hidden"
                                 onClick={() => setUserMenuOpen(false)}
                               >
                                 <div className="flex items-center gap-3">
-                                  <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
+                                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
                                     <Shield size={14} className="text-emerald-500" />
                                   </div>
                                   <span className="font-bold text-xs text-emerald-500 transition-colors tracking-tight font-black uppercase italic">Admin Panel</span>
@@ -522,25 +549,17 @@ export default function Header() {
                         </div>
                       </div>
 
-                      {/* SOCIAL LINKS */}
-                      <div className="flex items-center justify-center gap-3 px-5 mt-auto pt-3 border-t border-[var(--border)]/20">
-                        <Link 
-                          href={process.env.NEXT_PUBLIC_INSTAGRAM_URL || "#"} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="p-2 rounded-lg bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 text-[var(--muted)] hover:text-[#E1306C] hover:bg-[#E1306C]/10 transition-all duration-300 hover:scale-105 active:scale-90"
-                        >
-                          <Instagram size={16} />
-                        </Link>
-                        <Link 
-                          href={`https://wa.me/${(process.env.NEXT_PUBLIC_SUPPORT_WHATSAPP || "").replace(/\D/g, "")}`} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="p-2 rounded-lg bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 text-[var(--muted)] hover:text-[#25D366] hover:bg-[#25D366]/10 transition-all duration-300 hover:scale-105 active:scale-90"
-                        >
-                          <Phone size={16} />
-                        </Link>
-                      </div>
+
+
+                      {/* GOOGLE TRANSLATE (Appears only here) */}
+                      {enableAutoTranslation && (
+                        <div className="px-5 py-4 flex flex-col items-center justify-center border-t border-[var(--border)]/10 mt-2 gap-2 relative z-50">
+                          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[var(--muted)] opacity-60">
+                            Change Language
+                          </span>
+                          <div id="google_translate_element" className="rounded-md"></div>
+                        </div>
+                      )}
 
                       {/* FOOTER */}
                       <div className="py-4">
@@ -551,9 +570,7 @@ export default function Header() {
                     </>
                   )}
                 </motion.div>
-              </>
-            )}
-          </AnimatePresence>
+          )}
 
           {/* LOGOUT BUTTON OR LOGIN (Handled in dropdown) */}
         </div>

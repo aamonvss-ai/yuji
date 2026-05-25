@@ -6,6 +6,13 @@ const SystemSettingsSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        enableAutoTranslation: {
+            type: Boolean,
+            default: false,
+        },
+        seoTitle: { type: String },
+        seoDescription: { type: String },
+        seoKeywords: [{ type: String }],
         flashSale: {
             isActive: { type: Boolean, default: false },
             endTime: { type: Date },
