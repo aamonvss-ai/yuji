@@ -284,12 +284,12 @@ export default function AdminPanalPage() {
             <div className={`
               fixed md:static inset-y-0 right-0 z-50
               w-64 md:w-56 lg:w-64 flex-shrink-0
-              bg-[var(--card)] md:bg-transparent
-              border-l border-[var(--border)] md:border-none
+              bg-[var(--card)]
+              border border-[var(--border)] rounded-l-2xl md:rounded-2xl
               transform transition-transform duration-300 ease-in-out
               ${isSidebarOpen ? "translate-x-0" : "translate-x-full md:translate-x-0"}
               h-full md:h-auto overflow-y-auto md:overflow-visible
-              p-5 md:p-0 shadow-2xl md:shadow-none
+              p-5 shadow-2xl md:shadow-sm
             `}>
               <div className="flex items-center justify-between md:hidden mb-6 pb-4 border-b border-[var(--border)]">
                 <span className="font-bold text-lg text-[var(--foreground)]">Admin Menu</span>
