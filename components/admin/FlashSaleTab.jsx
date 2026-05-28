@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FiSave, FiPlus, FiTrash2, FiClock, FiZap } from "react-icons/fi";
+import { FiSave, FiPlus, FiTrash2, FiClock, FiZap, FiEdit2 } from "react-icons/fi";
 import Loader from "@/components/Loader/Loader";
 
 export default function FlashSaleTab() {
@@ -12,6 +12,20 @@ export default function FlashSaleTab() {
         endTime: "",
         items: []
     });
+
+    const defaultNewItem = {
+        id: "",
+        name: "",
+        game: "",
+        image: "",
+        price: "",
+        originalPrice: "",
+        slug: "",
+        badge: "",
+        sold: 0
+    };
+    const [newItem, setNewItem] = useState(defaultNewItem);
+    const [editingIndex, setEditingIndex] = useState(null);
 
     useEffect(() => {
         fetch("/api/owner/flash-sale")
@@ -57,32 +71,42 @@ export default function FlashSaleTab() {
         }
     };
 
-    const addItem = () => {
-        setConfig(prev => ({
-            ...prev,
-            items: [...prev.items, {
-                id: Date.now().toString(),
-                name: "New Item",
-                game: "MLBB",
-                image: "/game-assets/elite-bundle.jpeg",
-                price: "₹99",
-                originalPrice: "₹150",
-                slug: "weeklymonthly-bundle261",
-                badge: "Hot",
-                sold: 50
-            }]
-        }));
+    const handleEdit = (index) => {
+        setNewItem(config.items[index]);
+        setEditingIndex(index);
     };
 
-    const updateItem = (index, field, value) => {
-        const newItems = [...config.items];
-        newItems[index][field] = value;
-        setConfig(prev => ({ ...prev, items: newItems }));
+    const saveItem = () => {
+        if (!newItem.name || !newItem.price) {
+            alert("Item Name and Sale Price are required.");
+            return;
+        }
+        
+        const updatedItems = [...config.items];
+        if (editingIndex !== null) {
+            updatedItems[editingIndex] = newItem;
+        } else {
+            updatedItems.push({ ...newItem, id: Date.now().toString() });
+        }
+        
+        setConfig(prev => ({ ...prev, items: updatedItems }));
+        setNewItem(defaultNewItem);
+        setEditingIndex(null);
+    };
+
+    const cancelEdit = () => {
+        setNewItem(defaultNewItem);
+        setEditingIndex(null);
     };
 
     const removeItem = (index) => {
         const newItems = config.items.filter((_, i) => i !== index);
         setConfig(prev => ({ ...prev, items: newItems }));
+        if (editingIndex === index) {
+            cancelEdit();
+        } else if (editingIndex !== null && editingIndex > index) {
+            setEditingIndex(editingIndex - 1);
+        }
     };
 
     if (loading) return <div className="py-20 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[var(--accent)]"></div></div>;
@@ -141,69 +165,113 @@ export default function FlashSaleTab() {
 
             {/* Items Management */}
             <div className="bg-[var(--card)] border border-[var(--border)] p-6 rounded-2xl shadow-sm space-y-6">
-                <div className="flex items-center justify-between">
-                    <h2 className="text-lg font-bold text-[var(--foreground)]">Sale Items</h2>
-                    <button 
-                        onClick={addItem}
-                        className="flex items-center gap-1 text-sm px-4 py-1.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors font-medium text-[var(--foreground)]"
-                    >
-                        <FiPlus /> Add Item
-                    </button>
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-lg font-bold text-[var(--foreground)]">Flash Sale Items ({config.items.length})</h2>
                 </div>
 
                 {config.items.length === 0 ? (
-                    <div className="text-center py-8 text-gray-500 border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-xl">
-                        No items added yet. Click "Add Item" to start.
+                    <div className="text-center py-8 text-gray-500 border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-xl mb-6">
+                        No items added yet. Use the form below to add one.
                     </div>
                 ) : (
-                    <div className="space-y-4">
+                    <div className="space-y-3 mb-8">
                         {config.items.map((item, index) => (
-                            <div key={index} className="p-4 border border-[var(--border)] rounded-xl space-y-4 relative bg-gray-50/50 dark:bg-gray-800/30">
-                                <button 
-                                    onClick={() => removeItem(index)}
-                                    className="absolute top-4 right-4 text-red-500 hover:text-red-600 p-2 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors"
-                                >
-                                    <FiTrash2 />
-                                </button>
+                            <div key={index} className={`flex items-center gap-4 p-4 border rounded-2xl transition-all ${editingIndex === index ? "border-blue-500 bg-blue-500/5 shadow-sm" : "border-[var(--border)] bg-[var(--background)] hover:border-[var(--accent)]/50 shadow-sm"}`}>
+                                {/* Image */}
+                                <div className="w-16 h-16 shrink-0 bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden relative">
+                                    <img src={item.image || "/placeholder.png"} alt={item.name} className="w-full h-full object-cover" onError={(e) => { e.target.onerror = null; e.target.src = "https://via.placeholder.com/150"; }} />
+                                </div>
                                 
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pr-8">
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-bold text-[var(--muted)] uppercase">Item Name</label>
-                                        <input type="text" value={item.name} onChange={(e) => updateItem(index, 'name', e.target.value)} className="w-full px-3 py-2 bg-transparent border border-[var(--border)] rounded-lg text-sm text-[var(--foreground)]" />
+                                {/* Details */}
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <h3 className="font-bold text-[var(--foreground)] truncate">{item.name || "Unnamed Item"}</h3>
+                                        {item.badge && (
+                                            <span className="px-2 py-0.5 bg-amber-500 text-black text-[10px] font-bold rounded uppercase tracking-wider whitespace-nowrap">
+                                                {item.badge}
+                                            </span>
+                                        )}
                                     </div>
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-bold text-[var(--muted)] uppercase">Game Name</label>
-                                        <input type="text" value={item.game} onChange={(e) => updateItem(index, 'game', e.target.value)} className="w-full px-3 py-2 bg-transparent border border-[var(--border)] rounded-lg text-sm text-[var(--foreground)]" />
+                                    <p className="text-xs text-[var(--muted)] truncate mb-1">
+                                        {item.game} <span className="mx-1">|</span> Slug: {item.slug}
+                                    </p>
+                                    <div className="flex items-end gap-2">
+                                        <span className="font-extrabold text-[var(--foreground)]">{item.price}</span>
+                                        {item.originalPrice && (
+                                            <span className="text-xs text-[var(--muted)] line-through">{item.originalPrice}</span>
+                                        )}
                                     </div>
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-bold text-[var(--muted)] uppercase">Sale Price (e.g. ₹99)</label>
-                                        <input type="text" value={item.price} onChange={(e) => updateItem(index, 'price', e.target.value)} className="w-full px-3 py-2 bg-transparent border border-[var(--border)] rounded-lg text-sm text-[var(--foreground)]" />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-bold text-[var(--muted)] uppercase">Original Price</label>
-                                        <input type="text" value={item.originalPrice} onChange={(e) => updateItem(index, 'originalPrice', e.target.value)} className="w-full px-3 py-2 bg-transparent border border-[var(--border)] rounded-lg text-sm text-[var(--foreground)]" />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-bold text-[var(--muted)] uppercase">Target Slug / Link</label>
-                                        <input type="text" value={item.slug} onChange={(e) => updateItem(index, 'slug', e.target.value)} className="w-full px-3 py-2 bg-transparent border border-[var(--border)] rounded-lg text-sm text-[var(--foreground)]" />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-bold text-[var(--muted)] uppercase">Image URL (or path)</label>
-                                        <input type="text" value={item.image} onChange={(e) => updateItem(index, 'image', e.target.value)} className="w-full px-3 py-2 bg-transparent border border-[var(--border)] rounded-lg text-sm text-[var(--foreground)]" />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-bold text-[var(--muted)] uppercase">Badge (e.g. Hot, Value)</label>
-                                        <input type="text" value={item.badge} onChange={(e) => updateItem(index, 'badge', e.target.value)} className="w-full px-3 py-2 bg-transparent border border-[var(--border)] rounded-lg text-sm text-[var(--foreground)]" />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-bold text-[var(--muted)] uppercase">% Sold (0-100)</label>
-                                        <input type="number" min="0" max="100" value={item.sold} onChange={(e) => updateItem(index, 'sold', Number(e.target.value))} className="w-full px-3 py-2 bg-transparent border border-[var(--border)] rounded-lg text-sm text-[var(--foreground)]" />
-                                    </div>
+                                </div>
+                                
+                                {/* Actions */}
+                                <div className="flex items-center gap-1 shrink-0">
+                                    <button 
+                                        onClick={() => handleEdit(index)}
+                                        className="p-2 text-blue-500 hover:bg-blue-500/10 rounded-lg transition-colors"
+                                        title="Edit Item"
+                                    >
+                                        <FiEdit2 />
+                                    </button>
+                                    <button 
+                                        onClick={() => removeItem(index)}
+                                        className="p-2 text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
+                                        title="Remove Item"
+                                    >
+                                        <FiTrash2 />
+                                    </button>
                                 </div>
                             </div>
                         ))}
                     </div>
                 )}
+
+                {/* Add / Edit Form */}
+                <div className="bg-[var(--card)] border border-[var(--border)] p-5 md:p-6 rounded-2xl shadow-sm space-y-5">
+                    <div className="flex items-center justify-between">
+                        <h3 className="font-bold text-[var(--foreground)] text-lg">
+                            {editingIndex !== null ? "Edit Item" : "Add New Item"}
+                        </h3>
+                        {editingIndex !== null && (
+                            <button onClick={cancelEdit} className="text-xs font-semibold text-[var(--muted)] hover:text-[var(--foreground)] px-3 py-1.5 bg-[var(--background)] rounded-lg transition-colors">
+                                Cancel
+                            </button>
+                        )}
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                        <div className="space-y-1">
+                            <input type="text" value={newItem.name} onChange={(e) => setNewItem({...newItem, name: e.target.value})} placeholder="Item Name (e.g. Weekly Pass)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
+                        </div>
+                        <div className="space-y-1">
+                            <input type="text" value={newItem.game} onChange={(e) => setNewItem({...newItem, game: e.target.value})} placeholder="Game Name (e.g. MLBB)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
+                        </div>
+                        <div className="space-y-1">
+                            <input type="text" value={newItem.price} onChange={(e) => setNewItem({...newItem, price: e.target.value})} placeholder="Discounted Price (e.g. ₹149)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
+                        </div>
+                        <div className="space-y-1">
+                            <input type="text" value={newItem.originalPrice} onChange={(e) => setNewItem({...newItem, originalPrice: e.target.value})} placeholder="Original Price (e.g. ₹170)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
+                        </div>
+                        <div className="space-y-1">
+                            <input type="text" value={newItem.slug} onChange={(e) => setNewItem({...newItem, slug: e.target.value})} placeholder="Link Slug (e.g. mobile-legends270)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
+                        </div>
+                        <div className="space-y-1">
+                            <input type="text" value={newItem.image} onChange={(e) => setNewItem({...newItem, image: e.target.value})} placeholder="Image URL (e.g. /game-assets/1.jpg)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
+                        </div>
+                        <div className="space-y-1">
+                            <input type="text" value={newItem.badge} onChange={(e) => setNewItem({...newItem, badge: e.target.value})} placeholder="Badge (e.g. Hot Deal)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
+                        </div>
+                        <div className="space-y-1 flex items-center">
+                            <input type="number" min="0" max="100" value={newItem.sold} onChange={(e) => setNewItem({...newItem, sold: Number(e.target.value)})} placeholder="% Sold" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
+                        </div>
+                    </div>
+
+                    <button 
+                        onClick={saveItem}
+                        className="w-full py-3 bg-[var(--background)] border border-[var(--border)] hover:border-[var(--accent)] hover:text-[var(--accent)] text-[var(--foreground)] font-bold rounded-xl transition-all flex items-center justify-center gap-2 mt-4"
+                    >
+                        <FiPlus className="text-lg" /> {editingIndex !== null ? "Update Item" : "Add Item"}
+                    </button>
+                </div>
             </div>
         </div>
     );

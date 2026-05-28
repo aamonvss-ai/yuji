@@ -101,21 +101,21 @@ export default function SettingsTab() {
 
             {/* TOGGLE CARD */}
             <div className={`p-6 rounded-3xl border transition-all duration-300 ${settings.maintenanceMode ? "bg-orange-500/5 border-orange-500/20" : "bg-[var(--foreground)]/[0.02] border-[var(--border)]"}`}>
-                <div className="flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-4">
-                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${settings.maintenanceMode ? "bg-orange-500 text-white" : "bg-[var(--foreground)]/5 text-[var(--muted)]"}`}>
+                <div className="flex items-center justify-between gap-3 sm:gap-4">
+                    <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+                        <div className={`shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${settings.maintenanceMode ? "bg-orange-500 text-white" : "bg-[var(--foreground)]/5 text-[var(--muted)]"}`}>
                             {settings.maintenanceMode ? <ShieldAlert size={24} /> : <ShieldCheck size={24} />}
                         </div>
-                        <div>
-                            <h3 className="font-bold text-[var(--foreground)]">Maintenance Mode</h3>
-                            <p className="text-xs text-[var(--muted)]">Hide the store from public users.</p>
+                        <div className="flex-1 min-w-0">
+                            <h3 className="font-bold text-[var(--foreground)] truncate">Maintenance Mode</h3>
+                            <p className="text-xs text-[var(--muted)] leading-snug">Hide the store from public users.</p>
                         </div>
                     </div>
 
                     <button
                         onClick={() => updateSettings({ maintenanceMode: !settings.maintenanceMode })}
                         disabled={saving}
-                        className={`relative w-14 h-7 rounded-full transition-colors flex items-center p-1
+                        className={`shrink-0 relative w-14 h-7 rounded-full transition-colors flex items-center p-1
                             ${settings.maintenanceMode ? "bg-orange-500" : "bg-[var(--foreground)]/10"}
                             ${saving ? "opacity-50 cursor-wait" : "cursor-pointer"}`}
                     >
@@ -130,21 +130,21 @@ export default function SettingsTab() {
 
             {/* TRANSLATOR TOGGLE CARD */}
             <div className={`p-6 rounded-3xl border transition-all duration-300 ${settings.enableAutoTranslation ? "bg-blue-500/5 border-blue-500/20" : "bg-[var(--foreground)]/[0.02] border-[var(--border)]"}`}>
-                <div className="flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-4">
-                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${settings.enableAutoTranslation ? "bg-blue-500 text-white" : "bg-[var(--foreground)]/5 text-[var(--muted)]"}`}>
+                <div className="flex items-center justify-between gap-3 sm:gap-4">
+                    <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+                        <div className={`shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${settings.enableAutoTranslation ? "bg-blue-500 text-white" : "bg-[var(--foreground)]/5 text-[var(--muted)]"}`}>
                             <span className="font-bold text-lg">A/अ</span>
                         </div>
-                        <div>
-                            <h3 className="font-bold text-[var(--foreground)]">Google Translate</h3>
-                            <p className="text-xs text-[var(--muted)]">Enable multi-language translation for users.</p>
+                        <div className="flex-1 min-w-0">
+                            <h3 className="font-bold text-[var(--foreground)] truncate">Google Translate</h3>
+                            <p className="text-xs text-[var(--muted)] leading-snug">Enable multi-language translation for users.</p>
                         </div>
                     </div>
 
                     <button
                         onClick={() => updateSettings({ enableAutoTranslation: !settings.enableAutoTranslation })}
                         disabled={saving}
-                        className={`relative w-14 h-7 rounded-full transition-colors flex items-center p-1
+                        className={`shrink-0 relative w-14 h-7 rounded-full transition-colors flex items-center p-1
                             ${settings.enableAutoTranslation ? "bg-blue-500" : "bg-[var(--foreground)]/10"}
                             ${saving ? "opacity-50 cursor-wait" : "cursor-pointer"}`}
                     >

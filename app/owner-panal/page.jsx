@@ -5,7 +5,13 @@ import {
   FiSearch,
   FiChevronLeft,
   FiChevronRight,
+  FiMenu,
+  FiX,
 } from "react-icons/fi";
+import { 
+  Users, ShoppingCart, ArrowRightLeft, Wallet, MessageSquare, 
+  Image as ImageIcon, Megaphone, Zap, Search, DollarSign, Settings, Monitor 
+} from "lucide-react";
 
 import AuthGuard from "@/components/AuthGuard";
 import UsersTab from "@/components/admin/UsersTab";
@@ -30,7 +36,37 @@ export default function AdminPanalPage() {
   const [banners, setBanners] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
   const [checkingRole, setCheckingRole] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  const categories = [
+    {
+      title: "Management",
+      items: ["users", "orders", "transactions", "wallet", "queries"],
+    },
+    {
+      title: "Marketing",
+      items: ["banners", "promotional", "flash-sale", "seo"],
+    },
+    {
+      title: "Configuration",
+      items: ["pricing", "settings", "ui-settings"],
+    },
+  ];
+
+  const categoryIcons = {
+    users: Users,
+    orders: ShoppingCart,
+    transactions: ArrowRightLeft,
+    wallet: Wallet,
+    queries: MessageSquare,
+    banners: ImageIcon,
+    promotional: Megaphone,
+    "flash-sale": Zap,
+    seo: Search,
+    pricing: DollarSign,
+    settings: Settings,
+    "ui-settings": Monitor
+  };
 
   /* ================= TABLE CONTROLS ================= */
   const [search, setSearch] = useState("");
@@ -189,111 +225,126 @@ export default function AdminPanalPage() {
     <AuthGuard>
       <section className="min-h-screen bg-transparent px-2 py-2">
         <div className="max-w-6xl mx-auto">
-          {/* HEADER */}
-          <div className="mb-4">
-            <div className="flex items-center gap-2">
-              <h1 className="text-xl md:text-2xl font-extrabold tracking-tight text-[var(--foreground)]">
-                Admin Panel
-              </h1>
-
-              {/* Accent status dot */}
-              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
-            </div>
-
-            <p className="mt-0.5 text-xs md:text-sm text-[var(--muted)] max-w-lg leading-snug">
-              Manage users, orders, transactions, queries & pricing
-            </p>
-          </div>
-
-
-          {/* BALANCE */}
-          <div className="
-  mb-6
-  relative
-  rounded-xl
-  border border-[var(--border)]
-  bg-[var(--card)]
-  px-5 py-4
-">
-
-            {/* Top accent bar */}
-            <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-[var(--accent)] to-purple-500 rounded-t-xl" />
-
-            <p className="text-xs uppercase tracking-wide text-[var(--muted)]">
-              Account Balance
-            </p>
-
-            <div className="mt-1 flex items-end gap-2">
-              <p className="text-2xl font-bold text-[var(--foreground)]">
-                {balance !== null ? balance : "Loading…"}
+          {/* HEADER & BALANCE SECTION */}
+          <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            {/* Left: Title & Subtitle */}
+            <div className="flex-1">
+              <div className="flex items-center gap-2">
+                <h1 className="text-xl md:text-2xl font-extrabold tracking-tight text-[var(--foreground)]">
+                  Admin Panel
+                </h1>
+                <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
+              </div>
+              <p className="mt-0.5 text-xs md:text-sm text-[var(--muted)] max-w-lg leading-snug">
+                Manage users, orders, transactions, queries & pricing
               </p>
+            </div>
 
-              <span className="text-sm font-medium text-green-500">
-                Available
-              </span>
+            {/* Right: Actions & Balance */}
+            <div className="flex flex-row items-stretch gap-3 w-full md:w-auto">
+              {/* Mobile Sidebar Toggle */}
+              <button
+                onClick={() => setIsSidebarOpen(true)}
+                className="md:hidden flex-1 flex flex-col items-center justify-center gap-1 px-4 py-2 bg-[var(--card)] border border-[var(--border)] rounded-xl text-[11px] uppercase tracking-widest font-bold hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/30 transition-all shadow-sm"
+              >
+                <FiMenu className="text-lg text-[var(--accent)]" />
+                <span>Menu</span>
+              </button>
+
+              {/* BALANCE */}
+              <div className="flex-[2] md:flex-initial relative rounded-xl border border-[var(--border)] bg-gradient-to-br from-[var(--card)] to-[var(--background)] px-4 py-3 shadow-sm flex flex-col justify-center min-w-[180px]">
+                {/* Subtle top accent bar */}
+                <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-[var(--accent)] to-purple-500 rounded-t-xl opacity-80" />
+                
+                <p className="text-[9px] uppercase tracking-widest text-[var(--muted)] font-bold mb-1">
+                  Account Balance
+                </p>
+                <div className="flex items-baseline gap-2">
+                  <p className="text-lg font-bold text-[var(--foreground)] leading-none truncate max-w-[120px]">
+                    {balance !== null ? balance : "..."}
+                  </p>
+                  <span className="text-[9px] font-bold text-green-500 uppercase tracking-widest bg-green-500/10 px-1.5 py-0.5 rounded">
+                    Available
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
 
-
-          <div className="mb-5 flex flex-wrap gap-2">
-            {["users", "orders", "transactions", "wallet", "queries", "pricing", "banners", "promotional", "flash-sale", "settings", "seo"].map(
-
-              (tab) => {
-                const isActive = activeTab === tab;
-
-                return (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`
-            relative
-            px-3.5 py-1.5
-            rounded-lg
-            text-xs sm:text-sm
-            font-semibold
-            border
-            transition-all duration-200
-            focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/40
-            ${isActive
-                        ? `
-                  bg-[var(--accent)]/15
-                  text-[var(--accent)]
-                  border-[var(--accent)]/40
-                `
-                        : `
-                  bg-[var(--card)]
-                  text-[var(--muted)]
-                  border-[var(--border)]
-                  hover:text-[var(--foreground)]
-                  hover:border-[var(--accent)]/30
-                `
-                      }
-          `}
-                  >
-                    {tab.toUpperCase()}
-
-                    {/* Active underline */}
-                    {isActive && (
-                      <span className="
-              absolute left-1/2 -bottom-1
-              h-0.5 w-6
-              -translate-x-1/2
-              rounded-full
-              bg-gradient-to-r
-              from-[var(--accent)]
-              to-purple-500
-            " />
-                    )}
-                  </button>
-                );
-              }
+          <div className="flex flex-col md:flex-row-reverse gap-6 items-start relative">
+            {/* Mobile Sidebar Overlay */}
+            {isSidebarOpen && (
+              <div 
+                className="fixed inset-0 bg-black/50 z-40 md:hidden backdrop-blur-sm transition-opacity"
+                onClick={() => setIsSidebarOpen(false)}
+              />
             )}
-          </div>
 
+            {/* Sidebar Slider */}
+            <div className={`
+              fixed md:static inset-y-0 right-0 z-50
+              w-64 md:w-56 lg:w-64 flex-shrink-0
+              bg-[var(--card)] md:bg-transparent
+              border-l border-[var(--border)] md:border-none
+              transform transition-transform duration-300 ease-in-out
+              ${isSidebarOpen ? "translate-x-0" : "translate-x-full md:translate-x-0"}
+              h-full md:h-auto overflow-y-auto md:overflow-visible
+              p-5 md:p-0 shadow-2xl md:shadow-none
+            `}>
+              <div className="flex items-center justify-between md:hidden mb-6 pb-4 border-b border-[var(--border)]">
+                <span className="font-bold text-lg text-[var(--foreground)]">Admin Menu</span>
+                <button onClick={() => setIsSidebarOpen(false)} className="p-2 text-[var(--muted)] hover:text-[var(--foreground)] transition-colors bg-[var(--background)] rounded-full">
+                  <FiX className="text-xl" />
+                </button>
+              </div>
 
+              <div className="space-y-6">
+                {categories.map((cat, index) => (
+                  <div key={cat.title} className={index !== 0 ? "pt-5 border-t border-[var(--border)]/70" : ""}>
+                    <h3 className="text-[10px] font-medium uppercase tracking-widest text-[var(--muted)]/60 mb-3 px-3">
+                      {cat.title}
+                    </h3>
+                    <div className="space-y-1">
+                      {cat.items.map((tab) => {
+                        const isActive = activeTab === tab;
+                        const Icon = categoryIcons[tab];
+                        return (
+                          <button
+                            key={tab}
+                            onClick={() => {
+                              setActiveTab(tab);
+                              setIsSidebarOpen(false); // Close on mobile after selection
+                            }}
+                            className={`
+                              group w-full flex items-center gap-3 px-3 py-2.5
+                              rounded-xl text-sm font-medium
+                              transition-all duration-200
+                              ${isActive
+                                ? "bg-[var(--accent)]/10 text-[var(--foreground)]"
+                                : "text-[var(--muted)] hover:bg-[var(--foreground)]/[0.03] hover:text-[var(--foreground)]"
+                              }
+                            `}
+                          >
+                            {Icon && (
+                              <Icon 
+                                size={18} 
+                                className={`transition-colors ${isActive ? "text-[var(--accent)]" : "text-[var(--muted)] group-hover:text-[var(--foreground)]"}`} 
+                              />
+                            )}
+                            <span className={isActive ? "font-bold" : ""}>
+                              {tab.charAt(0).toUpperCase() + tab.slice(1).replace('-', ' ')}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-          {/* PANEL */}
-          <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3">
+            {/* PANEL */}
+            <div className="flex-1 w-full min-w-0 bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3 md:p-5 min-h-[500px]">
             {activeTab === "users" && (
               <UsersTab
 
@@ -357,6 +408,7 @@ export default function AdminPanalPage() {
             )}
           </div>
 
+          </div>
 
         </div>
       </section>
