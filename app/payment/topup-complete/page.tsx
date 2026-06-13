@@ -12,6 +12,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 import Link from "next/link";
+import confetti from "canvas-confetti";
 
 export default function TopupComplete() {
   const [status, setStatus] = useState("checking"); // checking | success | failed
@@ -47,6 +48,12 @@ export default function TopupComplete() {
           setStatus("success");
           setOrderData(data.order || { orderId });
           localStorage.removeItem("pending_topup_order");
+          confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 },
+            zIndex: 100
+          });
         } else {
           setStatus("failed");
         }

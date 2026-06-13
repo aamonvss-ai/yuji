@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa";
 
 import { motion, AnimatePresence } from "framer-motion";
+import confetti from "canvas-confetti";
 
 export default function PaymentComplete() {
   const [status, setStatus] = useState("checking"); // checking | success | failed
@@ -32,6 +33,12 @@ export default function PaymentComplete() {
         if (data?.success) {
           setStatus("success");
           setMessage("Payment Successful!");
+          confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 },
+            zIndex: 100
+          });
 
           // Update wallet balance
           const oldBal = Number(localStorage.getItem("walletBalance") || "0");
