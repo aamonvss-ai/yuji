@@ -98,7 +98,7 @@ export default function OrdersTab() {
             Orders
           </h2>
           <p className="text-[9px] text-[var(--muted)] font-black uppercase tracking-[0.2em] opacity-40 italic mt-0.5">
-            {loading ? "Syncing database..." : `${totalCount} records identified`}
+            {loading ? "Loading..." : `${totalCount} total orders`}
           </p>
         </div>
  
@@ -107,8 +107,8 @@ export default function OrdersTab() {
           whileTap={{ scale: 0.95 }}
           onClick={fetchOrders}
           disabled={loading}
-          className="w-9 h-9 rounded-xl bg-[var(--card)]/30 backdrop-blur-md border border-[var(--border)]
-                     text-[var(--muted)] flex items-center justify-center shadow-sm hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all"
+          className="w-8 h-8 rounded-md bg-[var(--card)]/30 backdrop-blur-md border border-[var(--border)]
+                     text-[var(--muted)] flex items-center justify-center shadow-sm hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all shrink-0"
         >
           <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
         </motion.button>
@@ -122,7 +122,7 @@ export default function OrdersTab() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search Order ID..."
-            className="w-full pl-11 pr-4 py-3 rounded-xl border border-[var(--border)] bg-[var(--card)]/20 backdrop-blur-md text-[11px] focus:outline-none focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)]/30 transition-all font-black uppercase italic tracking-tighter shadow-inner placeholder:opacity-20"
+            className="w-full pl-11 pr-4 py-3 rounded-xl border border-[var(--border)] bg-[var(--card)]/20 backdrop-blur-md text-[11px] focus:outline-none focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)]/30 transition-all font-black uppercase italic tracking-tighter shadow-inner placeholder:opacity-60"
           />
         </div>
 

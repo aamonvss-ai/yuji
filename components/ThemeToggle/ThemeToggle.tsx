@@ -2,63 +2,58 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { 
+  Sun, Moon, Zap, Gamepad2, Code2, Target, Flower2, Leaf, 
+  Heart, Cloud, Sunrise, IceCream, Flame, Droplets, 
+  ShieldCheck, Shield, TreePine, Coins, Sparkles, 
+  Hexagon, Monitor, Star, Compass, Wind
+} from "lucide-react";
 
 const themes = [
   // 🌍 Core
-  { id: "light", icon: "☀️", label: "Light" },
-  { id: "dark", icon: "🌙", label: "Dark" },
+  { id: "light", icon: <Sun size={20} strokeWidth={2.5} />, label: "Light" },
+  { id: "dark", icon: <Moon size={20} strokeWidth={2.5} />, label: "Dark" },
 
   // ⚡ Creative / Gaming
-  { id: "cyber", icon: "⚡", label: "Cyber Neon" },
-  { id: "retro", icon: "👾", label: "Retro Arcade" },
-  { id: "matrix", icon: "🧬", label: "Matrix" },
-  { id: "neonlime", icon: "🧿", label: "Neon Lime" },
+  { id: "cyber", icon: <Zap size={20} strokeWidth={2.5} />, label: "Cyber Neon" },
+  { id: "retro", icon: <Gamepad2 size={20} strokeWidth={2.5} />, label: "Retro Arcade" },
+  { id: "matrix", icon: <Code2 size={20} strokeWidth={2.5} />, label: "Matrix" },
+  { id: "neonlime", icon: <Target size={20} strokeWidth={2.5} />, label: "Neon Lime" },
 
   // 🌸 Soft / Aesthetic
-  { id: "sakura", icon: "🌸", label: "Sakura" },
-  // { id: "aqua", icon: "🌊", label: "Aqua Wave" },
-  { id: "autumn", icon: "🍂", label: "Autumn" },
+  { id: "sakura", icon: <Flower2 size={20} strokeWidth={2.5} />, label: "Sakura" },
+  { id: "autumn", icon: <Leaf size={20} strokeWidth={2.5} />, label: "Autumn" },
 
   // 💖 Girly / Cute
-  { id: "rose", icon: "🌹", label: "Rose Blush" },
-  { id: "lavender", icon: "💜", label: "Lavender Dream" },
-  { id: "peach", icon: "🍑", label: "Peach Glow" },
-  // { id: "cotton", icon: "🍬", label: "Cotton Candy" },
-  // { id: "bubblegum", icon: "🎀", label: "Bubblegum Pop" },
-  // { id: "cherry", icon: "🍒", label: "Cherry Kiss" },
-  { id: "vanilla", icon: "🍦", label: "Vanilla Cream" },
+  { id: "rose", icon: <Heart size={20} strokeWidth={2.5} />, label: "Rose Blush" },
+  { id: "lavender", icon: <Cloud size={20} strokeWidth={2.5} />, label: "Lavender Dream" },
+  { id: "peach", icon: <Sunrise size={20} strokeWidth={2.5} />, label: "Peach Glow" },
+  { id: "vanilla", icon: <IceCream size={20} strokeWidth={2.5} />, label: "Vanilla Cream" },
 
   // 🔥 Bold / Aggressive
-  { id: "inferno", icon: "🔥", label: "Inferno" },
-  { id: "crimson", icon: "🩸", label: "Crimson Noir" },
+  { id: "inferno", icon: <Flame size={20} strokeWidth={2.5} />, label: "Inferno" },
+  { id: "crimson", icon: <Droplets size={20} strokeWidth={2.5} />, label: "Crimson Noir" },
 
   // 🧔 Manly / Strong
-  { id: "steel", icon: "🔩", label: "Steel Gray" },
-  // { id: "gunmetal", icon: "🛠️", label: "Gunmetal" },
-  // { id: "midnightblack", icon: "🖤", label: "Midnight Black" },
-  // { id: "royalblue", icon: "👑", label: "Royal Blue" },
-  { id: "bloodiron", icon: "🩸", label: "Blood Iron" },
-  // { id: "warzone", icon: "⚔️", label: "War Zone" },
-  { id: "carbon", icon: "🏴", label: "Carbon Fiber" },
+  { id: "steel", icon: <ShieldCheck size={20} strokeWidth={2.5} />, label: "Steel Gray" },
+  { id: "bloodiron", icon: <Shield size={20} strokeWidth={2.5} />, label: "Blood Iron" },
+  { id: "carbon", icon: <Wind size={20} strokeWidth={2.5} />, label: "Carbon Fiber" },
 
   // 🌲 Calm / Natural
-  { id: "forest", icon: "🌲", label: "Forest" },
-  { id: "emerald", icon: "🪙", label: "Finance Emerald" },
+  { id: "forest", icon: <TreePine size={20} strokeWidth={2.5} />, label: "Forest" },
+  { id: "emerald", icon: <Coins size={20} strokeWidth={2.5} />, label: "Finance Emerald" },
 
   // 🌌 Dark / Premium
-  { id: "void", icon: "🌌", label: "Void Purple" },
-  // { id: "obsidian", icon: "🪐", label: "Obsidian" },
-  { id: "midnight", icon: "🌙", label: "Midnight Blue" },
+  { id: "void", icon: <Sparkles size={20} strokeWidth={2.5} />, label: "Void Purple" },
+  { id: "midnight", icon: <Compass size={20} strokeWidth={2.5} />, label: "Midnight Blue" },
 
   // 🧊 Modern / SaaS
-  { id: "glass", icon: "🧊", label: "Glass" },
-  { id: "slate", icon: "🧠", label: "Slate Pro" },
-  // { id: "frost", icon: "❄️", label: "Frost" },
+  { id: "glass", icon: <Hexagon size={20} strokeWidth={2.5} />, label: "Glass" },
+  { id: "slate", icon: <Monitor size={20} strokeWidth={2.5} />, label: "Slate Pro" },
 
   // 🎨 Creator / Luxury
-  { id: "solar", icon: "🟡", label: "Solar Gold" },
-  // { id: "sunset", icon: "🌅", label: "Sunset" },
-  { id: "prism", icon: "🌈", label: "Prism" },
+  { id: "solar", icon: <Sun size={20} strokeWidth={2.5} />, label: "Solar Gold" },
+  { id: "prism", icon: <Star size={20} strokeWidth={2.5} />, label: "Prism" },
 ];
 
 
@@ -125,35 +120,44 @@ export default function ThemeToggle() {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 5, rotateX: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 5, rotateX: -10 }}
-            transition={{ type: "spring", damping: 20, stiffness: 600, mass: 0.4 }}
-            className="absolute right-0 mt-3 w-64 bg-[var(--card)]/80 backdrop-blur-3xl border border-white/10 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)] z-[100] p-4 origin-top-right overflow-hidden shadow-[var(--accent)]/10 will-change-transform"
+            initial={{ opacity: 0, y: -10, filter: "blur(5px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: -10, filter: "blur(5px)" }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute right-0 mt-3 w-72 sm:w-[320px] bg-[var(--card)]/95 backdrop-blur-3xl border border-[var(--border)] rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-[100] p-4 sm:p-5 origin-top-right overflow-hidden will-change-transform"
           >
-            <div className="grid grid-cols-4 gap-2 max-h-72 overflow-y-auto pr-1 custom-scrollbar">
-              {themes.map((t) => (
-                <button
-                  key={t.id}
-                  title={t.label}
-                  onClick={() => changeTheme(t.id)}
-                  className={`
-                    flex flex-col items-center justify-center p-2 rounded-2xl transition-all duration-150
-                    ${theme === t.id
-                      ? "bg-[var(--accent)] text-white shadow-lg shadow-[var(--accent)]/30 scale-105"
-                      : "hover:bg-white/10 text-[var(--foreground)] hover:scale-110"
-                    }
-                  `}
-                >
-                  <span className="text-xl mb-1">{t.icon}</span>
-                  <span className="text-[8px] font-bold uppercase tracking-tighter opacity-70 truncate w-full text-center">{t.id}</span>
-                </button>
-              ))}
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3 max-h-[320px] sm:max-h-[380px] overflow-y-auto pr-2 custom-scrollbar">
+              {themes.map((t) => {
+                const isActive = theme === t.id;
+                // Use first word of label for a cleaner, untruncated look
+                const shortLabel = t.label.split(" ")[0];
+                return (
+                  <button
+                    key={t.id}
+                    title={t.label}
+                    onClick={() => changeTheme(t.id)}
+                    className={`
+                      group flex flex-col items-center justify-center p-2 rounded-2xl transition-all duration-300
+                      ${isActive
+                        ? "bg-[var(--accent)]/10 ring-1 ring-[var(--accent)]/50 text-[var(--accent)] shadow-inner"
+                        : "hover:bg-[var(--foreground)]/5 text-[var(--foreground)]"
+                      }
+                    `}
+                  >
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl mb-1.5 transition-transform duration-300 ${isActive ? "scale-110 drop-shadow-md" : "group-hover:scale-110 group-hover:bg-[var(--foreground)]/5"}`}>
+                      {t.icon}
+                    </div>
+                    <span className={`text-[9px] font-bold uppercase tracking-wider truncate w-full text-center ${isActive ? "opacity-100" : "opacity-60 group-hover:opacity-100"}`}>
+                      {shortLabel}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
 
             {/* Visual Indicator */}
-            <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-center">
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--muted)] opacity-50">Studio Themes</span>
+            <div className="mt-4 pt-4 border-t border-[var(--border)] flex items-center justify-center">
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--muted)] opacity-60">Studio Themes</span>
             </div>
           </motion.div>
         )}

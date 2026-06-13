@@ -62,10 +62,10 @@ export default function LeaderboardPage() {
             <div className="w-8 h-px bg-gradient-to-l from-transparent to-[var(--accent)]" />
           </div>
           <h1 className="text-3xl md:text-4xl font-black uppercase tracking-tighter italic">
-            Top <span className="text-[var(--accent)]">Legends</span>
+            Top <span className="text-[var(--accent)]">Spenders</span>
           </h1>
           <p className="mt-1 text-[var(--muted)] text-[9px] font-black uppercase tracking-[0.2em] opacity-40 italic">
-            Elite customer rankings of the cycle
+            Top customers of the month
           </p>
  
           {/* Range Toggle */}
@@ -80,7 +80,7 @@ export default function LeaderboardPage() {
                     : "text-[var(--muted)] hover:text-[var(--foreground)] opacity-60 hover:opacity-100"
                   }`}
               >
-                {r === "monthly" ? "This Cycle" : "Previous"}
+                {r === "monthly" ? "This Month" : "Last Month"}
               </button>
             ))}
           </div>
@@ -97,7 +97,7 @@ export default function LeaderboardPage() {
             className="max-w-2xl mx-auto text-center py-20 bg-[var(--card)]/20 border border-dashed border-[var(--border)] rounded-[2.5rem] backdrop-blur-sm"
           >
             <FaTrophy className="text-5xl text-[var(--muted)]/20 mx-auto mb-6" />
-            <h3 className="text-2xl font-black uppercase tracking-tighter italic">No Legends Yet</h3>
+            <h3 className="text-2xl font-black uppercase tracking-tighter italic">No Top Spenders Yet</h3>
             <p className="mt-2 text-sm text-[var(--muted)] font-medium max-w-xs mx-auto">
               No ranks yet. Start ordering now to reach the top of the list!
             </p>
@@ -191,7 +191,7 @@ function PodiumItem({ user, rank, color, icon, delay, isLarge }) {
         : "scale-90 md:scale-95 opacity-60 grayscale-[0.2]"
         }`}
     >
-      <div className={`absolute -top-3 md:-top-4 text-xl md:text-3xl ${color} drop-shadow-[0_0_10px_currentColor]`}>
+      <div className={`absolute -top-3 md:-top-4 text-xl md:text-3xl ${color}`}>
         {icon}
       </div>
 

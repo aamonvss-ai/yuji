@@ -109,7 +109,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                     animate={{ opacity: 1, scale: 1 }}
                     className="max-w-6xl mx-auto bg-[var(--card)]/40 
                               backdrop-blur-3xl border border-[var(--border)]
-                              rounded-[3rem] p-4 md:p-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)] relative overflow-hidden"
+                              rounded-2xl p-4 md:p-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)] relative overflow-hidden"
                 >
                     {/* Premium Background Accents */}
                     <div className="absolute -top-24 -right-24 w-96 h-96 bg-[var(--accent)]/10 rounded-full blur-[100px] -z-10 animate-pulse" />

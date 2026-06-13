@@ -47,10 +47,9 @@ export default function FlashSale() {
                 <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2.5">
                         <div className="relative">
-                            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-amber-500 text-black shadow-[0_0_20px_rgba(245,158,11,0.6)] flex items-center justify-center shrink-0 z-10 relative">
+                            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-amber-500 text-black flex items-center justify-center shrink-0 z-10 relative">
                                 <FiZap size={16} fill="currentColor" />
                             </div>
-                            <div className="absolute inset-0 bg-amber-500 blur-2xl opacity-40 animate-pulse" />
                         </div>
                         <div className="flex flex-col">
                             <h2 className="text-sm md:text-lg font-black italic uppercase tracking-tighter bg-gradient-to-r from-amber-400 via-orange-500 to-rose-600 bg-clip-text text-transparent leading-none">

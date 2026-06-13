@@ -197,36 +197,38 @@ export default function WalletTab({
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         {/* ================= LEFT SIDE: BALANCE & QUICK ADD ================= */}
-        <div className="lg:col-span-5 space-y-5">
+        <div className="lg:col-span-5 space-y-4">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="relative overflow-hidden p-6 rounded-[2rem] bg-gradient-to-br from-[var(--accent)] to-[#4f46e5] text-white shadow-xl"
+            className="relative overflow-hidden p-4 md:p-5 rounded-[1.5rem] bg-gradient-to-br from-[var(--accent)] to-[#4f46e5] text-white shadow-lg"
           >
-            <div className="relative z-10">
-              <p className="text-[9px] font-black opacity-60 uppercase tracking-[0.2em] italic">Current Balance</p>
-              <h3 className="text-3xl md:text-4xl font-black mt-1 tracking-tighter italic">
-                {formatPrice(walletBalance)}
-              </h3>
-              <div className="mt-6 flex items-center gap-2 text-[8px] font-black bg-white/10 w-fit px-3 py-1 rounded-full backdrop-blur-md border border-white/10">
+            <div className="relative z-10 flex flex-col justify-between h-full">
+              <div>
+                <p className="text-[8px] font-black opacity-60 uppercase tracking-[0.2em] italic">Current Balance</p>
+                <h3 className="text-2xl md:text-3xl font-black tracking-tighter italic">
+                  {formatPrice(walletBalance)}
+                </h3>
+              </div>
+              <div className="mt-3 flex items-center gap-1.5 text-[8px] font-black bg-white/10 w-fit px-2.5 py-1 rounded-full backdrop-blur-md border border-white/10">
                 <div className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_8px_rgba(74,222,128,0.5)]" />
                 ACTIVE WALLET
               </div>
             </div>
             {/* Decals */}
-            <div className="absolute top-0 right-0 -mr-12 -mt-12 w-40 h-40 bg-white/5 rounded-full blur-3xl" />
+            <div className="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
           </motion.div>
 
-          <div className="p-5 rounded-3xl bg-[var(--card)]/30 border border-[var(--border)] space-y-3">
-            <p className="text-[9px] font-black text-[var(--muted)] uppercase tracking-widest opacity-40 italic">Quick Top-up</p>
-            <div className="grid grid-cols-3 gap-2">
+          <div className="p-4 rounded-2xl bg-[var(--card)]/30 border border-[var(--border)] space-y-2">
+            <p className="text-[8px] font-black text-[var(--muted)] uppercase tracking-widest opacity-40 italic">Quick Top-up</p>
+            <div className="grid grid-cols-4 gap-1.5">
               {quickAmounts.map((amt) => (
                 <button
                   key={amt}
                   onClick={() => setAmount(amt)}
-                  className={`py-2 rounded-xl text-[10px] font-black transition-all border
+                  className={`py-1.5 rounded-lg text-[10px] font-black transition-all border
                     ${amount === amt
-                      ? "bg-[var(--accent)] text-black border-[var(--accent)] shadow-lg shadow-[var(--accent)]/20"
+                      ? "bg-[var(--accent)] text-black border-[var(--accent)] shadow-md shadow-[var(--accent)]/20"
                       : "bg-[var(--foreground)]/[0.03] border-transparent text-[var(--foreground)] hover:border-[var(--accent)]/30"}`}
                 >
                   +₹{amt}
@@ -236,15 +238,15 @@ export default function WalletTab({
           </div>
         </div>
         {/* ================= RIGHT SIDE: INPUT & METHODS ================= */}
-        <div className="lg:col-span-7 space-y-5">
-          <div className="p-6 rounded-[2rem] bg-[var(--card)]/30 backdrop-blur-md border border-[var(--border)] shadow-xl space-y-6">
+        <div className="lg:col-span-7 space-y-4">
+          <div className="p-4 md:p-5 rounded-2xl bg-[var(--card)]/30 backdrop-blur-md border border-[var(--border)] shadow-lg space-y-4">
             {/* Amount Input */}
             <div>
-              <label className="text-[9px] font-black text-[var(--muted)] uppercase tracking-[0.2em] block mb-2 italic opacity-40">
+              <label className="text-[8px] font-black text-[var(--muted)] uppercase tracking-[0.2em] block mb-1.5 italic opacity-40">
                 Custom Amount
               </label>
               <div className="relative group">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl font-black text-[var(--muted)] group-focus-within:text-[var(--accent)] transition-colors italic">₹</span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-lg font-black text-[var(--muted)] group-focus-within:text-[var(--accent)] transition-colors italic">₹</span>
                 <input
                   type="number"
                   value={amount}
@@ -253,9 +255,9 @@ export default function WalletTab({
                     setAmount(e.target.value);
                     setAmountError("");
                   }}
-                  className="w-full pl-10 pr-4 py-3.5 rounded-xl
+                  className="w-full pl-8 pr-3 py-2.5 rounded-xl
                              bg-[var(--foreground)]/[0.03] border border-transparent
-                             text-xl font-black italic tracking-tighter focus:bg-[var(--card)]
+                             text-lg font-black italic tracking-tighter focus:bg-[var(--card)]
                              focus:border-[var(--accent)]/20 outline-none transition-all shadow-inner"
                 />
               </div>
@@ -275,23 +277,23 @@ export default function WalletTab({
 
             {/* Methods */}
             <div>
-              <label className="text-[9px] font-black text-[var(--muted)] uppercase tracking-[0.2em] block mb-2 italic opacity-40">
+              <label className="text-[8px] font-black text-[var(--muted)] uppercase tracking-[0.2em] block mb-1.5 italic opacity-40">
                 Payment Gateway
               </label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2.5">
                 <button
                   onClick={() => setMethod("upi")}
-                  className={`p-4 rounded-xl border-2 transition-all flex items-center gap-3
+                  className={`p-3 rounded-xl border-2 transition-all flex items-center gap-2.5
                     ${method === "upi"
                       ? "border-[var(--accent)] bg-[var(--accent)]/5"
                       : "border-transparent bg-[var(--foreground)]/[0.03] hover:border-[var(--accent)]/20"}`}
                 >
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all ${method === "upi" ? "bg-[var(--accent)] text-black rotate-[-6deg]" : "bg-[var(--card)] text-[var(--muted)] border border-[var(--border)]"}`}>
-                    <FaGooglePay size={20} />
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${method === "upi" ? "bg-[var(--accent)] text-black rotate-[-6deg]" : "bg-[var(--card)] text-[var(--muted)] border border-[var(--border)]"}`}>
+                    <FaGooglePay size={16} />
                   </div>
                   <div className="text-left">
-                    <p className="text-[11px] font-black uppercase italic tracking-tight">UPI / QR</p>
-                    <p className="text-[8px] font-bold opacity-30 uppercase tracking-widest">Instant</p>
+                    <p className="text-[10px] font-black uppercase italic tracking-tight">UPI / QR</p>
+                    <p className="text-[7px] font-bold opacity-30 uppercase tracking-widest">Instant</p>
                   </div>
                 </button>
 
@@ -300,17 +302,17 @@ export default function WalletTab({
                     setMethod("crypto");
                     setShowCryptoAddress(false);
                   }}
-                  className={`p-4 rounded-xl border-2 transition-all flex items-center gap-3
+                  className={`p-3 rounded-xl border-2 transition-all flex items-center gap-2.5
                     ${method === "crypto"
                       ? "border-[var(--accent)] bg-[var(--accent)]/5"
                       : "border-transparent bg-[var(--foreground)]/[0.03] hover:border-[var(--accent)]/20"}`}
                 >
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all ${method === "crypto" ? "bg-[var(--accent)] text-black rotate-[-6deg]" : "bg-[var(--card)] text-[var(--muted)] border border-[var(--border)]"}`}>
-                    <FaBitcoin size={20} />
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${method === "crypto" ? "bg-[var(--accent)] text-black rotate-[-6deg]" : "bg-[var(--card)] text-[var(--muted)] border border-[var(--border)]"}`}>
+                    <FaBitcoin size={16} />
                   </div>
                   <div className="text-left">
-                    <p className="text-[11px] font-black uppercase italic tracking-tight">Crypto / USDT</p>
-                    <p className="text-[8px] font-bold opacity-30 uppercase tracking-widest text-[var(--accent)]">1 USDT = {RATE} Rs</p>
+                    <p className="text-[10px] font-black uppercase italic tracking-tight">Crypto / USDT</p>
+                    <p className="text-[7px] font-bold opacity-30 uppercase tracking-widest text-[var(--accent)]">1 USDT = {RATE} Rs</p>
                   </div>
                 </button>
               </div>
@@ -318,21 +320,21 @@ export default function WalletTab({
 
             {method === "crypto" ? (
               !showCryptoAddress ? (
-                <div className="space-y-4">
-                  <div className="p-4 bg-[var(--foreground)]/[0.02] border border-[var(--border)] rounded-2xl">
-                    <p className="text-[10px] font-black text-green-500 uppercase tracking-widest mb-3">Network: BEP20 (Recommended)</p>
+                <div className="space-y-3">
+                  <div className="p-3 bg-[var(--foreground)]/[0.02] border border-[var(--border)] rounded-xl">
+                    <p className="text-[9px] font-black text-green-500 uppercase tracking-widest mb-2">Network: BEP20 (Recommended)</p>
                     <div className="relative group">
                       <input
                         type="number"
                         value={usdtAmount}
                         onChange={(e) => setUsdtAmount(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl bg-[var(--card)] border border-[var(--border)] text-2xl font-black italic focus:border-[var(--accent)] outline-none"
+                        className="w-full px-3 py-2 rounded-lg bg-[var(--card)] border border-[var(--border)] text-xl font-black italic focus:border-[var(--accent)] outline-none"
                       />
-                      <span className="absolute right-4 top-1/2 -translate-y-1/2 font-black text-[var(--muted)]">USDT</span>
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-black text-[var(--muted)]">USDT</span>
                     </div>
-                    <div className="flex justify-between items-center mt-3 px-1">
-                      <span className="text-[10px] font-bold text-[var(--muted)] uppercase">You Receive:</span>
-                      <span className="text-lg font-black text-[var(--accent)] italic">{(Number(usdtAmount) * RATE).toLocaleString()} Rs</span>
+                    <div className="flex justify-between items-center mt-2 px-1">
+                      <span className="text-[9px] font-bold text-[var(--muted)] uppercase">You Receive:</span>
+                      <span className="text-base font-black text-[var(--accent)] italic">{(Number(usdtAmount) * RATE).toLocaleString()} Rs</span>
                     </div>
                   </div>
 
@@ -341,7 +343,7 @@ export default function WalletTab({
                       <button
                         key={amt}
                         onClick={() => setUsdtAmount(amt)}
-                        className={`py-2 rounded-xl text-[10px] font-black transition-all border
+                        className={`py-1.5 rounded-lg text-[9px] font-black transition-all border
                           ${usdtAmount === amt ? "bg-[var(--accent)] text-black border-[var(--accent)]" : "bg-[var(--foreground)]/[0.03] border-transparent hover:border-[var(--accent)]/30"}`}
                       >
                         {amt} USDT
@@ -352,65 +354,65 @@ export default function WalletTab({
                   <button
                     onClick={handleGenerateAddress}
                     disabled={loading || !usdtAmount || Number(usdtAmount) < 1}
-                    className="w-full py-4 rounded-xl bg-[var(--accent)] text-black font-black text-[11px] uppercase tracking-widest italic shadow-lg hover:brightness-110 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                    className="w-full py-3 rounded-xl bg-[var(--accent)] text-black font-black text-[10px] uppercase tracking-widest italic shadow-md hover:brightness-110 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                   >
                     {loading ? <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> : "Show Me The Address →"}
                   </button>
                 </div>
               ) : (
-                <div className="space-y-4 border border-green-500/20 bg-green-500/5 p-5 rounded-2xl relative">
-                  <button onClick={() => setShowCryptoAddress(false)} className="absolute top-4 left-4 text-[10px] font-black text-[var(--muted)] hover:text-white uppercase">← Back</button>
-                  <div className="text-center mb-6">
-                     <p className="text-[10px] font-black text-green-500 uppercase tracking-widest mt-2">Send USDT To This Address</p>
+                <div className="space-y-3 border border-green-500/20 bg-green-500/5 p-4 rounded-xl relative">
+                  <button onClick={() => setShowCryptoAddress(false)} className="absolute top-3 left-3 text-[9px] font-black text-[var(--muted)] hover:text-white uppercase">← Back</button>
+                  <div className="text-center mb-4">
+                     <p className="text-[9px] font-black text-green-500 uppercase tracking-widest mt-2">Send USDT To This Address</p>
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-3 mb-4">
-                    <div className="bg-[var(--card)] p-3 rounded-xl border border-[var(--border)] text-center">
-                      <p className="text-[8px] text-[var(--muted)] font-black uppercase mb-1">Send</p>
-                      <p className="text-lg font-black italic">{usdtAmount} USDT</p>
+                  <div className="grid grid-cols-2 gap-2 mb-3">
+                    <div className="bg-[var(--card)] p-2 rounded-lg border border-[var(--border)] text-center">
+                      <p className="text-[8px] text-[var(--muted)] font-black uppercase mb-0.5">Send</p>
+                      <p className="text-base font-black italic">{usdtAmount} USDT</p>
                     </div>
-                    <div className="bg-[var(--card)] p-3 rounded-xl border border-[var(--border)] text-center">
-                      <p className="text-[8px] text-[var(--muted)] font-black uppercase mb-1">Receive</p>
-                      <p className="text-lg font-black text-[var(--accent)] italic">{Number(usdtAmount) * RATE} Rs</p>
+                    <div className="bg-[var(--card)] p-2 rounded-lg border border-[var(--border)] text-center">
+                      <p className="text-[8px] text-[var(--muted)] font-black uppercase mb-0.5">Receive</p>
+                      <p className="text-base font-black text-[var(--accent)] italic">{Number(usdtAmount) * RATE} Rs</p>
                     </div>
                   </div>
 
                   <div>
-                    <p className="text-[9px] font-black text-[var(--muted)] uppercase mb-2">Deposit Address (BEP20)</p>
+                    <p className="text-[8px] font-black text-[var(--muted)] uppercase mb-1.5">Deposit Address (BEP20)</p>
                     <div className="flex items-center gap-2">
-                      <input readOnly value={depositAddress} className="w-full px-3 py-2.5 rounded-lg bg-[var(--card)] border border-[var(--border)] text-[10px] font-mono text-green-400" />
+                      <input readOnly value={depositAddress} className="w-full px-2 py-2 rounded-lg bg-[var(--card)] border border-[var(--border)] text-[9px] font-mono text-green-400" />
                       <button 
                         onClick={() => {
                           navigator.clipboard.writeText(depositAddress);
                           alert("Address copied!");
                         }}
-                        className="p-2.5 rounded-lg bg-[var(--accent)] text-black font-black text-[10px] uppercase shrink-0"
+                        className="p-2 rounded-lg bg-[var(--accent)] text-black font-black text-[9px] uppercase shrink-0"
                       >
                         Copy
                       </button>
                     </div>
                   </div>
 
-                  <div className="p-3 bg-orange-500/10 border border-orange-500/20 rounded-xl text-orange-400 text-[10px] font-bold">
-                    ⚠️ Send exactly <b>{usdtAmount} USDT</b> on <b>BEP20</b> only. If you use the wrong network, funds can be lost.
+                  <div className="p-2 bg-orange-500/10 border border-orange-500/20 rounded-lg text-orange-400 text-[9px] font-bold">
+                    ⚠️ Send exactly <b>{usdtAmount} USDT</b> on <b>BEP20</b> only.
                   </div>
 
                   <div>
-                    <p className="text-[9px] font-black text-[var(--muted)] uppercase mb-2">Paste Your Transaction Hash</p>
+                    <p className="text-[8px] font-black text-[var(--muted)] uppercase mb-1.5">Paste TX Hash</p>
                     <input 
                       value={txHash}
                       onChange={(e) => setTxHash(e.target.value)}
                       placeholder="Paste your TX hash here..." 
-                      className="w-full px-4 py-3 rounded-xl bg-[var(--card)] border border-[var(--border)] text-xs font-mono outline-none focus:border-[var(--accent)]" 
+                      className="w-full px-3 py-2 rounded-lg bg-[var(--card)] border border-[var(--border)] text-xs font-mono outline-none focus:border-[var(--accent)]" 
                     />
                   </div>
 
                   <button
                     onClick={() => handleCryptoSubmit(activeCryptoTxId)}
                     disabled={cryptoSubmitting || !txHash}
-                    className="w-full py-4 rounded-xl bg-green-500 text-black font-black text-[11px] uppercase tracking-widest italic shadow-lg hover:brightness-110 transition-all disabled:opacity-50"
+                    className="w-full py-3 rounded-xl bg-green-500 text-black font-black text-[10px] uppercase tracking-widest italic shadow-md hover:brightness-110 transition-all disabled:opacity-50"
                   >
-                    {cryptoSubmitting ? "Submitting..." : "I've Sent - Confirm"}
+                    {cryptoSubmitting ? "Submitting..." : "Confirm"}
                   </button>
                 </div>
               )
@@ -420,12 +422,12 @@ export default function WalletTab({
                 whileTap={{ scale: 0.99 }}
                 onClick={handleProceed}
                 disabled={loading || !amount || Number(amount) < 1}
-                className="w-full py-4 rounded-xl bg-[var(--accent)] text-black font-black text-[11px] uppercase tracking-[0.3em] italic
-                           shadow-lg shadow-[var(--accent)]/20 hover:brightness-110
-                           transition-all flex items-center justify-center gap-3 disabled:opacity-30 disabled:grayscale"
+                className="w-full py-3.5 rounded-xl bg-[var(--accent)] text-black font-black text-[10px] uppercase tracking-[0.3em] italic
+                           shadow-md shadow-[var(--accent)]/20 hover:brightness-110
+                           transition-all flex items-center justify-center gap-2 disabled:opacity-30 disabled:grayscale"
               >
                 {loading ? (
-                  <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
                 ) : (
                   <>
                     Top-up Now <FiArrowRight size={14} />

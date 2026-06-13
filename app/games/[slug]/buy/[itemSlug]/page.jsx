@@ -271,24 +271,24 @@ export default function BuyFlowPage() {
                   <h3 className="font-black text-[9px] uppercase tracking-[0.2em] italic opacity-40">More packs you may like</h3>
                 </div>
 
-                <div className="flex overflow-x-auto snap-x pb-2 gap-2.5 no-scrollbar scroll-smooth">
+                <div className="flex overflow-x-auto snap-x pb-2 gap-2 no-scrollbar scroll-smooth">
                   {relatedItems.map((r) => (
                     <Link
                       key={r.itemSlug}
                       href={`/games/${slug}/buy/${r.itemSlug}`}
-                      className="flex-shrink-0 w-24 md:w-32 snap-start bg-[var(--card)]/10 hover:bg-[var(--card)]/30 border-2 border-transparent hover:border-[var(--accent)]/20 p-2.5 rounded-2xl transition-all duration-300 group shadow-sm hover:shadow-xl hover:-translate-y-1"
+                      className="flex-shrink-0 w-[84px] md:w-[100px] snap-start bg-[var(--card)]/10 hover:bg-[var(--card)]/30 border-2 border-transparent hover:border-[var(--accent)]/20 px-2 py-1.5 rounded-xl transition-all duration-300 group shadow-sm hover:shadow-xl hover:-translate-y-1"
                     >
                       <p className="text-[8px] font-bold opacity-40 uppercase tracking-tight mb-0.5 truncate group-hover:text-[var(--accent)] transition-colors">{r.itemName}</p>
-                      <p className="text-base font-black italic tracking-tighter">{formatPrice(r.sellingPrice)}</p>
+                      <p className="text-sm font-black italic tracking-tighter">{formatPrice(r.sellingPrice)}</p>
                     </Link>
                   ))}
 
                   {/* Active Item */}
-                  <div className="flex-shrink-0 w-24 md:w-32 snap-start bg-[var(--card)]/30 border-2 border-[var(--accent)] p-2.5 rounded-2xl relative shadow-lg">
+                  <div className="flex-shrink-0 w-[84px] md:w-[100px] snap-start bg-[var(--card)]/30 border-2 border-[var(--accent)] px-2 py-1.5 rounded-xl relative shadow-lg">
                     <p className="text-[8px] font-bold text-[var(--accent)] uppercase tracking-tight mb-0.5 truncate">{item?.itemName}</p>
-                    <p className="text-base font-black text-[var(--accent)] italic tracking-tighter">{formatPrice(price)}</p>
+                    <p className="text-sm font-black text-[var(--accent)] italic tracking-tighter">{formatPrice(price)}</p>
                     <div className="absolute top-1 right-1">
-                      <FaCheckCircle className="text-[var(--accent)]" size={10} />
+                      <FaCheckCircle className="text-[var(--accent)]" size={8} />
                     </div>
                   </div>
                 </div>
@@ -416,34 +416,34 @@ export default function BuyFlowPage() {
               </div>
 
               {/* 2. PAYMENT */}
-              <div className={`bg-[var(--card)]/30 backdrop-blur-xl border-2 transition-all duration-700 rounded-[2rem] p-5 shadow-2xl relative overflow-hidden ${isVerified ? 'border-[var(--accent)]/30 opacity-100' : 'border-transparent opacity-40'}`}>
+              <div className={`bg-[var(--card)]/30 backdrop-blur-xl border-2 transition-all duration-700 rounded-[1.5rem] p-4 shadow-2xl relative overflow-hidden ${isVerified ? 'border-[var(--accent)]/30 opacity-100' : 'border-transparent opacity-40'}`}>
                 {/* Lock Overlay for UX */}
                 {!isVerified && <div className="absolute inset-0 z-20 cursor-not-allowed" title="Verify player info first" />}
 
-                <div className="flex items-center gap-3 mb-6">
-                  <div className={`w-1 h-8 rounded-full transition-colors duration-500 ${isVerified ? 'bg-[var(--accent)]' : 'bg-[var(--foreground)]/10'}`} />
-                  <h2 className="text-xl font-black uppercase tracking-tighter italic">2. Payment</h2>
+                <div className="flex items-center gap-2.5 mb-4">
+                  <div className={`w-1 h-6 rounded-full transition-colors duration-500 ${isVerified ? 'bg-[var(--accent)]' : 'bg-[var(--foreground)]/10'}`} />
+                  <h2 className="text-lg font-black uppercase tracking-tighter italic">2. Payment</h2>
                 </div>
 
-                <div className="space-y-3 mb-8">
+                <div className="space-y-2 mb-5">
                   {/* UPI Gateway */}
                   <button
                     onClick={() => setPaymentMethod("upi")}
                     disabled={!isVerified}
-                    className={`w-full p-4 rounded-2xl border-2 transition-all flex items-center justify-between group
+                    className={`w-full p-3 rounded-xl border-2 transition-all flex items-center justify-between group
                       ${paymentMethod === "upi" ? "bg-[var(--card)] border-[var(--accent)] shadow-xl scale-[1.01]" : "bg-[var(--foreground)]/[0.02] border-transparent hover:border-[var(--accent)]/10"}`}
                   >
-                    <div className="flex items-center gap-4">
-                      <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-500 ${paymentMethod === "upi" ? "bg-[var(--accent)] text-black rotate-[-6deg]" : "bg-[var(--card)] text-[var(--accent)] border border-[var(--border)]"}`}>
-                        <MdOutlineSmartphone size={22} />
+                    <div className="flex items-center gap-3">
+                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-500 ${paymentMethod === "upi" ? "bg-[var(--accent)] text-black rotate-[-6deg]" : "bg-[var(--card)] text-[var(--accent)] border border-[var(--border)]"}`}>
+                        <MdOutlineSmartphone size={18} />
                       </div>
                       <div className="text-left">
-                        <p className="font-black text-sm uppercase italic tracking-tight">UPI Gateway</p>
-                        <p className="text-[9px] font-bold opacity-30 uppercase tracking-wider">Gpay, Phonepe, Paytm</p>
+                        <p className="font-black text-xs uppercase italic tracking-tight">UPI Gateway</p>
+                        <p className="text-[8px] font-bold opacity-30 uppercase tracking-wider">Gpay, Phonepe, Paytm</p>
                       </div>
                     </div>
-                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${paymentMethod === "upi" ? "border-[var(--accent)] bg-[var(--accent)]" : "border-[var(--border)]"}`}>
-                      {paymentMethod === "upi" && <FaCheckCircle className="text-black" size={12} />}
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${paymentMethod === "upi" ? "border-[var(--accent)] bg-[var(--accent)]" : "border-[var(--border)]"}`}>
+                      {paymentMethod === "upi" && <FaCheckCircle className="text-black" size={10} />}
                     </div>
                   </button>
 
@@ -451,27 +451,27 @@ export default function BuyFlowPage() {
                   <button
                     onClick={() => setPaymentMethod("wallet")}
                     disabled={!isVerified}
-                    className={`w-full p-4 rounded-2xl border-2 transition-all flex items-center justify-between group
+                    className={`w-full p-3 rounded-xl border-2 transition-all flex items-center justify-between group
                       ${paymentMethod === "wallet" ? "bg-[var(--card)] border-[var(--accent)] shadow-xl scale-[1.01]" : "bg-[var(--foreground)]/[0.02] border-transparent hover:border-[var(--accent)]/10"}`}
                   >
-                    <div className="flex items-center gap-4">
-                      <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-500 ${paymentMethod === "wallet" ? "bg-[var(--accent)] text-black rotate-[-6deg]" : "bg-[var(--card)] text-[var(--accent)] border border-[var(--border)]"}`}>
-                        <IoWalletOutline size={22} />
+                    <div className="flex items-center gap-3">
+                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-500 ${paymentMethod === "wallet" ? "bg-[var(--accent)] text-black rotate-[-6deg]" : "bg-[var(--card)] text-[var(--accent)] border border-[var(--border)]"}`}>
+                        <IoWalletOutline size={18} />
                       </div>
                       <div className="text-left">
-                        <p className="font-black text-sm uppercase italic tracking-tight">My Wallet</p>
-                        <p className="text-[9px] font-bold opacity-30 uppercase tracking-wider">Balance: {formatPrice(walletBalance)}</p>
+                        <p className="font-black text-xs uppercase italic tracking-tight">My Wallet</p>
+                        <p className="text-[8px] font-bold opacity-30 uppercase tracking-wider">Balance: {formatPrice(walletBalance)}</p>
                       </div>
                     </div>
-                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${paymentMethod === "wallet" ? "border-[var(--accent)] bg-[var(--accent)]" : "border-[var(--border)]"}`}>
-                      {paymentMethod === "wallet" && <FaCheckCircle className="text-black" size={12} />}
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${paymentMethod === "wallet" ? "border-[var(--accent)] bg-[var(--accent)]" : "border-[var(--border)]"}`}>
+                      {paymentMethod === "wallet" && <FaCheckCircle className="text-black" size={10} />}
                     </div>
                   </button>
                 </div>
 
-                <div className="flex items-center justify-between px-2 mb-6">
-                  <span className="font-black text-[10px] uppercase tracking-[0.3em] opacity-30 italic">Total Amount</span>
-                  <span className="text-4xl font-black italic tracking-tighter">{formatPrice(price)}</span>
+                <div className="flex items-center justify-between px-2 mb-5">
+                  <span className="font-black text-[9px] uppercase tracking-[0.3em] opacity-30 italic">Total Amount</span>
+                  <span className="text-3xl font-black italic tracking-tighter">{formatPrice(price)}</span>
                 </div>
 
                 {error && !loading && (
@@ -483,7 +483,7 @@ export default function BuyFlowPage() {
                 <button
                   onClick={handleProceed}
                   disabled={payLoading || !isVerified}
-                  className={`w-full py-4 rounded-[1.25rem] font-black uppercase tracking-[0.3em] text-[10px] italic transition-all duration-700 shadow-2xl flex items-center justify-center gap-3
+                  className={`w-full py-3.5 rounded-xl font-black uppercase tracking-[0.3em] text-[9px] italic transition-all duration-700 shadow-xl flex items-center justify-center gap-3
                     ${!isVerified
                       ? "bg-[var(--foreground)]/[0.05] text-[var(--foreground)]/10 cursor-not-allowed shadow-none"
                       : "bg-[var(--accent)] text-black hover:bg-[var(--accent)] hover:brightness-110 shadow-[var(--accent)]/30 hover:scale-[1.02]"}`}

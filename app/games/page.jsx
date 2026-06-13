@@ -181,7 +181,7 @@ export default function GamesPage() {
         {/* Content Below Image */}
         <div className="mt-1.5 px-0.5">
           <div className="flex flex-col">
-            <h3 className="text-[9px] md:text-[11px] font-black text-[var(--foreground)] leading-tight uppercase italic truncate group-hover:text-[var(--accent)] transition-colors duration-300">
+            <h3 className="text-[9px] md:text-[11px] font-black text-[var(--foreground)] leading-tight uppercase italic line-clamp-2 group-hover:text-[var(--accent)] transition-colors duration-300">
               {game.gameName}
             </h3>
             <div className="flex items-center gap-1 opacity-40 group-hover:opacity-100 transition-all duration-300">

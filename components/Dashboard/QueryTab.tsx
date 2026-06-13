@@ -27,16 +27,16 @@ const SUPPORT_CONFIG = {
   },
 
   contacts: {
-    title: "Direct Channels",
+    title: "Contact Us",
     items: [
       {
         id: "phone",
-        title: "Call Support",
+        title: "Call Us",
         value: SUPPORT_WHATSAPP,
         href: SUPPORT_WHATSAPP ? `tel:${SUPPORT_WHATSAPP}` : "#",
         icon: "phone",
         external: false,
-        desc: "Instant voice assistance"
+        desc: "Talk to our team"
       },
       {
         id: "instagram",
@@ -45,7 +45,7 @@ const SUPPORT_CONFIG = {
         href: INSTAGRAM_URL,
         icon: "instagram",
         external: true,
-        desc: "Message us for updates"
+        desc: "Follow us for updates"
       },
       {
         id: "whatsapp",
@@ -54,7 +54,7 @@ const SUPPORT_CONFIG = {
         href: WHATSAPP_STORE_LINK,
         icon: "whatsapp",
         external: true,
-        desc: "Community and support"
+        desc: "Join our community"
       },
     ],
   },
@@ -143,7 +143,7 @@ export default function QueryTab() {
           Support <span className="text-[var(--accent)]">Hub</span>
         </h2>
         <p className="text-[var(--muted)] text-[9px] font-black uppercase tracking-[0.2em] opacity-40 mt-1 italic">
-          Resolution center for orders and account inquiries
+          Help with your orders and account
         </p>
       </motion.div>
  
@@ -196,7 +196,7 @@ export default function QueryTab() {
             <div className="p-2 rounded-lg bg-[var(--accent)]/10 text-[var(--accent)]">
               <FiMessageSquare size={14} />
             </div>
-            <h3 className="text-sm font-black uppercase italic tracking-tighter">Direct Query</h3>
+            <h3 className="text-sm font-black uppercase italic tracking-tighter">Send a Message</h3>
           </div>
  
           <AnimatePresence>
@@ -214,13 +214,13 @@ export default function QueryTab() {
  
           <div className="space-y-4">
             <div>
-              <label className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] block mb-1.5 px-1 opacity-40 italic">Category</label>
+              <label className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] block mb-1.5 px-1 opacity-40 italic">Select Category</label>
               <select
                 value={queryType}
                 onChange={(e) => setQueryType(e.target.value)}
                 className="w-full p-3 rounded-xl bg-[var(--foreground)]/[0.03] border border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] outline-none transition-all font-black uppercase italic tracking-tighter text-[10px] appearance-none cursor-pointer shadow-inner"
               >
-                <option value="">Select Department</option>
+                <option value="">Choose a Topic</option>
                 {SUPPORT_CONFIG.queryTypes.map((type) => (
                   <option key={type} value={type}>
                     {type}
@@ -231,7 +231,7 @@ export default function QueryTab() {
  
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] block mb-1.5 px-1 opacity-40 italic">Phone Reference</label>
+                <label className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] block mb-1.5 px-1 opacity-40 italic">Phone Number</label>
                 <input
                   type="text"
                   className="w-full p-3 rounded-xl bg-[var(--foreground)]/[0.03] border border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] outline-none transition-all font-black uppercase italic tracking-tighter text-[10px] shadow-inner"
@@ -241,7 +241,7 @@ export default function QueryTab() {
                 />
               </div>
               <div>
-                <label className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] block mb-1.5 px-1 opacity-40 italic">Order Ref (Opt)</label>
+                <label className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] block mb-1.5 px-1 opacity-40 italic">Order ID (Optional)</label>
                 <input
                   type="text"
                   className="w-full p-3 rounded-xl bg-[var(--foreground)]/[0.03] border border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] outline-none transition-all font-black uppercase italic tracking-tighter text-[10px] shadow-inner"
@@ -253,7 +253,7 @@ export default function QueryTab() {
             </div>
  
             <div>
-              <label className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] block mb-1.5 px-1 opacity-40 italic">Inquiry Details</label>
+              <label className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] block mb-1.5 px-1 opacity-40 italic">Your Message</label>
               <textarea
                 className="w-full p-3 rounded-xl h-20 bg-[var(--foreground)]/[0.03] border border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] outline-none transition-all resize-none text-[10px] font-bold placeholder:text-[var(--muted)]/20 shadow-inner"
                 placeholder="Describe your issue..."
@@ -273,7 +273,7 @@ export default function QueryTab() {
                 <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
               ) : (
                 <>
-                  <FiSend size={12} /> Dispatch Query
+                  <FiSend size={12} /> Send Message
                 </>
               )}
             </motion.button>
