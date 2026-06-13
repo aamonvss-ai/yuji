@@ -113,19 +113,21 @@ export default function FlashSaleTab() {
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h2 className="text-xl font-extrabold tracking-tight text-[var(--foreground)] flex items-center gap-2">
-                        <FiZap className="text-amber-500" /> Flash Sale Config
+                        <FiZap className="text-amber-500 shrink-0" /> 
+                        <span>Flash Sale Config</span>
                     </h2>
-                    <p className="text-sm text-gray-500">Manage the homepage flash sale section.</p>
+                    <p className="text-sm text-[var(--muted)]">Manage the homepage flash sale section.</p>
                 </div>
                 <button 
                     onClick={handleSave} 
                     disabled={saving}
-                    className="flex items-center gap-2 px-6 py-2.5 bg-amber-500 text-black font-black uppercase rounded-lg hover:bg-amber-400 disabled:opacity-50 transition-colors"
+                    className="flex items-center justify-center gap-2 px-6 py-2.5 bg-amber-500 text-black font-black uppercase rounded-lg hover:bg-amber-400 disabled:opacity-50 transition-colors shrink-0 w-full sm:w-auto"
                 >
-                    <FiSave /> {saving ? "Saving..." : "Save Settings"}
+                    <FiSave className="shrink-0" /> 
+                    <span>{saving ? "Saving..." : "Save Settings"}</span>
                 </button>
             </div>
 

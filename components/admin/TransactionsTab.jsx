@@ -125,8 +125,8 @@ export default function TransactionsTab() {
       </div>
 
       {/* ================= SEARCH & FILTER ================= */}
-      <div className="flex flex-col md:flex-row gap-2">
-        <div className="relative flex-1">
+      <div className="flex flex-row gap-2 md:gap-3">
+        <div className="relative flex-1 min-w-0">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/40" size={14} />
           <input
             value={search}
@@ -138,9 +138,9 @@ export default function TransactionsTab() {
             className="w-full h-10 pl-10 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-xs focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
           />
         </div>
-        <button className="h-10 px-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] flex items-center justify-center gap-2 hover:bg-[var(--foreground)]/[0.05] transition-all sm:w-max">
+        <button className="h-10 px-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] flex items-center justify-center gap-2 hover:bg-[var(--foreground)]/[0.05] transition-all shrink-0">
           <Filter size={12} className="text-[var(--accent)]" />
-          <span className="text-[10px] font-bold uppercase">Filter</span>
+          <span className="text-[10px] font-bold uppercase hidden sm:inline-block">Filter</span>
         </button>
       </div>
 
@@ -250,17 +250,27 @@ export default function TransactionsTab() {
                       <span className="text-lg font-black text-emerald-500 tracking-tighter">₹{t.price}</span>
                     </div>
 
-                    <div className="flex items-center justify-between text-[11px]">
+                    <div className="flex items-center justify-between text-[11px] mt-3">
                       <div className="flex items-center gap-2 min-w-0">
                         <div className="w-8 h-8 rounded-full bg-[var(--foreground)]/[0.05] flex items-center justify-center shrink-0">
                           <Gamepad2 size={14} className="text-[var(--accent)]" />
                         </div>
-                        <div className="truncate">
-                          <p className="font-bold text-[var(--foreground)] uppercase">{t.gameSlug}</p>
-                          <p className="text-[var(--muted)]/60 truncate">{t.email || "No email"}</p>
+                        <div className="flex flex-col min-w-0">
+                          <div className="flex items-center gap-1.5 truncate">
+                            <p className="font-bold text-[var(--foreground)] uppercase truncate">{t.gameSlug}</p>
+                            {t.paymentMethod && (
+                              <span className="px-1.5 py-0.5 rounded bg-[var(--accent)]/10 text-[var(--accent)] text-[8px] font-black uppercase tracking-wider shrink-0">
+                                {t.paymentMethod}
+                              </span>
+                            )}
+                          </div>
+                          {t.itemName && (
+                            <p className="text-[9px] font-bold text-[var(--muted)]/80 truncate mt-0.5">{t.itemName}</p>
+                          )}
+                          <p className="text-[9px] text-[var(--muted)]/50 truncate mt-0.5">{t.email || "No email"}</p>
                         </div>
                       </div>
-                      <div className="text-right shrink-0">
+                      <div className="text-right shrink-0 self-start mt-1">
                         <p className="font-medium text-[var(--muted)]/40">{new Date(t.createdAt).toLocaleDateString()}</p>
                         <ChevronRight size={14} className="ml-auto text-[var(--muted)]/20 mt-1" />
                       </div>

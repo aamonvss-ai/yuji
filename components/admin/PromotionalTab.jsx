@@ -180,29 +180,29 @@ export default function PromotionalTab() {
     <div className="space-y-6">
       <style>{scrollbarStyle}</style>
       {/* HEADER & STATS */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-          <h1 className="text-2xl font-black text-[var(--foreground)] tracking-tight uppercase italic">
-            Promotional <span className="text-[var(--accent)]">Hub</span>
-          </h1>
-          <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest mt-1">
-            Advanced Audience Segmentation & Automated Delivery
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <StatCard label="SENT TODAY" value={stats.sentToday} icon={<Send className="text-emerald-500" />} />
-          <StatCard label="REACH" value={stats.reach} icon={<Users className="text-orange-500" />} />
-          <StatCard label="EXTERNAL" value={stats.external} icon={<ExternalLink className="text-blue-500" />} />
-          <StatCard label="DATABASE" value={stats.database} icon={<Database className="text-purple-500" />} />
-          
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h1 className="text-xl font-bold tracking-tight text-[var(--foreground)] uppercase italic">
+              Promotional <span className="text-[var(--accent)]">Hub</span>
+            </h1>
+            <p className="text-[10px] text-[var(--muted)] font-medium mt-0.5">
+              Advanced Audience Segmentation & Automated Delivery
+            </p>
+          </div>
           <button 
             onClick={fetchRecipients}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--foreground)]/5 border border-[var(--border)] text-[10px] font-black uppercase tracking-widest text-[var(--muted)] hover:text-[var(--foreground)] transition-all"
+            className="p-1.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] transition-all active:scale-90 shrink-0"
           >
-            <RefreshCw size={12} className={syncing ? "animate-spin" : ""} />
-            SYNC
+            <RefreshCw size={14} className={syncing ? "animate-spin" : ""} />
           </button>
+        </div>
+        
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+          <StatCard label="SENT TODAY" value={stats.sentToday} icon={<Send className="text-emerald-500" size={14} />} />
+          <StatCard label="REACH" value={stats.reach} icon={<Users className="text-orange-500" size={14} />} />
+          <StatCard label="EXTERNAL" value={stats.external} icon={<ExternalLink className="text-blue-500" size={14} />} />
+          <StatCard label="DATABASE" value={stats.database} icon={<Database className="text-purple-500" size={14} />} />
         </div>
       </div>
 
@@ -454,13 +454,14 @@ export default function PromotionalTab() {
 
 function StatCard({ label, value, icon }) {
   return (
-    <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3 flex flex-col gap-2 min-w-[120px] shadow-sm relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-1 bg-[var(--foreground)]/5" />
-      <div className="flex items-center justify-between">
-        <span className="text-[8px] font-black text-[var(--muted)] uppercase tracking-widest">{label}</span>
+    <div className="p-2 rounded-xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center justify-between gap-1.5 min-w-0 shadow-sm relative overflow-hidden group hover:border-[var(--accent)]/30 transition-colors">
+      <div className="flex flex-col min-w-0">
+        <span className="text-[8px] font-black text-[var(--muted)] uppercase tracking-tighter truncate opacity-80 mb-0.5">{label}</span>
+        <span className="text-[11px] font-black text-[var(--foreground)] leading-none tabular-nums truncate">{value}</span>
+      </div>
+      <div className="shrink-0 transition-transform group-hover:scale-110 opacity-80">
         {icon}
       </div>
-      <span className="text-lg font-black text-[var(--foreground)] leading-none">{value}</span>
     </div>
   );
 }

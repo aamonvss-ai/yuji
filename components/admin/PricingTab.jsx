@@ -150,15 +150,29 @@ export default function PricingTab({
   return (
     <div className="space-y-6 pb-20 max-w-full overflow-x-hidden text-[var(--foreground)]/80">
       {/* ================= HEADER ================= */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-        <div className="space-y-1">
-          <h2 className="text-2xl md:text-3xl font-black italic tracking-tighter text-[var(--foreground)] uppercase">Pricing Config</h2>
-          <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-[0.2em]">Manage profit margins and fixed item prices</p>
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h1 className="text-xl font-bold tracking-tight text-[var(--foreground)] uppercase italic">
+              Pricing Config
+            </h1>
+            <p className="text-[10px] text-[var(--muted)] font-medium mt-0.5">
+              Manage profit margins and fixed item prices
+            </p>
+          </div>
+          <button
+            onClick={onSave}
+            disabled={!canSave}
+            className="p-2 sm:px-4 sm:py-2 rounded-xl bg-[#0ea5e9] text-black font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all disabled:opacity-50 shadow-lg shadow-[#0ea5e9]/20 shrink-0 flex items-center gap-2"
+          >
+            {savingPricing ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
+            <span className="text-[10px]">Save Settings</span>
+          </button>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           {/* MODE SELECTOR */}
-          <div className="flex bg-[var(--background)] p-1 rounded-xl border border-[var(--border)] overflow-x-auto no-scrollbar">
+          <div className="flex flex-1 bg-[var(--background)] p-1 rounded-xl border border-[var(--border)] overflow-x-auto no-scrollbar">
             {[
               { id: "percent", label: "Markup", icon: <Percent size={12} /> },
               { id: "fixed", label: "Fixed", icon: <Coins size={12} /> }
@@ -166,7 +180,7 @@ export default function PricingTab({
               <button
                 key={m.id}
                 onClick={() => setPricingMode(m.id)}
-                className={`flex-1 flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${pricingMode === m.id
+                className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${pricingMode === m.id
                   ? "bg-[#0ea5e9] text-black shadow-[0_0_20px_rgba(14,165,233,0.3)]"
                   : "text-[var(--muted)] hover:text-[var(--foreground)]"
                   }`}
@@ -178,12 +192,12 @@ export default function PricingTab({
           </div>
 
           {/* ROLE SELECTOR */}
-          <div className="flex bg-[var(--background)] p-1 rounded-xl border border-[var(--border)] overflow-x-auto no-scrollbar">
+          <div className="flex flex-1 bg-[var(--background)] p-1 rounded-xl border border-[var(--border)] overflow-x-auto no-scrollbar">
             {["user", "member", "admin"].map((type) => (
               <button
                 key={type}
                 onClick={() => setPricingType(type)}
-                className={`flex-1 px-3 sm:px-4 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${pricingType === type
+                className={`flex-1 px-3 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${pricingType === type
                   ? "bg-[#0ea5e9] text-black shadow-[0_0_20px_rgba(14,165,233,0.3)]"
                   : "text-[var(--muted)] hover:text-[var(--foreground)]"
                   }`}
@@ -192,15 +206,6 @@ export default function PricingTab({
               </button>
             ))}
           </div>
-
-          <button
-            onClick={onSave}
-            disabled={!canSave}
-            className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#0ea5e9] text-black text-[10px] font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all disabled:opacity-50 shadow-lg shadow-[#0ea5e9]/20"
-          >
-            {savingPricing ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
-            Save Changes
-          </button>
         </div>
       </div>
 
@@ -211,76 +216,65 @@ export default function PricingTab({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="p-4 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] border border-[var(--border)] bg-[var(--card)] space-y-6 sm:space-y-8"
+            className="p-4 sm:p-5 rounded-2xl border border-[var(--border)] bg-[var(--card)] space-y-5"
           >
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#0ea5e9]/10 flex items-center justify-center text-[#0ea5e9] border border-[#0ea5e9]/20">
-                  <Percent size={20} className="sm:hidden" />
-                  <Percent size={24} className="hidden sm:block" />
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#0ea5e9]/10 flex items-center justify-center text-[#0ea5e9] border border-[#0ea5e9]/20 shrink-0">
+                  <Percent size={18} />
                 </div>
                 <div>
-                  <h3 className="text-lg sm:text-xl font-black italic text-[var(--foreground)] uppercase">Profit Markup</h3>
-                  <p className="text-[9px] sm:text-[10px] font-bold text-[var(--muted)] uppercase tracking-wider">Set percentage profit based on price ranges</p>
+                  <h3 className="text-lg font-black italic text-[var(--foreground)] uppercase leading-none mb-1">Profit Markup</h3>
+                  <p className="text-[9px] font-bold text-[var(--muted)] uppercase tracking-wider hidden sm:block">Set percentage profit based on price ranges</p>
                 </div>
               </div>
               <button
                 onClick={addSlab}
-                className="w-full sm:w-auto px-6 py-3 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/5 text-[var(--foreground)] text-[10px] font-black uppercase tracking-widest hover:bg-[var(--foreground)]/10 transition-all active:scale-95"
+                className="px-4 py-2 rounded-lg border border-[var(--border)] bg-[var(--foreground)]/5 text-[var(--foreground)] text-[10px] font-black uppercase tracking-widest hover:bg-[var(--foreground)]/10 transition-all active:scale-95 shrink-0"
               >
                 + Add Range
               </button>
             </div>
 
-            <div className="space-y-4">
-              <div className="hidden md:grid grid-cols-12 gap-6 px-4 text-[9px] font-black text-[var(--muted)] uppercase tracking-[0.2em]">
-                <div className="col-span-4">Minimum Price (₹)</div>
-                <div className="col-span-4">Maximum Price (₹)</div>
-                <div className="col-span-3">Add Profit (%)</div>
-                <div className="col-span-1"></div>
-              </div>
-
+            <div className="space-y-3">
               {slabs.map((s, i) => (
-                <div key={i} className="grid grid-cols-2 md:grid-cols-12 gap-4 md:gap-6 items-center p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-[var(--border)] bg-[var(--foreground)]/[0.02] group hover:border-[var(--foreground)]/10 transition-all">
-                  <div className="col-span-1 md:col-span-4 space-y-1.5">
-                    <label className="md:hidden text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] px-1">Min Price (₹)</label>
+                <div key={i} className="flex items-end gap-2 p-2 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] group hover:border-[#0ea5e9]/30 transition-all">
+                  <div className="flex-1 space-y-1 min-w-0">
+                    <label className="text-[7px] font-black uppercase tracking-widest text-[var(--muted)] px-1 truncate">Min (₹)</label>
                     <input
                       type="number"
                       value={s.min}
                       onChange={(e) => updateSlab(i, "min", e.target.value)}
-                      className="w-full h-12 md:h-14 px-4 md:px-6 rounded-xl md:rounded-2xl bg-[var(--background)] border border-[var(--border)] text-lg md:text-xl font-black italic text-[var(--foreground)] focus:border-[#0ea5e9]/50 transition-all outline-none"
+                      className="w-full h-8 px-2 rounded-lg bg-[var(--background)] border border-[var(--border)] text-xs font-black italic text-[var(--foreground)] focus:border-[#0ea5e9]/50 transition-all outline-none"
                     />
                   </div>
-                  <div className="col-span-1 md:col-span-4 space-y-1.5">
-                    <label className="md:hidden text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] px-1">Max Price (₹)</label>
+                  <div className="flex-1 space-y-1 min-w-0">
+                    <label className="text-[7px] font-black uppercase tracking-widest text-[var(--muted)] px-1 truncate">Max (₹)</label>
                     <input
                       type="number"
                       value={s.max}
                       onChange={(e) => updateSlab(i, "max", e.target.value)}
-                      className="w-full h-12 md:h-14 px-4 md:px-6 rounded-xl md:rounded-2xl bg-[var(--background)] border border-[var(--border)] text-lg md:text-xl font-black italic text-[var(--foreground)] focus:border-[#0ea5e9]/50 transition-all outline-none"
+                      className="w-full h-8 px-2 rounded-lg bg-[var(--background)] border border-[var(--border)] text-xs font-black italic text-[var(--foreground)] focus:border-[#0ea5e9]/50 transition-all outline-none"
                     />
                   </div>
-                  <div className="col-span-2 md:col-span-3 space-y-1.5">
-                    <label className="md:hidden text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] px-1">Profit Percentage</label>
+                  <div className="flex-1 space-y-1 min-w-0">
+                    <label className="text-[7px] font-black uppercase tracking-widest text-[var(--muted)] px-1 truncate">Profit</label>
                     <div className="relative">
                       <input
                         type="number"
                         value={s.percent}
                         onChange={(e) => updateSlab(i, "percent", e.target.value)}
-                        className="w-full h-12 md:h-14 px-4 md:px-6 rounded-xl md:rounded-2xl bg-[#0ea5e9]/5 border border-[#0ea5e9]/20 text-lg md:text-xl font-black italic text-[#0ea5e9] focus:border-[#0ea5e9]/50 transition-all outline-none"
+                        className="w-full h-8 px-2 rounded-lg bg-[#0ea5e9]/5 border border-[#0ea5e9]/20 text-xs font-black italic text-[#0ea5e9] focus:border-[#0ea5e9]/50 transition-all outline-none pr-5"
                       />
-                      <span className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 text-lg md:text-xl font-black text-[#0ea5e9]/30">%</span>
+                      <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[8px] font-black text-[#0ea5e9]/50">%</span>
                     </div>
                   </div>
-                  <div className="col-span-2 md:col-span-1 flex justify-center pt-2 md:pt-0">
-                    <button
-                      onClick={() => deleteSlab(i)}
-                      className="w-full md:w-10 h-10 md:h-10 rounded-xl flex items-center justify-center gap-2 text-[var(--muted)] hover:text-red-500 hover:bg-red-500/10 border border-[var(--border)] md:border-none transition-all active:scale-95"
-                    >
-                      <Trash2 size={18} />
-                      <span className="md:hidden text-[10px] font-black uppercase tracking-widest">Remove Range</span>
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => deleteSlab(i)}
+                    className="h-8 w-8 shrink-0 rounded-lg flex items-center justify-center text-[var(--muted)] hover:text-red-500 hover:bg-red-500/10 transition-all active:scale-95"
+                  >
+                    <Trash2 size={14} />
+                  </button>
                 </div>
               ))}
             </div>

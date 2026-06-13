@@ -203,8 +203,8 @@ export default function SupportQueriesTab() {
       </div>
 
       {/* ================= SEARCH & FILTER ================= */}
-      <div className="flex flex-col gap-3">
-        <div className="relative">
+      <div className="flex flex-row gap-2 md:gap-3">
+        <div className="relative flex-1 min-w-0">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/40" size={16} />
           <input
             value={search}
@@ -213,12 +213,12 @@ export default function SupportQueriesTab() {
               setSearch(e.target.value);
             }}
             placeholder="Search messages..."
-            className="w-full h-11 pl-11 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none placeholder:text-[var(--muted)]/40"
+            className="w-full h-11 pl-11 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
           />
         </div>
-        <button className="h-11 px-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] flex items-center justify-center gap-2 hover:bg-[var(--foreground)]/[0.05] transition-all sm:w-max group">
+        <button className="h-11 px-4 md:px-5 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] flex items-center justify-center gap-2 hover:bg-[var(--foreground)]/[0.05] transition-all shrink-0 group">
           <Filter size={14} className="text-[var(--accent)]" />
-          <span className="text-xs font-bold uppercase text-[var(--muted)] group-hover:text-[var(--foreground)]">Filter</span>
+          <span className="text-sm font-semibold hidden sm:inline-block text-[var(--muted)] group-hover:text-[var(--foreground)]">Filters</span>
         </button>
       </div>
 
@@ -481,21 +481,23 @@ function DetailBlock({ label, value, emphasize, icon }) {
 
 function QueryStatCard({ label, items, icon, color, loading }) {
   return (
-    <div className="p-1.5 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-2 relative overflow-hidden group">
-      <div className={`flex flex-col items-center justify-center min-w-[70px] shrink-0 ${color} border-r border-[var(--border)] pr-2`}>
-        <div className={`w-7 h-7 rounded-lg bg-current/10 flex items-center justify-center transition-transform group-hover:scale-110`}>
+    <div className="p-1 rounded-xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-1.5 relative overflow-hidden group">
+      <div className={`flex flex-col items-center justify-center min-w-[50px] shrink-0 ${color} border-r border-[var(--border)] pr-1.5`}>
+        <div className={`mb-0.5 transition-transform group-hover:scale-110`}>
           {icon}
         </div>
-        <span className="text-[9px] font-black uppercase tracking-tighter italic opacity-80 mt-1">{label}</span>
+        <span className="text-[8px] font-black uppercase tracking-tighter italic opacity-80">{label}</span>
       </div>
-      <div className="flex-1 grid grid-cols-3 gap-1.5">
+      <div className="flex-1 grid grid-cols-3 gap-1">
         {items.map((item, i) => (
-          <div key={i} className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-lg p-1.5 flex flex-col items-center justify-center relative overflow-hidden">
-            <span className="text-[8px] font-black text-[var(--muted)]/40 uppercase mb-0.5">{item.label}</span>
+          <div key={i} className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-lg px-2 py-1.5 flex flex-row items-center justify-between relative overflow-hidden transition-colors hover:border-[var(--accent)]/20">
+            <span className="text-[8px] font-bold text-[var(--muted)] uppercase opacity-80">{item.label}</span>
             {loading ? (
-              <div className="h-4 w-8 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
+              <div className="h-3 w-6 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
             ) : (
-              <span className="text-xs font-black text-[var(--foreground)] tracking-tighter tabular-nums">{item.value}</span>
+              <span className="text-[10px] font-black text-[var(--foreground)] tracking-tighter tabular-nums truncate max-w-full">
+                {item.value}
+              </span>
             )}
           </div>
         ))}

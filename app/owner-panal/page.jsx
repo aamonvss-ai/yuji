@@ -223,51 +223,49 @@ export default function AdminPanalPage() {
 
   return (
     <AuthGuard>
-      <section className="min-h-screen bg-transparent px-2 py-2">
-        <div className="max-w-6xl mx-auto">
+      <section className="min-h-screen bg-transparent px-2 md:px-4 py-2">
+        <div className="w-full">
           {/* HEADER & BALANCE SECTION */}
-          <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            {/* Left: Title & Subtitle */}
-            <div className="flex-1">
+          <div className="mb-6 flex flex-row items-start justify-between gap-4">
+            {/* Left: Title, Subtitle & Balance */}
+            <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <h1 className="text-xl md:text-2xl font-extrabold tracking-tight text-[var(--foreground)]">
+                <h1 className="text-xl md:text-2xl font-extrabold tracking-tight text-[var(--foreground)] truncate">
                   Admin Panel
                 </h1>
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] animate-pulse shrink-0" />
               </div>
-              <p className="mt-0.5 text-xs md:text-sm text-[var(--muted)] max-w-lg leading-snug">
+              <p className="mt-0.5 text-xs md:text-sm text-[var(--muted)] max-w-lg leading-snug hidden md:block">
                 Manage users, orders, transactions, queries & pricing
               </p>
-            </div>
-
-            {/* Right: Actions & Balance */}
-            <div className="flex flex-row items-stretch gap-3 w-full md:w-auto">
-              {/* Mobile Sidebar Toggle */}
-              <button
-                onClick={() => setIsSidebarOpen(true)}
-                className="md:hidden flex-1 flex flex-col items-center justify-center gap-1 px-4 py-2 bg-[var(--card)] border border-[var(--border)] rounded-xl text-[11px] uppercase tracking-widest font-bold hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/30 transition-all shadow-sm"
-              >
-                <FiMenu className="text-lg text-[var(--accent)]" />
-                <span>Menu</span>
-              </button>
-
+              
               {/* BALANCE */}
-              <div className="flex-[2] md:flex-initial relative rounded-xl border border-[var(--border)] bg-gradient-to-br from-[var(--card)] to-[var(--background)] px-4 py-3 shadow-sm flex flex-col justify-center min-w-[180px]">
-                {/* Subtle top accent bar */}
-                <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-[var(--accent)] to-purple-500 rounded-t-xl opacity-80" />
-                
-                <p className="text-[9px] uppercase tracking-widest text-[var(--muted)] font-bold mb-1">
-                  Account Balance
-                </p>
-                <div className="flex items-baseline gap-2">
-                  <p className="text-lg font-bold text-[var(--foreground)] leading-none truncate max-w-[120px]">
+              <div className="mt-3 inline-flex items-center gap-3 rounded-xl border border-[var(--border)] bg-gradient-to-r from-[var(--card)] to-transparent px-3 py-2 shadow-sm w-fit relative overflow-hidden">
+                <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[var(--accent)] to-purple-500" />
+                <span className="text-[10px] uppercase tracking-widest text-[var(--muted)] font-bold">
+                  Balance
+                </span>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-base font-bold text-[var(--foreground)] leading-none">
                     {balance !== null ? balance : "..."}
-                  </p>
+                  </span>
                   <span className="text-[9px] font-bold text-green-500 uppercase tracking-widest bg-green-500/10 px-1.5 py-0.5 rounded">
                     Available
                   </span>
                 </div>
               </div>
+            </div>
+
+            {/* Right: Actions (Menu button) */}
+            <div className="shrink-0 pt-1">
+              {/* Mobile Sidebar Toggle */}
+              <button
+                onClick={() => setIsSidebarOpen(true)}
+                className="md:hidden flex flex-col items-center justify-center gap-1 px-4 py-2 bg-[var(--card)] border border-[var(--border)] rounded-xl text-[10px] uppercase tracking-widest font-bold hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/30 transition-all shadow-sm"
+              >
+                <FiMenu className="text-xl text-[var(--accent)]" />
+                <span>Menu</span>
+              </button>
             </div>
           </div>
 

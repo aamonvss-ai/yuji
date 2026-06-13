@@ -42,6 +42,7 @@ export default function OrdersTab() {
     from: "",
     to: "",
   });
+  const [showFilters, setShowFilters] = useState(false);
 
   const [pagination, setPagination] = useState({
     total: 0,
@@ -197,7 +198,7 @@ export default function OrdersTab() {
       </div>
 
       {/* ================= STATS CARDS ================= */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
         <OrderStatCard
           period="Volume"
           items={[
@@ -205,7 +206,7 @@ export default function OrdersTab() {
             { label: "7D", value: stats["7d"].count },
             { label: "30D", value: stats["30d"].count },
           ]}
-          icon={<ShoppingBag size={14} />}
+          icon={<ShoppingBag size={12} />}
           color="text-[var(--accent)]"
           loading={statsLoading}
         />
@@ -216,15 +217,15 @@ export default function OrdersTab() {
             { label: "7D", value: `₹${stats["7d"].revenue}` },
             { label: "30D", value: `₹${stats["30d"].revenue}` },
           ]}
-          icon={<IndianRupee size={14} />}
+          icon={<IndianRupee size={12} />}
           color="text-emerald-500"
           loading={statsLoading}
         />
       </div>
 
       {/* ================= FILTERS & SEARCH ================= */}
-      <div className="space-y-3">
-        <div className="relative flex-1">
+      <div className="flex flex-row gap-2 md:gap-3">
+        <div className="relative flex-1 min-w-0">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/50" size={16} />
           <input
             value={search}
@@ -236,67 +237,13 @@ export default function OrdersTab() {
             className="w-full h-11 pl-11 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
           />
         </div>
-
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
-          <div className="relative">
-            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]/50" size={12} />
-            <select
-              value={filters.status}
-              onChange={(e) => {
-                setPage(1);
-                setFilters({ ...filters, status: e.target.value });
-              }}
-              className="w-full h-10 pl-9 pr-3 rounded-lg border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-xs font-bold uppercase focus:border-[var(--accent)]/50 outline-none appearance-none cursor-pointer"
-            >
-              <option value="" className="bg-[var(--card)]">All Status</option>
-              <option value="pending" className="bg-[var(--card)]">Pending</option>
-              <option value="success" className="bg-[var(--card)]">Success</option>
-              <option value="failed" className="bg-[var(--card)]">Failed</option>
-              <option value="refunded" className="bg-[var(--card)]">Refunded</option>
-            </select>
-            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted)]/50 pointer-events-none" size={12} />
-          </div>
-
-          <input
-            placeholder="Game name"
-            value={filters.gameSlug}
-            onChange={(e) => {
-              setPage(1);
-              setFilters({ ...filters, gameSlug: e.target.value });
-            }}
-            className="h-10 px-3 rounded-lg border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-xs font-bold uppercase focus:border-[var(--accent)]/50 outline-none placeholder:text-[var(--muted)]/40"
-          />
-
-          <input
-            type="date"
-            value={filters.from}
-            onChange={(e) => {
-              setPage(1);
-              setFilters({ ...filters, from: e.target.value });
-            }}
-            className="h-10 px-3 rounded-lg border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-xs font-bold uppercase focus:border-[var(--accent)]/50 outline-none"
-          />
-
-          <input
-            type="date"
-            value={filters.to}
-            onChange={(e) => {
-              setPage(1);
-              setFilters({ ...filters, to: e.target.value });
-            }}
-            className="h-10 px-3 rounded-lg border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-xs font-bold uppercase focus:border-[var(--accent)]/50 outline-none"
-          />
-
-          <button
-            onClick={() => {
-              setPage(1);
-              setFilters({ status: "", gameSlug: "", from: "", to: "" });
-            }}
-            className="h-10 rounded-lg border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-[10px] font-black uppercase tracking-widest hover:bg-[var(--foreground)]/[0.05] transition-all"
-          >
-            Clear filters
-          </button>
-        </div>
+        <button
+          onClick={() => setShowFilters(true)}
+          className="h-11 px-4 md:px-5 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] flex items-center justify-center gap-2 hover:bg-[var(--foreground)]/[0.05] transition-all outline-none shrink-0"
+        >
+          <Filter size={14} className="text-[var(--accent)]" />
+          <span className="text-sm font-semibold hidden sm:inline-block">Filters</span>
+        </button>
       </div>
 
       {/* ================= CONTENT ================= */}
@@ -567,6 +514,110 @@ export default function OrdersTab() {
           </>
         )}
       </AnimatePresence>
+
+      {/* ================= FILTER MODAL ================= */}
+      <AnimatePresence>
+        {showFilters && (
+          <div className="fixed inset-0 z-[1200] flex items-center justify-end">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowFilters(false)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            />
+
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 200 }}
+              className="relative w-full max-w-sm h-full bg-[var(--background)] border-l border-[var(--border)] p-8 space-y-8 shadow-2xl overflow-y-auto"
+            >
+              <div className="flex justify-between items-center">
+                <h3 className="text-xl font-bold text-[var(--foreground)]">Filters</h3>
+                <button
+                  onClick={() => setShowFilters(false)}
+                  className="w-10 h-10 rounded-full bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)] transition-all outline-none"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="space-y-6">
+                <div className="space-y-3">
+                  <label className="text-xs font-semibold text-[var(--muted)] ml-1">Status</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {["pending", "success", "failed", "refunded"].map((type) => (
+                      <button
+                        key={type}
+                        onClick={() => setFilters({ ...filters, status: filters.status === type ? "" : type })}
+                        className={`
+                           px-4 py-2 rounded-xl border text-xs font-semibold capitalize transition-all outline-none
+                           ${filters.status === type
+                            ? "bg-[var(--accent)] border-[var(--accent)] text-white shadow-lg shadow-[var(--accent)]/20"
+                            : "border-[var(--border)] bg-[var(--foreground)]/[0.03] text-[var(--muted)] hover:text-[var(--foreground)]"}
+                         `}
+                      >
+                        {type}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <label className="text-xs font-semibold text-[var(--muted)] ml-1">Game Name</label>
+                  <input
+                    placeholder="e.g. Free Fire"
+                    value={filters.gameSlug}
+                    onChange={(e) => setFilters({ ...filters, gameSlug: e.target.value })}
+                    className="w-full h-11 px-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.03] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
+                  />
+                </div>
+
+                <div className="space-y-3">
+                  <label className="text-xs font-semibold text-[var(--muted)] ml-1">From Date</label>
+                  <input
+                    type="date"
+                    value={filters.from}
+                    onChange={(e) => setFilters({ ...filters, from: e.target.value })}
+                    className="w-full h-11 px-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.03] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40 dark:[color-scheme:dark]"
+                  />
+                </div>
+
+                <div className="space-y-3">
+                  <label className="text-xs font-semibold text-[var(--muted)] ml-1">To Date</label>
+                  <input
+                    type="date"
+                    value={filters.to}
+                    onChange={(e) => setFilters({ ...filters, to: e.target.value })}
+                    className="w-full h-11 px-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.03] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40 dark:[color-scheme:dark]"
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-4 pt-4">
+                <button
+                  onClick={() => {
+                    setFilters({ status: "", gameSlug: "", from: "", to: "" });
+                    setPage(1);
+                  }}
+                  className="flex-1 h-11 rounded-xl border border-[var(--border)] text-xs font-semibold text-[var(--muted)] hover:bg-[var(--foreground)]/[0.05] hover:text-[var(--foreground)] transition-all outline-none"
+                >
+                  Clear All
+                </button>
+
+                <button
+                  onClick={() => setShowFilters(false)}
+                  className="flex-1 h-11 rounded-xl bg-[var(--accent)] text-white text-xs font-semibold shadow-lg shadow-[var(--accent)]/20 hover:brightness-110 active:scale-95 transition-all outline-none"
+                >
+                  Apply
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -644,6 +695,7 @@ function StatusDropdown({ value, onChange, options, disabled, compact }) {
           </motion.div>
         )}
       </AnimatePresence>
+
     </div>
   );
 }
@@ -676,21 +728,21 @@ function DrawerDetail({ label, value, emphasize }) {
 
 function OrderStatCard({ period, items, icon, color, loading }) {
   return (
-    <div className="p-1.5 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-2 relative overflow-hidden group">
-      <div className={`flex flex-col items-center justify-center min-w-[70px] shrink-0 ${color} border-r border-[var(--border)] pr-2`}>
+    <div className="p-1 rounded-xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-1.5 relative overflow-hidden group">
+      <div className={`flex flex-col items-center justify-center min-w-[50px] shrink-0 ${color} border-r border-[var(--border)] pr-1.5`}>
         <div className="mb-0.5">
           {icon}
         </div>
-        <span className="text-[9px] font-black uppercase italic tracking-tighter">{period}</span>
+        <span className="text-[8px] font-black uppercase italic tracking-tighter">{period}</span>
       </div>
-      <div className="flex-1 grid grid-cols-3 gap-1.5">
+      <div className="flex-1 grid grid-cols-3 gap-1">
         {items.map((item, i) => (
-          <div key={i} className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-xl p-1.5 flex flex-col items-center justify-center relative overflow-hidden transition-colors hover:border-[var(--accent)]/20">
-            <span className="text-[8px] font-black text-[var(--muted)] uppercase opacity-60 mb-0.5">{item.label}</span>
+          <div key={i} className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-lg px-2 py-1.5 flex flex-row items-center justify-between relative overflow-hidden transition-colors hover:border-[var(--accent)]/20">
+            <span className="text-[8px] font-bold text-[var(--muted)] uppercase opacity-80">{item.label}</span>
             {loading ? (
-              <div className="h-4 w-10 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
+              <div className="h-3 w-6 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
             ) : (
-              <span className="text-xs font-black text-[var(--foreground)] tracking-tighter tabular-nums truncate max-w-full">
+              <span className="text-[10px] font-black text-[var(--foreground)] tracking-tighter tabular-nums truncate max-w-full">
                 {item.value}
               </span>
             )}

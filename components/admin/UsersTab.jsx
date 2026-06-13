@@ -183,14 +183,14 @@ export default function UsersTab() {
       </div>
 
       {/* ================= STATS CARDS ================= */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
         {/* Active Users Stats */}
-        <div className="p-1.5 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-2 relative overflow-hidden group">
-          <div className="flex flex-col items-center justify-center min-w-[70px] shrink-0 text-[var(--accent)] border-r border-[var(--border)] pr-2">
-            <Users size={14} className="mb-1" />
-            <span className="text-[9px] font-black uppercase italic tracking-tighter">Active</span>
+        <div className="p-1 rounded-xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-1.5 relative overflow-hidden group">
+          <div className="flex flex-col items-center justify-center min-w-[50px] shrink-0 text-[var(--accent)] border-r border-[var(--border)] pr-1.5">
+            <Users size={12} className="mb-0.5" />
+            <span className="text-[8px] font-black uppercase italic tracking-tighter">Active</span>
           </div>
-          <div className="flex-1 grid grid-cols-3 gap-1.5">
+          <div className="flex-1 grid grid-cols-3 gap-1">
             <StatItem label="1D" value={stats.active["1d"]} loading={statsLoading} />
             <StatItem label="7D" value={stats.active["7d"]} loading={statsLoading} />
             <StatItem label="30D" value={stats.active["30d"]} loading={statsLoading} />
@@ -198,12 +198,12 @@ export default function UsersTab() {
         </div>
 
         {/* New Users Stats */}
-        <div className="p-1.5 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-2 relative overflow-hidden group">
-          <div className="flex flex-col items-center justify-center min-w-[70px] shrink-0 text-indigo-500 border-r border-[var(--border)] pr-2">
-            <User size={14} className="mb-1" />
-            <span className="text-[9px] font-black uppercase italic tracking-tighter">New</span>
+        <div className="p-1 rounded-xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-1.5 relative overflow-hidden group">
+          <div className="flex flex-col items-center justify-center min-w-[50px] shrink-0 text-indigo-500 border-r border-[var(--border)] pr-1.5">
+            <User size={12} className="mb-0.5" />
+            <span className="text-[8px] font-black uppercase italic tracking-tighter">New</span>
           </div>
-          <div className="flex-1 grid grid-cols-3 gap-1.5">
+          <div className="flex-1 grid grid-cols-3 gap-1">
             <StatItem label="1D" value={stats.new["1d"]} loading={statsLoading} />
             <StatItem label="7D" value={stats.new["7d"]} loading={statsLoading} />
             <StatItem label="30D" value={stats.new["30d"]} loading={statsLoading} />
@@ -212,8 +212,8 @@ export default function UsersTab() {
       </div>
 
       {/* ================= SEARCH & FILTERS ================= */}
-      <div className="flex flex-col md:flex-row gap-3">
-        <div className="relative flex-1">
+      <div className="flex flex-row gap-2 md:gap-3">
+        <div className="relative flex-1 min-w-0">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/40" size={16} />
           <input
             value={search}
@@ -227,10 +227,10 @@ export default function UsersTab() {
         </div>
         <button
           onClick={() => setShowFilters(true)}
-          className="h-11 px-5 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] flex items-center justify-center gap-2.5 hover:bg-[var(--foreground)]/[0.05] transition-all outline-none"
+          className="h-11 px-4 md:px-5 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] flex items-center justify-center gap-2 hover:bg-[var(--foreground)]/[0.05] transition-all outline-none shrink-0"
         >
           <Filter size={14} className="text-[var(--accent)]" />
-          <span className="text-sm font-semibold">Filters</span>
+          <span className="text-sm font-semibold hidden sm:inline-block">Filters</span>
         </button>
       </div>
 
@@ -259,7 +259,7 @@ export default function UsersTab() {
                   <tr className="text-[10px] uppercase font-bold tracking-widest text-[var(--muted)]">
                     <th className="px-6 py-4">User Info</th>
                     <th className="px-6 py-4">Identification</th>
-                    <th className="px-6 py-4">Role Status</th>
+                    <th className="px-6 py-4">IP Address</th>
                     <th className="px-6 py-4">Activity</th>
                     <th className="px-6 py-4 text-right">Access Control</th>
                   </tr>
@@ -290,19 +290,26 @@ export default function UsersTab() {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border text-[9px] font-black uppercase tracking-wider ${getRoleClass(u.userType)}`}>
-                          {getRoleIcon(u.userType)}
-                          {u.userType}
-                        </span>
+                        <div className="flex flex-col">
+                          <span className="text-[var(--foreground)] font-bold text-[11px] tracking-widest font-mono">
+                            {u.lastLoginIp || "N/A"}
+                          </span>
+                        </div>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="flex flex-col">
-                          <span className="text-xs font-black text-[var(--accent)] tracking-tight">
-                            {u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleDateString() : "Never"}
-                          </span>
-                          <span className="text-[9px] font-bold text-[var(--muted)]/40 uppercase tracking-widest mt-0.5">
-                            Active
-                          </span>
+                        <div className="flex flex-col gap-2">
+                          <div className="flex flex-col">
+                            <span className="text-[8px] font-bold text-[var(--muted)]/50 uppercase tracking-widest leading-none mb-1">Last Active</span>
+                            <span className="text-[10px] font-black text-[var(--accent)] tracking-tight">
+                              {u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleString() : "Never"}
+                            </span>
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="text-[8px] font-bold text-[var(--muted)]/50 uppercase tracking-widest leading-none mb-1">Created</span>
+                            <span className="text-[10px] font-bold text-[var(--foreground)] tracking-tight">
+                              {new Date(u.createdAt).toLocaleString()}
+                            </span>
+                          </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 text-right" onClick={(e) => e.stopPropagation()}>
@@ -337,29 +344,28 @@ export default function UsersTab() {
                         <p className="text-[10px] text-[var(--muted)]/60 font-medium truncate lowercase">{u.email}</p>
                       </div>
                     </div>
-                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border text-[9px] font-black uppercase tracking-wider shrink-0 ${getRoleClass(u.userType)}`}>
-                      {getRoleIcon(u.userType)}
-                      {u.userType}
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-lg border border-[var(--border)] bg-[var(--foreground)]/[0.03] text-[9px] font-mono text-[var(--muted)] font-bold tracking-wider shrink-0">
+                      {u.lastLoginIp || "N/A"}
                     </span>
                   </div>
 
                   <div className="space-y-3 relative">
                     <div className="flex items-center justify-between gap-4 py-2 px-3 rounded-xl bg-[var(--foreground)]/[0.02] border border-[var(--border)]/50">
-                      <div className="flex items-center gap-1.5 text-[var(--muted)]/40">
-                        <IdCard size={10} />
-                        <span className="text-[9px] font-mono font-black uppercase tracking-tighter truncate max-w-[100px]">{u.userId}</span>
+                      <div className="flex items-center gap-1.5 text-[var(--muted)]/60">
+                        <IdCard size={12} />
+                        <span className="text-[10px] font-mono font-black uppercase tracking-tighter truncate max-w-[100px]">{u.userId}</span>
                       </div>
-                      <div className="flex items-center gap-1.5 text-[var(--muted)]/40">
-                        <Calendar size={10} />
-                        <span className="text-[9px] font-bold">{new Date(u.createdAt).toLocaleDateString()}</span>
+                      <div className="flex flex-col items-end">
+                        <span className="text-[8px] font-bold text-[var(--muted)]/40 uppercase tracking-widest leading-none mb-1">Created</span>
+                        <span className="text-[9px] font-bold text-[var(--foreground)] whitespace-nowrap">{new Date(u.createdAt).toLocaleString()}</span>
                       </div>
                     </div>
 
                     <div className="flex items-center justify-between gap-4" onClick={(e) => e.stopPropagation()}>
                       <div className="flex flex-col">
-                        <span className="text-[8px] font-bold text-[var(--muted)]/40 uppercase tracking-widest leading-none">Last Active</span>
-                        <span className="text-[10px] font-black text-[var(--accent)] mt-1 whitespace-nowrap">
-                          {u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleDateString() : "Never"}
+                        <span className="text-[8px] font-bold text-[var(--muted)]/40 uppercase tracking-widest leading-none mb-1">Last Active</span>
+                        <span className="text-[10px] font-black text-[var(--accent)] whitespace-nowrap">
+                          {u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleString() : "Never"}
                         </span>
                       </div>
                       <RoleDropdown
@@ -727,12 +733,12 @@ function DrawerDetail({ label, value }) {
 
 function StatItem({ label, value, loading }) {
   return (
-    <div className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-xl p-1.5 flex flex-col items-center justify-center relative overflow-hidden transition-all hover:border-[var(--accent)]/20">
-      <span className="text-[9px] font-black text-[var(--muted)] uppercase opacity-60 mb-0.5">{label}</span>
+    <div className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-lg px-2 py-1.5 flex flex-row items-center justify-between relative overflow-hidden transition-all hover:border-[var(--accent)]/20">
+      <span className="text-[8px] font-bold text-[var(--muted)] uppercase opacity-80">{label}</span>
       {loading ? (
-        <div className="h-4 w-10 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
+        <div className="h-3 w-6 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
       ) : (
-        <span className="text-xs font-black text-[var(--foreground)] tracking-tighter tabular-nums">{value}</span>
+        <span className="text-[10px] font-black text-[var(--foreground)] tracking-tighter tabular-nums">{value}</span>
       )}
     </div>
   );
