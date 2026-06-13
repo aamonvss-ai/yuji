@@ -11,6 +11,7 @@ export default function BuyPanel({
   onBuy,
   redirecting,
   buyPanelRef,
+  systemSettings,
 }) {
   const { formatPrice } = useCurrency();
 
@@ -64,24 +65,32 @@ export default function BuyPanel({
         </div>
       </div>
 
-      <button
-        onClick={() => onBuy(activeItem)}
-        disabled={redirecting}
-        className={`w-full h-12 rounded-xl font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-[var(--accent)]/10
-          ${redirecting
-            ? "bg-[var(--border)] text-[var(--muted)] cursor-not-allowed"
-            : "bg-gradient-to-r from-[var(--accent)] to-[var(--accent-hover)] text-white hover:scale-[1.02] hover:shadow-[var(--accent)]/30 active:scale-[0.98]"
-          }`}
-      >
-        {redirecting ? (
-          "Processing order..."
-        ) : (
-          <>
-            Buy Now
-            <FiArrowRight />
-          </>
-        )}
-      </button>
+      {systemSettings?.acceptingOrders === false ? (
+        <div className="w-full text-center p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 shadow-lg">
+          <p className="text-xs font-bold leading-relaxed">
+            {systemSettings.notAcceptingOrdersMessage}
+          </p>
+        </div>
+      ) : (
+        <button
+          onClick={() => onBuy(activeItem)}
+          disabled={redirecting}
+          className={`w-full h-12 rounded-xl font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-[var(--accent)]/10
+            ${redirecting
+              ? "bg-[var(--border)] text-[var(--muted)] cursor-not-allowed"
+              : "bg-gradient-to-r from-[var(--accent)] to-[var(--accent-hover)] text-white hover:scale-[1.02] hover:shadow-[var(--accent)]/30 active:scale-[0.98]"
+            }`}
+        >
+          {redirecting ? (
+            "Processing order..."
+          ) : (
+            <>
+              Buy Now
+              <FiArrowRight />
+            </>
+          )}
+        </button>
+      )}
 
       <p className="text-center text-[10px] font-medium text-[var(--muted)] opacity-60">
         Secure checkout & instant delivery

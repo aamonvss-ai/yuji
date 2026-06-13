@@ -176,6 +176,7 @@ export default function GameDetailPage() {
                   onBuy={goBuy}
                   redirecting={redirecting}
                   buyPanelRef={buyPanelRef}
+                  systemSettings={game?.systemSettings}
                 />
               ) : (
                 <BuyPanel
@@ -183,6 +184,7 @@ export default function GameDetailPage() {
                   onBuy={goBuy}
                   redirecting={redirecting}
                   buyPanelRef={buyPanelRef}
+                  systemSettings={game?.systemSettings}
                 />
               )}
             </>

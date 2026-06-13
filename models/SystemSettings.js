@@ -10,6 +10,14 @@ const SystemSettingsSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        acceptingOrders: {
+            type: Boolean,
+            default: true,
+        },
+        notAcceptingOrdersMessage: {
+            type: String,
+            default: "We are currently not accepting new orders. Please check back later.",
+        },
         seoTitle: { type: String },
         seoDescription: { type: String },
         seoKeywords: [{ type: String }],

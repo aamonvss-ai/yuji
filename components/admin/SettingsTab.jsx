@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ShieldAlert, RefreshCcw, ShieldCheck } from "lucide-react";
+import { ShieldAlert, RefreshCcw, ShieldCheck, CheckCircle, XCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function SettingsTab() {
@@ -155,6 +155,57 @@ export default function SettingsTab() {
                         />
                     </button>
                 </div>
+            </div>
+
+            {/* ORDERS TOGGLE CARD */}
+            <div className={`p-6 rounded-3xl border transition-all duration-300 ${settings.acceptingOrders === false ? "bg-red-500/5 border-red-500/20" : "bg-[var(--foreground)]/[0.02] border-[var(--border)]"}`}>
+                <div className="flex items-center justify-between gap-3 sm:gap-4">
+                    <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+                        <div className={`shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${settings.acceptingOrders === false ? "bg-red-500 text-white" : "bg-[var(--foreground)]/5 text-[var(--muted)]"}`}>
+                            {settings.acceptingOrders === false ? <XCircle size={24} /> : <CheckCircle size={24} />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <h3 className="font-bold text-[var(--foreground)] truncate">Accept Orders</h3>
+                            <p className="text-xs text-[var(--muted)] leading-snug">Toggle whether the website can accept new orders.</p>
+                        </div>
+                    </div>
+
+                    <button
+                        onClick={() => updateSettings({ acceptingOrders: !settings.acceptingOrders })}
+                        disabled={saving}
+                        className={`shrink-0 relative w-14 h-7 rounded-full transition-colors flex items-center p-1
+                            ${settings.acceptingOrders !== false ? "bg-green-500" : "bg-[var(--foreground)]/10"}
+                            ${saving ? "opacity-50 cursor-wait" : "cursor-pointer"}`}
+                    >
+                        <motion.div
+                            animate={{ x: settings.acceptingOrders !== false ? 28 : 0 }}
+                            className="w-5 h-5 bg-white rounded-full shadow-sm"
+                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                        />
+                    </button>
+                </div>
+                
+                <AnimatePresence>
+                    {settings.acceptingOrders === false && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="overflow-hidden"
+                        >
+                            <div className="pt-6 mt-4 border-t border-[var(--border)]">
+                                <label className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest ml-1 mb-2 block">Downtime Message</label>
+                                <textarea
+                                    value={settings.notAcceptingOrdersMessage || ""}
+                                    onChange={(e) => setSettings({ ...settings, notAcceptingOrdersMessage: e.target.value })}
+                                    onBlur={() => updateSettings({ notAcceptingOrdersMessage: settings.notAcceptingOrdersMessage })}
+                                    className="w-full min-h-[80px] bg-[var(--background)] border border-[var(--border)] rounded-xl p-3 text-sm text-[var(--foreground)] focus:border-[var(--accent)]/50 transition-all outline-none resize-none"
+                                    placeholder="We are currently not accepting new orders. Please check back later."
+                                />
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
 
             <p className="text-[10px] text-center text-[var(--muted)] uppercase tracking-widest opacity-30">

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { connectDB } from "@/lib/mongodb";
 import PricingConfig from "@/models/PricingConfig";
+import SystemSettings from "@/models/SystemSettings";
 import { unstable_cache } from 'next/cache';
 
 const ALLOWED_GAME_SLUGS = [
@@ -286,6 +287,13 @@ export async function GET(req, { params }) {
 
     const data = await response.json();
     if (!data?.data?.itemId) return NextResponse.json(data);
+
+    /* ===== FETCH SYSTEM SETTINGS ===== */
+    const settings = await SystemSettings.findOne().lean();
+    data.data.systemSettings = {
+      acceptingOrders: settings?.acceptingOrders !== false,
+      notAcceptingOrdersMessage: settings?.notAcceptingOrdersMessage || "We are currently not accepting new orders. Please check back later."
+    };
 
     /* ===== FETCH PRICING ===== */
     let pricingConfig = null;

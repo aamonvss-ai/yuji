@@ -50,7 +50,7 @@ export async function PATCH(req) {
         }
 
         const body = await req.json();
-        const { maintenanceMode, seoTitle, seoDescription, seoKeywords, enableAutoTranslation } = body;
+        const { maintenanceMode, seoTitle, seoDescription, seoKeywords, enableAutoTranslation, acceptingOrders, notAcceptingOrdersMessage } = body;
 
         let settings = await SystemSettings.findOne();
         if (!settings) {
@@ -59,6 +59,8 @@ export async function PATCH(req) {
 
         if (maintenanceMode !== undefined) settings.maintenanceMode = maintenanceMode;
         if (enableAutoTranslation !== undefined) settings.enableAutoTranslation = enableAutoTranslation;
+        if (acceptingOrders !== undefined) settings.acceptingOrders = acceptingOrders;
+        if (notAcceptingOrdersMessage !== undefined) settings.notAcceptingOrdersMessage = notAcceptingOrdersMessage;
         if (seoTitle !== undefined) settings.seoTitle = seoTitle;
         if (seoDescription !== undefined) settings.seoDescription = seoDescription;
         if (seoKeywords !== undefined) settings.seoKeywords = seoKeywords;
