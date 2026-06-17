@@ -292,7 +292,7 @@ export async function GET(req, { params }) {
     const settings = await SystemSettings.findOne().lean();
     data.data.systemSettings = {
       acceptingOrders: settings?.acceptingOrders !== false,
-      notAcceptingOrdersMessage: settings?.notAcceptingOrdersMessage || "We are currently not accepting new orders. Please check back later."
+      notAcceptingOrdersMessage: settings?.notAcceptingOrdersMessage || "We are not taking orders right now. Please come back later."
     };
 
     /* ===== FETCH PRICING ===== */

@@ -108,7 +108,7 @@ export default function SettingsTab() {
                         </div>
                         <div className="flex-1 min-w-0">
                             <h3 className="font-bold text-[var(--foreground)] truncate">Maintenance Mode</h3>
-                            <p className="text-xs text-[var(--muted)] leading-snug">Hide the store from public users.</p>
+                            <p className="text-xs text-[var(--muted)] leading-snug">Hide the website from customers.</p>
                         </div>
                     </div>
 
@@ -137,7 +137,7 @@ export default function SettingsTab() {
                         </div>
                         <div className="flex-1 min-w-0">
                             <h3 className="font-bold text-[var(--foreground)] truncate">Google Translate</h3>
-                            <p className="text-xs text-[var(--muted)] leading-snug">Enable multi-language translation for users.</p>
+                            <p className="text-xs text-[var(--muted)] leading-snug">Let customers translate the website.</p>
                         </div>
                     </div>
 
@@ -166,7 +166,7 @@ export default function SettingsTab() {
                         </div>
                         <div className="flex-1 min-w-0">
                             <h3 className="font-bold text-[var(--foreground)] truncate">Accept Orders</h3>
-                            <p className="text-xs text-[var(--muted)] leading-snug">Toggle whether the website can accept new orders.</p>
+                            <p className="text-xs text-[var(--muted)] leading-snug">Turn off to stop receiving orders.</p>
                         </div>
                     </div>
 
@@ -194,13 +194,13 @@ export default function SettingsTab() {
                             className="overflow-hidden"
                         >
                             <div className="pt-6 mt-4 border-t border-[var(--border)]">
-                                <label className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest ml-1 mb-2 block">Downtime Message</label>
+                                <label className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest ml-1 mb-2 block">Store Closed Message</label>
                                 <textarea
                                     value={settings.notAcceptingOrdersMessage || ""}
                                     onChange={(e) => setSettings({ ...settings, notAcceptingOrdersMessage: e.target.value })}
                                     onBlur={() => updateSettings({ notAcceptingOrdersMessage: settings.notAcceptingOrdersMessage })}
                                     className="w-full min-h-[80px] bg-[var(--background)] border border-[var(--border)] rounded-xl p-3 text-sm text-[var(--foreground)] focus:border-[var(--accent)]/50 transition-all outline-none resize-none"
-                                    placeholder="We are currently not accepting new orders. Please check back later."
+                                    placeholder="We are not taking orders right now. Please come back later."
                                 />
                             </div>
                         </motion.div>

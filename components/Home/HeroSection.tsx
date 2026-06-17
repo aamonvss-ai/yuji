@@ -30,7 +30,7 @@ export default function HeroSection() {
       <FlashSale />
       <HomeQuickActions />
       <GamesPage />
-      <ScrollingNoticeBand />
+      {/* <ScrollingNoticeBand /> */}
       <HomeServices />
       <TrustHighlights />
     </>

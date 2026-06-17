@@ -20,7 +20,8 @@ import {
   Instagram,
   Phone,
   Search,
-  Command
+  Command,
+  Menu
 } from "lucide-react";
 import { HiGlobeAlt, HiCube } from "react-icons/hi";
 import Image from "next/image";
@@ -326,30 +327,33 @@ export default function Header({ enableAutoTranslation = false }) {
           </button>
 
           <ThemeToggle />
-          {/* USER AVATAR BUTTON */}
+          {/* COMBINED MENU & USER AVATAR BUTTON */}
           <button
             onClick={() => {
               if (loading) return;
               setUserMenuOpen(!userMenuOpen);
             }}
-            className="group relative w-8 h-8 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-[var(--accent)] to-[#22d3ee] flex items-center justify-center overflow-hidden transition-all duration-300 hover:scale-110 active:scale-95 ring-2 ring-transparent hover:ring-[var(--accent)]/50 shadow-lg"
+            className="flex items-center gap-0.5 pl-1 pr-0 py-0 rounded-full bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 hover:bg-[var(--accent)]/5 hover:border-[var(--accent)]/30 transition-all duration-300 text-[var(--muted)] hover:text-[var(--accent)] active:scale-95 group shadow-sm hover:shadow-md"
           >
-            {!loading && user ? (
-              <Image
-                key={imgError ? 'fallback' : 'primary'}
-                src={(!imgError && user.avatar) ? user.avatar : `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || "User")}&background=0D8ABC&color=fff&size=128`}
-                alt="User Avatar"
-                width={40}
-                height={40}
-                className="object-cover w-full h-full"
-                onError={() => setImgError(true)}
-              />
-            ) : (
-              <User className="text-white w-4 h-4 md:w-5 md:h-5" />
-            )}
-
-            {/* Subtle glow effect */}
-            <div className="absolute inset-0 bg-[var(--accent)] opacity-0 group-hover:opacity-20 transition-opacity" />
+            <Menu size={14} className="transition-transform duration-300 group-hover:scale-110 ml-0.5" />
+            
+            <div className="relative w-5 h-5 md:w-6 md:h-6 rounded-full bg-gradient-to-br from-[var(--accent)] to-[#22d3ee] flex items-center justify-center overflow-hidden transition-all duration-300 ring-1 ring-transparent group-hover:ring-[var(--accent)]/50">
+              {!loading && user ? (
+                <Image
+                  key={imgError ? 'fallback' : 'primary'}
+                  src={(!imgError && user.avatar) ? user.avatar : `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || "User")}&background=0D8ABC&color=fff&size=128`}
+                  alt="User Avatar"
+                  width={40}
+                  height={40}
+                  className="object-cover w-full h-full"
+                  onError={() => setImgError(true)}
+                />
+              ) : (
+                <User className="text-white w-3.5 h-3.5 md:w-4 md:h-4" />
+              )}
+              {/* Subtle glow effect */}
+              <div className="absolute inset-0 bg-[var(--accent)] opacity-0 group-hover:opacity-20 transition-opacity" />
+            </div>
           </button>
 
           {/* USER DROPDOWN */}

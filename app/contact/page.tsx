@@ -28,10 +28,10 @@ export default function ContactPage() {
               You can email us at:
             </p>
             <a
-              href="mailto:zyronix.innovations@gmail.com"
+              href="mailto:yujimlbbsup@gmail.com"
               className="text-xl font-semibold text-[var(--accent)] hover:underline break-all"
             >
-              zynx.anime@gmail.com
+              yujimlbbsup@gmail.com
             </a>
           </div>
 
@@ -59,7 +59,7 @@ export default function ContactPage() {
               <FaDiscord size={24} />
             </a>
             <a
-              href="mailto:zynx.anime@gmail.com"
+              href="mailto:yujimlbbsup@gmail.com"
               className="p-3 rounded-full bg-[var(--card)] border border-[var(--border)] hover:bg-[var(--accent)] hover:text-white transition-all"
             >
               <FaEnvelope size={24} />

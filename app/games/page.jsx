@@ -209,7 +209,7 @@ export default function GamesPage() {
         <div className="bg-transparent py-2 mt-4">
           <div className="max-w-7xl mx-auto px-4 flex items-center gap-3">
             <div className="relative flex-1 group">
-              <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)] w-4 h-4 transition-colors group-focus-within:text-[var(--accent)]" />
+              <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)] w-4 h-4 transition-colors group-focus-within:text-[var(--accent)] z-10 pointer-events-none" />
               <input
                 type="text"
                 value={search}

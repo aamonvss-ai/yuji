@@ -16,7 +16,7 @@ const SystemSettingsSchema = new mongoose.Schema(
         },
         notAcceptingOrdersMessage: {
             type: String,
-            default: "We are currently not accepting new orders. Please check back later.",
+            default: "We are not taking orders right now. Please come back later.",
         },
         seoTitle: { type: String },
         seoDescription: { type: String },

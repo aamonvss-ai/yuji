@@ -13,6 +13,7 @@ import {
 } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa6";
 import { motion } from "framer-motion";
+import { Home, Info, Phone, FileText, Shield, FileCheck, RefreshCcw, Globe } from "lucide-react";
 
 /* ===================== CONFIG ===================== */
 
@@ -45,19 +46,19 @@ const FOOTER_LINKS = [
   {
     title: "Links",
     links: [
-      { label: "Home", href: "/" },
-      { label: "About Us", href: "/about" },
-      { label: "Contact", href: "/contact" },
-      { label: "Blog", href: "/blog" },
+      { label: "Home", href: "/", icon: Home },
+      { label: "About Us", href: "/about", icon: Info },
+      { label: "Contact", href: "/contact", icon: Phone },
+      { label: "Blog", href: "/blog", icon: FileText },
     ],
   },
   {
     title: "Help",
     links: [
-      { label: "Privacy Policy", href: "/privacy-policy" },
-      { label: "Terms & Conditions", href: "/terms-and-conditions" },
-      { label: "Refund Policy", href: "/refund-policy" },
-      { label: "Region Info", href: "/region" },
+      { label: "Privacy Policy", href: "/privacy-policy", icon: Shield },
+      { label: "Terms & Conditions", href: "/terms-and-conditions", icon: FileCheck },
+      { label: "Refund Policy", href: "/refund-policy", icon: RefreshCcw },
+      { label: "Region Info", href: "/region", icon: Globe },
     ],
   },
 ];
@@ -139,7 +140,7 @@ export default function Footer() {
                         href={link.href}
                         className="group flex items-center gap-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
                       >
-                        <span className="w-1 h-1 rounded-full bg-[var(--accent)]/0 transition-all duration-300 group-hover:bg-[var(--accent)] group-hover:scale-110" />
+                        <link.icon size={14} className="text-[var(--muted)]/50 group-hover:text-[var(--accent)] transition-colors duration-300" />
                         {link.label}
                       </Link>
                     </li>
@@ -185,7 +186,7 @@ export default function Footer() {
         <div className="mt-6 pt-4 border-t border-[var(--border)]/30 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col md:flex-row items-center gap-3 text-center md:text-left">
             <p className="text-[10px] font-semibold text-[var(--muted)]/70 uppercase tracking-widest">
-              © {currentYear} {BRAND_NAME}
+              © {currentYear} {BRAND_NAME}. All Rights Reserved.
             </p>
           </div>
 
