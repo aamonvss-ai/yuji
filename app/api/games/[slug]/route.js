@@ -24,7 +24,9 @@ const ALLOWED_GAME_SLUGS = [
   "weeklymonthly-bundle261",
   "8ballpool498",
   "honor-of-kings57",
-  "mobile-legends-exclusive952"
+  "mobile-legends-philippines888",
+  
+  // "mobile-legends-exclusive952"
 ];
 
 const getCachedPricingConfig = unstable_cache(
