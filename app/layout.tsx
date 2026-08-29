@@ -7,7 +7,6 @@ const poppins = { className: "font-sans" };
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import Chatbot from "@/components/Chatbot/Chatbot";
-
 import Maintenance from "@/components/Maintenance/Maintenance";
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { GoogleOAuthProvider } from "@react-oauth/google";

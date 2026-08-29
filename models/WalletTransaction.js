@@ -35,5 +35,9 @@ const WalletTransactionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+WalletTransactionSchema.index({ userId: 1, createdAt: -1 });
+WalletTransactionSchema.index({ status: 1 });
+WalletTransactionSchema.index({ createdAt: -1 });
+
 export default mongoose.models.WalletTransaction ||
   mongoose.model("WalletTransaction", WalletTransactionSchema);

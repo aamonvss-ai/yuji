@@ -183,14 +183,17 @@ export default function UsersTab() {
       </div>
 
       {/* ================= STATS CARDS ================= */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
         {/* Active Users Stats */}
-        <div className="p-1 rounded-xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-1.5 relative overflow-hidden group">
-          <div className="flex flex-col items-center justify-center min-w-[50px] shrink-0 text-[var(--accent)] border-r border-[var(--border)] pr-1.5">
-            <Users size={12} className="mb-0.5" />
-            <span className="text-[8px] font-black uppercase italic tracking-tighter">Active</span>
+        <div className="p-2 sm:p-2.5 rounded-xl border border-[var(--border)] bg-[var(--card)]/40 backdrop-blur-sm flex items-center gap-2.5 shadow-xs hover:border-[var(--accent)]/30 transition-all">
+          <div className="flex items-center gap-2 min-w-[70px] shrink-0">
+            <div className="w-7 h-7 rounded-lg bg-[var(--accent)]/10 text-[var(--accent)] flex items-center justify-center shrink-0">
+              <Users size={13} />
+            </div>
+            <span className="text-[11px] font-bold text-[var(--foreground)] tracking-tight">Active</span>
           </div>
-          <div className="flex-1 grid grid-cols-3 gap-1">
+          <div className="h-5 w-px bg-[var(--border)]/50 shrink-0" />
+          <div className="flex-1 grid grid-cols-3 gap-1.5">
             <StatItem label="1D" value={stats.active["1d"]} loading={statsLoading} />
             <StatItem label="7D" value={stats.active["7d"]} loading={statsLoading} />
             <StatItem label="30D" value={stats.active["30d"]} loading={statsLoading} />
@@ -198,12 +201,15 @@ export default function UsersTab() {
         </div>
 
         {/* New Users Stats */}
-        <div className="p-1 rounded-xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-1.5 relative overflow-hidden group">
-          <div className="flex flex-col items-center justify-center min-w-[50px] shrink-0 text-indigo-500 border-r border-[var(--border)] pr-1.5">
-            <User size={12} className="mb-0.5" />
-            <span className="text-[8px] font-black uppercase italic tracking-tighter">New</span>
+        <div className="p-2 sm:p-2.5 rounded-xl border border-[var(--border)] bg-[var(--card)]/40 backdrop-blur-sm flex items-center gap-2.5 shadow-xs hover:border-indigo-500/30 transition-all">
+          <div className="flex items-center gap-2 min-w-[70px] shrink-0">
+            <div className="w-7 h-7 rounded-lg bg-indigo-500/10 text-indigo-500 flex items-center justify-center shrink-0">
+              <User size={13} />
+            </div>
+            <span className="text-[11px] font-bold text-[var(--foreground)] tracking-tight">New</span>
           </div>
-          <div className="flex-1 grid grid-cols-3 gap-1">
+          <div className="h-5 w-px bg-[var(--border)]/50 shrink-0" />
+          <div className="flex-1 grid grid-cols-3 gap-1.5">
             <StatItem label="1D" value={stats.new["1d"]} loading={statsLoading} />
             <StatItem label="7D" value={stats.new["7d"]} loading={statsLoading} />
             <StatItem label="30D" value={stats.new["30d"]} loading={statsLoading} />
@@ -733,12 +739,12 @@ function DrawerDetail({ label, value }) {
 
 function StatItem({ label, value, loading }) {
   return (
-    <div className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-lg px-2 py-1.5 flex flex-row items-center justify-between relative overflow-hidden transition-all hover:border-[var(--accent)]/20">
-      <span className="text-[8px] font-bold text-[var(--muted)] uppercase opacity-80">{label}</span>
+    <div className="bg-[var(--foreground)]/[0.02] border border-[var(--border)]/60 rounded-lg px-2 py-1 flex items-center justify-between transition-all hover:border-[var(--accent)]/30">
+      <span className="text-[9px] font-semibold text-[var(--muted)]">{label}</span>
       {loading ? (
-        <div className="h-3 w-6 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
+        <div className="h-3.5 w-5 bg-[var(--foreground)]/[0.08] animate-pulse rounded" />
       ) : (
-        <span className="text-[10px] font-black text-[var(--foreground)] tracking-tighter tabular-nums">{value}</span>
+        <span className="text-xs font-bold text-[var(--foreground)] tabular-nums">{value ?? 0}</span>
       )}
     </div>
   );

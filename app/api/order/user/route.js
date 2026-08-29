@@ -91,13 +91,14 @@ export async function POST(req) {
     }
 
     /* ================= FETCH ORDERS ================= */
-    const orders = await Order.find(finalFilter)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .lean();
-
-    const totalCount = await Order.countDocuments(finalFilter);
+    const [orders, totalCount] = await Promise.all([
+      Order.find(finalFilter)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      Order.countDocuments(finalFilter),
+    ]);
 
     return Response.json(
       {

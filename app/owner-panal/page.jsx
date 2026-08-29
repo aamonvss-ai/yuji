@@ -226,44 +226,39 @@ export default function AdminPanalPage() {
       <section className="min-h-screen bg-transparent px-2 md:px-4 py-2">
         <div className="w-full">
           {/* HEADER & BALANCE SECTION */}
-          <div className="mb-6 flex flex-row items-start justify-between gap-4">
-            {/* Left: Title, Subtitle & Balance */}
-            <div className="flex-1 min-w-0">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            {/* Left: Title & Balance */}
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 min-w-0">
               <div className="flex items-center gap-2">
-                <h1 className="text-xl md:text-2xl font-extrabold tracking-tight text-[var(--foreground)] truncate">
+                <h1 className="text-base sm:text-lg font-bold tracking-tight text-[var(--foreground)]">
                   Admin Panel
                 </h1>
                 <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] animate-pulse shrink-0" />
               </div>
-              <p className="mt-0.5 text-xs md:text-sm text-[var(--muted)] max-w-lg leading-snug hidden md:block">
-                Manage users, orders, transactions, queries & pricing
-              </p>
-              
-              {/* BALANCE */}
-              <div className="mt-3 inline-flex items-center gap-3 rounded-xl border border-[var(--border)] bg-gradient-to-r from-[var(--card)] to-transparent px-3 py-2 shadow-sm w-fit relative overflow-hidden">
-                <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[var(--accent)] to-purple-500" />
-                <span className="text-[10px] uppercase tracking-widest text-[var(--muted)] font-bold">
+
+              {/* Compact Clean Balance Pill */}
+              <div className="inline-flex items-center gap-2 rounded-lg border border-[var(--border)] bg-[var(--card)]/60 px-2.5 py-1 shadow-xs">
+                <span className="text-[9px] uppercase tracking-wider text-[var(--muted)] font-semibold">
                   Balance
                 </span>
-                <div className="flex items-baseline gap-1.5">
-                  <span className="text-base font-bold text-[var(--foreground)] leading-none">
-                    {balance !== null ? balance : "..."}
-                  </span>
-                  <span className="text-[9px] font-bold text-green-500 uppercase tracking-widest bg-green-500/10 px-1.5 py-0.5 rounded">
-                    Available
-                  </span>
-                </div>
+                <span className="text-xs font-bold text-[var(--foreground)] leading-none tabular-nums">
+                  {balance !== null ? balance : "..."}
+                </span>
+                <span className="text-[8px] font-bold text-emerald-500 uppercase tracking-wider bg-emerald-500/10 px-1 py-0.5 rounded">
+                  Available
+                </span>
               </div>
             </div>
 
             {/* Right: Actions (Menu button) */}
-            <div className="shrink-0 pt-1">
+            <div className="shrink-0">
               {/* Mobile Sidebar Toggle */}
               <button
                 onClick={() => setIsSidebarOpen(true)}
-                className="md:hidden flex flex-col items-center justify-center gap-1 px-4 py-2 bg-[var(--card)] border border-[var(--border)] rounded-xl text-[10px] uppercase tracking-widest font-bold hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/30 transition-all shadow-sm"
+                className="md:hidden h-8 px-2.5 flex items-center gap-1.5 bg-[var(--card)] border border-[var(--border)] rounded-lg text-xs font-bold hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/30 text-[var(--foreground)] transition-all shadow-xs"
+                title="Open Admin Menu"
               >
-                <FiMenu className="text-xl text-[var(--accent)]" />
+                <FiMenu className="text-sm text-[var(--accent)]" />
                 <span>Menu</span>
               </button>
             </div>

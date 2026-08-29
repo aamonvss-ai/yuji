@@ -177,26 +177,26 @@ export default function SupportQueriesTab() {
       </div>
 
       {/* ================= STATS CARDS ================= */}
-      <div className="flex flex-col gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
         <QueryStatCard
-          label="Total Volume"
+          label="Volume"
           items={[
             { label: "1D", value: stats["1d"].total },
             { label: "7D", value: stats["7d"].total },
             { label: "30D", value: stats["30d"].total },
           ]}
-          icon={<Inbox size={14} />}
+          icon={<Inbox size={13} />}
           color="text-[var(--accent)]"
           loading={statsLoading}
         />
         <QueryStatCard
-          label="Active Issues"
+          label="Active"
           items={[
             { label: "1D", value: stats["1d"].active },
             { label: "7D", value: stats["7d"].active },
             { label: "30D", value: stats["30d"].active },
           ]}
-          icon={<AlertCircle size={14} />}
+          icon={<AlertCircle size={13} />}
           color="text-amber-500"
           loading={statsLoading}
         />
@@ -481,21 +481,22 @@ function DetailBlock({ label, value, emphasize, icon }) {
 
 function QueryStatCard({ label, items, icon, color, loading }) {
   return (
-    <div className="p-1 rounded-xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-1.5 relative overflow-hidden group">
-      <div className={`flex flex-col items-center justify-center min-w-[50px] shrink-0 ${color} border-r border-[var(--border)] pr-1.5`}>
-        <div className={`mb-0.5 transition-transform group-hover:scale-110`}>
+    <div className="p-2 sm:p-2.5 rounded-xl border border-[var(--border)] bg-[var(--card)]/40 backdrop-blur-sm flex items-center gap-2.5 shadow-xs hover:border-[var(--accent)]/30 transition-all">
+      <div className="flex items-center gap-2 min-w-[75px] shrink-0">
+        <div className={`w-7 h-7 rounded-lg ${color === "text-amber-500" ? "bg-amber-500/10 text-amber-500" : "bg-[var(--accent)]/10 text-[var(--accent)]"} flex items-center justify-center shrink-0`}>
           {icon}
         </div>
-        <span className="text-[8px] font-black uppercase tracking-tighter italic opacity-80">{label}</span>
+        <span className="text-[11px] font-bold text-[var(--foreground)] tracking-tight">{label}</span>
       </div>
-      <div className="flex-1 grid grid-cols-3 gap-1">
+      <div className="h-5 w-px bg-[var(--border)]/50 shrink-0" />
+      <div className="flex-1 grid grid-cols-3 gap-1.5">
         {items.map((item, i) => (
-          <div key={i} className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-lg px-2 py-1.5 flex flex-row items-center justify-between relative overflow-hidden transition-colors hover:border-[var(--accent)]/20">
-            <span className="text-[8px] font-bold text-[var(--muted)] uppercase opacity-80">{item.label}</span>
+          <div key={i} className="bg-[var(--foreground)]/[0.02] border border-[var(--border)]/60 rounded-lg px-2 py-1 flex items-center justify-between transition-all hover:border-[var(--accent)]/30">
+            <span className="text-[9px] font-semibold text-[var(--muted)]">{item.label}</span>
             {loading ? (
-              <div className="h-3 w-6 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
+              <div className="h-3.5 w-5 bg-[var(--foreground)]/[0.08] animate-pulse rounded" />
             ) : (
-              <span className="text-[10px] font-black text-[var(--foreground)] tracking-tighter tabular-nums truncate max-w-full">
+              <span className="text-xs font-bold text-[var(--foreground)] tabular-nums truncate max-w-full">
                 {item.value}
               </span>
             )}
