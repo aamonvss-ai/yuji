@@ -124,11 +124,11 @@ export default function StorySlider() {
               </div>
 
               {/* Sophisticated Labels */}
-              <div className="mt-1.5 flex flex-col items-center">
-                <span className="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-[var(--muted)] group-hover:text-[var(--foreground)] transition-all duration-500 transform group-hover:translate-y-[-2px]">
+              <div className="mt-1.5 flex flex-col items-center max-w-[68px] md:max-w-[80px] text-center">
+                <span className="text-[8.5px] md:text-[9.5px] font-bold uppercase tracking-tight text-[var(--muted)] group-hover:text-[var(--foreground)] transition-colors duration-300 leading-tight">
                   {item.title}
                 </span>
-                <div className={`h-[1.5px] w-0 bg-gradient-to-r ${item.color} group-hover:w-full transition-all duration-500 rounded-full mt-0.5`} />
+                <div className={`h-[1.5px] w-0 bg-gradient-to-r ${item.color} group-hover:w-full transition-all duration-300 rounded-full mt-0.5`} />
               </div>
             </Link>
           </motion.div>

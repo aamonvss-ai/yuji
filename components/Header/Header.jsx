@@ -234,12 +234,13 @@ export default function Header({ enableAutoTranslation = false }) {
         </nav> */}
 
         {/* MOBILE SEARCH TOGGLE */}
-        <div className="flex lg:hidden items-center ml-auto mr-4">
+        <div className="flex lg:hidden items-center ml-auto mr-2 sm:mr-2.5">
           <button
             onClick={() => setIsMobileSearchOpen(true)}
-            className="p-2 rounded-full hover:bg-[var(--accent)]/10 text-[var(--muted)] hover:text-[var(--accent)] transition-all"
+            aria-label="Open Search"
+            className="h-8 w-8 rounded-xl flex items-center justify-center bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/30 text-[var(--muted)] hover:text-[var(--accent)] transition-all"
           >
-            <Search size={20} />
+            <Search size={16} />
           </button>
         </div>
 
@@ -316,28 +317,32 @@ export default function Header({ enableAutoTranslation = false }) {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="flex items-center gap-3 relative" ref={dropdownRef}>
+        <div className="flex items-center gap-2 sm:gap-2.5 relative" ref={dropdownRef}>
           
           {/* CURRENCY TOGGLE */}
           <button
             onClick={() => setCurrency(currency === "INR" ? "USDT" : "INR")}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/30 transition-all font-black text-[10px] tracking-widest text-[var(--muted)] hover:text-[var(--accent)]"
+            aria-label="Toggle currency"
+            className="h-8 flex items-center justify-center gap-1 px-2.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/30 transition-all font-black text-[10px] tracking-widest text-[var(--muted)] hover:text-[var(--accent)] active:scale-95"
           >
             {currency === "INR" ? "₹ INR" : "$ USDT"}
           </button>
 
+          {/* THEME TOGGLE */}
           <ThemeToggle />
+
           {/* COMBINED MENU & USER AVATAR BUTTON */}
           <button
             onClick={() => {
               if (loading) return;
               setUserMenuOpen(!userMenuOpen);
             }}
-            className="flex items-center gap-0.5 pl-1 pr-0 py-0 rounded-full bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 hover:bg-[var(--accent)]/5 hover:border-[var(--accent)]/30 transition-all duration-300 text-[var(--muted)] hover:text-[var(--accent)] active:scale-95 group shadow-sm hover:shadow-md"
+            aria-label="User menu"
+            className="h-8 flex items-center gap-1.5 pl-2.5 pr-1 rounded-full bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 hover:bg-[var(--accent)]/5 hover:border-[var(--accent)]/30 transition-all duration-200 text-[var(--muted)] hover:text-[var(--accent)] active:scale-95 group"
           >
-            <Menu size={14} className="transition-transform duration-300 group-hover:scale-110 ml-0.5" />
+            <Menu size={14} className="transition-transform duration-200 group-hover:scale-110" />
             
-            <div className="relative w-5 h-5 md:w-6 md:h-6 rounded-full bg-gradient-to-br from-[var(--accent)] to-[#22d3ee] flex items-center justify-center overflow-hidden transition-all duration-300 ring-1 ring-transparent group-hover:ring-[var(--accent)]/50">
+            <div className="relative w-6 h-6 rounded-full bg-gradient-to-br from-[var(--accent)] to-[#22d3ee] flex items-center justify-center overflow-hidden transition-all duration-200 ring-1 ring-transparent group-hover:ring-[var(--accent)]/50">
               {!loading && user ? (
                 <Image
                   key={imgError ? 'fallback' : 'primary'}
@@ -349,10 +354,8 @@ export default function Header({ enableAutoTranslation = false }) {
                   onError={() => setImgError(true)}
                 />
               ) : (
-                <User className="text-white w-3.5 h-3.5 md:w-4 md:h-4" />
+                <User className="text-white w-3.5 h-3.5" />
               )}
-              {/* Subtle glow effect */}
-              <div className="absolute inset-0 bg-[var(--accent)] opacity-0 group-hover:opacity-20 transition-opacity" />
             </div>
           </button>
 
@@ -375,14 +378,17 @@ export default function Header({ enableAutoTranslation = false }) {
                   initial={false}
                   animate={{ x: userMenuOpen ? 0 : "100%" }}
                   transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                  className="fixed right-0 top-0 h-screen w-72 bg-[var(--card)]/95 backdrop-blur-2xl border-l border-[var(--border)] shadow-[-20px_0_50px_rgba(0,0,0,0.3)] z-[101] flex flex-col pt-4"
+                  className="fixed right-0 top-0 h-screen w-80 max-w-[88vw] bg-[var(--card)]/95 backdrop-blur-2xl border-l border-[var(--border)] shadow-2xl z-[101] flex flex-col pt-3"
                 >
-                  <div className="flex items-center justify-end px-5 mb-2">
+                  {/* Top Bar / Close Button */}
+                  <div className="flex items-center justify-between px-5 py-2 mb-1">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--muted)]">Account</span>
                     <button 
                       onClick={() => setUserMenuOpen(false)}
-                      className="p-1.5 rounded-full bg-[var(--foreground)]/[0.03] hover:bg-[var(--accent)]/10 text-[var(--muted)] hover:text-[var(--accent)] transition-all"
+                      aria-label="Close drawer"
+                      className="w-7 h-7 flex items-center justify-center rounded-full bg-[var(--foreground)]/[0.04] hover:bg-[var(--foreground)]/[0.08] text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
                     >
-                      <X size={16} />
+                      <X size={15} />
                     </button>
                   </div>
 
@@ -394,15 +400,15 @@ export default function Header({ enableAutoTranslation = false }) {
                             setUserMenuOpen(false);
                             window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname)}`;
                           }}
-                          className="flex items-center justify-center gap-2 w-full py-4 px-4 bg-[var(--accent)] text-white rounded-xl font-black uppercase text-[11px] tracking-widest transition-all duration-300 hover:shadow-xl hover:shadow-[var(--accent)]/30 hover:scale-[1.02] active:scale-95 shadow-lg shadow-[var(--accent)]/20"
+                          className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white rounded-2xl font-semibold text-[13px] tracking-wide transition-all active:scale-98 shadow-sm"
                         >
-                          <User size={14} />
-                          Sign In / Sign Up
+                          <User size={15} />
+                          <span>Sign In / Sign Up</span>
                         </button>
                       </div>
 
                       <div className="space-y-1">
-                        <p className="text-[9px] font-black uppercase tracking-widest text-[var(--muted)] opacity-50 px-3 mb-2">Explore</p>
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--muted)] px-3 mb-2">Explore</p>
                         {[
                           { href: "/games", label: "All Games", Icon: HiCube },
                           { href: "/region", label: "By Region", Icon: HiGlobeAlt },
@@ -410,165 +416,163 @@ export default function Header({ enableAutoTranslation = false }) {
                           <Link
                             key={idx}
                             href={item.href}
-                            className="flex items-center justify-between px-3 py-2 rounded-xl transition-all duration-300 hover:bg-[var(--accent)]/5 group"
+                            className="flex items-center justify-between px-3 py-2.5 rounded-2xl transition-all hover:bg-[var(--foreground)]/[0.04] group"
                             onClick={() => setUserMenuOpen(false)}
                           >
                             <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-lg bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-[var(--accent)]/10 group-hover:border-[var(--accent)]/20">
-                                <item.Icon size={16} className="text-[var(--muted)] transition-colors duration-300 group-hover:text-[var(--accent)]" />
+                              <div className="w-8 h-8 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] flex items-center justify-center transition-all group-hover:scale-105 group-hover:bg-[var(--accent)]/10 group-hover:border-[var(--accent)]/30">
+                                <item.Icon size={16} className="text-[var(--muted)] transition-colors group-hover:text-[var(--accent)]" />
                               </div>
-                              <span className="font-bold text-xs text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors tracking-tight font-black uppercase italic">{item.label}</span>
+                              <span className="font-medium text-[13px] text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors tracking-tight">{item.label}</span>
                             </div>
-                            <ChevronRight size={12} className="text-[var(--muted)] opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[var(--accent)]" />
+                            <ChevronRight size={14} className="text-[var(--muted)] opacity-0 -translate-x-1.5 transition-all group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[var(--accent)]" />
                           </Link>
                         ))}
                       </div>
                     </div>
                   ) : (
                     <>
-                      {/* USER PROFILE HEADER */}
-                      <div className="px-4 py-4 border-b border-[var(--border)]/30 bg-gradient-to-br from-[var(--accent)]/2 to-transparent">
-                        <div className="flex items-center justify-between gap-3">
-                          <div className="flex items-center gap-3 min-w-0">
+                      {/* USER PROFILE HERO CARD */}
+                      <div className="px-4 pt-1 pb-2">
+                        <div className="p-2.5 rounded-2xl bg-[var(--foreground)]/[0.03] border border-[var(--border)]">
+                          {/* User Avatar + Name Row */}
+                          <div className="flex items-center gap-2.5">
                             <div className="relative flex-shrink-0">
-                              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--accent)] to-[#22d3ee] p-[1.5px] shadow-lg">
-                                <div className="w-full h-full rounded-[0.7rem] bg-[var(--card)] overflow-hidden flex items-center justify-center">
+                              <div className="w-9 h-9 rounded-xl bg-[var(--accent)]/15 border border-[var(--accent)]/30 p-0.5 overflow-hidden">
+                                <div className="w-full h-full rounded-[0.55rem] bg-[var(--card)] overflow-hidden flex items-center justify-center">
                                   {!loading && user ? (
                                     <Image
                                       key={imgError ? 'fallback-drawer' : 'primary-drawer'}
                                       src={(!imgError && user.avatar) ? user.avatar : `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || "User")}&background=0D8ABC&color=fff&size=128`}
                                       alt={user.name}
-                                      width={48}
-                                      height={48}
+                                      width={36}
+                                      height={36}
                                       className="object-cover w-full h-full"
                                       onError={() => setImgError(true)}
                                     />
                                   ) : (
-                                    <User className="text-[var(--accent)] w-5 h-5" />
+                                    <User className="text-[var(--accent)] w-4 h-4" />
                                   )}
                                 </div>
                               </div>
                               {user.userType === "owner" && (
-                                <div className="absolute -bottom-1 -right-1 bg-emerald-500 rounded-md p-0.5 border border-[var(--card)] shadow-lg">
-                                  <ShieldCheck size={10} className="text-white" />
+                                <div className="absolute -bottom-0.5 -right-0.5 bg-emerald-500 text-white rounded-full p-0.5 border border-[var(--card)]">
+                                  <ShieldCheck size={8} />
                                 </div>
                               )}
                             </div>
-                            
-                            <div className="flex flex-col min-w-0">
-                              <h3 className="font-black text-[var(--foreground)] text-[13px] tracking-tight uppercase italic truncate leading-tight">
-                                {user.name}
-                              </h3>
-                              <p className="text-[9px] text-[var(--muted)] font-bold opacity-60 truncate">
-                                {user.email}
-                              </p>
-                              
-                              {/* Badges Row */}
-                              <div className="flex items-center gap-2 mt-1.5">
-                                {/* Wallet Mini-Badge */}
-                                <div className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-[var(--accent)]/10 border border-[var(--accent)]/20">
-                                  <Wallet size={8} className="text-[var(--accent)]" />
-                                  <span className="text-[9px] font-black text-[var(--accent)] uppercase tracking-tight">
-                                    ₹{user.wallet?.toFixed(2) || "0.00"}
-                                  </span>
-                                </div>
 
-                                {/* User Type Badge */}
-                                <div className={`flex items-center px-2 py-0.5 rounded-md border font-black text-[8px] uppercase tracking-wider ${
-                                  user.userType === 'owner' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500' :
-                                  user.userType === 'admin' ? 'bg-blue-500/10 border-blue-500/20 text-blue-500' :
-                                  user.userType === 'member' ? 'bg-purple-500/10 border-purple-500/20 text-purple-500' :
-                                  'bg-[var(--muted)]/10 border-[var(--border)] text-[var(--muted)]'
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-1.5">
+                                <h3 className="font-bold text-[var(--foreground)] text-[13px] tracking-tight truncate leading-tight">
+                                  {user.name}
+                                </h3>
+                                <span className={`px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider ${
+                                  user.userType === 'owner' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' :
+                                  user.userType === 'admin' ? 'bg-blue-500/10 text-blue-500 border border-blue-500/20' :
+                                  user.userType === 'member' ? 'bg-purple-500/10 text-purple-500 border border-purple-500/20' :
+                                  'bg-[var(--foreground)]/10 text-[var(--muted)] border border-[var(--border)]'
                                 }`}>
                                   {user.userType === 'owner' ? 'Owner' :
                                    user.userType === 'admin' ? 'Reseller' :
-                                   user.userType === 'member' ? 'Member Reseller' :
-                                   'User'}
-                                </div>
+                                   user.userType === 'member' ? 'Member' : 'User'}
+                                </span>
                               </div>
+                              <p className="text-[10.5px] text-[var(--muted)] truncate mt-0.5">
+                                {user.email}
+                              </p>
                             </div>
                           </div>
 
-                          <button
-                            onClick={handleLogout}
-                            className="p-2.5 rounded-xl bg-rose-500/5 text-rose-500 hover:bg-rose-500 hover:text-white transition-all duration-300 active:scale-90 flex-shrink-0"
-                            title="Logout"
-                          >
-                            <LogOut size={16} />
-                          </button>
+                          {/* Quick Wallet Subcard */}
+                          <div className="mt-2 px-2.5 py-1.5 rounded-xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-between shadow-xs">
+                            <div className="flex items-center gap-2">
+                              <div className="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+                                <Wallet size={12} />
+                              </div>
+                              <div>
+                                <p className="text-[8.5px] font-bold text-[var(--muted)] uppercase tracking-wider leading-none">Balance</p>
+                                <p className="text-[12px] font-bold text-[var(--foreground)] tracking-tight mt-0.5">
+                                  ₹{user.wallet?.toFixed(2) || "0.00"}
+                                </p>
+                              </div>
+                            </div>
+
+                            <Link
+                              href="/dashboard/wallet"
+                              onClick={() => setUserMenuOpen(false)}
+                              className="text-[10.5px] font-semibold text-[var(--accent)] hover:text-[var(--accent-hover)] px-2 py-0.5 rounded-lg bg-[var(--accent)]/10 hover:bg-[var(--accent)]/15 transition-colors flex items-center gap-0.5"
+                            >
+                              <span>Top Up</span>
+                              <ChevronRight size={10} />
+                            </Link>
+                          </div>
                         </div>
                       </div>
 
-                      {/* MENU ITEMS */}
-                      <div className="flex-1 overflow-y-auto px-3 py-2 scrollbar-none">
-                        <div className="grid grid-cols-1 gap-0.5">
-                          {[
-                            { href: "/dashboard", label: "Dashboard", Icon: LayoutDashboard },
-                            { href: "/dashboard/wallet", label: "Wallet", Icon: Wallet },
-                            { href: "/dashboard/order", label: "My Orders", Icon: History },
-                            { href: "/leaderboard", label: "Leaderboard", Icon: Award },
-                            { href: "/dashboard/support", label: "Support", Icon: Headphones },
-                          ].map((item, idx) => (
+                      {/* NAVIGATION LIST */}
+                      <div className="flex-1 overflow-y-auto px-4 py-1 space-y-1">
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--muted)] px-3 py-1">Navigation</p>
+                        {[
+                          { href: "/dashboard", label: "Dashboard", Icon: LayoutDashboard },
+                          { href: "/dashboard/wallet", label: "Wallet", Icon: Wallet },
+                          { href: "/dashboard/order", label: "My Orders", Icon: History },
+                          { href: "/leaderboard", label: "Leaderboard", Icon: Award },
+                          { href: "/dashboard/support", label: "Support", Icon: Headphones },
+                        ].map((item, idx) => (
+                          <Link
+                            key={idx}
+                            href={item.href}
+                            className="flex items-center justify-between px-3 py-2.5 rounded-2xl transition-all hover:bg-[var(--foreground)]/[0.04] group"
+                            onClick={() => setUserMenuOpen(false)}
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] flex items-center justify-center transition-all group-hover:scale-105 group-hover:bg-[var(--accent)]/10 group-hover:border-[var(--accent)]/30">
+                                <item.Icon size={15} className="text-[var(--muted)] transition-colors group-hover:text-[var(--accent)]" />
+                              </div>
+                              <span className="font-medium text-[13px] text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors tracking-tight">{item.label}</span>
+                            </div>
+                            <ChevronRight size={14} className="text-[var(--muted)] opacity-0 -translate-x-1.5 transition-all group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[var(--accent)]" />
+                          </Link>
+                        ))}
+
+                        {/* ADMIN PANEL (Conditional) */}
+                        {user.userType === "owner" && (
+                          <div className="pt-2">
+                            <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-500/70 mb-1.5 px-3">Management</p>
                             <Link
-                              key={idx}
-                              href={item.href}
-                              className="flex items-center justify-between px-3 py-2 rounded-xl transition-all duration-300 hover:bg-[var(--accent)]/5 group"
+                              href="/owner-panal"
+                              className="flex items-center justify-between px-3.5 py-2.5 rounded-2xl transition-all bg-emerald-500/[0.06] border border-emerald-500/20 hover:bg-emerald-500/10 group"
                               onClick={() => setUserMenuOpen(false)}
                             >
                               <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-lg bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-[var(--accent)]/10 group-hover:border-[var(--accent)]/20">
-                                  <item.Icon size={14} className="text-[var(--muted)] transition-colors duration-300 group-hover:text-[var(--accent)]" />
+                                <div className="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center transition-all group-hover:scale-105">
+                                  <Shield size={15} className="text-emerald-500" />
                                 </div>
-                                <span className="font-bold text-xs text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors tracking-tight font-black uppercase italic">{item.label}</span>
+                                <span className="font-semibold text-[13px] text-emerald-600 dark:text-emerald-400 transition-colors tracking-tight">Admin Panel</span>
                               </div>
-                              <ChevronRight size={12} className="text-[var(--muted)] opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[var(--accent)]" />
+                              <div className="flex items-center gap-2">
+                                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                <ChevronRight size={14} className="text-emerald-500 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                              </div>
                             </Link>
-                          ))}
-
-                          {/* ADMIN PANEL (Conditional) */}
-                          {user.userType === "owner" && (
-                            <div className="mt-2 mb-1 px-1">
-                              <p className="text-[9px] font-black uppercase tracking-widest text-emerald-500/50 mb-1 px-3">Management</p>
-                              <Link
-                                href="/owner-panal"
-                                className="flex items-center justify-between px-3 py-2 rounded-xl transition-all duration-300 bg-emerald-500/[0.03] border border-emerald-500/10 hover:bg-emerald-500/10 hover:border-emerald-500/20 group relative overflow-hidden"
-                                onClick={() => setUserMenuOpen(false)}
-                              >
-                                <div className="flex items-center gap-3">
-                                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
-                                    <Shield size={14} className="text-emerald-500" />
-                                  </div>
-                                  <span className="font-bold text-xs text-emerald-500 transition-colors tracking-tight font-black uppercase italic">Admin Panel</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-                                  <ChevronRight size={12} className="text-emerald-500 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
-                                </div>
-
-                                {/* Subtle glow line */}
-                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-emerald-500/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                              </Link>
-                            </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
 
+                      {/* FOOTER ACTIONS */}
+                      <div className="p-4 border-t border-[var(--border)] space-y-3">
+                        {/* Logout Button */}
+                        <button
+                          onClick={handleLogout}
+                          className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-2xl bg-rose-500/10 hover:bg-rose-500 text-rose-500 hover:text-white border border-rose-500/20 transition-all font-semibold text-[12.5px] active:scale-98"
+                        >
+                          <LogOut size={15} />
+                          <span>Sign Out</span>
+                        </button>
 
-
-                      {/* GOOGLE TRANSLATE (Appears only here) */}
-                      {enableAutoTranslation && (
-                        <div className="px-5 py-4 flex flex-col items-center justify-center border-t border-[var(--border)]/10 mt-2 gap-2 relative z-50">
-                          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[var(--muted)] opacity-60">
-                            Change Language
-                          </span>
-                          <div id="google_translate_element" className="rounded-md"></div>
-                        </div>
-                      )}
-
-                      {/* FOOTER */}
-                      <div className="py-4">
-                        <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[var(--muted)] opacity-20 text-center italic">
-                          love from TK
+                        <p className="text-[9.5px] font-bold tracking-widest text-[var(--muted)] opacity-50 text-center uppercase">
+                          Love from TK
                         </p>
                       </div>
                     </>

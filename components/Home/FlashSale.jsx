@@ -115,21 +115,6 @@ export default function FlashSale() {
                                                     {formatPrice(parseFloat(String(item.originalPrice).replace(/[^\d.]/g, '')))}
                                                 </span>
                                             </div>
-
-                                            {/* Progress Bar */}
-                                            <div className="pt-2 space-y-1">
-                                                <div className="flex justify-between text-[6px] md:text-[7px] font-black uppercase tracking-widest text-white/60">
-                                                    <span>Limited Stock</span>
-                                                </div>
-                                                <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
-                                                    <motion.div
-                                                        initial={{ width: 0 }}
-                                                        whileInView={{ width: `${item.sold}%` }}
-                                                        transition={{ duration: 1, ease: "easeOut" }}
-                                                        className="h-full bg-gradient-to-r from-amber-500 to-orange-500"
-                                                    />
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </Link>

@@ -21,28 +21,20 @@ import Loader from "@/components/Loader/Loader";
 /* ===================== SUB-COMPONENTS ===================== */
 
 const SectionHeader = ({ title, count, icon: Icon }) => (
-  <div className="flex items-center justify-between mb-4 group">
-    <div className="flex items-center gap-4">
-      <div className="relative">
-        <div className="w-9 h-9 md:w-11 md:h-11 rounded-full bg-gradient-to-br from-[var(--accent)]/20 to-transparent border border-[var(--accent)]/20 text-[var(--accent)] shadow-[0_0_20px_rgba(var(--accent-rgb),0.1)] flex items-center justify-center shrink-0">
-          {Icon && <Icon size={18} />}
-        </div>
-        <div className="absolute inset-0 bg-[var(--accent)] blur-2xl opacity-20" />
+  <div className="flex items-center justify-between mb-3.5 pt-2">
+    <div className="flex items-center gap-2.5">
+      <div className="w-7 h-7 md:w-8 md:h-8 rounded-xl bg-[var(--accent)]/10 border border-[var(--accent)]/20 text-[var(--accent)] flex items-center justify-center shrink-0">
+        {Icon && <Icon size={14} />}
       </div>
-      <div className="flex flex-col">
-        <h2 className="text-lg md:text-2xl font-black tracking-tighter text-[var(--foreground)] uppercase italic leading-none">
-          {title}
-        </h2>
-        <div className="h-[3px] w-10 bg-[var(--accent)] mt-1 rounded-full opacity-50 group-hover:w-full transition-all duration-500" />
-      </div>
+      <h2 className="text-[13px] md:text-[15px] font-bold tracking-tight text-[var(--foreground)]">
+        {title}
+      </h2>
     </div>
 
     {count !== undefined && (
-      <div className="px-3 py-1 rounded-full bg-[var(--card)] border border-[var(--border)] shadow-sm">
-        <span className="text-[8px] md:text-[9px] font-black tracking-[0.2em] text-[var(--muted)] uppercase opacity-80">
-          {count} <span className="hidden sm:inline">Available</span> Items
-        </span>
-      </div>
+      <span className="px-2 py-0.5 rounded-md bg-[var(--foreground)]/[0.04] border border-[var(--border)] text-[9.5px] md:text-[10px] font-semibold text-[var(--muted)]">
+        {count} {count === 1 ? 'Item' : 'Items'}
+      </span>
     )}
   </div>
 );
@@ -104,7 +96,7 @@ export default function GamesPage() {
 
   if (loading) return <Loader />;
 
-  const activeFilterCount = (sort !== "az" ? 1 : 0) + (hideOOS ? 1 : 0);
+  const activeFilterCount = (sort ? 1 : 0) + (hideOOS ? 1 : 0) + (activeTab !== "all" ? 1 : 0);
 
   /* ================= PROCESSING ================= */
   const processGames = (list) => {
@@ -135,8 +127,8 @@ export default function GamesPage() {
         href={disabled ? "#" : `/games/${game.gameSlug}`}
         className={`group block transition-all duration-500 ${disabled ? "opacity-40 grayscale cursor-not-allowed" : "hover:-translate-y-2"}`}
       >
-        {/* Image Container (Compact Portrait) */}
-        <div className="relative aspect-[3.5/4.5] rounded-2xl md:rounded-3xl overflow-hidden bg-[var(--card)] border border-[var(--border)] transition-all duration-500 group-hover:border-[var(--accent)]/50 group-hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.3)]">
+        {/* Image Container (Compact Squircle Card) */}
+        <div className="relative aspect-square rounded-2xl md:rounded-[1.25rem] overflow-hidden bg-[var(--card)] border border-[var(--border)] transition-all duration-500 group-hover:border-[var(--accent)]/50 group-hover:shadow-[0_15px_30px_-10px_rgba(0,0,0,0.25)]">
           {/* Main Image */}
           <Image
             src={game.gameImageId?.image || logo}
@@ -207,108 +199,44 @@ export default function GamesPage() {
       <div className="relative z-10">
         {/* ================= SEARCH AREA ================= */}
         <div className="bg-transparent py-2 mt-4">
-          <div className="max-w-7xl mx-auto px-4 flex items-center gap-3">
-            <div className="relative flex-1 group">
-              <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)] w-4 h-4 transition-colors group-focus-within:text-[var(--accent)] z-10 pointer-events-none" />
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="relative flex items-center group">
+              <FiSearch className="absolute left-4 text-[var(--muted)] w-4 h-4 transition-colors group-focus-within:text-[var(--accent)] pointer-events-none z-10" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search for your favorite game..."
-                className="w-full h-11 pl-11 pr-10 rounded-2xl bg-[var(--card)]/50 backdrop-blur-md border border-[var(--border)] text-[10px] md:text-xs font-bold tracking-wider uppercase focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent)]/10 outline-none transition-all placeholder:text-[var(--muted)]/40 text-[var(--foreground)] shadow-sm"
+                className="w-full h-11 pl-11 pr-24 rounded-2xl bg-[var(--card)]/60 backdrop-blur-md border border-[var(--border)] text-[11px] md:text-xs font-semibold tracking-wide focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/15 outline-none transition-all placeholder:text-[var(--muted)]/50 text-[var(--foreground)] shadow-xs"
               />
-              {search && (
-                <button
-                  onClick={() => setSearch("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-lg hover:bg-rose-500/10 text-[var(--muted)] hover:text-rose-500 transition-all"
-                >
-                  <FiX size={14} />
-                </button>
-              )}
-            </div>
-
-            <button
-              onClick={() => setShowFilter(true)}
-              className={`h-11 px-4 flex items-center gap-2 rounded-2xl border text-[10px] font-black uppercase tracking-widest transition-all shadow-sm
-              ${activeFilterCount > 0
-                  ? "bg-[var(--accent)] text-black border-[var(--accent)] shadow-lg shadow-[var(--accent)]/20"
-                  : "bg-[var(--card)]/50 backdrop-blur-md border border-[var(--border)] text-[var(--foreground)] hover:border-[var(--accent)]/50 hover:bg-[var(--card)]"}`}
-            >
-              <FiFilter size={14} />
-              <span className="hidden sm:inline">Refine</span>
-              {activeFilterCount > 0 && (
-                <span className="flex items-center justify-center w-4 h-4 rounded-md bg-black/20 text-[8px]">{activeFilterCount}</span>
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* ================= CATEGORY FILTER ================= */}
-        <div className="max-w-7xl mx-auto px-4 mt-4">
-          <div className="flex gap-2 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory">
-            {[
-              { id: "all", icon: FiLayers, label: "All", color: "from-blue-500 to-indigo-600", glow: "rgba(59,130,246,0.5)" },
-              { id: "mlbb", icon: FiZap, label: "MLBB", color: "from-amber-400 to-orange-600", glow: "rgba(245,158,11,0.5)" },
-              { id: "others", icon: FiGlobe, label: "Others", color: "from-emerald-400 to-teal-600", glow: "rgba(16,185,129,0.5)" },
-              { id: "membership", icon: FiShield, label: "Membership", color: "from-purple-500 to-pink-600", glow: "rgba(168,85,247,0.5)" }
-            ].map((tab) => {
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className="relative group outline-none snap-start"
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`
-                      relative flex items-center gap-2 px-3.5 py-1.5 rounded-xl
-                      text-[9px] font-black uppercase tracking-[0.12em] transition-all duration-500
-                      border backdrop-blur-xl overflow-hidden
-                      ${isActive
-                        ? `bg-gradient-to-br ${tab.color} text-white border-white/20 shadow-2xl shadow-[${tab.glow}]`
-                        : "bg-[var(--card)]/40 border-[var(--border)] text-[var(--muted)] hover:border-[var(--accent)]/40 hover:text-[var(--foreground)]"}
-                    `}
+              <div className="absolute right-2 flex items-center gap-1.5">
+                {search && (
+                  <button
+                    onClick={() => setSearch("")}
+                    className="p-1 rounded-lg hover:bg-rose-500/10 text-[var(--muted)] hover:text-rose-500 transition-colors"
                   >
-                    {/* Active State Background Animation */}
-                    {isActive && (
-                      <motion.div
-                        layoutId="activeTabGlow"
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_3s_infinite]"
-                      />
-                    )}
-
-                    <tab.icon
-                      size={14}
-                      className={`relative z-10 transition-colors duration-500 ${isActive ? "text-white" : "text-[var(--accent)] group-hover:text-[var(--foreground)]"}`}
-                    />
-
-                    <span className="relative z-10 whitespace-nowrap italic">
-                      {tab.label}
+                    <FiX size={14} />
+                  </button>
+                )}
+                <button
+                  onClick={() => setShowFilter(true)}
+                  className={`h-7 px-2.5 flex items-center gap-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all ${
+                    activeFilterCount > 0
+                      ? "bg-[var(--accent)] text-white shadow-xs"
+                      : "bg-[var(--foreground)]/[0.05] hover:bg-[var(--foreground)]/[0.1] text-[var(--foreground)] border border-[var(--border)]"
+                  }`}
+                  title="Filter & Sort games"
+                >
+                  <FiFilter size={11} className={activeFilterCount > 0 ? "text-white" : "text-[var(--muted)]"} />
+                  <span>Filter</span>
+                  {activeFilterCount > 0 && (
+                    <span className="w-4 h-4 rounded-full bg-white/20 text-white text-[8.5px] flex items-center justify-center font-bold">
+                      {activeFilterCount}
                     </span>
-
-                    {/* Subtle Internal Glow for Active */}
-                    {isActive && (
-                      <div className="absolute inset-0 bg-white/10 opacity-50 mix-blend-overlay" />
-                    )}
-                  </motion.div>
-
-                  {/* Underline Indicator */}
-                  <AnimatePresence>
-                    {isActive && (
-                      <motion.div
-                        layoutId="activeUnderline"
-                        className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-gradient-to-r ${tab.color} blur-[1px]`}
-                        initial={{ opacity: 0, width: 0 }}
-                        animate={{ opacity: 1, width: 32 }}
-                        exit={{ opacity: 0, width: 0 }}
-                      />
-                    )}
-                  </AnimatePresence>
+                  )}
                 </button>
-              );
-            })}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -464,6 +392,8 @@ export default function GamesPage() {
           setSort={setSort}
           hideOOS={hideOOS}
           setHideOOS={setHideOOS}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
         />
       )}
     </section>

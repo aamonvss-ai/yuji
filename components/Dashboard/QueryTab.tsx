@@ -130,97 +130,85 @@ export default function QueryTab() {
   };
 
   return (
-    <div className="max-w-full mx-auto space-y-5 px-1">
- 
+    <div className="max-w-full mx-auto space-y-4 px-0.5">
       {/* ================= HEADER ================= */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="px-1"
-      >
-        <h2 className="text-xl font-black uppercase tracking-tighter italic flex items-center gap-3">
-          <div className="w-1.5 h-6 bg-[var(--accent)] rounded-full" />
-          Support <span className="text-[var(--accent)]">Hub</span>
+      <div className="px-1">
+        <h2 className="text-base sm:text-lg font-bold tracking-tight text-[var(--foreground)] flex items-center gap-2">
+          <div className="w-1.5 h-4 bg-[var(--accent)] rounded-full" />
+          Support Hub
         </h2>
-        <p className="text-[var(--muted)] text-[9px] font-black uppercase tracking-[0.2em] opacity-40 mt-1 italic">
-          Help with your orders and account
+        <p className="text-[9.5px] text-[var(--muted)] font-medium mt-0.5">
+          Fast assistance for orders, payments, and account queries
         </p>
-      </motion.div>
- 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5">
         {/* ================= CONTACT SECTION ================= */}
-        <div className="lg:col-span-5 space-y-4">
-          <h3 className="text-[9px] font-black uppercase tracking-[0.2em] text-[var(--muted)] px-1 italic opacity-40">
+        <div className="lg:col-span-5 space-y-2.5">
+          <h3 className="text-[9px] font-bold uppercase tracking-wider text-[var(--muted)] px-1">
             {SUPPORT_CONFIG.contacts.title}
           </h3>
- 
+
           <div className="space-y-2">
             {SUPPORT_CONFIG.contacts.items
               .filter((item) => item.href && item.value)
               .map((item, idx) => (
-                <motion.a
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.05 }}
+                <a
                   key={item.id}
                   href={item.href}
                   target={item.external ? "_blank" : undefined}
                   rel={item.external ? "noopener noreferrer" : undefined}
-                  className="group flex items-center gap-3 p-3 rounded-xl bg-[var(--card)]/20 backdrop-blur-md border border-[var(--border)] hover:border-[var(--accent)]/50 transition-all shadow-sm"
+                  className="group flex items-center gap-3 p-2.5 rounded-xl bg-[var(--card)]/40 border border-[var(--border)] hover:border-[var(--accent)]/40 transition-all shadow-xs"
                 >
-                  <div className="w-9 h-9 rounded-lg bg-[var(--foreground)]/[0.03] flex items-center justify-center text-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-black transition-all">
+                  <div className="w-8 h-8 rounded-lg bg-[var(--foreground)]/[0.03] border border-[var(--border)] flex items-center justify-center text-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-white transition-all">
                     {ICON_MAP[item.icon]}
                   </div>
- 
+
                   <div className="flex-1 min-w-0">
-                    <p className="font-black text-[10px] uppercase italic flex items-center gap-1.5 tracking-tight">
+                    <p className="font-bold text-xs flex items-center gap-1.5 text-[var(--foreground)]">
                       {item.title}
-                      {item.external && <FiExternalLink size={10} className="opacity-30 group-hover:opacity-100 transition-opacity" />}
+                      {item.external && <FiExternalLink size={10} className="text-[var(--muted)] group-hover:text-[var(--foreground)] transition-colors" />}
                     </p>
-                    <p className="text-[8px] font-black text-[var(--muted)] uppercase tracking-widest opacity-40 italic">
+                    <p className="text-[9px] text-[var(--muted)] mt-0.5 truncate">
                       {item.desc}
                     </p>
                   </div>
-                </motion.a>
+                </a>
               ))}
           </div>
         </div>
- 
+
         {/* ================= QUERY FORM ================= */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="lg:col-span-7 p-5 rounded-[2rem] bg-[var(--card)]/30 backdrop-blur-md border border-[var(--border)] shadow-xl space-y-5"
-        >
-          <div className="flex items-center gap-2 mb-1 px-1">
-            <div className="p-2 rounded-lg bg-[var(--accent)]/10 text-[var(--accent)]">
-              <FiMessageSquare size={14} />
+        <div className="lg:col-span-7 p-3.5 sm:p-4 rounded-xl bg-[var(--card)]/40 backdrop-blur-md border border-[var(--border)] shadow-xs space-y-3">
+          <div className="flex items-center gap-2 mb-0.5">
+            <div className="w-6 h-6 rounded-md bg-[var(--accent)]/10 text-[var(--accent)] flex items-center justify-center">
+              <FiMessageSquare size={12} />
             </div>
-            <h3 className="text-sm font-black uppercase italic tracking-tighter">Send a Message</h3>
+            <h3 className="text-xs sm:text-sm font-bold text-[var(--foreground)]">Send a Message</h3>
           </div>
- 
+
           <AnimatePresence>
             {querySuccess && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                className="rounded-xl bg-green-500/10 text-green-500 p-3 text-[9px] font-black uppercase tracking-[0.2em] border border-green-500/10 flex items-center gap-2 italic"
+                className="rounded-lg bg-emerald-500/10 text-emerald-500 p-2.5 text-[10px] font-bold border border-emerald-500/20 flex items-center gap-2"
               >
-                {querySuccess}
+                ● {querySuccess}
               </motion.div>
             )}
           </AnimatePresence>
- 
-          <div className="space-y-4">
+
+          <div className="space-y-2.5">
             <div>
-              <label className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] block mb-1.5 px-1 opacity-40 italic">Select Category</label>
+              <label className="text-[9px] font-bold uppercase tracking-wider text-[var(--muted)] block mb-1 px-0.5">Select Category</label>
               <select
                 value={queryType}
                 onChange={(e) => setQueryType(e.target.value)}
-                className="w-full p-3 rounded-xl bg-[var(--foreground)]/[0.03] border border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] outline-none transition-all font-black uppercase italic tracking-tighter text-[10px] appearance-none cursor-pointer shadow-inner"
+                className="w-full py-2 px-3 rounded-lg bg-[var(--card)] border border-[var(--border)] focus:border-[var(--accent)] outline-none transition-all font-semibold text-xs text-[var(--foreground)] cursor-pointer"
               >
-                <option value="">Choose a Topic</option>
+                <option value="">Choose a Topic...</option>
                 {SUPPORT_CONFIG.queryTypes.map((type) => (
                   <option key={type} value={type}>
                     {type}
@@ -228,49 +216,48 @@ export default function QueryTab() {
                 ))}
               </select>
             </div>
- 
-            <div className="grid grid-cols-2 gap-3">
+
+            <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] block mb-1.5 px-1 opacity-40 italic">Phone Number</label>
+                <label className="text-[9px] font-bold uppercase tracking-wider text-[var(--muted)] block mb-1 px-0.5">Phone Number</label>
                 <input
                   type="text"
-                  className="w-full p-3 rounded-xl bg-[var(--foreground)]/[0.03] border border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] outline-none transition-all font-black uppercase italic tracking-tighter text-[10px] shadow-inner"
-                  placeholder="91 000..."
+                  className="w-full py-2 px-3 rounded-lg bg-[var(--foreground)]/[0.03] border border-[var(--border)] focus:border-[var(--accent)] focus:bg-[var(--card)] outline-none transition-all text-xs font-medium text-[var(--foreground)] placeholder:text-[var(--muted)]/40"
+                  placeholder="91 00000 00000"
                   value={queryPhone}
                   onChange={(e) => setQueryPhone(e.target.value)}
                 />
               </div>
               <div>
-                <label className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] block mb-1.5 px-1 opacity-40 italic">Order ID (Optional)</label>
+                <label className="text-[9px] font-bold uppercase tracking-wider text-[var(--muted)] block mb-1 px-0.5">Order ID (Optional)</label>
                 <input
                   type="text"
-                  className="w-full p-3 rounded-xl bg-[var(--foreground)]/[0.03] border border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] outline-none transition-all font-black uppercase italic tracking-tighter text-[10px] shadow-inner"
-                  placeholder="#ORD-..."
+                  className="w-full py-2 px-3 rounded-lg bg-[var(--foreground)]/[0.03] border border-[var(--border)] focus:border-[var(--accent)] focus:bg-[var(--card)] outline-none transition-all text-xs font-mono font-medium text-[var(--foreground)] placeholder:text-[var(--muted)]/40"
+                  placeholder="#ORD-12345"
                   value={queryOrderId}
                   onChange={(e) => setQueryOrderId(e.target.value)}
                 />
               </div>
             </div>
- 
+
             <div>
-              <label className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--muted)] block mb-1.5 px-1 opacity-40 italic">Your Message</label>
+              <label className="text-[9px] font-bold uppercase tracking-wider text-[var(--muted)] block mb-1 px-0.5">Your Message</label>
               <textarea
-                className="w-full p-3 rounded-xl h-20 bg-[var(--foreground)]/[0.03] border border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] outline-none transition-all resize-none text-[10px] font-bold placeholder:text-[var(--muted)]/20 shadow-inner"
-                placeholder="Describe your issue..."
+                className="w-full p-2.5 rounded-lg h-20 bg-[var(--foreground)]/[0.03] border border-[var(--border)] focus:border-[var(--accent)] focus:bg-[var(--card)] outline-none transition-all resize-none text-xs font-medium text-[var(--foreground)] placeholder:text-[var(--muted)]/40"
+                placeholder="Describe your issue or question in detail..."
                 value={queryMessage}
                 onChange={(e) => setQueryMessage(e.target.value)}
               />
             </div>
- 
+
             <motion.button
-              whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
               disabled={!queryType || isSubmitting}
               onClick={handleSubmit}
-              className="w-full py-4 rounded-xl bg-[var(--accent)] text-black font-black uppercase tracking-[0.3em] text-[10px] italic shadow-lg shadow-[var(--accent)]/20 hover:brightness-110 transition-all disabled:opacity-30 disabled:grayscale flex items-center justify-center gap-2"
+              className="w-full py-2.5 rounded-lg bg-[var(--accent)] text-white font-bold uppercase tracking-wider text-[10.5px] shadow-xs hover:bg-[var(--accent-hover)] transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-1.5"
             >
               {isSubmitting ? (
-                <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               ) : (
                 <>
                   <FiSend size={12} /> Send Message
@@ -278,7 +265,7 @@ export default function QueryTab() {
               )}
             </motion.button>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

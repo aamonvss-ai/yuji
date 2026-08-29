@@ -88,7 +88,7 @@ export default function GameBannerCarousel() {
 
   return (
     <div className="relative w-full max-w-7xl mx-auto mt-4 md:mt-6 px-4 select-none overflow-hidden group">
-      <div className="relative h-[195px] sm:h-[260px] md:h-[340px] rounded-[2rem] overflow-hidden shadow-2xl bg-black">
+      <div className="relative h-[195px] sm:h-[260px] md:h-[340px] rounded-xl overflow-hidden shadow-xl bg-black">
         <AnimatePresence initial={false} custom={direction} mode="popLayout">
           <motion.div
             key={current}

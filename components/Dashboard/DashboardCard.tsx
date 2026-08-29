@@ -5,7 +5,8 @@ import {
   Wallet,
   Activity,
   CreditCard,
-  MessageSquare
+  MessageSquare,
+  ChevronRight,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -22,15 +23,15 @@ interface DashboardCardProps {
 
 /* ================= ICON MAP ================= */
 const ICON_MAP: Record<string, JSX.Element> = {
-  order: <ShoppingBag size={20} />,
-  orders: <ShoppingBag size={20} />,
-  support: <MessageSquare size={20} />,
-  query: <MessageSquare size={20} />,
-  wallet: <Wallet size={20} />,
-  account: <Users size={20} />,
-  users: <Users size={20} />,
-  revenue: <Wallet size={20} />,
-  activity: <Activity size={20} />,
+  order: <ShoppingBag size={18} />,
+  orders: <ShoppingBag size={18} />,
+  support: <MessageSquare size={18} />,
+  query: <MessageSquare size={18} />,
+  wallet: <Wallet size={18} />,
+  account: <Users size={18} />,
+  users: <Users size={18} />,
+  revenue: <Wallet size={18} />,
+  activity: <Activity size={18} />,
 };
 
 export default function DashboardCard({
@@ -42,51 +43,52 @@ export default function DashboardCard({
 
   return (
     <motion.div
-      whileHover={{ y: -4, scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ y: -2 }}
+      whileTap={{ scale: 0.99 }}
       role="button"
       tabIndex={0}
       onClick={onClick}
       onKeyDown={(e) => e.key === "Enter" && onClick()}
-      className={`group relative p-4 rounded-2xl cursor-pointer border
-                  transition-all duration-300 overflow-hidden
+      className={`group relative p-3.5 sm:p-4 rounded-xl cursor-pointer border
+                  transition-all duration-300 overflow-hidden w-full
         ${isActive
-          ? "border-[var(--accent)] bg-[var(--card)] shadow-lg shadow-[var(--accent)]/5"
-          : "border-[var(--border)] bg-[var(--background)]/40 hover:bg-[var(--card)] hover:border-[var(--accent)]/20"
+          ? "border-[var(--accent)] bg-[var(--card)]/90 shadow-sm"
+          : "border-[var(--border)] bg-[var(--card)]/40 hover:bg-[var(--card)] hover:border-[var(--accent)]/30"
         }`}
     >
       {/* GLOW EFFECT FOR ACTIVE */}
       {isActive && (
-        <div className="absolute inset-0 bg-[var(--accent)]/5 rounded-2xl blur-xl -z-10" />
+        <div className="absolute inset-0 bg-[var(--accent)]/5 rounded-xl blur-xl -z-10" />
       )}
 
-      {/* ================= HEADER ================= */}
+      {/* ================= ROW CONTENT ================= */}
       <div className="flex items-center justify-between">
-        <div className="flex flex-col">
-          <p className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
-            {tab.label_alt || tab.label}
-          </p>
-          <h2 className={`text-lg md:text-xl font-bold mt-1 tracking-tight transition-colors
-            ${isActive ? "text-[var(--foreground)]" : "text-[var(--foreground)]/80 group-hover:text-[var(--foreground)]"}`}>
-            {tab.value}
-          </h2>
+        <div className="flex items-center gap-3.5">
+          <div
+            className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300
+              ${isActive
+                ? "bg-[var(--accent)] text-white shadow-xs"
+                : "bg-[var(--foreground)]/[0.04] border border-[var(--border)] text-[var(--muted)] group-hover:bg-[var(--accent)]/10 group-hover:text-[var(--accent)] group-hover:border-[var(--accent)]/20"
+              }`}
+          >
+            {ICON_MAP[tab.key] || <Activity size={18} />}
+          </div>
+
+          <div className="flex flex-col text-left">
+            <p className="text-[9.5px] sm:text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">
+              {tab.label_alt || tab.label}
+            </p>
+            <h2 className={`text-sm sm:text-base font-bold tracking-tight transition-colors
+              ${isActive ? "text-[var(--foreground)]" : "text-[var(--foreground)] group-hover:text-[var(--accent)]"}`}>
+              {tab.value}
+            </h2>
+          </div>
         </div>
 
-        <div
-          className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300
-            ${isActive
-              ? "bg-[var(--accent)] text-white shadow-md shadow-[var(--accent)]/20"
-              : "bg-black/5 text-[var(--muted)] group-hover:bg-[var(--accent)]/10 group-hover:text-[var(--accent)]"
-            }`}
-        >
-          {ICON_MAP[tab.key] || <Activity size={18} />}
+        <div className="flex items-center gap-1 text-[var(--muted)] group-hover:text-[var(--foreground)] transition-colors">
+          <ChevronRight size={16} className="opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
         </div>
       </div>
-
-      {/* ================= ACTIVE INDICATOR ================= */}
-      {isActive && (
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-[var(--accent)]" />
-      )}
     </motion.div>
   );
 }

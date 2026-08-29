@@ -6,7 +6,7 @@ import { Globe, Trophy, Gamepad2, LayoutGrid, Crown } from "lucide-react";
 export default function HomeQuickActions() {
   const actions = [
     {
-      name: "Trophy",
+      name: "Leaderboard",
       href: "/leaderboard",
       icon: Trophy,
       delay: "0.05s",
@@ -24,7 +24,7 @@ export default function HomeQuickActions() {
       hover: "hover:bg-blue-500/10",
     },
     {
-      name: "Pass",
+      name: "VIP",
       href: "/games/silver-membership",
       icon: Crown,
       delay: "0.15s",
@@ -33,8 +33,8 @@ export default function HomeQuickActions() {
       hover: "hover:bg-amber-500/10",
     },
     {
-      name: "More",
-      href: "/services",
+      name: "Dashboard",
+      href: "/dashboard",
       icon: LayoutGrid,
       delay: "0.2s",
       color: "text-violet-500",
@@ -42,7 +42,7 @@ export default function HomeQuickActions() {
       hover: "hover:bg-violet-500/10",
     },
     {
-      name: "Play",
+      name: "Games",
       href: "/games",
       icon: Gamepad2,
       delay: "0.25s",
@@ -54,7 +54,7 @@ export default function HomeQuickActions() {
 
   return (
     <section className="w-full py-4">
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-5 gap-1.5 sm:gap-3">
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-5 gap-1 sm:gap-3">
         {actions.map((action, index) => (
           <Link
             key={action.name}
@@ -76,7 +76,7 @@ export default function HomeQuickActions() {
               <action.icon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
             </div>
 
-            <span className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-[var(--muted)] text-center transition-all duration-300 group-hover:text-[var(--foreground)]">
+            <span className="text-[8.5px] sm:text-[11px] font-bold uppercase tracking-tight text-[var(--muted)] text-center transition-all duration-300 group-hover:text-[var(--foreground)] truncate w-full">
               {action.name}
             </span>
           </Link>

@@ -5,7 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { GoogleLogin } from "@react-oauth/google";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShieldCheck, Lock, ArrowRight, ArrowLeft, UserCheck, Mail, KeyRound, Crown } from "lucide-react";
+import { ShieldCheck, Lock, ArrowRight, UserCheck, Mail, KeyRound } from "lucide-react";
+import logo from "@/public/logo.png";
 
 export default function AuthPage() {
   const [loading, setLoading] = useState(false);
@@ -152,18 +153,23 @@ export default function AuthPage() {
         <div className="w-full relative">
           
           {/* BRANDING SECTION */}
-          <div className="mb-6 text-center flex flex-col items-center">
-            <div className="mb-4 h-14 w-14 relative flex justify-center items-center rounded-full border border-amber-500/20 bg-amber-500/5">
-              <div className="h-10 w-10 rounded-full border border-amber-500/30 flex items-center justify-center bg-amber-500/10">
-                <Crown size={20} className="text-amber-500" />
-              </div>
-            </div>
+          <div className="mb-4 text-center flex flex-col items-center">
+            <Link href="/" className="mb-0 inline-block transition-transform hover:scale-105 active:scale-95">
+              <Image
+                src={logo}
+                alt="Logo"
+                width={180}
+                height={180}
+                className="w-40 h-40 sm:w-44 sm:h-44 object-contain logo-img"
+                priority
+              />
+            </Link>
 
-            <div className="space-y-1">
+            <div className="space-y-0.5">
               <h1 className="text-2xl font-bold tracking-tight text-[var(--foreground)]">
                 Welcome back
               </h1>
-              <p className="text-[14px] text-[var(--muted)]">
+              <p className="text-[13.5px] text-[var(--muted)]">
                 Sign in or register to continue
               </p>
             </div>
@@ -316,23 +322,13 @@ export default function AuthPage() {
           </div>
 
           {/* FOOTER */}
-          <div className="mt-8 space-y-5">
+          <div className="mt-8">
             <p className="text-[12px] text-[var(--muted)] text-center px-2">
               By signing in, you agree to our{" "}
               <button className="text-amber-500 font-medium hover:text-amber-600 transition-colors">Terms</button>
               {" "}and{" "}
               <button className="text-amber-500 font-medium hover:text-amber-600 transition-colors">Privacy Policy</button>
             </p>
-
-            <div className="flex justify-center">
-              <Link
-                href="/"
-                className="group inline-flex items-center gap-2 text-[13px] font-medium text-[var(--foreground)]/80 hover:text-[var(--foreground)] transition-colors"
-              >
-                <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-                Back to homepage
-              </Link>
-            </div>
           </div>
         </div>
       </motion.div>

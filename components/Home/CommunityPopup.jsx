@@ -7,8 +7,12 @@ import { FaWhatsapp } from "react-icons/fa6";
 
 const CommunityPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const WHATSAPP_LINK = process.env.NEXT_PUBLIC_WHATSAPP_STORE_LINK || "https://whatsapp.com/channel/0029VbBpAyQ1HsppFN2mW336";
-  const QR_CODE_URL = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(WHATSAPP_LINK)}`;
+  const WHATSAPP_LINK =
+    process.env.NEXT_PUBLIC_WHATSAPP_STORE_LINK ||
+    "https://whatsapp.com/channel/0029VbBpAyQ1HsppFN2mW336";
+  const QR_CODE_URL = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(
+    WHATSAPP_LINK
+  )}`;
 
   useEffect(() => {
     const hasSeenPopup = sessionStorage.getItem("has_seen_community_popup_v2");
@@ -32,79 +36,73 @@ const CommunityPopup = () => {
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center p-4">
+          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
             onClick={handleClose}
-            className="absolute inset-0 bg-black/60 backdrop-blur-md"
+            className="absolute inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-md"
           />
 
+          {/* Modal Card */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0, scale: 0.94, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ type: "spring", damping: 25, stiffness: 400 }}
-            className="relative w-full max-w-[260px] bg-[var(--card)]/95 backdrop-blur-xl border border-white/10 dark:border-white/5 rounded-[1.25rem] p-5 shadow-2xl overflow-hidden ring-1 ring-black/5"
+            exit={{ opacity: 0, scale: 0.94, y: 12 }}
+            transition={{ type: "spring", damping: 28, stiffness: 360 }}
+            className="relative w-full max-w-[300px] bg-white dark:bg-[#111215] border border-neutral-200 dark:border-neutral-800 rounded-3xl p-5.5 overflow-hidden flex flex-col items-center"
           >
             {/* Close Button */}
             <button
               onClick={handleClose}
-              className="absolute top-2 right-2 p-1.5 text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-all z-10"
+              aria-label="Close modal"
+              className="absolute top-3.5 right-3.5 w-7 h-7 flex items-center justify-center text-neutral-400 hover:text-neutral-700 dark:text-neutral-500 dark:hover:text-neutral-200 bg-neutral-100 dark:bg-neutral-800/80 hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded-full transition-colors z-10"
             >
-              <FiX size={16} />
+              <FiX size={15} />
             </button>
 
-            <div className="flex flex-col items-center text-center">
-              {/* Icon Container with glowing effect */}
-              <div className="relative mb-3 group">
-                <div className="absolute inset-0 bg-[#25D366] blur-md opacity-30 rounded-full transition-all duration-300 group-hover:opacity-50 group-hover:scale-110" />
-                <div className="relative w-10 h-10 bg-gradient-to-br from-[#25D366]/20 to-[#1DA851]/20 text-[#25D366] rounded-full flex items-center justify-center shadow-sm border border-[#25D366]/30 backdrop-blur-md">
-                  <FaWhatsapp size={20} className="drop-shadow-sm" />
-                </div>
+            {/* Header: Icon Left, Text Right */}
+            <div className="flex items-center gap-3 mb-4 pr-6 text-left w-full">
+              <div className="w-10 h-10 shrink-0 rounded-xl bg-[#25D366]/10 dark:bg-[#25D366]/15 border border-[#25D366]/25 flex items-center justify-center text-[#25D366]">
+                <FaWhatsapp size={20} />
               </div>
-
-              {/* Title Content */}
-              <div className="mb-4 space-y-1">
-                <h2 className="text-lg font-bold text-[var(--foreground)] tracking-tight">
+              <div className="flex-1 min-w-0">
+                <h2 className="text-[15.5px] font-bold text-neutral-900 dark:text-white tracking-tight leading-tight">
                   Join Community
                 </h2>
-                <p className="text-[12px] text-[var(--muted)] leading-relaxed max-w-[200px] mx-auto">
-                  Scan to get our latest updates & exclusive offers.
+                <p className="text-[11.5px] text-neutral-500 dark:text-neutral-400 leading-tight mt-0.5">
+                  Scan to get instant updates & exclusive offers.
                 </p>
               </div>
-
-              {/* QR Code Section */}
-              <div className="relative mb-4 bg-white/90 p-2.5 rounded-[1rem] shadow-[0_2px_10px_-3px_rgba(0,0,0,0.1)] border border-black/5 dark:border-white/10 group hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-300 transform hover:-translate-y-0.5">
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#25D366]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[1rem]" />
-                <img
-                  src={QR_CODE_URL}
-                  alt="WhatsApp QR Code"
-                  className="relative w-[95px] h-[95px] object-contain mx-auto mix-blend-multiply"
-                />
-              </div>
-
-              {/* Action Button */}
-              <button
-                onClick={handleJoin}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-gradient-to-r from-[#25D366] to-[#1DA851] hover:from-[#22c55e] hover:to-[#16a34a] text-white rounded-[0.875rem] font-semibold text-[13px] transition-all duration-300 hover:shadow-lg hover:shadow-[#25D366]/30 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] mb-2 border border-white/10"
-              >
-                <FaWhatsapp size={16} />
-                Open WhatsApp
-              </button>
-
-              {/* Dismiss Action */}
-              <button
-                onClick={handleClose}
-                className="text-[11px] font-medium text-[var(--muted)] hover:text-[var(--foreground)] transition-colors py-1 hover:underline underline-offset-2 opacity-80 hover:opacity-100"
-              >
-                Maybe Later
-              </button>
             </div>
 
-            {/* Background Glows (Theme Aware) */}
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#25D366] opacity-[0.06] blur-[60px] pointer-events-none rounded-full" />
-            <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-[#25D366] opacity-[0.06] blur-[60px] pointer-events-none rounded-full" />
+            {/* QR Code Container */}
+            <div className="mb-4 p-3 bg-white dark:bg-white rounded-2xl border border-neutral-200 dark:border-neutral-800">
+              <img
+                src={QR_CODE_URL}
+                alt="WhatsApp QR Code"
+                className="w-[115px] h-[115px] object-contain rounded-lg block"
+              />
+            </div>
+
+            {/* Open WhatsApp Button */}
+            <button
+              onClick={handleJoin}
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-[#25D366] hover:bg-[#20be5b] text-white rounded-xl font-semibold text-[13.5px] tracking-wide transition-colors active:scale-[0.98] mb-1.5"
+            >
+              <FaWhatsapp size={17} />
+              <span>Open WhatsApp</span>
+            </button>
+
+            {/* Dismiss Button */}
+            <button
+              onClick={handleClose}
+              className="text-[11.5px] font-medium text-neutral-400 hover:text-neutral-700 dark:text-neutral-500 dark:hover:text-neutral-300 transition-colors py-1 hover:underline underline-offset-4"
+            >
+              Maybe Later
+            </button>
           </motion.div>
         </div>
       )}

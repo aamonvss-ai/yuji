@@ -225,42 +225,44 @@ export default function BuyFlowPage() {
             <div className="lg:col-span-5 space-y-6">
 
               {/* HERO CARD */}
-              <div className="bg-[var(--card)]/20 backdrop-blur-xl border border-[var(--border)] rounded-[2rem] p-4 shadow-xl relative overflow-hidden group">
-                <div className="flex items-center gap-4 relative z-10">
-                  <div className="w-20 h-20 md:w-24 md:h-24 relative rounded-2xl overflow-hidden border-2 border-[var(--card)]/50 shadow-2xl rotate-[-2deg] group-hover:rotate-0 transition-all duration-700">
-                    <Image
-                      src={item?.itemImageId?.image || fallbackImage || logo}
-                      alt={item?.itemName || "Item"}
-                      fill
-                      className="object-cover scale-110 group-hover:scale-125 transition-transform duration-700"
-                    />
+              <div className="bg-[var(--card)]/40 backdrop-blur-md border border-[var(--border)] rounded-xl p-3 shadow-xs relative overflow-hidden group">
+                <div className="flex items-center gap-3.5 relative z-10">
+                  <div className="relative shrink-0">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 relative rounded-lg overflow-hidden border border-[var(--border)] bg-[var(--card)]">
+                      <Image
+                        src={item?.itemImageId?.image || fallbackImage || logo}
+                        alt={item?.itemName || "Item"}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                    {discountPercent > 0 && (
+                      <span className="absolute -top-1.5 -left-1.5 bg-rose-500 text-white font-bold text-[7.5px] px-1.5 py-0.5 rounded shadow-xs z-20">
+                        {discountPercent}% OFF
+                      </span>
+                    )}
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <span className="bg-[var(--accent)]/10 text-[var(--accent)] text-[8px] font-black uppercase px-2 py-0.5 rounded-full tracking-wider">
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <span className="bg-[var(--accent)]/10 text-[var(--accent)] text-[8px] font-bold uppercase px-1.5 py-0.5 rounded tracking-wider">
                         • Instant Delivery
                       </span>
                     </div>
-                    <h1 className="text-xl md:text-2xl font-black uppercase tracking-tighter italic leading-none mb-1">
+                    <h1 className="text-base sm:text-lg font-bold text-[var(--foreground)] tracking-tight leading-tight truncate">
                       {item?.itemName || fallbackName}
                     </h1>
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-black text-[var(--accent)] italic tracking-tighter">{formatPrice(price)}</span>
+                    <div className="flex items-baseline gap-2 mt-0.5">
+                      <span className="text-lg sm:text-xl font-black text-[var(--accent)] tracking-tight">{formatPrice(price)}</span>
                       {dummyPrice > price && (
-                        <span className="text-sm font-bold opacity-30 line-through">{formatPrice(dummyPrice)}</span>
+                        <span className="text-xs font-semibold text-[var(--muted)] opacity-60 line-through">{formatPrice(dummyPrice)}</span>
                       )}
                     </div>
                   </div>
                 </div>
 
-                {discountPercent > 0 && (
-                  <div className="absolute top-3 left-3 bg-red-500 text-white font-black text-[9px] px-3 py-1 rounded-full shadow-lg z-20 animate-bounce">
-                    {discountPercent}% OFF
-                  </div>
-                )}
-
-                <div className="absolute top-4 right-4 opacity-20">
-                  <MdHelpOutline size={20} />
+                <div className="absolute top-3 right-3 text-[var(--muted)] opacity-40 hover:opacity-100 transition-opacity">
+                  <MdHelpOutline size={16} />
                 </div>
               </div>
 
@@ -299,22 +301,22 @@ export default function BuyFlowPage() {
             <div className="lg:col-span-7 space-y-6">
 
               {/* 1. PLAYER INFO */}
-              <div className={`bg-[var(--card)]/30 backdrop-blur-xl border-2 transition-all duration-500 rounded-[2rem] p-5 shadow-2xl relative overflow-hidden ${!isVerified ? 'border-[var(--accent)]/30' : 'border-transparent'}`}>
+              <div className={`bg-[var(--card)]/40 backdrop-blur-md border transition-all duration-300 rounded-xl p-3.5 sm:p-4 shadow-xs relative overflow-hidden ${!isVerified ? 'border-[var(--border)]' : 'border-emerald-500/40'}`}>
                 {/* Progress Indicator */}
-                <div className="absolute top-0 left-0 h-1 bg-[var(--accent)] transition-all duration-700" style={{ width: isVerified ? '100%' : '50%' }} />
+                <div className="absolute top-0 left-0 h-0.5 bg-[var(--accent)] transition-all duration-500" style={{ width: isVerified ? '100%' : '50%' }} />
 
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-3">
-                    <div className={`w-1 h-8 rounded-full transition-colors duration-500 ${isVerified ? 'bg-green-500' : 'bg-[var(--accent)]'}`} />
-                    <h2 className="text-xl font-black uppercase tracking-tighter italic">1. Player Info</h2>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-1.5 h-4 rounded-full transition-colors duration-300 ${isVerified ? 'bg-emerald-500' : 'bg-[var(--accent)]'}`} />
+                    <h2 className="text-sm font-bold text-[var(--foreground)] tracking-tight">1. Player Info</h2>
                   </div>
                   <HelpImagePopup />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-3">
                   <div className="relative group">
-                    <div className="absolute left-5 top-1/2 -translate-y-1/2 opacity-30 group-focus-within:opacity-100 group-focus-within:text-[var(--accent)] transition-all">
-                      <FaUser size={14} />
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)] group-focus-within:text-[var(--accent)] transition-colors pointer-events-none">
+                      <FaUser size={12} />
                     </div>
                     <input
                       value={playerId}
@@ -323,14 +325,14 @@ export default function BuyFlowPage() {
                         setIsVerified(false);
                       }}
                       placeholder={game?.inputFieldOne || "User ID"}
-                      className="w-full bg-[var(--foreground)]/[0.03] border-2 border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] rounded-xl py-3 pl-12 pr-4 text-xs font-bold tracking-tight outline-none transition-all shadow-inner placeholder:opacity-20"
+                      className="w-full bg-[var(--foreground)]/[0.03] border border-[var(--border)] focus:border-[var(--accent)] focus:bg-[var(--card)] rounded-lg py-2 pl-9 pr-3 text-xs font-semibold tracking-tight outline-none transition-all placeholder:text-[var(--muted)]/40 text-[var(--foreground)]"
                     />
                   </div>
 
                   {(game?.inputFieldTwo || (game?.inputFieldTwoOption && game.inputFieldTwoOption.length > 0)) && (
                     <div className="relative group">
-                      <div className="absolute left-5 top-1/2 -translate-y-1/2 opacity-30 group-focus-within:opacity-100 group-focus-within:text-[var(--accent)] transition-all">
-                        <FaHistory size={14} className="rotate-90" />
+                      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)] group-focus-within:text-[var(--accent)] transition-colors pointer-events-none">
+                        <FaHistory size={12} className="rotate-90" />
                       </div>
                       <input
                         value={zoneId}
@@ -339,7 +341,7 @@ export default function BuyFlowPage() {
                           setIsVerified(false);
                         }}
                         placeholder={game?.inputFieldTwo || "Server ID"}
-                        className="w-full bg-[var(--foreground)]/[0.03] border-2 border-transparent focus:border-[var(--accent)]/20 focus:bg-[var(--card)] rounded-xl py-3 pl-12 pr-4 text-xs font-bold tracking-tight outline-none transition-all shadow-inner placeholder:opacity-20"
+                        className="w-full bg-[var(--foreground)]/[0.03] border border-[var(--border)] focus:border-[var(--accent)] focus:bg-[var(--card)] rounded-lg py-2 pl-9 pr-3 text-xs font-semibold tracking-tight outline-none transition-all placeholder:text-[var(--muted)]/40 text-[var(--foreground)]"
                       />
                     </div>
                   )}
@@ -348,18 +350,18 @@ export default function BuyFlowPage() {
                 <button
                   onClick={handleValidate}
                   disabled={loading}
-                  className={`w-full py-3.5 rounded-xl font-black uppercase tracking-[0.2em] text-[9px] italic transition-all duration-500 flex items-center justify-center gap-3 mb-6 shadow-xl border-2
+                  className={`w-full py-2.5 rounded-lg font-bold uppercase tracking-wider text-[10px] transition-all duration-300 flex items-center justify-center gap-2 mb-3 border
                     ${loading
                       ? "opacity-50 cursor-not-allowed border-transparent bg-[var(--foreground)]/[0.05]"
                       : isVerified
-                        ? "bg-green-500 text-white border-green-500 shadow-green-500/20"
-                        : "bg-[var(--accent)]/10 text-[var(--accent)] border-[var(--accent)]/20 hover:bg-[var(--accent)] hover:text-black hover:border-[var(--accent)]"}`}
+                        ? "bg-emerald-500 text-white border-emerald-500 shadow-xs"
+                        : "bg-[var(--accent)]/10 text-[var(--accent)] border-[var(--accent)]/30 hover:bg-[var(--accent)] hover:text-white hover:border-[var(--accent)]"}`}
                 >
                   {loading ? (
-                    <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                    <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
                   ) : isVerified ? (
-                    <div className="flex items-center gap-2 animate-pop">
-                      <div className="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center"><FaCheckCircle size={10} /></div>
+                    <div className="flex items-center gap-1.5 animate-pop">
+                      <FaCheckCircle size={11} />
                       <span>Verified: {verifiedName}</span>
                     </div>
                   ) : (
@@ -368,27 +370,27 @@ export default function BuyFlowPage() {
                 </button>
 
                 {error && (
-                  <div className="p-3 mb-6 rounded-xl bg-red-500/10 text-red-500 text-[10px] font-bold uppercase tracking-widest text-center border border-red-500/20 animate-shake">
+                  <div className="p-2.5 mb-3 rounded-lg bg-rose-500/10 text-rose-500 text-[10.5px] font-semibold text-center border border-rose-500/20">
                     {error}
                   </div>
                 )}
 
-                <div className="pt-4 border-t border-[var(--border)]">
-                  <div className="flex items-center justify-between mb-3 px-1">
-                    <div className="flex items-center gap-2">
-                      <FaHistory size={10} className="opacity-20" />
-                      <span className="font-black text-[9px] uppercase tracking-widest opacity-30">Recent Players</span>
+                <div className="pt-2.5 border-t border-[var(--border)]/60">
+                  <div className="flex items-center justify-between px-0.5 mb-1.5">
+                    <div className="flex items-center gap-1.5 text-[var(--muted)]">
+                      <FaHistory size={10} />
+                      <span className="font-bold text-[9.5px] uppercase tracking-wider">Recent Players</span>
                     </div>
                     <button
                       onClick={() => setShowRecent(!showRecent)}
-                      className="text-[9px] font-black uppercase tracking-widest text-[var(--accent)] hover:underline"
+                      className="text-[9.5px] font-bold uppercase tracking-wider text-[var(--accent)] hover:underline"
                     >
                       {showRecent ? "HIDE" : "SHOW"}
                     </button>
                   </div>
 
                   {showRecent && (
-                    <div className="space-y-2 animate-fadeUp">
+                    <div className="space-y-1.5 pt-1 animate-fadeUp">
                       {recentPlayers.length > 0 ? (
                         recentPlayers.map((p, i) => (
                           <button
@@ -398,17 +400,17 @@ export default function BuyFlowPage() {
                               setZoneId(p.zoneId);
                               setIsVerified(false);
                             }}
-                            className="w-full p-3 rounded-xl bg-[var(--foreground)]/[0.02] hover:bg-[var(--card)] border border-transparent hover:border-[var(--accent)]/10 flex items-center justify-between transition-all group"
+                            className="w-full p-2 rounded-lg bg-[var(--foreground)]/[0.02] hover:bg-[var(--foreground)]/[0.05] border border-[var(--border)] flex items-center justify-between transition-all group text-left"
                           >
-                            <div className="text-left">
-                              <p className="font-black text-[10px] uppercase italic tracking-tight">{p.username}</p>
-                              <p className="text-[8px] font-bold opacity-30 uppercase">{p.playerId} {p.zoneId ? `(${p.zoneId})` : ""}</p>
+                            <div>
+                              <p className="font-bold text-[10.5px] text-[var(--foreground)] truncate">{p.username}</p>
+                              <p className="text-[9px] text-[var(--muted)] font-medium">{p.playerId} {p.zoneId ? `(${p.zoneId})` : ""}</p>
                             </div>
-                            <FaArrowRight size={8} className="text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <FaArrowRight size={9} className="text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity" />
                           </button>
                         ))
                       ) : (
-                        <p className="text-center py-2 text-[9px] font-bold opacity-20 uppercase tracking-widest italic">No recent players</p>
+                        <p className="text-center py-1.5 text-[10px] text-[var(--muted)]">No recent players saved</p>
                       )}
                     </div>
                   )}
@@ -416,34 +418,34 @@ export default function BuyFlowPage() {
               </div>
 
               {/* 2. PAYMENT */}
-              <div className={`bg-[var(--card)]/30 backdrop-blur-xl border-2 transition-all duration-700 rounded-[1.5rem] p-4 shadow-2xl relative overflow-hidden ${isVerified ? 'border-[var(--accent)]/30 opacity-100' : 'border-transparent opacity-40'}`}>
+              <div className={`bg-[var(--card)]/40 backdrop-blur-md border transition-all duration-300 rounded-xl p-3.5 sm:p-4 shadow-xs relative overflow-hidden ${isVerified ? 'border-[var(--border)] opacity-100' : 'border-[var(--border)]/40 opacity-50'}`}>
                 {/* Lock Overlay for UX */}
                 {!isVerified && <div className="absolute inset-0 z-20 cursor-not-allowed" title="Verify player info first" />}
 
-                <div className="flex items-center gap-2.5 mb-4">
-                  <div className={`w-1 h-6 rounded-full transition-colors duration-500 ${isVerified ? 'bg-[var(--accent)]' : 'bg-[var(--foreground)]/10'}`} />
-                  <h2 className="text-lg font-black uppercase tracking-tighter italic">2. Payment</h2>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className={`w-1.5 h-4 rounded-full transition-colors duration-300 ${isVerified ? 'bg-[var(--accent)]' : 'bg-[var(--muted)]/40'}`} />
+                  <h2 className="text-sm font-bold text-[var(--foreground)] tracking-tight">2. Payment</h2>
                 </div>
 
-                <div className="space-y-2 mb-5">
+                <div className="space-y-2 mb-4">
                   {/* UPI Gateway */}
                   <button
                     onClick={() => setPaymentMethod("upi")}
                     disabled={!isVerified}
-                    className={`w-full p-3 rounded-xl border-2 transition-all flex items-center justify-between group
-                      ${paymentMethod === "upi" ? "bg-[var(--card)] border-[var(--accent)] shadow-xl scale-[1.01]" : "bg-[var(--foreground)]/[0.02] border-transparent hover:border-[var(--accent)]/10"}`}
+                    className={`w-full p-2.5 rounded-lg border transition-all flex items-center justify-between group
+                      ${paymentMethod === "upi" ? "bg-[var(--card)] border-[var(--accent)] shadow-xs" : "bg-[var(--foreground)]/[0.02] border-[var(--border)] hover:border-[var(--accent)]/30"}`}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-500 ${paymentMethod === "upi" ? "bg-[var(--accent)] text-black rotate-[-6deg]" : "bg-[var(--card)] text-[var(--accent)] border border-[var(--border)]"}`}>
-                        <MdOutlineSmartphone size={18} />
+                    <div className="flex items-center gap-2.5">
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${paymentMethod === "upi" ? "bg-[var(--accent)] text-white" : "bg-[var(--foreground)]/[0.04] text-[var(--muted)] border border-[var(--border)]"}`}>
+                        <MdOutlineSmartphone size={16} />
                       </div>
                       <div className="text-left">
-                        <p className="font-black text-xs uppercase italic tracking-tight">UPI Gateway</p>
-                        <p className="text-[8px] font-bold opacity-30 uppercase tracking-wider">Gpay, Phonepe, Paytm</p>
+                        <p className="font-bold text-xs text-[var(--foreground)]">UPI Gateway</p>
+                        <p className="text-[9px] text-[var(--muted)] font-medium">GPay, PhonePe, Paytm, QR</p>
                       </div>
                     </div>
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${paymentMethod === "upi" ? "border-[var(--accent)] bg-[var(--accent)]" : "border-[var(--border)]"}`}>
-                      {paymentMethod === "upi" && <FaCheckCircle className="text-black" size={10} />}
+                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${paymentMethod === "upi" ? "border-[var(--accent)] bg-[var(--accent)]" : "border-[var(--border)]"}`}>
+                      {paymentMethod === "upi" && <FaCheckCircle className="text-white" size={9} />}
                     </div>
                   </button>
 
@@ -451,31 +453,31 @@ export default function BuyFlowPage() {
                   <button
                     onClick={() => setPaymentMethod("wallet")}
                     disabled={!isVerified}
-                    className={`w-full p-3 rounded-xl border-2 transition-all flex items-center justify-between group
-                      ${paymentMethod === "wallet" ? "bg-[var(--card)] border-[var(--accent)] shadow-xl scale-[1.01]" : "bg-[var(--foreground)]/[0.02] border-transparent hover:border-[var(--accent)]/10"}`}
+                    className={`w-full p-2.5 rounded-lg border transition-all flex items-center justify-between group
+                      ${paymentMethod === "wallet" ? "bg-[var(--card)] border-[var(--accent)] shadow-xs" : "bg-[var(--foreground)]/[0.02] border-[var(--border)] hover:border-[var(--accent)]/30"}`}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-500 ${paymentMethod === "wallet" ? "bg-[var(--accent)] text-black rotate-[-6deg]" : "bg-[var(--card)] text-[var(--accent)] border border-[var(--border)]"}`}>
-                        <IoWalletOutline size={18} />
+                    <div className="flex items-center gap-2.5">
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${paymentMethod === "wallet" ? "bg-[var(--accent)] text-white" : "bg-[var(--foreground)]/[0.04] text-[var(--muted)] border border-[var(--border)]"}`}>
+                        <IoWalletOutline size={16} />
                       </div>
                       <div className="text-left">
-                        <p className="font-black text-xs uppercase italic tracking-tight">My Wallet</p>
-                        <p className="text-[8px] font-bold opacity-30 uppercase tracking-wider">Balance: {formatPrice(walletBalance)}</p>
+                        <p className="font-bold text-xs text-[var(--foreground)]">My Wallet</p>
+                        <p className="text-[9px] text-[var(--muted)] font-medium">Balance: {formatPrice(walletBalance)}</p>
                       </div>
                     </div>
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${paymentMethod === "wallet" ? "border-[var(--accent)] bg-[var(--accent)]" : "border-[var(--border)]"}`}>
-                      {paymentMethod === "wallet" && <FaCheckCircle className="text-black" size={10} />}
+                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${paymentMethod === "wallet" ? "border-[var(--accent)] bg-[var(--accent)]" : "border-[var(--border)]"}`}>
+                      {paymentMethod === "wallet" && <FaCheckCircle className="text-white" size={9} />}
                     </div>
                   </button>
                 </div>
 
-                <div className="flex items-center justify-between px-2 mb-5">
-                  <span className="font-black text-[9px] uppercase tracking-[0.3em] opacity-30 italic">Total Amount</span>
-                  <span className="text-3xl font-black italic tracking-tighter">{formatPrice(price)}</span>
+                <div className="flex items-center justify-between px-1 mb-3 pt-2 border-t border-[var(--border)]/60">
+                  <span className="font-bold text-[10px] uppercase tracking-wider text-[var(--muted)]">Total Amount</span>
+                  <span className="text-xl sm:text-2xl font-black text-[var(--accent)] tracking-tight">{formatPrice(price)}</span>
                 </div>
 
                 {error && !loading && (
-                  <div className="p-3 mb-5 rounded-xl bg-red-500/10 text-red-500 text-[10px] font-bold uppercase tracking-widest text-center border border-red-500/20 animate-shake">
+                  <div className="p-2.5 mb-3 rounded-lg bg-rose-500/10 text-rose-500 text-[10.5px] font-semibold text-center border border-rose-500/20">
                     {error}
                   </div>
                 )}
@@ -483,28 +485,26 @@ export default function BuyFlowPage() {
                 <button
                   onClick={handleProceed}
                   disabled={payLoading || !isVerified}
-                  className={`w-full py-3.5 rounded-xl font-black uppercase tracking-[0.3em] text-[9px] italic transition-all duration-700 shadow-xl flex items-center justify-center gap-3
+                  className={`w-full py-2.5 rounded-lg font-bold uppercase tracking-wider text-[10px] transition-all duration-300 shadow-xs flex items-center justify-center gap-2
                     ${!isVerified
-                      ? "bg-[var(--foreground)]/[0.05] text-[var(--foreground)]/10 cursor-not-allowed shadow-none"
-                      : "bg-[var(--accent)] text-black hover:bg-[var(--accent)] hover:brightness-110 shadow-[var(--accent)]/30 hover:scale-[1.02]"}`}
+                      ? "bg-[var(--foreground)]/[0.05] text-[var(--muted)]/50 cursor-not-allowed border border-[var(--border)]"
+                      : "bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] active:scale-98"}`}
                 >
                   {payLoading ? (
-                    <span className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                    <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
                   ) : (
                     <>
                       Confirm & Pay
-                      <FaArrowRight size={14} />
+                      <FaArrowRight size={12} />
                     </>
                   )}
                 </button>
 
                 {!isVerified && (
-                  <p className="text-center text-[9px] font-black uppercase tracking-[0.3em] mt-5 text-[var(--accent)] animate-pulse italic">
-                    Please verify account to proceed
+                  <p className="text-center text-[10px] font-semibold mt-2.5 text-[var(--accent)]">
+                    Please verify player info above to proceed
                   </p>
                 )}
-
-
               </div>
 
             </div>

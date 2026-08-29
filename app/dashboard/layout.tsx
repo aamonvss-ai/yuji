@@ -81,14 +81,14 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                         </div>
                     </div>
 
-                    {/* CARDS GRID */}
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto mb-12">
+                    {/* CARDS - 3 DIFFERENT ROWS */}
+                    <div className="flex flex-col gap-3 max-w-6xl mx-auto mb-12">
                         {tabCards.map((tab, idx) => (
                             <motion.div
                                 key={tab.key}
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 15 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: idx * 0.1 }}
+                                transition={{ delay: idx * 0.08 }}
                             >
                                 <DashboardCard
                                     tab={tab}
@@ -109,7 +109,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                     animate={{ opacity: 1, scale: 1 }}
                     className="max-w-6xl mx-auto bg-[var(--card)]/40 
                               backdrop-blur-3xl border border-[var(--border)]
-                              rounded-2xl p-4 md:p-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)] relative overflow-hidden"
+                              rounded-xl p-3 sm:p-5 md:p-6 shadow-xl relative overflow-hidden"
                 >
                     {/* Premium Background Accents */}
                     <div className="absolute -top-24 -right-24 w-96 h-96 bg-[var(--accent)]/10 rounded-full blur-[100px] -z-10 animate-pulse" />

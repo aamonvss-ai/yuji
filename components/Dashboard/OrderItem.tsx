@@ -1,24 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  ChevronDown,
-  Calendar,
-  User,
-  Grid,
-  CreditCard,
-  Package,
-  Hash,
-  Share2,
-  Copy,
-  X,
-  CheckCircle2,
-  AlertCircle,
-  Clock,
-  RotateCcw,
-  Zap
-} from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Copy, Check } from "lucide-react";
 import { useCurrency } from "@/components/CurrencyContext";
 
 /* ================= TYPES ================= */
@@ -52,7 +35,6 @@ const getGameName = (slug: string) => {
 /* ================= MAIN ================= */
 
 export default function OrderItem({ order }: { order: OrderType }) {
-  const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const { formatPrice } = useCurrency();
 
@@ -62,31 +44,23 @@ export default function OrderItem({ order }: { order: OrderType }) {
     switch (s) {
       case "success":
         return {
-          icon: <CheckCircle2 size={12} />,
           colors: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
-          accent: "bg-emerald-500",
           label: "Delivered"
         };
       case "failed":
         return {
-          icon: <AlertCircle size={12} />,
-          colors: "bg-red-500/10 text-red-500 border-red-500/20",
-          accent: "bg-red-500",
+          colors: "bg-rose-500/10 text-rose-500 border-rose-500/20",
           label: "Failed"
         };
       case "refund":
       case "refunded":
         return {
-          icon: <RotateCcw size={12} />,
-          colors: "bg-blue-500/10 text-blue-500 border-blue-500/20",
-          accent: "bg-blue-500",
+          colors: "bg-sky-500/10 text-sky-500 border-sky-500/20",
           label: "Refunded"
         };
       default:
         return {
-          icon: <Clock size={12} />,
           colors: "bg-amber-500/10 text-amber-500 border-amber-500/20",
-          accent: "bg-amber-500",
           label: "Processing"
         };
     }
@@ -95,100 +69,66 @@ export default function OrderItem({ order }: { order: OrderType }) {
   const config = getStatusConfig(status);
 
   return (
-    <>
-      <div
-        className={`group relative overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card)]/40 transition-all duration-300 hover:border-[var(--accent)]/30 ${open ? 'border-[var(--accent)]/50 shadow-lg shadow-[var(--accent)]/5' : ''}`}
-      >
-        {/* HEADER AREA */}
-        <div className="p-2 md:p-2.5">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-0.5">
-                <span className={`px-1.5 py-0.5 rounded text-[7px] font-black uppercase tracking-[0.2em] border ${config.colors} italic`}>
-                  {config.label}
-                </span>
-                <span className="text-[7px] font-black text-[var(--muted)] opacity-30 uppercase tracking-widest italic">
-                  #{order.orderId}
-                </span>
-              </div>
-
-              <h3 className="font-black text-[11px] md:text-xs uppercase tracking-tight truncate text-[var(--foreground)] leading-tight italic">{order.itemName}</h3>
-
-              <div className="flex items-center gap-2.5 text-[8px] text-[var(--muted)] font-black uppercase tracking-widest mt-0.5 opacity-40 italic">
-                <span>{new Date(order.createdAt).toLocaleDateString()}</span>
-                <span className="w-1 h-1 bg-[var(--border)] rounded-full" />
-                <span className="text-[var(--accent)]">{getGameName(order.gameSlug)}</span>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between md:items-center gap-3">
-              <div className="text-sm font-black text-[var(--foreground)] tracking-tighter italic">{formatPrice(order.price)}</div>
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(order.orderId);
-                    setCopied(true);
-                    setTimeout(() => setCopied(false), 2000);
-                  }}
-                  className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-all active:scale-90 ${copied ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/30' : 'bg-[var(--foreground)]/[0.03] border-transparent text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)]/30'}`}
-                  title="Copy ID"
-                >
-                  <Copy size={10} />
-                </button>
-                <button
-                  onClick={() => setOpen(!open)}
-                  className={`w-7 h-7 rounded-lg border transition-all flex items-center justify-center active:scale-90 ${open ? 'bg-[var(--accent)] text-black border-[var(--accent)] shadow-lg shadow-[var(--accent)]/20' : 'bg-[var(--foreground)]/[0.03] text-[var(--muted)] border-transparent hover:border-[var(--accent)]/30'}`}
-                >
-                  <ChevronDown size={12} className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
-                </button>
-              </div>
-            </div>
-          </div>
+    <div className="group relative rounded-xl border border-[var(--border)] bg-[var(--card)]/40 hover:border-[var(--accent)]/40 transition-all p-3 shadow-xs space-y-2">
+      {/* TOP ROW: Status badge + Order ID (with copy) + Price */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-1.5 min-w-0">
+          <span className={`px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider border shrink-0 ${config.colors}`}>
+            {config.label}
+          </span>
+          <span className="text-[9px] font-mono text-[var(--muted)] truncate max-w-[130px] sm:max-w-[220px]">
+            #{order.orderId}
+          </span>
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(order.orderId);
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+            }}
+            className={`p-1 rounded transition-colors shrink-0 ${
+              copied ? "text-emerald-500 bg-emerald-500/10" : "text-[var(--muted)] hover:text-[var(--foreground)]"
+            }`}
+            title="Copy Order ID"
+          >
+            {copied ? <Check size={11} /> : <Copy size={11} />}
+          </button>
         </div>
 
-        {/* EXPANDED SECTION */}
-        <AnimatePresence>
-          {open && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="overflow-hidden"
-            >
-              <div className="px-2 pb-2 pt-0.5 border-t border-[var(--border)]/10">
-                <div className="grid grid-cols-2 gap-1.5 mt-1.5">
-                  <DetailItem label="Player ID" value={order.playerId} mono />
-                  <DetailItem label="Zone ID" value={order.zoneId || "N/A"} mono />
-                  <DetailItem label="Payment" value={order.paymentMethod} />
-                  <DetailItem label="Package" value={order.itemName} />
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div className="text-sm sm:text-base font-black text-[var(--foreground)] shrink-0">
+          {formatPrice(order.price)}
+        </div>
       </div>
-    </>
-  );
-}
 
-/* ================= HELPERS ================= */
+      {/* MIDDLE ROW: Item name & Game name */}
+      <div className="flex items-center justify-between gap-2">
+        <h3 className="font-bold text-xs sm:text-[13px] text-[var(--foreground)] truncate">
+          {order.itemName}
+        </h3>
+        <span className="text-[9.5px] font-semibold text-[var(--accent)] shrink-0">
+          {getGameName(order.gameSlug)}
+        </span>
+      </div>
 
-function DetailItem({
-  label,
-  value,
-  mono,
-}: {
-  label: string;
-  value: string;
-  mono?: boolean;
-}) {
-  return (
-    <div className="flex items-center justify-between p-1.5 rounded-lg bg-[var(--foreground)]/[0.02] border border-[var(--border)]/30">
-      <span className="text-[7px] font-black text-[var(--muted)] uppercase tracking-widest opacity-40 italic">{label}</span>
-      <span className={`text-[9px] font-black tracking-tight ${mono ? "font-mono" : ""} truncate uppercase text-[var(--foreground)] italic`}>
-        {value}
-      </span>
+      {/* BOTTOM ROW: Compact Player Meta Info */}
+      <div className="pt-2 border-t border-[var(--border)]/30 flex flex-wrap items-center gap-x-3.5 gap-y-1 text-[9.5px]">
+        <div className="flex items-center gap-1">
+          <span className="text-[var(--muted)] font-medium">Player ID:</span>
+          <span className="font-mono font-semibold text-[var(--foreground)]">{order.playerId}</span>
+        </div>
+        {order.zoneId && order.zoneId !== "N/A" && order.zoneId !== "NA" && (
+          <div className="flex items-center gap-1">
+            <span className="text-[var(--muted)] font-medium">Zone:</span>
+            <span className="font-mono font-semibold text-[var(--foreground)]">{order.zoneId}</span>
+          </div>
+        )}
+        <div className="flex items-center gap-1">
+          <span className="text-[var(--muted)] font-medium">Payment:</span>
+          <span className="font-semibold uppercase text-[var(--foreground)]">{order.paymentMethod}</span>
+        </div>
+        <div className="ml-auto text-[8.5px] text-[var(--muted)]">
+          {new Date(order.createdAt).toLocaleDateString()}
+        </div>
+      </div>
     </div>
   );
 }

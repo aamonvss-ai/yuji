@@ -152,30 +152,30 @@ export default function Footer() {
 
           {/* QR / Trust Section */}
           <div className="md:col-span-3">
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-[var(--background)]/80 to-[var(--background)]/40 border border-[var(--border)] backdrop-blur-md shadow-lg flex flex-row items-center gap-4 text-left transition-all duration-300 hover:border-[var(--accent)]/30">
-              <div className="shrink-0 p-2 bg-white rounded-xl shadow-inner border border-gray-100 transition-transform duration-500 hover:scale-105">
+            <div className="p-2 sm:p-2.5 rounded-xl bg-[var(--card)]/60 border border-[var(--border)] backdrop-blur-md flex flex-row items-center gap-2.5 text-left transition-all duration-300 hover:border-[var(--accent)]/30 w-full">
+              <div className="shrink-0 p-1 bg-white rounded-lg shadow-xs border border-gray-100">
                 <QRCodeCanvas
                   value={TRUSTPILOT_URL}
-                  size={50}
+                  size={36}
                   bgColor="#ffffff"
                   fgColor="#000000"
                   level="H"
                 />
               </div>
-              <div className="space-y-1 min-w-0">
-                <div className="flex items-center gap-1.5 text-[11px] font-bold text-[var(--foreground)]">
-                  <FiShield className="text-green-500 w-3 h-3" />
-                  <span>Safe & Secure</span>
-                </div>
-                <p className="text-[10px] text-[var(--muted)] leading-tight">
-                  Scan to see our reviews<br />on <span className="text-[var(--foreground)] font-semibold">Trustpilot</span>
-                </p>
-                <div className="pt-0.5">
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[8.5px] font-bold bg-green-500/10 text-green-500 border border-green-500/20 whitespace-nowrap">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5" />
-                    SERVICES ACTIVE
+              <div className="space-y-0.5 min-w-0 flex-1">
+                <div className="flex items-center justify-between gap-1.5">
+                  <div className="flex items-center gap-1 text-[10.5px] font-bold text-[var(--foreground)]">
+                    <FiShield className="text-green-500 w-3 h-3 shrink-0" />
+                    <span className="truncate">Safe & Secure</span>
+                  </div>
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[7.5px] font-bold bg-green-500/10 text-green-500 border border-green-500/20 whitespace-nowrap shrink-0 leading-none">
+                    <span className="w-1.2 h-1.2 rounded-full bg-green-500 mr-1" />
+                    ACTIVE
                   </span>
                 </div>
+                <p className="text-[9px] text-[var(--muted)] truncate leading-tight">
+                  Scan for reviews on <span className="text-[var(--foreground)] font-semibold">Trustpilot</span>
+                </p>
               </div>
             </div>
           </div>
