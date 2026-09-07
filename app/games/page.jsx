@@ -21,18 +21,18 @@ import Loader from "@/components/Loader/Loader";
 /* ===================== SUB-COMPONENTS ===================== */
 
 const SectionHeader = ({ title, count, icon: Icon }) => (
-  <div className="flex items-center justify-between mb-3.5 pt-2">
-    <div className="flex items-center gap-2.5">
-      <div className="w-7 h-7 md:w-8 md:h-8 rounded-xl bg-[var(--accent)]/10 border border-[var(--accent)]/20 text-[var(--accent)] flex items-center justify-center shrink-0">
-        {Icon && <Icon size={14} />}
+  <div className="flex items-center justify-between mb-4 pt-3">
+    <div className="flex items-center gap-3">
+      <div className="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-[var(--accent)]/10 border border-[var(--accent)]/20 text-[var(--accent)] flex items-center justify-center shrink-0">
+        {Icon && <Icon size={16} />}
       </div>
-      <h2 className="text-[13px] md:text-[15px] font-bold tracking-tight text-[var(--foreground)]">
+      <h2 className="text-[15px] md:text-[18px] font-black tracking-tight text-[var(--foreground)] uppercase italic">
         {title}
       </h2>
     </div>
 
     {count !== undefined && (
-      <span className="px-2 py-0.5 rounded-md bg-[var(--foreground)]/[0.04] border border-[var(--border)] text-[9.5px] md:text-[10px] font-semibold text-[var(--muted)]">
+      <span className="px-2.5 py-1 rounded-lg bg-[var(--foreground)]/[0.04] border border-[var(--border)] text-[10px] md:text-[11px] font-bold text-[var(--muted)]">
         {count} {count === 1 ? 'Item' : 'Items'}
       </span>
     )}
@@ -122,48 +122,51 @@ export default function GamesPage() {
   const GameCard = ({ game }) => {
     const disabled = isOutOfStock(game.gameName);
 
+    const tagName = (game.tagId?.tagName?.toLowerCase().includes("most selling") || game.tagId?.tagName === "MOST SELLING")
+      ? "INDIAN SMALL PACK"
+      : game.tagId?.tagName;
+
     return (
       <Link
         href={disabled ? "#" : `/games/${game.gameSlug}`}
-        className={`group block transition-all duration-500 ${disabled ? "opacity-40 grayscale cursor-not-allowed" : "hover:-translate-y-2"}`}
+        className={`group block transition-transform duration-250 ease-out transform-gpu ${disabled ? "opacity-40 grayscale cursor-not-allowed" : "hover:-translate-y-1.5"}`}
       >
-        {/* Image Container (Compact Squircle Card) */}
-        <div className="relative aspect-square rounded-2xl md:rounded-[1.25rem] overflow-hidden bg-[var(--card)] border border-[var(--border)] transition-all duration-500 group-hover:border-[var(--accent)]/50 group-hover:shadow-[0_15px_30px_-10px_rgba(0,0,0,0.25)]">
+        {/* Image Container (Comfortable Squircle Card) */}
+        <div className="relative aspect-square rounded-2xl md:rounded-[1.35rem] overflow-hidden bg-[var(--card)] border border-[var(--border)] transition-colors duration-250 group-hover:border-[var(--accent)]/50 shadow-xs group-hover:shadow-md">
           {/* Main Image */}
           <Image
             src={game.gameImageId?.image || logo}
             alt={game.gameName}
             fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            className={`object-cover transition-all duration-[1.5s] ease-out ${!disabled && "group-hover:scale-110"}`}
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+            className={`object-cover transition-transform duration-400 ease-out ${!disabled && "group-hover:scale-108"}`}
           />
 
           {/* Tag Overlay (Top Left) */}
-          {!disabled && game.tagId && (
-            <div className="absolute top-3 left-3 md:top-4 md:left-4 z-10">
+          {!disabled && game.tagId && tagName && (
+            <div className="absolute top-2.5 left-2.5 md:top-3.5 md:left-3.5 z-10 max-w-[85%]">
               <div
-                className="flex items-center gap-1.5 px-3 py-1 rounded-xl border border-white/10 backdrop-blur-md shadow-2xl transition-all duration-500 group-hover:bg-white/10"
-                style={{ background: `${game.tagId.tagBackground}aa` }}
+                className="flex items-center gap-1.5 px-2.5 py-1 md:px-3 md:py-1 rounded-xl border border-white/15 backdrop-blur-sm shadow-md transition-opacity duration-200"
+                style={{ background: `${game.tagId.tagBackground || '#831843'}dd` }}
               >
-                <FiGlobe size={10} className="text-white/60" style={{ color: game.tagId.tagColor }} />
+                <FiGlobe size={11} className="text-white/80 shrink-0" style={{ color: game.tagId.tagColor }} />
                 <span
-                  className="text-[7px] md:text-[9px] font-black uppercase tracking-widest"
+                  className="text-[8px] md:text-[9.5px] font-black uppercase tracking-wider truncate"
                   style={{ color: game.tagId.tagColor }}
                 >
-                  {game.tagId.tagName}
+                  {tagName}
                 </span>
               </div>
             </div>
           )}
 
-          {/* Premium Shine & Glow */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-[var(--accent)]/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-          <div className="absolute inset-0 translate-x-[-150%] group-hover:translate-x-[150%] bg-gradient-to-r from-transparent via-white/5 to-transparent transition-transform duration-[1.5s] ease-in-out pointer-events-none" />
+          {/* Premium Hover Tint */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-[var(--accent)]/15 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
           {/* Maintenance Overlay */}
           {disabled && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-[4px]">
-              <div className="px-5 py-2 bg-black/80 border border-white/10 text-[10px] font-black uppercase tracking-[0.3em] text-white rounded-full shadow-2xl">
+            <div className="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-[2px]">
+              <div className="px-5 py-2 bg-black/80 border border-white/10 text-[10px] font-black uppercase tracking-[0.3em] text-white rounded-full shadow-lg">
                 Offline
               </div>
             </div>
@@ -171,13 +174,13 @@ export default function GamesPage() {
         </div>
 
         {/* Content Below Image */}
-        <div className="mt-1.5 px-0.5">
+        <div className="mt-2 px-0.5">
           <div className="flex flex-col">
-            <h3 className="text-[9px] md:text-[11px] font-black text-[var(--foreground)] leading-tight uppercase italic line-clamp-2 group-hover:text-[var(--accent)] transition-colors duration-300">
+            <h3 className="text-[11px] md:text-[13px] font-black text-[var(--foreground)] leading-tight uppercase italic line-clamp-2 group-hover:text-[var(--accent)] transition-colors duration-200">
               {game.gameName}
             </h3>
-            <div className="flex items-center gap-1 opacity-40 group-hover:opacity-100 transition-all duration-300">
-              <span className="text-[6px] md:text-[7px] font-black text-[var(--accent)] uppercase tracking-[0.15em] italic">
+            <div className="flex items-center gap-1 opacity-50 group-hover:opacity-100 transition-opacity duration-200 mt-0.5">
+              <span className="text-[7.5px] md:text-[8.5px] font-black text-[var(--accent)] uppercase tracking-[0.15em] italic">
                 {game.gameFrom || "Global"}
               </span>
             </div>
@@ -189,12 +192,6 @@ export default function GamesPage() {
 
   return (
     <section className="min-h-screen bg-transparent">
-
-      {/* Immersive Background Decor */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-[10%] -right-[10%] w-[400px] h-[400px] bg-[var(--accent)]/5 blur-[100px] rounded-full" />
-        <div className="absolute top-[40%] -left-[5%] w-[300px] h-[300px] bg-purple-500/5 blur-[100px] rounded-full" />
-      </div>
 
       <div className="relative z-10">
         {/* ================= SEARCH AREA ================= */}
@@ -241,7 +238,7 @@ export default function GamesPage() {
         </div>
 
         {/* ================= CONTENT ================= */}
-        <div className="max-w-7xl mx-auto px-4 py-4 space-y-6">
+        <div className="max-w-7xl mx-auto px-4 py-4 space-y-7">
 
           {category
             .filter(cat => {
@@ -256,20 +253,14 @@ export default function GamesPage() {
               if (!filtered.length) return null;
 
               return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.5, delay: i * 0.05 }}
-                >
+                <div key={i}>
                   <SectionHeader title={cat.categoryTitle} count={filtered.length} icon={FiLayers} />
-                  <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-3 md:gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 md:gap-5">
                     {filtered.map((game, index) => (
                       <GameCard key={index} game={game} />
                     ))}
                   </div>
-                </motion.div>
+                </div>
               );
             })}
 
@@ -285,39 +276,30 @@ export default function GamesPage() {
             if (!filteredGlobal.length) return null;
 
             return (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-              >
+              <div>
                 <SectionHeader title="All Games" count={filteredGlobal.length} icon={FiGlobe} />
-                <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-3 md:gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 md:gap-5">
                   {filteredGlobal.map((game, i) => (
                     <GameCard key={i} game={game} />
                   ))}
                 </div>
-              </motion.div>
+              </div>
             );
           })()}
 
           {/* Memberships */}
           {(activeTab === "all" || activeTab === "membership") && memberships?.items?.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-            >
+            <div>
               <SectionHeader title={memberships.title} count={memberships.items.length} icon={FiShield} />
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                 {memberships.items.map((plan) => (
                   <Link
                     key={plan.slug}
                     href={`/games/${plan.slug}`}
-                    className="group relative flex items-center p-5 rounded-[1.5rem] bg-gradient-to-br from-[var(--card)] to-transparent border border-[var(--border)] hover:border-[var(--accent)]/40 transition-all duration-500 shadow-xl shadow-black/5 overflow-hidden"
+                    className="group relative flex items-center p-5 rounded-[1.5rem] bg-gradient-to-br from-[var(--card)] to-transparent border border-[var(--border)] hover:border-[var(--accent)]/40 transition-transform duration-250 ease-out hover:-translate-y-1 shadow-sm overflow-hidden transform-gpu"
                   >
                     <div className="relative w-16 h-16 mr-5 flex-shrink-0">
-                      <div className="absolute inset-0 bg-[var(--accent)]/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <Image src={plan.image} alt={plan.name} fill className="object-contain relative z-10 group-hover:scale-110 transition-transform duration-700" />
+                      <Image src={plan.image} alt={plan.name} fill className="object-contain relative z-10 group-hover:scale-105 transition-transform duration-300" />
                     </div>
                     <div className="relative z-10 flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
@@ -331,34 +313,28 @@ export default function GamesPage() {
                     </div>
 
                     {/* Decorative Elements */}
-                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                       <FiShield size={40} className="rotate-12" />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-1000" />
                   </Link>
                 ))}
               </div>
-            </motion.div>
+            </div>
           )}
 
           {/* OTT Subscriptions */}
           {(activeTab === "all" || activeTab === "others") && otts?.items?.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-            >
+            <div>
               <SectionHeader title={otts.title} count={otts.items.length} icon={FiZap} />
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                 {otts.items.map((item) => (
                   <Link
                     key={item.slug}
                     href={`/games/${item.slug}`}
-                    className="group relative flex items-center p-5 rounded-[1.5rem] bg-gradient-to-br from-[var(--card)] to-transparent border border-[var(--border)] hover:border-[var(--accent)]/40 transition-all duration-500 shadow-xl shadow-black/5 overflow-hidden"
+                    className="group relative flex items-center p-5 rounded-[1.5rem] bg-gradient-to-br from-[var(--card)] to-transparent border border-[var(--border)] hover:border-[var(--accent)]/40 transition-transform duration-250 ease-out hover:-translate-y-1 shadow-sm overflow-hidden transform-gpu"
                   >
                     <div className="relative w-16 h-16 mr-5 flex-shrink-0">
-                      <div className="absolute inset-0 bg-[var(--accent)]/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <Image src={item.image} alt={item.name} fill className="object-cover rounded-xl relative z-10 group-hover:scale-110 transition-transform duration-700" />
+                      <Image src={item.image} alt={item.name} fill className="object-cover rounded-xl relative z-10 group-hover:scale-105 transition-transform duration-300" />
                     </div>
                     <div className="relative z-10 flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
@@ -372,14 +348,13 @@ export default function GamesPage() {
                     </div>
 
                     {/* Decorative Elements */}
-                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                       <FiZap size={40} className="-rotate-12" />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-1000" />
                   </Link>
                 ))}
               </div>
-            </motion.div>
+            </div>
           )}
         </div>
       </div>

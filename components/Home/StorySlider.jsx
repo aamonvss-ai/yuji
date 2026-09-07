@@ -39,8 +39,7 @@ const storyData = [
   },
   {
     id: 4,
-    title: "Small pack",
-    badge: "Fast",
+    title: "Indian Small Pack",
     color: "from-cyan-400 to-sky-600",
     image: "/game-assets/3_cj6nj4.jpg",
     link: "/games/mobile-legends-exclusive952",
@@ -60,12 +59,9 @@ export default function StorySlider() {
   return (
     <section className="relative py-4 overflow-hidden select-none">
       <div className="max-w-7xl mx-auto flex gap-4 md:gap-6 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory px-4 scroll-smooth">
-        {storyData.map((item, index) => (
-          <motion.div
+        {storyData.map((item) => (
+          <div
             key={item.id}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: index * 0.05 }}
             className="snap-center"
           >
             <Link
@@ -73,18 +69,17 @@ export default function StorySlider() {
               className="group relative flex flex-col items-center min-w-[60px] md:min-w-[76px]"
             >
               <div className="relative">
-                {/* Rotating Orbital Ring (Hover Only) */}
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                  className={`absolute -inset-[3px] rounded-full border border-dashed border-[var(--border)] opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                {/* Rotating Orbital Ring (Hover Only - CSS animated) */}
+                <div
+                  className="absolute -inset-[3px] rounded-full border border-dashed border-[var(--border)] opacity-0 group-hover:opacity-100 group-hover:animate-spin transition-opacity duration-300 pointer-events-none"
+                  style={{ animationDuration: '6s' }}
                 />
 
                 {/* Main Glass Circle Container */}
-                <div className={`relative p-[2.5px] rounded-full transition-all duration-500 group-hover:scale-110 shadow-2xl overflow-hidden`}>
+                <div className="relative p-[2.5px] rounded-full transition-transform duration-300 ease-out group-hover:scale-105 shadow-md overflow-hidden transform-gpu">
 
                   {/* Theme Border Accent */}
-                  <div className={`absolute inset-0 bg-gradient-to-tr ${item.color} opacity-30 group-hover:opacity-100 transition-opacity duration-500`} />
+                  <div className={`absolute inset-0 bg-gradient-to-tr ${item.color} opacity-30 group-hover:opacity-100 transition-opacity duration-300`} />
 
                   <div className="relative p-[1.5px] rounded-full bg-[var(--card)]">
                     <div className="relative w-[52px] h-[52px] md:w-[66px] md:h-[66px] rounded-full overflow-hidden bg-[var(--card)] shadow-inner border border-[var(--border)]">
@@ -93,14 +88,11 @@ export default function StorySlider() {
                         alt={item.title}
                         fill
                         sizes="(max-width: 768px) 52px, 66px"
-                        className="object-cover transition-all duration-1000 group-hover:scale-125 filter group-hover:brightness-110"
+                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-115"
                       />
 
                       {/* Premium Internal Shadow (Edge Depth) */}
-                      <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] opacity-20" />
-
-                      {/* Shimmer Light Leak */}
-                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                      <div className="absolute inset-0 shadow-[inset_0_0_12px_rgba(0,0,0,0.4)] opacity-20 pointer-events-none" />
                     </div>
                   </div>
                 </div>
@@ -115,7 +107,7 @@ export default function StorySlider() {
                 <div className={`h-[1.5px] w-0 bg-gradient-to-r ${item.color} group-hover:w-full transition-all duration-300 rounded-full mt-0.5`} />
               </div>
             </Link>
-          </motion.div>
+          </div>
         ))}
       </div>
 

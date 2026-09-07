@@ -525,11 +525,13 @@ body::before {
   position: fixed;
   inset: 0;
   background-image: 
-    radial-gradient(ellipse 75% 500px at 50% 0%, color-mix(in srgb, var(--accent) 25%, transparent) 0%, transparent 80%),
-    radial-gradient(ellipse 50% 400px at 90% 60%, color-mix(in srgb, var(--accent) 12%, transparent) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 350px at 10% 90%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 60%);
+    radial-gradient(ellipse 80% 600px at 50% -50px, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 80%),
+    radial-gradient(ellipse 60% 500px at 90% 60%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 75%),
+    radial-gradient(ellipse 50% 400px at 10% 90%, color-mix(in srgb, var(--accent) 7%, transparent) 0%, transparent 70%);
   z-index: -2;
   pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 body::after {
@@ -537,15 +539,17 @@ body::after {
   position: fixed;
   inset: 0;
   background-color: var(--foreground);
-  opacity: 0.14;
+  opacity: 0.075;
   -webkit-mask-image: url('/bg-pattern.svg');
   mask-image: url('/bg-pattern.svg');
-  -webkit-mask-size: 72px 72px;
-  mask-size: 72px 72px;
+  -webkit-mask-size: 260px 260px;
+  mask-size: 260px 260px;
   -webkit-mask-repeat: repeat;
   mask-repeat: repeat;
   z-index: -1;
   pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 /* Links */
@@ -607,9 +611,9 @@ html[data-theme="glass"] .card {
 /* Background Main utility */
 .bg-main {
   background-image: 
-    radial-gradient(ellipse 75% 500px at 50% 0%, color-mix(in srgb, var(--accent) 25%, transparent) 0%, transparent 80%),
+    radial-gradient(ellipse 75% 500px at 50% 0%, color-mix(in srgb, var(--accent) 20%, transparent) 0%, transparent 80%),
     url('/bg-pattern.svg');
-  background-size: 100% 100%, 72px 72px;
+  background-size: 100% 100%, 260px 260px;
   background-repeat: no-repeat, repeat;
 }
 

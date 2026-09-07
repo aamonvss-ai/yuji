@@ -1,28 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
-  <!-- Micro Grid Points -->
-  <circle cx="40" cy="40" r="1.2" fill="white" opacity="0.5" />
-  <circle cx="0" cy="0" r="1.2" fill="white" opacity="0.7" />
-  <circle cx="80" cy="0" r="1.2" fill="white" opacity="0.7" />
-  <circle cx="0" cy="80" r="1.2" fill="white" opacity="0.7" />
-  <circle cx="80" cy="80" r="1.2" fill="white" opacity="0.7" />
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300" fill="none">
+  <!-- Seamless Flowing Topographic Waves (Horizontal Stream) -->
+  <path d="M 0,30 C 75,-10 150,70 225,30 C 262.5,10 300,30 300,30" stroke="white" stroke-width="1.2" opacity="0.75" stroke-linecap="round"/>
+  <path d="M 0,75 C 75,35 150,115 225,75 C 262.5,55 300,75 300,75" stroke="white" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
+  <path d="M 0,120 C 75,80 150,160 225,120 C 262.5,100 300,120 300,120" stroke="white" stroke-width="0.8" opacity="0.45" stroke-linecap="round"/>
+  <path d="M 0,165 C 75,125 150,205 225,165 C 262.5,145 300,165 300,165" stroke="white" stroke-width="0.8" opacity="0.45" stroke-linecap="round"/>
+  <path d="M 0,210 C 75,170 150,250 225,210 C 262.5,190 300,210 300,210" stroke="white" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
+  <path d="M 0,255 C 75,215 150,295 225,255 C 262.5,235 300,255 300,255" stroke="white" stroke-width="1.2" opacity="0.75" stroke-linecap="round"/>
 
-  <!-- Fine Tech Grid Lines with Ticks -->
-  <path d="M 0 40 L 80 40 M 40 0 L 40 80" stroke="white" stroke-width="0.6" stroke-dasharray="3 5" opacity="0.3" />
-  <path d="M 0 0 L 80 80 M 80 0 L 0 80" stroke="white" stroke-width="0.5" stroke-dasharray="1 7" opacity="0.18" />
+  <!-- Counter Flowing Diagonal Ribbon Waves (Vertical Flow) -->
+  <path d="M 40,0 C 80,75 0,150 40,225 C 60,262.5 40,300 40,300" stroke="white" stroke-width="1" opacity="0.55" stroke-linecap="round"/>
+  <path d="M 120,0 C 160,75 80,150 120,225 C 140,262.5 120,300 120,300" stroke="white" stroke-width="0.7" opacity="0.4" stroke-linecap="round"/>
+  <path d="M 200,0 C 240,75 160,150 200,225 C 220,262.5 200,300 200,300" stroke="white" stroke-width="0.7" opacity="0.4" stroke-linecap="round"/>
+  <path d="M 280,0 C 320,75 240,150 280,225 C 300,262.5 280,300 280,300" stroke="white" stroke-width="1" opacity="0.55" stroke-linecap="round"/>
 
-  <!-- Corner Precision Tech Brackets -->
-  <path d="M 8 2 L 2 2 L 2 8" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.8" />
-  <path d="M 72 2 L 78 2 L 78 8" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.8" />
-  <path d="M 2 72 L 2 78 L 8 78" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.8" />
-  <path d="M 78 72 L 78 78 L 72 78" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.8" />
-
-  <!-- Center Gaming Crosshair & Reticle -->
-  <circle cx="40" cy="40" r="9" stroke="white" stroke-width="0.8" stroke-dasharray="3 4" opacity="0.5" />
-  <path d="M 40 27 L 40 33 M 40 47 L 40 53 M 27 40 L 33 40 M 47 40 L 53 40" stroke="white" stroke-width="1" stroke-linecap="round" opacity="0.7" />
+  <!-- Organic Tech Nodes & Micro Particles along wave intersections -->
+  <circle cx="75" cy="35" r="2" fill="white" opacity="0.85"/>
+  <circle cx="225" cy="75" r="2.2" fill="white" opacity="0.9"/>
+  <circle cx="150" cy="160" r="1.8" fill="white" opacity="0.75"/>
+  <circle cx="75" cy="215" r="2.2" fill="white" opacity="0.9"/>
+  <circle cx="225" cy="255" r="2" fill="white" opacity="0.85"/>
   
-  <!-- Subtle Micro Diamonds / Node Accents -->
-  <polygon points="40,2 43,5 40,8 37,5" fill="white" opacity="0.45" />
-  <polygon points="40,72 43,75 40,78 37,75" fill="white" opacity="0.45" />
-  <polygon points="2,40 5,43 8,40 5,37" fill="white" opacity="0.45" />
-  <polygon points="72,40 75,43 78,40 75,37" fill="white" opacity="0.45" />
+  <circle cx="120" cy="75" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="200" cy="210" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="40" cy="120" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="280" cy="165" r="1.5" fill="white" opacity="0.6"/>
+
+  <!-- Delicate Cyber Reticles in Open Pockets -->
+  <path d="M150 56v8M146 60h8" stroke="white" stroke-width="0.8" stroke-linecap="round" opacity="0.5"/>
+  <path d="M150 236v8M146 240h8" stroke="white" stroke-width="0.8" stroke-linecap="round" opacity="0.5"/>
 </svg>

@@ -135,6 +135,19 @@ export async function GET(req: Request) {
         updatedGame.gameName = "MLBB SMALL/PHP";
       }
 
+      // Rename tag 'MOST SELLING' → 'INDIAN SMALL PACK'
+      if (updatedGame.tagId && typeof updatedGame.tagId === "object") {
+        if (
+          updatedGame.tagId.tagName?.toLowerCase().includes("most selling") ||
+          updatedGame.tagId.tagName === "MOST SELLING"
+        ) {
+          updatedGame.tagId = {
+            ...updatedGame.tagId,
+            tagName: "INDIAN SMALL PACK",
+          };
+        }
+      }
+
       // Fix wrong publisher spelling
       if (updatedGame.gameFrom === "Moneyton") {
         updatedGame.gameFrom = "Moonton";

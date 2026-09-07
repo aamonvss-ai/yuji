@@ -40,9 +40,6 @@ export default function FlashSale() {
 
     return (
         <section className="relative py-2 overflow-hidden border-b border-[var(--border)] bg-gray-50/50 dark:bg-white/[0.02]">
-            {/* Background Decorative */}
-            <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-amber-500/5 blur-[80px] pointer-events-none" />
-
             <div className="max-w-7xl mx-auto px-4">
                 <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2.5">
@@ -72,7 +69,7 @@ export default function FlashSale() {
                             >
                                 <Link
                                     href={`/games/${item.slug}`}
-                                    className="group relative block w-[95px] sm:w-[125px] md:w-[155px] aspect-[4/5] bg-white dark:bg-black border border-[var(--border)] rounded-[1rem] overflow-hidden transition-all duration-500 hover:border-[var(--accent)] shadow-lg hover:shadow-[var(--accent)]/20"
+                                    className="group relative block w-[95px] sm:w-[125px] md:w-[155px] aspect-[4/5] bg-white dark:bg-black border border-[var(--border)] rounded-[1rem] overflow-hidden transition-transform duration-250 ease-out hover:-translate-y-1 hover:border-[var(--accent)] shadow-sm transform-gpu"
                                 >
                                     {/* Badge */}
                                     {item.badge && (
@@ -89,7 +86,7 @@ export default function FlashSale() {
                                             src={item.image}
                                             alt={item.name}
                                             fill
-                                            className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                                            className="object-cover transition-transform duration-400 ease-out group-hover:scale-105"
                                         />
 
                                         {/* Shimmer Glint Effect */}
