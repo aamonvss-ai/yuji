@@ -129,62 +129,49 @@ export default function GamesPage() {
     return (
       <Link
         href={disabled ? "#" : `/games/${game.gameSlug}`}
-        className={`group block transition-transform duration-250 ease-out transform-gpu ${disabled ? "opacity-40 grayscale cursor-not-allowed" : "hover:-translate-y-1.5"}`}
+        className={`group flex flex-col transition-all duration-300 transform-gpu ${disabled ? "opacity-40 grayscale cursor-not-allowed" : "hover:-translate-y-1"}`}
       >
-        {/* Image Container (Comfortable Squircle Card) */}
-        <div className="relative aspect-square rounded-2xl md:rounded-[1.35rem] overflow-hidden bg-[var(--card)] border border-[var(--border)] transition-colors duration-250 group-hover:border-[var(--accent)]/50 shadow-xs group-hover:shadow-md">
+        {/* Image Container */}
+        <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden bg-[var(--card)] border border-[var(--border)] group-hover:border-[var(--accent)]/60 transition-all duration-300 shadow-xs group-hover:shadow-md">
           {/* Main Image */}
           <Image
             src={game.gameImageId?.image || logo}
             alt={game.gameName}
             fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-            className={`object-cover transition-transform duration-400 ease-out ${!disabled && "group-hover:scale-108"}`}
+            sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 15vw"
+            className={`object-cover transition-transform duration-500 ease-out ${!disabled && "group-hover:scale-105"}`}
           />
 
-          {/* Tag Overlay (Top Left) */}
+          {/* Sleek Minimal Tag Badge (Top-Right) */}
           {!disabled && game.tagId && tagName && (
-            <div className="absolute top-2.5 left-2.5 md:top-3.5 md:left-3.5 z-10 max-w-[85%]">
-              <div
-                className="flex items-center gap-1.5 px-2.5 py-1 md:px-3 md:py-1 rounded-xl border border-white/15 backdrop-blur-sm shadow-md transition-opacity duration-200"
-                style={{ background: `${game.tagId.tagBackground || '#831843'}dd` }}
+            <div className="absolute top-1.5 right-1.5 z-10">
+              <span
+                className="inline-flex items-center px-1.5 py-0.5 rounded-md text-[7px] sm:text-[7.5px] md:text-[8px] font-bold uppercase tracking-wider backdrop-blur-md shadow-xs border border-white/20 text-white"
+                style={{ background: `${game.tagId.tagBackground || '#0284c7'}dd` }}
               >
-                <FiGlobe size={11} className="text-white/80 shrink-0" style={{ color: game.tagId.tagColor }} />
-                <span
-                  className="text-[8px] md:text-[9.5px] font-black uppercase tracking-wider truncate"
-                  style={{ color: game.tagId.tagColor }}
-                >
-                  {tagName}
-                </span>
-              </div>
+                {tagName}
+              </span>
             </div>
           )}
 
-          {/* Premium Hover Tint */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-[var(--accent)]/15 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-
           {/* Maintenance Overlay */}
           {disabled && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-[2px]">
-              <div className="px-5 py-2 bg-black/80 border border-white/10 text-[10px] font-black uppercase tracking-[0.3em] text-white rounded-full shadow-lg">
+            <div className="absolute inset-0 flex items-center justify-center bg-black/75 backdrop-blur-xs">
+              <span className="px-2 py-0.5 bg-black/90 border border-white/20 text-[7.5px] font-bold uppercase tracking-widest text-white rounded-md">
                 Offline
-              </div>
+              </span>
             </div>
           )}
         </div>
 
-        {/* Content Below Image */}
-        <div className="mt-2 px-0.5">
-          <div className="flex flex-col">
-            <h3 className="text-[11px] md:text-[13px] font-black text-[var(--foreground)] leading-tight uppercase italic line-clamp-2 group-hover:text-[var(--accent)] transition-colors duration-200">
-              {game.gameName}
-            </h3>
-            <div className="flex items-center gap-1 opacity-50 group-hover:opacity-100 transition-opacity duration-200 mt-0.5">
-              <span className="text-[7.5px] md:text-[8.5px] font-black text-[var(--accent)] uppercase tracking-[0.15em] italic">
-                {game.gameFrom || "Global"}
-              </span>
-            </div>
-          </div>
+        {/* Clean Info Below Card */}
+        <div className="mt-1.5 px-0.5 text-left">
+          <h3 className="text-[10px] sm:text-[11px] md:text-[12px] font-bold text-[var(--foreground)] leading-tight group-hover:text-[var(--accent)] transition-colors duration-200">
+            {game.gameName}
+          </h3>
+          <p className="text-[8px] sm:text-[8.5px] md:text-[9px] font-medium text-[var(--muted)] leading-tight mt-0.5">
+            {game.gameFrom || "Global"}
+          </p>
         </div>
       </Link>
     );
@@ -255,7 +242,7 @@ export default function GamesPage() {
               return (
                 <div key={i}>
                   <SectionHeader title={cat.categoryTitle} count={filtered.length} icon={FiLayers} />
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 md:gap-5">
+                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2.5 sm:gap-3.5 md:gap-4.5">
                     {filtered.map((game, index) => (
                       <GameCard key={index} game={game} />
                     ))}
@@ -278,7 +265,7 @@ export default function GamesPage() {
             return (
               <div>
                 <SectionHeader title="All Games" count={filteredGlobal.length} icon={FiGlobe} />
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 md:gap-5">
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2.5 sm:gap-3.5 md:gap-4.5">
                   {filteredGlobal.map((game, i) => (
                     <GameCard key={i} game={game} />
                   ))}

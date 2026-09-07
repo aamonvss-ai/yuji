@@ -523,23 +523,33 @@ body {
 body::before {
   content: "";
   position: fixed;
-  inset: 0;
+  inset: -20px;
   background-image: 
-    radial-gradient(ellipse 80% 600px at 50% -50px, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 80%),
-    radial-gradient(ellipse 60% 500px at 90% 60%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 75%),
-    radial-gradient(ellipse 50% 400px at 10% 90%, color-mix(in srgb, var(--accent) 7%, transparent) 0%, transparent 70%);
+    radial-gradient(ellipse 90% 700px at 50% -60px, rgba(0, 245, 255, 0.35) 0%, transparent 75%),
+    radial-gradient(circle 600px at 90% 25%, rgba(139, 92, 246, 0.30) 0%, transparent 70%),
+    radial-gradient(circle 650px at 5% 55%, rgba(255, 0, 122, 0.26) 0%, transparent 70%),
+    radial-gradient(circle 550px at 85% 85%, rgba(0, 245, 255, 0.22) 0%, transparent 65%),
+    radial-gradient(circle 500px at 15% 95%, rgba(245, 158, 11, 0.20) 0%, transparent 60%);
   z-index: -2;
   pointer-events: none;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
+  animation: auroraShift 20s ease-in-out infinite alternate;
 }
 
 body::after {
   content: "";
   position: fixed;
   inset: 0;
-  background-color: var(--foreground);
-  opacity: 0.075;
+  background-image: linear-gradient(
+    125deg, 
+    #00f5ff 0%, 
+    #3b82f6 22%, 
+    #8b5cf6 48%, 
+    #ff007a 75%, 
+    #f59e0b 100%
+  );
+  opacity: 0.22;
   -webkit-mask-image: url('/bg-pattern.svg');
   mask-image: url('/bg-pattern.svg');
   -webkit-mask-size: 260px 260px;
@@ -550,6 +560,40 @@ body::after {
   pointer-events: none;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
+  animation: waveDrift 45s linear infinite;
+}
+
+@keyframes waveDrift {
+  0% {
+    -webkit-mask-position: 0px 0px;
+    mask-position: 0px 0px;
+  }
+  100% {
+    -webkit-mask-position: 260px 260px;
+    mask-position: 260px 260px;
+  }
+}
+
+@keyframes auroraShift {
+  0% {
+    transform: scale(1) translate3d(0, 0, 0);
+    opacity: 0.88;
+  }
+  50% {
+    transform: scale(1.05) translate3d(8px, -6px, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translate3d(-6px, 6px, 0);
+    opacity: 0.9;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
+  }
 }
 
 /* Links */
@@ -611,10 +655,11 @@ html[data-theme="glass"] .card {
 /* Background Main utility */
 .bg-main {
   background-image: 
-    radial-gradient(ellipse 75% 500px at 50% 0%, color-mix(in srgb, var(--accent) 20%, transparent) 0%, transparent 80%),
+    radial-gradient(ellipse 90% 700px at 50% -60px, rgba(0, 245, 255, 0.35) 0%, transparent 75%),
+    radial-gradient(circle 600px at 90% 25%, rgba(139, 92, 246, 0.30) 0%, transparent 70%),
     url('/bg-pattern.svg');
-  background-size: 100% 100%, 260px 260px;
-  background-repeat: no-repeat, repeat;
+  background-size: 100% 100%, 100% 100%, 260px 260px;
+  background-repeat: no-repeat, no-repeat, repeat;
 }
 
 /* Scrollbar */

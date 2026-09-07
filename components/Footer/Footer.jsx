@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import logo from "@/public/logo.png";
 import { QRCodeCanvas } from "qrcode.react";
 import {
   FiInstagram,
@@ -98,8 +100,15 @@ export default function Footer() {
 
           {/* Brand & Description */}
           <div className="md:col-span-4 space-y-4">
-            <Link href="/" className="inline-block group">
-              <h2 className="text-2xl font-black tracking-tighter transition-transform duration-300 group-hover:scale-105">
+            <Link href="/" className="inline-flex items-center gap-3 group">
+              <Image
+                src={logo}
+                alt="Logo"
+                width={48}
+                height={48}
+                className="w-10 h-10 md:w-12 md:h-12 object-contain logo-img transition-transform duration-300 group-hover:scale-110 shrink-0"
+              />
+              <h2 className="text-2xl md:text-3xl font-black tracking-tighter transition-transform duration-300 group-hover:scale-105">
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#4f46e5] via-[#22d3ee] to-[#ec4899] filter drop-shadow-[0_2px_10px_rgba(34,211,238,0.2)]">
                   {BRAND.name}
                 </span>
