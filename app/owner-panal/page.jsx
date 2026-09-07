@@ -10,10 +10,11 @@ import {
 } from "react-icons/fi";
 import { 
   Users, ShoppingCart, ArrowRightLeft, Wallet, MessageSquare, 
-  Image as ImageIcon, Megaphone, Zap, Search, DollarSign, Settings, Monitor, Download 
+  Image as ImageIcon, Megaphone, Zap, Search, DollarSign, Settings, Monitor, Download, BarChart3 
 } from "lucide-react";
 
 import AuthGuard from "@/components/AuthGuard";
+import AnalyticsTab from "@/components/admin/AnalyticsTab";
 import UsersTab from "@/components/admin/UsersTab";
 import OrdersTab from "@/components/admin/OrdersTab";
 import PricingTab from "@/components/admin/PricingTab";
@@ -31,7 +32,7 @@ import PwaStatsTab from "@/components/admin/PwaStatsTab";
 
 
 export default function AdminPanalPage() {
-  const [activeTab, setActiveTab] = useState("users");
+  const [activeTab, setActiveTab] = useState("analytics");
   const [queries, setQueries] = useState([]);
   const [balance, setBalance] = useState(null);
   const [banners, setBanners] = useState([]);
@@ -40,6 +41,10 @@ export default function AdminPanalPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const categories = [
+    {
+      title: "Overview",
+      items: ["analytics"],
+    },
     {
       title: "Management",
       items: ["users", "orders", "transactions", "wallet", "queries"],
@@ -55,6 +60,7 @@ export default function AdminPanalPage() {
   ];
 
   const categoryIcons = {
+    analytics: BarChart3,
     users: Users,
     orders: ShoppingCart,
     transactions: ArrowRightLeft,
@@ -278,7 +284,7 @@ export default function AdminPanalPage() {
             {/* Sidebar Slider */}
             <div className={`
               fixed md:static inset-y-0 right-0 z-50
-              w-64 md:w-56 lg:w-64 flex-shrink-0
+              w-72 sm:w-80 md:w-64 lg:w-72 max-w-[85vw] flex-shrink-0
               bg-[var(--card)]
               border border-[var(--border)] rounded-l-2xl md:rounded-2xl
               transform transition-transform duration-300 ease-in-out
@@ -342,10 +348,12 @@ export default function AdminPanalPage() {
 
             {/* PANEL */}
             <div className="flex-1 w-full min-w-0 bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3 md:p-5 min-h-[500px]">
-            {activeTab === "users" && (
-              <UsersTab
+            {activeTab === "analytics" && (
+              <AnalyticsTab />
+            )}
 
-              />
+            {activeTab === "users" && (
+              <UsersTab />
             )}
 
             {activeTab === "orders" && (

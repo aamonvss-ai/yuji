@@ -70,8 +70,10 @@ export async function POST(req: Request) {
       user: {
         name: user.name,
         email: user.email,
+        phone: user.phone || null,
         userId: user.userId,
         userType: user.userType,
+        avatar: user.avatar || null,
       },
     });
   } catch (error) {

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { GoogleLogin } from "@react-oauth/google";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShieldCheck, Lock, ArrowRight, UserCheck, Mail, KeyRound } from "lucide-react";
+import { ShieldCheck, Lock, ArrowRight, UserCheck, Mail, KeyRound, Phone } from "lucide-react";
 import logo from "@/public/logo.png";
 
 export default function AuthPage() {
@@ -14,29 +14,81 @@ export default function AuthPage() {
   const [success, setSuccess] = useState("");
   const [mounted, setMounted] = useState(false);
 
-  // OTP flow states
-  const [step, setStep] = useState<"email" | "otp">("email");
+  // OTP & Profile flow states
+  const [step, setStep] = useState<"email" | "otp" | "phone">("email");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const handleAuthSuccess = (data: { token: string; user: { name: string; email: string; userId: string; userType: string; avatar?: string } }) => {
+  const handleAuthSuccess = (data: { token: string; user: { name: string; email: string; userId: string; userType: string; avatar?: string; phone?: string | null } }) => {
     localStorage.setItem("token", data.token);
-    localStorage.setItem("userName", data.user.name);
-    localStorage.setItem("email", data.user.email);
-    localStorage.setItem("userId", data.user.userId);
-    localStorage.setItem("userType", data.user.userType);
+    localStorage.setItem("userName", data.user.name || "");
+    localStorage.setItem("email", data.user.email || "");
+    localStorage.setItem("userId", data.user.userId || "");
+    localStorage.setItem("userType", data.user.userType || "");
     if (data.user.avatar) localStorage.setItem("avatar", data.user.avatar);
 
-    setSuccess("Welcome back! Redirecting...");
+    if (data.user.phone && data.user.phone.trim() !== "") {
+      localStorage.setItem("phone", data.user.phone);
+      setSuccess("Welcome back! Redirecting...");
 
-    const searchParams = new URLSearchParams(window.location.search);
-    const redirectTo = searchParams.get("redirect") || "/";
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirectTo = searchParams.get("redirect") || "/";
 
-    setTimeout(() => (window.location.href = redirectTo), 1200);
+      setTimeout(() => (window.location.href = redirectTo), 1200);
+    } else {
+      // Phone is not available: ask for phone number (without country code)
+      setStep("phone");
+      setError("");
+      setSuccess("");
+    }
+  };
+
+  const handleSavePhone = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const cleanPhone = phoneNumber.trim().replace(/[\s-]/g, "");
+    if (!cleanPhone || cleanPhone.length < 7 || cleanPhone.length > 15) {
+      setError("Please enter a valid phone number (digits only).");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch("/api/auth/update-phone", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ phone: cleanPhone }),
+      });
+
+      const data = await res.json();
+      if (!data.success) {
+        setError(data.message || "Failed to save phone number.");
+        return;
+      }
+
+      localStorage.setItem("phone", cleanPhone);
+      setSuccess("Phone number saved! Redirecting...");
+
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirectTo = searchParams.get("redirect") || "/";
+
+      setTimeout(() => (window.location.href = redirectTo), 1000);
+    } catch {
+      setError("Failed to save phone number. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGoogleLogin = async (credential: string) => {
@@ -167,10 +219,10 @@ export default function AuthPage() {
 
             <div className="space-y-0.5">
               <h1 className="text-2xl font-bold tracking-tight text-[var(--foreground)]">
-                Welcome back
+                {step === "phone" ? "Enter Phone Number" : "Welcome back"}
               </h1>
               <p className="text-[13.5px] text-[var(--muted)]">
-                Sign in or register to continue
+                {step === "phone" ? "Provide your phone number to continue" : "Sign in or register to continue"}
               </p>
             </div>
           </div>
@@ -208,9 +260,40 @@ export default function AuthPage() {
           {/* AUTH ACTIONS */}
           <div className="space-y-5 w-full">
 
-            {/* OTP FLOW */}
+            {/* AUTH FLOW (EMAIL / OTP / PHONE) */}
             <div className="w-full">
-              {step === "email" ? (
+              {step === "phone" ? (
+                <form onSubmit={handleSavePhone} className="space-y-4 w-full">
+                  <div className="space-y-1.5 w-full">
+                    <label className="text-[13px] font-medium text-[var(--foreground)] ml-1">Phone Number</label>
+                    <div className="relative group w-full">
+                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)] group-focus-within:text-[var(--foreground)] transition-colors" size={18} />
+                      <input
+                        type="tel"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value.replace(/[^0-9]/g, '').slice(0, 15))}
+                        placeholder="Enter phone number"
+                        className="w-full h-[48px] bg-[var(--background)]/30 border border-[var(--border)]/60 rounded-xl pl-11 pr-4 text-[14px] text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:border-[var(--foreground)]/50 focus:ring-1 focus:ring-[var(--foreground)]/50 transition-all shadow-sm"
+                        required
+                        disabled={loading}
+                        maxLength={15}
+                        autoFocus
+                      />
+                    </div>
+                    <p className="text-[11px] text-[var(--muted)] ml-1">
+                      Enter without country code
+                    </p>
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={loading || !phoneNumber}
+                    className="w-full h-[48px] bg-[var(--foreground)] hover:bg-[var(--foreground)]/90 text-[var(--background)] font-medium text-[14px] rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow flex items-center justify-center gap-2 px-4"
+                  >
+                    <span>{loading ? "Saving..." : "Continue"}</span>
+                    <ArrowRight size={18} className="opacity-80" />
+                  </button>
+                </form>
+              ) : step === "email" ? (
                 <form onSubmit={handleSendOtp} className="space-y-4 w-full">
                   <div className="space-y-1.5 w-full">
                     <label className="text-[13px] font-medium text-[var(--foreground)] ml-1">Email Address</label>
@@ -276,25 +359,28 @@ export default function AuthPage() {
               )}
             </div>
 
-            {/* DIVIDER */}
-            <div className="relative py-1 flex items-center w-full">
-              <div className="flex-grow border-t border-[var(--border)]/50"></div>
-              <span className="flex-shrink-0 mx-4 text-[var(--muted)] text-[12px]">or continue with</span>
-              <div className="flex-grow border-t border-[var(--border)]/50"></div>
-            </div>
+            {/* DIVIDER & GOOGLE LOGIN (ONLY SHOWN DURING EMAIL/OTP) */}
+            {step !== "phone" && (
+              <>
+                <div className="relative py-1 flex items-center w-full">
+                  <div className="flex-grow border-t border-[var(--border)]/50"></div>
+                  <span className="flex-shrink-0 mx-4 text-[var(--muted)] text-[12px]">or continue with</span>
+                  <div className="flex-grow border-t border-[var(--border)]/50"></div>
+                </div>
 
-            {/* GOOGLE LOGIN */}
-            <div className="relative w-full h-[48px] flex items-center justify-center [&>div]:!flex [&>div]:!items-center [&>div]:!justify-center [&>div]:!w-full [&>div]:!h-full">
-              <GoogleLogin
-                onSuccess={(res) => res.credential && handleGoogleLogin(res.credential)}
-                onError={() => setError("Google sign-in failed")}
-                theme="outline"
-                size="large"
-                shape="rectangular"
-                width="320"
-                text="continue_with"
-              />
-            </div>
+                <div className="relative w-full h-[48px] flex items-center justify-center [&>div]:!flex [&>div]:!items-center [&>div]:!justify-center [&>div]:!w-full [&>div]:!h-full">
+                  <GoogleLogin
+                    onSuccess={(res) => res.credential && handleGoogleLogin(res.credential)}
+                    onError={() => setError("Google sign-in failed")}
+                    theme="outline"
+                    size="large"
+                    shape="rectangular"
+                    width="320"
+                    text="continue_with"
+                  />
+                </div>
+              </>
+            )}
 
             {/* LOADING STATE INDICATOR FOR GOOGLE */}
             <AnimatePresence>

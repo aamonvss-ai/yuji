@@ -69,9 +69,12 @@ export default function Header({ enableAutoTranslation = false }) {
         if (data.success) {
           setUser(data.user);
           setImgError(false); // Reset error on new user
-          // Sync wallet balance to localStorage for other components
+          // Sync wallet balance & phone to localStorage for other components
           if (data.user.wallet !== undefined) {
              localStorage.setItem("walletBalance", data.user.wallet.toString());
+          }
+          if (data.user.phone) {
+             localStorage.setItem("phone", data.user.phone);
           }
         } else {
 
