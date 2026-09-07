@@ -1,21 +1,19 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import GamesPage from "@/app/games/page";
 import GameBannerCarousel from "./GameBannerCarousel";
-import HomeServices from "./HomeServices";
-import TrustHighlights from "./TrustHighlights";
-import MLBBPurchaseGuide from "../HelpImage/MLBBPurchaseGuide";
 import TopNoticeBanner from "./TopNoticeBanner";
-import ScrollingNoticeBand from "./ScrollingNoticeBand";
 import HomeQuickActions from "./HomeQuickActions";
 import StorySlider from "./StorySlider";
 
-
-import FlashSale from "./FlashSale";
-import CommunityPopup from "./CommunityPopup";
+const CommunityPopup = dynamic(() => import("./CommunityPopup"), { ssr: false });
+const FlashSale = dynamic(() => import("./FlashSale"), { ssr: false });
+const HomeServices = dynamic(() => import("./HomeServices"), { ssr: false });
+const TrustHighlights = dynamic(() => import("./TrustHighlights"), { ssr: false });
 
 
 export default function HeroSection() {

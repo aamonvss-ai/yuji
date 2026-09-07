@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { 
   Download, 
   Smartphone, 
@@ -38,8 +39,10 @@ export default function PWAInstaller() {
   const [selectedPlatform, setSelectedPlatform] = useState("android"); // 'android' | 'ios' | 'pc'
   const [isStandalone, setIsStandalone] = useState(false);
   const [installed, setInstalled] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     // Check if running in standalone mode (already launched as PWA)
     const standaloneMode = 
       typeof window !== "undefined" && (
@@ -145,95 +148,96 @@ export default function PWAInstaller() {
         <Download size={15} className="group-hover:-translate-y-0.5 transition-transform duration-200" />
       </button>
 
-      {/* INSTALL INSTRUCTION MODAL */}
-      <AnimatePresence>
-        {isModalOpen && (
-          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsModalOpen(false)}
-              className="absolute inset-0 bg-black/70 backdrop-blur-md"
-            />
+      {/* INSTALL INSTRUCTION MODAL (Teleported to body) */}
+      {mounted && createPortal(
+        <AnimatePresence>
+          {isModalOpen && (
+            <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 overflow-y-auto">
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsModalOpen(false)}
+                className="fixed inset-0 bg-black/80 backdrop-blur-md"
+              />
 
             {/* Modal Dialog */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.94, y: 12 }}
+              initial={{ opacity: 0, scale: 0.94, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.94, y: 12 }}
+              exit={{ opacity: 0, scale: 0.94, y: 10 }}
               transition={{ type: "spring", damping: 25, stiffness: 350 }}
-              className="relative w-full max-w-[390px] bg-[var(--card)] border border-[var(--border)] rounded-3xl p-5 overflow-hidden text-left"
+              className="relative z-10 w-full max-w-[350px] bg-[var(--card)] border border-[var(--border)] rounded-3xl p-4 text-left shadow-2xl my-auto"
             >
               {/* Close Button */}
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="absolute top-4 right-4 w-7 h-7 flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)] bg-[var(--foreground)]/[0.04] hover:bg-[var(--foreground)]/[0.08] rounded-full transition-colors"
+                className="absolute top-3.5 right-3.5 w-6 h-6 flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)] bg-[var(--foreground)]/[0.04] hover:bg-[var(--foreground)]/[0.08] rounded-full transition-colors z-20"
               >
-                <X size={15} />
+                <X size={14} />
               </button>
 
               {/* App Icon + Title */}
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-2xl bg-[var(--foreground)]/[0.04] border border-[var(--border)] p-1.5 flex items-center justify-center overflow-hidden shrink-0">
-                  <Image src="/logo.png" alt="Yuji MLBB" width={42} height={42} className="object-contain rounded-xl" />
+              <div className="flex items-center gap-2.5 mb-3">
+                <div className="w-10 h-10 rounded-xl bg-[var(--foreground)]/[0.04] border border-[var(--border)] p-1 flex items-center justify-center overflow-hidden shrink-0">
+                  <Image src="/logo.png" alt="Yuji MLBB" width={36} height={36} className="object-contain rounded-lg" />
                 </div>
                 <div>
-                  <h3 className="text-[15px] font-bold text-[var(--foreground)] tracking-tight">
+                  <h3 className="text-sm font-bold text-[var(--foreground)] tracking-tight">
                     Yuji MLBB App
                   </h3>
-                  <p className="text-[11.5px] text-[var(--muted)]">
+                  <p className="text-[11px] text-[var(--muted)]">
                     Fast & Instant Diamond Delivery
                   </p>
                 </div>
               </div>
 
               {/* PLATFORM SWITCHER TABS */}
-              <div className="flex items-center p-1 bg-[var(--foreground)]/[0.04] border border-[var(--border)] rounded-xl gap-1 mb-4 text-xs font-semibold">
+              <div className="flex items-center p-0.5 bg-[var(--foreground)]/[0.04] border border-[var(--border)] rounded-xl gap-0.5 mb-3 text-[11px] font-semibold">
                 <button
                   onClick={() => setSelectedPlatform("android")}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg transition-all ${
+                  className={`flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg transition-all ${
                     selectedPlatform === "android"
                       ? "bg-[var(--accent)] text-white font-bold"
                       : "text-[var(--muted)] hover:text-[var(--foreground)]"
                   }`}
                 >
-                  <Smartphone size={13} />
+                  <Smartphone size={12} />
                   <span>Android</span>
                 </button>
                 <button
                   onClick={() => setSelectedPlatform("ios")}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg transition-all ${
+                  className={`flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg transition-all ${
                     selectedPlatform === "ios"
                       ? "bg-[var(--accent)] text-white font-bold"
                       : "text-[var(--muted)] hover:text-[var(--foreground)]"
                   }`}
                 >
-                  <Smartphone size={13} />
+                  <Smartphone size={12} />
                   <span>iOS (iPhone)</span>
                 </button>
                 <button
                   onClick={() => setSelectedPlatform("pc")}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg transition-all ${
+                  className={`flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg transition-all ${
                     selectedPlatform === "pc"
                       ? "bg-[var(--accent)] text-white font-bold"
                       : "text-[var(--muted)] hover:text-[var(--foreground)]"
                   }`}
                 >
-                  <Laptop size={13} />
+                  <Laptop size={12} />
                   <span>PC / Mac</span>
                 </button>
               </div>
 
               {/* PLATFORM CONTENT */}
               {selectedPlatform === "android" && (
-                <div className="space-y-3 mb-4 p-3.5 rounded-2xl bg-[var(--foreground)]/[0.02] border border-[var(--border)] text-xs text-[var(--foreground)]">
-                  <div className="font-bold text-[var(--accent)] flex items-center justify-between">
+                <div className="space-y-2.5 mb-3 p-3 rounded-2xl bg-[var(--foreground)]/[0.02] border border-[var(--border)] text-xs text-[var(--foreground)]">
+                  <div className="font-bold text-[var(--accent)] flex items-center justify-between text-[11.5px]">
                     <span className="flex items-center gap-1.5">
-                      <Smartphone size={14} /> Android Chrome / Browser
+                      <Smartphone size={13} /> Android Chrome
                     </span>
-                    <span className="text-[10px] uppercase font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-md">
+                    <span className="text-[9px] uppercase font-bold text-emerald-500 bg-emerald-500/10 px-1.5 py-0.2 rounded">
                       Instant PWA
                     </span>
                   </div>
@@ -281,35 +285,35 @@ export default function PWAInstaller() {
               )}
 
               {selectedPlatform === "ios" && (
-                <div className="space-y-3 mb-4 p-3.5 rounded-2xl bg-[var(--foreground)]/[0.02] border border-[var(--border)] text-xs text-[var(--foreground)]">
-                  <div className="font-bold text-[var(--accent)] flex items-center gap-1.5">
-                    <Smartphone size={14} /> iOS Safari Installation
+                <div className="space-y-2.5 mb-3 p-3 rounded-2xl bg-[var(--foreground)]/[0.02] border border-[var(--border)] text-xs text-[var(--foreground)]">
+                  <div className="font-bold text-[var(--accent)] flex items-center gap-1.5 text-[11.5px]">
+                    <Smartphone size={13} /> iOS Safari Installation
                   </div>
 
-                  <div className="space-y-2.5 pt-1">
-                    <div className="flex items-start gap-2.5">
-                      <div className="w-5 h-5 rounded-full bg-[var(--accent)]/15 text-[var(--accent)] font-bold flex items-center justify-center shrink-0 text-[10px]">
+                  <div className="space-y-2 pt-0.5">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4.5 h-4.5 rounded-full bg-[var(--accent)]/15 text-[var(--accent)] font-bold flex items-center justify-center shrink-0 text-[9.5px]">
                         1
                       </div>
-                      <p className="text-[11.5px] leading-snug">
-                        Tap the <strong className="text-[var(--foreground)]">Share button</strong> <Share size={12} className="inline mx-0.5 text-[var(--accent)]" /> at the bottom bar in Safari.
+                      <p className="text-[11px] leading-snug">
+                        Tap the <strong className="text-[var(--foreground)]">Share button</strong> <Share size={11} className="inline mx-0.5 text-[var(--accent)]" /> at the bottom of Safari.
                       </p>
                     </div>
 
-                    <div className="flex items-start gap-2.5">
-                      <div className="w-5 h-5 rounded-full bg-[var(--accent)]/15 text-[var(--accent)] font-bold flex items-center justify-center shrink-0 text-[10px]">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4.5 h-4.5 rounded-full bg-[var(--accent)]/15 text-[var(--accent)] font-bold flex items-center justify-center shrink-0 text-[9.5px]">
                         2
                       </div>
-                      <p className="text-[11.5px] leading-snug">
-                        Scroll down and tap <strong className="text-[var(--foreground)]">Add to Home Screen</strong> <PlusSquare size={12} className="inline mx-0.5 text-[var(--accent)]" />.
+                      <p className="text-[11px] leading-snug">
+                        Scroll down and tap <strong className="text-[var(--foreground)]">Add to Home Screen</strong> <PlusSquare size={11} className="inline mx-0.5 text-[var(--accent)]" />.
                       </p>
                     </div>
 
-                    <div className="flex items-start gap-2.5">
-                      <div className="w-5 h-5 rounded-full bg-[var(--accent)]/15 text-[var(--accent)] font-bold flex items-center justify-center shrink-0 text-[10px]">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4.5 h-4.5 rounded-full bg-[var(--accent)]/15 text-[var(--accent)] font-bold flex items-center justify-center shrink-0 text-[9.5px]">
                         3
                       </div>
-                      <p className="text-[11.5px] leading-snug">
+                      <p className="text-[11px] leading-snug">
                         Tap <strong className="text-[var(--foreground)]">Add</strong> in the top-right corner.
                       </p>
                     </div>
@@ -318,37 +322,37 @@ export default function PWAInstaller() {
               )}
 
               {selectedPlatform === "pc" && (
-                <div className="space-y-3 mb-4 p-3.5 rounded-2xl bg-[var(--foreground)]/[0.02] border border-[var(--border)] text-xs text-[var(--foreground)]">
-                  <div className="font-bold text-[var(--accent)] flex items-center gap-1.5">
-                    <Monitor size={14} /> Chrome / Edge on Desktop
+                <div className="space-y-2.5 mb-3 p-3 rounded-2xl bg-[var(--foreground)]/[0.02] border border-[var(--border)] text-xs text-[var(--foreground)]">
+                  <div className="font-bold text-[var(--accent)] flex items-center gap-1.5 text-[11.5px]">
+                    <Monitor size={13} /> Chrome / Edge on Desktop
                   </div>
 
                   {deferredInstallPrompt ? (
                     <button
                       onClick={triggerNativePrompt}
-                      className="w-full py-2.5 px-4 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-98"
+                      className="w-full py-2 px-3.5 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-98"
                     >
-                      <Download size={14} />
+                      <Download size={13} />
                       <span>Install Desktop App</span>
                     </button>
                   ) : null}
 
-                  <div className="space-y-2.5 pt-1">
-                    <div className="flex items-start gap-2.5">
-                      <div className="w-5 h-5 rounded-full bg-[var(--accent)]/15 text-[var(--accent)] font-bold flex items-center justify-center shrink-0 text-[10px]">
+                  <div className="space-y-2 pt-0.5">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4.5 h-4.5 rounded-full bg-[var(--accent)]/15 text-[var(--accent)] font-bold flex items-center justify-center shrink-0 text-[9.5px]">
                         1
                       </div>
-                      <p className="text-[11.5px] leading-snug">
-                        Click the <strong className="text-[var(--foreground)]">Install icon</strong> <ArrowDownToLine size={12} className="inline mx-0.5 text-[var(--accent)]" /> inside the browser URL address bar (top right).
+                      <p className="text-[11px] leading-snug">
+                        Click the <strong className="text-[var(--foreground)]">Install icon</strong> <ArrowDownToLine size={11} className="inline mx-0.5 text-[var(--accent)]" /> in the browser address bar.
                       </p>
                     </div>
 
-                    <div className="flex items-start gap-2.5">
-                      <div className="w-5 h-5 rounded-full bg-[var(--accent)]/15 text-[var(--accent)] font-bold flex items-center justify-center shrink-0 text-[10px]">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4.5 h-4.5 rounded-full bg-[var(--accent)]/15 text-[var(--accent)] font-bold flex items-center justify-center shrink-0 text-[9.5px]">
                         2
                       </div>
-                      <p className="text-[11.5px] leading-snug">
-                        Click <strong className="text-[var(--foreground)]">Install</strong> to launch Yuji MLBB as a standalone desktop app.
+                      <p className="text-[11px] leading-snug">
+                        Click <strong className="text-[var(--foreground)]">Install</strong> to launch as a standalone desktop app.
                       </p>
                     </div>
                   </div>
@@ -356,36 +360,38 @@ export default function PWAInstaller() {
               )}
 
               {/* Features list */}
-              <div className="grid grid-cols-2 gap-2 text-[10.5px] text-[var(--muted)] mb-4">
+              <div className="grid grid-cols-2 gap-1.5 text-[10px] text-[var(--muted)] mb-3">
                 <div className="flex items-center gap-1.5">
-                  <Check size={12} className="text-emerald-500 shrink-0" />
+                  <Check size={11} className="text-emerald-500 shrink-0" />
                   <span>1-Tap Fast Launch</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Check size={12} className="text-emerald-500 shrink-0" />
+                  <Check size={11} className="text-emerald-500 shrink-0" />
                   <span>Ultra Lightweight</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Check size={12} className="text-emerald-500 shrink-0" />
-                  <span>Instant Diamonds</span>
+                  <Check size={11} className="text-emerald-500 shrink-0" />
+                  <span>Instant Delivery</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Check size={12} className="text-emerald-500 shrink-0" />
-                  <span>Safe & Secure</span>
+                  <Check size={11} className="text-emerald-500 shrink-0" />
+                  <span>100% Safe & Secure</span>
                 </div>
               </div>
 
               {/* Dismiss button */}
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="w-full py-2 text-center text-[11.5px] font-medium text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
+                className="w-full py-1.5 text-center text-[11px] font-semibold text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
               >
                 Close
               </button>
             </motion.div>
           </div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body
+    )}
     </>
   );
 }

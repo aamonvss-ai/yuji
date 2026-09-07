@@ -4,18 +4,20 @@ import { unstable_cache } from 'next/cache';
 // Removed Google Fonts due to build-time network failures
 const poppins = { className: "font-sans" };
 
+import dynamic from "next/dynamic";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import Chatbot from "@/components/Chatbot/Chatbot";
 import Maintenance from "@/components/Maintenance/Maintenance";
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { connectDB } from "@/lib/mongodb";
 import SystemSettings from "@/models/SystemSettings";
 import GoogleTranslate from "@/components/GoogleTranslate";
-
 import { CurrencyProvider } from "@/components/CurrencyContext";
+
 import BubbleBackground from "@/components/Background/BubbleBackground";
+
+const Chatbot = dynamic(() => import("@/components/Chatbot/Chatbot"));
 
 export async function generateMetadata(): Promise<Metadata> {
   let title = "MLBB Top Up India – Cheap Mobile Legends Diamonds | Yujimlbb";

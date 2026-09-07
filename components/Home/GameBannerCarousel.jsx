@@ -111,7 +111,8 @@ export default function GameBannerCarousel() {
               src={currentBanner.bannerImage || logo}
               alt={currentBanner.bannerTitle || "Banner"}
               fill
-              priority
+              priority={current === 0}
+              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1200px"
               className="object-cover"
             />
 

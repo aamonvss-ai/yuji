@@ -90,67 +90,64 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative mt-8 border-t border-[var(--border)] bg-[var(--card)]/30 backdrop-blur-xl overflow-hidden">
+    <footer className="relative mt-6 border-t border-[var(--border)] bg-[var(--card)]/30 backdrop-blur-xl overflow-hidden">
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[var(--accent)]/5 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-[var(--accent)]/10 rounded-full blur-[80px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 py-6 lg:py-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8">
+      <div className="max-w-7xl mx-auto px-5 py-5 lg:py-6 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-5 lg:gap-6">
 
           {/* Brand & Description */}
-          <div className="md:col-span-4 space-y-4">
-            <Link href="/" className="inline-flex items-center gap-3 group">
+          <div className="md:col-span-5 space-y-2.5">
+            <Link href="/" className="inline-flex items-center gap-2.5 group">
               <Image
                 src={logo}
-                alt="Logo"
-                width={48}
-                height={48}
-                className="w-10 h-10 md:w-12 md:h-12 object-contain logo-img transition-transform duration-300 group-hover:scale-110 shrink-0"
+                alt="YUJI MLBB"
+                width={50}
+                height={50}
+                className="w-12 h-12 md:w-12 md:h-12 object-contain logo-img transition-transform duration-300 group-hover:scale-105 shrink-0"
               />
-              <h2 className="text-2xl md:text-3xl font-black tracking-tighter transition-transform duration-300 group-hover:scale-105">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#4f46e5] via-[#22d3ee] to-[#ec4899] filter drop-shadow-[0_2px_10px_rgba(34,211,238,0.2)]">
-                  {BRAND.name}
-                </span>
-                <span className="text-[var(--accent)] drop-shadow-[0_0_12px_var(--accent)]">.</span>
-              </h2>
+              <span className="font-black text-lg md:text-xl tracking-tight text-[var(--foreground)] uppercase whitespace-nowrap select-none">
+                YUJI <span className="text-[var(--accent)]">MLBB</span>
+              </span>
             </Link>
-            <p className="text-sm text-[var(--muted)] leading-relaxed max-w-sm">
+            <p className="text-xs text-[var(--muted)] leading-relaxed max-w-sm">
               {BRAND.description}
             </p>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 pt-0.5">
               {SOCIALS.map((social) => (
                 <motion.a
                   key={social.label}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ y: -4, scale: 1.1 }}
-                  className={`p-2 rounded-xl border border-[var(--border)] bg-[var(--background)]/50 backdrop-blur-sm transition-all duration-300 ${social.color} ${social.glow} hover:border-[var(--accent)]/50`}
+                  whileHover={{ y: -2, scale: 1.08 }}
+                  className={`w-7 h-7 rounded-xl border border-[var(--border)] bg-[var(--background)]/50 backdrop-blur-sm flex items-center justify-center transition-all duration-200 ${social.color} hover:border-[var(--accent)]/50 text-[var(--muted)]`}
                   aria-label={social.label}
                 >
-                  <social.icon className="w-4.5 h-4.5" />
+                  <social.icon size={13} />
                 </motion.a>
               ))}
             </div>
           </div>
 
           {/* Links Grid */}
-          <div className="md:col-span-5 grid grid-cols-2 gap-4 lg:gap-8">
+          <div className="md:col-span-4 grid grid-cols-2 gap-3 lg:gap-4">
             {FOOTER_LINKS.map((section) => (
-              <div key={section.title} className="space-y-2">
+              <div key={section.title} className="space-y-1.5">
                 <h3 className="text-[9px] font-black uppercase tracking-[0.2em] text-[var(--muted)]/60">
                   {section.title}
                 </h3>
-                <ul className="space-y-2">
+                <ul className="space-y-1">
                   {section.links.map((link) => (
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="group flex items-center gap-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
+                        className="group flex items-center gap-1.5 text-xs font-medium text-[var(--muted)] hover:text-[var(--foreground)] transition-colors py-0.5"
                       >
-                        <link.icon size={14} className="text-[var(--muted)]/50 group-hover:text-[var(--accent)] transition-colors duration-300" />
-                        {link.label}
+                        <link.icon size={12} className="text-[var(--muted)]/50 group-hover:text-[var(--accent)] transition-colors duration-200" />
+                        <span>{link.label}</span>
                       </Link>
                     </li>
                   ))}
@@ -160,30 +157,29 @@ export default function Footer() {
           </div>
 
           {/* QR / Trust Section */}
-          <div className="md:col-span-3">
-            <div className="p-2 sm:p-2.5 rounded-xl bg-[var(--card)]/60 border border-[var(--border)] backdrop-blur-md flex flex-row items-center gap-2.5 text-left transition-all duration-300 hover:border-[var(--accent)]/30 w-full">
-              <div className="shrink-0 p-1 bg-white rounded-lg shadow-xs border border-gray-100">
+          <div className="md:col-span-3 flex items-start">
+            <div className="p-2 rounded-xl bg-[var(--card)]/60 border border-[var(--border)] backdrop-blur-md flex flex-row items-center gap-2 text-left transition-all duration-300 hover:border-[var(--accent)]/30 w-full">
+              <div className="shrink-0 p-1 bg-white rounded-lg border border-gray-100">
                 <QRCodeCanvas
                   value={TRUSTPILOT_URL}
-                  size={36}
+                  size={32}
                   bgColor="#ffffff"
                   fgColor="#000000"
                   level="H"
                 />
               </div>
               <div className="space-y-0.5 min-w-0 flex-1">
-                <div className="flex items-center justify-between gap-1.5">
-                  <div className="flex items-center gap-1 text-[10.5px] font-bold text-[var(--foreground)]">
-                    <FiShield className="text-green-500 w-3 h-3 shrink-0" />
+                <div className="flex items-center justify-between gap-1">
+                  <div className="flex items-center gap-1 text-[10px] font-bold text-[var(--foreground)]">
+                    <FiShield className="text-green-500 w-2.5 h-2.5 shrink-0" />
                     <span className="truncate">Safe & Secure</span>
                   </div>
-                  <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[7.5px] font-bold bg-green-500/10 text-green-500 border border-green-500/20 whitespace-nowrap shrink-0 leading-none">
-                    <span className="w-1.2 h-1.2 rounded-full bg-green-500 mr-1" />
+                  <span className="inline-flex items-center px-1.5 py-0.2 rounded-full text-[7px] font-bold bg-green-500/10 text-green-500 border border-green-500/20 whitespace-nowrap shrink-0 leading-none">
                     ACTIVE
                   </span>
                 </div>
-                <p className="text-[9px] text-[var(--muted)] truncate leading-tight">
-                  Scan for reviews on <span className="text-[var(--foreground)] font-semibold">Trustpilot</span>
+                <p className="text-[8.5px] text-[var(--muted)] truncate leading-tight">
+                  Reviews on <span className="text-[var(--foreground)] font-semibold">Trustpilot</span>
                 </p>
               </div>
             </div>
