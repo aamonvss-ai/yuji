@@ -68,7 +68,7 @@ export default function HomeQuickActions() {
               <action.icon className="h-5 w-5 sm:h-5.5 sm:w-5.5 transition-transform duration-300 group-hover:scale-110" />
             </div>
 
-            <span className="text-[9px] sm:text-[11px] font-bold uppercase tracking-tight text-neutral-800 dark:text-neutral-200 text-center transition-colors duration-200 group-hover:text-[var(--accent)] w-full block">
+            <span className="text-[9px] sm:text-[11px] font-bold uppercase tracking-tight text-[var(--foreground)] text-center transition-colors duration-200 group-hover:text-[var(--accent)] w-full block">
               {action.name}
             </span>
           </Link>

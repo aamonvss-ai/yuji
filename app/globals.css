@@ -4,11 +4,11 @@
    🌍 BASE THEME VARIABLES (LIGHT – DEFAULT)
    ====================================================== */
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #ffffff;
+  --foreground: #090d16;
   --accent: #2563eb;
   --accent-hover: #1d4ed8;
-  --muted: #64748b;
+  --muted: #475569;
   --border: #e2e8f0;
   --card: #ffffff;
   --logo-filter: none;
@@ -31,13 +31,13 @@
    🌙 DARK – PROFESSIONAL / UNIVERSAL
    ====================================================== */
 html[data-theme="dark"] {
-  --background: #000000;
+  --background: #060709;
   --foreground: #ffffff;
   --accent: #3b82f6;
   --accent-hover: #2563eb;
-  --muted: #a1a1aa;
-  --border: #18181b;
-  --card: #000000;
+  --muted: #94a3b8;
+  --border: #181920;
+  --card: #0b0c10;
   --logo-filter: invert(1) brightness(1.5);
 }
 
@@ -525,13 +525,11 @@ body::before {
   position: fixed;
   inset: -30px;
   background-image: 
-    radial-gradient(ellipse 90% 850px at 50% -80px, rgba(0, 240, 255, 0.40) 0%, transparent 75%),
-    radial-gradient(circle 750px at 95% 25%, rgba(168, 85, 247, 0.35) 0%, transparent 70%),
-    radial-gradient(circle 700px at 5% 45%, rgba(255, 0, 128, 0.32) 0%, transparent 70%),
-    radial-gradient(circle 650px at 90% 65%, rgba(255, 102, 0, 0.28) 0%, transparent 65%),
-    radial-gradient(circle 650px at 10% 80%, rgba(0, 255, 170, 0.26) 0%, transparent 65%),
-    radial-gradient(circle 600px at 80% 95%, rgba(59, 130, 246, 0.28) 0%, transparent 60%),
-    radial-gradient(circle 550px at 30% 95%, rgba(245, 158, 11, 0.25) 0%, transparent 60%);
+    radial-gradient(ellipse 90% 750px at 50% -80px, rgba(14, 165, 233, 0.12) 0%, transparent 75%),
+    radial-gradient(circle 700px at 95% 25%, rgba(139, 92, 246, 0.08) 0%, transparent 70%),
+    radial-gradient(circle 650px at 5% 45%, rgba(236, 72, 153, 0.06) 0%, transparent 70%),
+    radial-gradient(circle 600px at 85% 75%, rgba(59, 130, 246, 0.08) 0%, transparent 65%),
+    radial-gradient(circle 550px at 15% 85%, rgba(16, 185, 129, 0.06) 0%, transparent 60%);
   z-index: -2;
   pointer-events: none;
   transform: translate3d(0, 0, 0);
@@ -546,16 +544,13 @@ body::after {
   inset: -800px;
   background-image: linear-gradient(
     135deg, 
-    #00ffcc 0%, 
-    #00f0ff 14%, 
-    #3b82f6 28%, 
-    #8b5cf6 42%, 
-    #d946ef 56%, 
-    #ff007f 70%, 
-    #ff6600 84%, 
-    #ffbe00 100%
+    #0ea5e9 0%, 
+    #3b82f6 25%, 
+    #8b5cf6 50%, 
+    #ec4899 75%, 
+    #f59e0b 100%
   );
-  opacity: 0.42;
+  opacity: 0.12;
   -webkit-mask-image: url('/bg-pattern.svg');
   mask-image: url('/bg-pattern.svg');
   -webkit-mask-size: 800px 800px;
@@ -568,6 +563,38 @@ body::after {
   backface-visibility: hidden;
   will-change: transform;
   animation: waveGpuDrift 45s linear infinite;
+}
+
+/* 🌙 Deep Obsidian Dark Mode Background */
+html[data-theme="dark"] body::before,
+html[data-theme="cyber"] body::before,
+html[data-theme="void"] body::before,
+html[data-theme="crimson"] body::before,
+html[data-theme="inferno"] body::before {
+  background-image: 
+    radial-gradient(ellipse 90% 800px at 50% -80px, rgba(0, 240, 255, 0.28) 0%, transparent 75%),
+    radial-gradient(circle 750px at 95% 25%, rgba(168, 85, 247, 0.24) 0%, transparent 70%),
+    radial-gradient(circle 700px at 5% 45%, rgba(255, 0, 128, 0.20) 0%, transparent 70%),
+    radial-gradient(circle 650px at 90% 70%, rgba(59, 130, 246, 0.22) 0%, transparent 65%),
+    radial-gradient(circle 600px at 12% 85%, rgba(0, 255, 170, 0.18) 0%, transparent 60%);
+}
+
+html[data-theme="dark"] body::after,
+html[data-theme="cyber"] body::after,
+html[data-theme="void"] body::after,
+html[data-theme="crimson"] body::after,
+html[data-theme="inferno"] body::after {
+  background-image: linear-gradient(
+    135deg, 
+    #00ffcc 0%, 
+    #00f0ff 15%, 
+    #3b82f6 30%, 
+    #8b5cf6 50%, 
+    #d946ef 70%, 
+    #ff007f 85%, 
+    #ff6600 100%
+  );
+  opacity: 0.32;
 }
 
 @keyframes waveGpuDrift {
