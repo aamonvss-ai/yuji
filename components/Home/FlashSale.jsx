@@ -41,18 +41,19 @@ export default function FlashSale() {
     return (
         <section className="relative py-2 overflow-hidden border-b border-[var(--border)] bg-gray-50/50 dark:bg-white/[0.02]">
             <div className="max-w-7xl mx-auto px-4">
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between mb-3 pt-0.5">
+                    {/* Clean Minimal Title */}
                     <div className="flex items-center gap-2.5">
-                        <div className="relative">
-                            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-amber-500 text-black flex items-center justify-center shrink-0 z-10 relative">
-                                <FiZap size={16} fill="currentColor" />
-                            </div>
+                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[var(--accent)]/10 text-[var(--accent)] border border-[var(--accent)]/20 flex items-center justify-center shrink-0">
+                            <FiZap size={15} fill="currentColor" />
                         </div>
-                        <div className="flex flex-col">
-                            <h2 className="text-sm md:text-lg font-black italic uppercase tracking-tighter bg-gradient-to-r from-amber-400 via-orange-500 to-rose-600 bg-clip-text text-transparent leading-none">
+                        <div className="flex items-center gap-2">
+                            <h2 className="text-[15px] sm:text-[17px] font-bold text-[var(--foreground)] tracking-tight">
                                 Flash Sale
                             </h2>
-                            <div className="h-[2px] w-8 bg-gradient-to-r from-amber-500 to-rose-500 mt-0.5 rounded-full shadow-[0_2px_10px_rgba(245,158,11,0.5)]" />
+                            <span className="text-[10px] font-medium text-[var(--accent)] bg-[var(--accent)]/10 border border-[var(--accent)]/20 px-1.5 py-0.5 rounded-md">
+                                Exclusive
+                            </span>
                         </div>
                     </div>
 

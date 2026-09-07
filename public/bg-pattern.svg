@@ -25,26 +25,26 @@
   </defs>
 
   <!-- Flow Stream 1 -->
-  <path d="M 0,90 C 120,15 240,175 380,80 C 520,-5 660,165 800,90" stroke="url(#waveGradA)" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M 0,80 C 130,25 260,140 400,80 C 540,25 670,140 800,80" stroke="url(#waveGradA)" stroke-width="2.2" stroke-linecap="round"/>
 
   <!-- Flow Stream 2 -->
-  <path d="M 0,190 C 140,285 270,95 410,210 C 550,305 680,105 800,190" stroke="url(#waveGradB)" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M 0,180 C 130,240 260,120 400,180 C 540,240 670,120 800,180" stroke="url(#waveGradB)" stroke-width="1.6" stroke-linecap="round"/>
 
   <!-- Flow Stream 3 -->
-  <path d="M 0,290 C 110,195 230,375 370,270 C 510,175 650,385 800,290" stroke="url(#waveGradC)" stroke-width="2.0" stroke-linecap="round"/>
+  <path d="M 0,280 C 130,220 260,340 400,280 C 540,220 670,340 800,280" stroke="url(#waveGradC)" stroke-width="2.0" stroke-linecap="round"/>
 
   <!-- Flow Stream 4 -->
-  <path d="M 0,390 C 130,495 280,295 420,410 C 560,515 690,305 800,390" stroke="url(#waveGradD)" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M 0,380 C 130,440 260,320 400,380 C 540,440 670,320 800,380" stroke="url(#waveGradD)" stroke-width="1.5" stroke-linecap="round"/>
 
   <!-- Flow Stream 5 -->
-  <path d="M 0,490 C 120,395 250,585 390,470 C 530,375 670,595 800,490" stroke="url(#waveGradA)" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M 0,480 C 130,420 260,540 400,480 C 540,420 670,540 800,480" stroke="url(#waveGradA)" stroke-width="2.2" stroke-linecap="round"/>
 
   <!-- Flow Stream 6 -->
-  <path d="M 0,590 C 140,695 270,495 410,610 C 550,715 680,505 800,590" stroke="url(#waveGradB)" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M 0,580 C 130,640 260,520 400,580 C 540,640 670,520 800,580" stroke="url(#waveGradB)" stroke-width="1.6" stroke-linecap="round"/>
 
   <!-- Flow Stream 7 -->
-  <path d="M 0,690 C 110,595 240,785 380,670 C 520,575 660,785 800,690" stroke="url(#waveGradC)" stroke-width="2.0" stroke-linecap="round"/>
+  <path d="M 0,680 C 130,620 260,740 400,680 C 540,620 670,740 800,680" stroke="url(#waveGradC)" stroke-width="2.0" stroke-linecap="round"/>
 
   <!-- Flow Stream 8 -->
-  <path d="M 0,780 C 130,875 280,685 420,800 C 560,905 690,695 800,780" stroke="url(#waveGradD)" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M 0,760 C 130,710 260,790 400,760 C 540,710 670,790 800,760" stroke="url(#waveGradD)" stroke-width="1.5" stroke-linecap="round"/>
 </svg>

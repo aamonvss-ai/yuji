@@ -38,21 +38,21 @@ const Countdown = memo(function Countdown({ endTime }) {
     if (!endTime) return null;
 
     return (
-        <div className="flex items-center gap-1.5 bg-black/5 dark:bg-white/5 backdrop-blur-md border border-[var(--border)] px-2.5 py-1 rounded-xl shadow-sm">
-            <FiClock className="text-amber-500 hidden sm:block" size={10} />
-            <div className="flex items-center gap-1.5 font-black text-[10px] tabular-nums text-amber-500 uppercase tracking-tighter">
-                <span className="opacity-40 text-[8px] font-bold text-[var(--foreground)] mr-0.5 hidden md:block">Time left</span>
-                <div className="bg-amber-500/20 px-1 py-0.5 rounded-md min-w-[20px] text-center">
+        <div className="flex items-center gap-1.5 bg-black/40 dark:bg-black/60 backdrop-blur-md border border-white/10 px-2 sm:px-2.5 py-1 rounded-xl">
+            <FiClock className="text-white/60 shrink-0" size={12} />
+            
+            <div className="flex items-center gap-1 font-mono font-bold text-[11px] sm:text-[12px] tabular-nums">
+                <span className="bg-white/10 text-white border border-white/10 px-1.5 py-0.5 rounded-md min-w-[21px] sm:min-w-[24px] text-center leading-tight">
                     {String(timeLeft.hours).padStart(2, '0')}
-                </div>
-                <span className="opacity-30 text-[var(--foreground)]">:</span>
-                <div className="bg-amber-500/20 px-1 py-0.5 rounded-md min-w-[20px] text-center">
+                </span>
+                <span className="text-white/40 font-bold">:</span>
+                <span className="bg-white/10 text-white border border-white/10 px-1.5 py-0.5 rounded-md min-w-[21px] sm:min-w-[24px] text-center leading-tight">
                     {String(timeLeft.minutes).padStart(2, '0')}
-                </div>
-                <span className="opacity-30 text-[var(--foreground)]">:</span>
-                <div className="bg-rose-500/20 text-rose-500 px-1 py-0.5 rounded-md min-w-[20px] text-center">
+                </span>
+                <span className="text-white/40 font-bold">:</span>
+                <span className="bg-[var(--accent)] text-white font-bold px-1.5 py-0.5 rounded-md min-w-[21px] sm:min-w-[24px] text-center leading-tight">
                     {String(timeLeft.seconds).padStart(2, '0')}
-                </div>
+                </span>
             </div>
         </div>
     );

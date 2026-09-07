@@ -42,7 +42,7 @@ const storyData = [
     title: "Indian Small Pack",
     color: "from-cyan-400 to-sky-600",
     image: "/game-assets/3_cj6nj4.jpg",
-    link: "/games/mobile-legends-exclusive952",
+    link: "/games/mobile-legends-philippines888",
   },
 
   {
