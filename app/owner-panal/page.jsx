@@ -10,7 +10,7 @@ import {
 } from "react-icons/fi";
 import { 
   Users, ShoppingCart, ArrowRightLeft, Wallet, MessageSquare, 
-  Image as ImageIcon, Megaphone, Zap, Search, DollarSign, Settings, Monitor 
+  Image as ImageIcon, Megaphone, Zap, Search, DollarSign, Settings, Monitor, Download 
 } from "lucide-react";
 
 import AuthGuard from "@/components/AuthGuard";
@@ -25,6 +25,7 @@ import SettingsTab from "@/components/admin/SettingsTab";
 import SeoTab from "@/components/admin/SeoTab";
 import PromotionalTab from "@/components/admin/PromotionalTab";
 import FlashSaleTab from "@/components/admin/FlashSaleTab";
+import PwaStatsTab from "@/components/admin/PwaStatsTab";
 
 
 
@@ -44,8 +45,8 @@ export default function AdminPanalPage() {
       items: ["users", "orders", "transactions", "wallet", "queries"],
     },
     {
-      title: "Marketing",
-      items: ["banners", "promotional", "flash-sale", "seo"],
+      title: "Marketing & Growth",
+      items: ["banners", "promotional", "flash-sale", "seo", "pwa-stats"],
     },
     {
       title: "Configuration",
@@ -63,6 +64,7 @@ export default function AdminPanalPage() {
     promotional: Megaphone,
     "flash-sale": Zap,
     seo: Search,
+    "pwa-stats": Download,
     pricing: DollarSign,
     settings: Settings,
     "ui-settings": Monitor
@@ -325,7 +327,9 @@ export default function AdminPanalPage() {
                               />
                             )}
                             <span className={isActive ? "font-bold" : ""}>
-                              {tab.charAt(0).toUpperCase() + tab.slice(1).replace('-', ' ')}
+                              {tab === "pwa-stats" 
+                                ? "App / PWA Installs" 
+                                : tab.charAt(0).toUpperCase() + tab.slice(1).replace('-', ' ')}
                             </span>
                           </button>
                         );
@@ -382,6 +386,10 @@ export default function AdminPanalPage() {
 
             {activeTab === "promotional" && (
               <PromotionalTab />
+            )}
+
+            {activeTab === "pwa-stats" && (
+              <PwaStatsTab />
             )}
 
 

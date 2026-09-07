@@ -2,13 +2,14 @@ import { MetadataRoute } from 'next'
  
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Yujimlbb Top Up',
-    short_name: 'Yujimlbb',
+    name: 'Yuji MLBB Top Up',
+    short_name: 'Yuji MLBB',
     description: 'Fast and secure Mobile Legends (MLBB) diamond top-up platform.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#000000',
-    theme_color: '#000000',
+    orientation: 'portrait',
+    background_color: '#060709',
+    theme_color: '#060709',
     icons: [
       {
         src: '/favicon.ico',
@@ -19,11 +20,13 @@ export default function manifest(): MetadataRoute.Manifest {
         src: '/logo.png',
         sizes: '192x192',
         type: 'image/png',
+        purpose: 'maskable'
       },
       {
         src: '/logo.png',
         sizes: '512x512',
         type: 'image/png',
+        purpose: 'any'
       },
     ],
   }

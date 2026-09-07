@@ -195,6 +195,11 @@ export default async function RootLayout({
                   var theme = localStorage.getItem('theme') || 'dark';
                   document.documentElement.setAttribute('data-theme', theme);
                 } catch (e) {}
+                if ('serviceWorker' in navigator) {
+                  window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/sw.js').catch(function() {});
+                  });
+                }
               })();
             `,
           }}

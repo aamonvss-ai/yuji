@@ -27,6 +27,7 @@ import { HiGlobeAlt, HiCube } from "react-icons/hi";
 import Image from "next/image";
 import logo from "@/public/logo.png";
 import { useCurrency } from "@/components/CurrencyContext";
+import PWAInstaller from "@/components/PWA/PWAInstaller";
 
 
 export default function Header({ enableAutoTranslation = false }) {
@@ -238,9 +239,9 @@ export default function Header({ enableAutoTranslation = false }) {
           <button
             onClick={() => setIsMobileSearchOpen(true)}
             aria-label="Open Search"
-            className="h-8 w-8 rounded-xl flex items-center justify-center bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/30 text-[var(--muted)] hover:text-[var(--accent)] transition-all"
+            className="h-8 w-8 rounded-full flex items-center justify-center bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/30 text-[var(--muted)] hover:text-[var(--accent)] transition-all"
           >
-            <Search size={16} />
+            <Search size={15} />
           </button>
         </div>
 
@@ -319,13 +320,17 @@ export default function Header({ enableAutoTranslation = false }) {
         {/* RIGHT SIDE */}
         <div className="flex items-center gap-2 sm:gap-2.5 relative" ref={dropdownRef}>
           
+          {/* PWA INSTALL / DOWNLOAD BUTTON */}
+          <PWAInstaller />
+
           {/* CURRENCY TOGGLE */}
           <button
             onClick={() => setCurrency(currency === "INR" ? "USDT" : "INR")}
             aria-label="Toggle currency"
-            className="h-8 flex items-center justify-center gap-1 px-2.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/30 transition-all font-black text-[10px] tracking-widest text-[var(--muted)] hover:text-[var(--accent)] active:scale-95"
+            title={`Current: ${currency}. Click to switch.`}
+            className="h-8 w-8 rounded-full flex items-center justify-center bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/30 transition-all font-black text-xs text-[var(--muted)] hover:text-[var(--accent)] active:scale-95 shrink-0"
           >
-            {currency === "INR" ? "₹ INR" : "$ USDT"}
+            {currency === "INR" ? "₹" : "$"}
           </button>
 
           {/* THEME TOGGLE */}
@@ -378,37 +383,49 @@ export default function Header({ enableAutoTranslation = false }) {
                   initial={false}
                   animate={{ x: userMenuOpen ? 0 : "100%" }}
                   transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                  className="fixed right-0 top-0 h-screen w-80 max-w-[88vw] bg-[var(--card)]/95 backdrop-blur-2xl border-l border-[var(--border)] shadow-2xl z-[101] flex flex-col pt-3"
+                  className="fixed right-0 top-0 h-screen w-72 max-w-[85vw] bg-[var(--card)]/95 backdrop-blur-2xl border-l border-[var(--border)] shadow-2xl z-[101] flex flex-col pt-1"
                 >
-                  {/* Top Bar / Close Button */}
-                  <div className="flex items-center justify-between px-5 py-2 mb-1">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--muted)]">Account</span>
-                    <button 
-                      onClick={() => setUserMenuOpen(false)}
-                      aria-label="Close drawer"
-                      className="w-7 h-7 flex items-center justify-center rounded-full bg-[var(--foreground)]/[0.04] hover:bg-[var(--foreground)]/[0.08] text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
-                    >
-                      <X size={15} />
-                    </button>
+                  {/* Top Bar / Close & Logout Buttons */}
+                  <div className="flex items-center justify-between px-4 py-2.5 border-b border-[var(--border)]/60">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-[var(--muted)]">Account</span>
+                    <div className="flex items-center gap-1.5">
+                      {user && (
+                        <button
+                          onClick={handleLogout}
+                          title="Sign Out"
+                          aria-label="Sign Out"
+                          className="w-7 h-7 flex items-center justify-center rounded-full bg-rose-500/10 hover:bg-rose-500 text-rose-500 hover:text-white transition-all duration-200 active:scale-95"
+                        >
+                          <LogOut size={13} />
+                        </button>
+                      )}
+                      <button 
+                        onClick={() => setUserMenuOpen(false)}
+                        aria-label="Close drawer"
+                        className="w-7 h-7 flex items-center justify-center rounded-full bg-[var(--foreground)]/[0.04] hover:bg-[var(--foreground)]/[0.08] text-[var(--muted)] hover:text-[var(--foreground)] transition-colors active:scale-95"
+                      >
+                        <X size={14} />
+                      </button>
+                    </div>
                   </div>
 
                   {!user ? (
-                    <div className="flex-1 flex flex-col p-5">
-                      <div className="mb-6">
+                    <div className="flex-1 flex flex-col p-4">
+                      <div className="mb-4">
                         <button
                           onClick={() => {
                             setUserMenuOpen(false);
                             window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname)}`;
                           }}
-                          className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white rounded-2xl font-semibold text-[13px] tracking-wide transition-all active:scale-98 shadow-sm"
+                          className="flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white rounded-xl font-semibold text-xs tracking-wide transition-all active:scale-98 shadow-sm"
                         >
-                          <User size={15} />
+                          <User size={14} />
                           <span>Sign In / Sign Up</span>
                         </button>
                       </div>
 
-                      <div className="space-y-1">
-                        <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--muted)] px-3 mb-2">Explore</p>
+                      <div className="space-y-0.5">
+                        <p className="text-[9px] font-bold uppercase tracking-wider text-[var(--muted)]/60 px-2 mb-1.5">Explore</p>
                         {[
                           { href: "/games", label: "All Games", Icon: HiCube },
                           { href: "/region", label: "By Region", Icon: HiGlobeAlt },
@@ -416,16 +433,16 @@ export default function Header({ enableAutoTranslation = false }) {
                           <Link
                             key={idx}
                             href={item.href}
-                            className="flex items-center justify-between px-3 py-2.5 rounded-2xl transition-all hover:bg-[var(--foreground)]/[0.04] group"
+                            className="flex items-center justify-between px-2.5 py-2 rounded-xl transition-all hover:bg-[var(--foreground)]/[0.04] group"
                             onClick={() => setUserMenuOpen(false)}
                           >
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] flex items-center justify-center transition-all group-hover:scale-105 group-hover:bg-[var(--accent)]/10 group-hover:border-[var(--accent)]/30">
-                                <item.Icon size={16} className="text-[var(--muted)] transition-colors group-hover:text-[var(--accent)]" />
+                            <div className="flex items-center gap-2.5">
+                              <div className="w-7 h-7 rounded-lg bg-[var(--foreground)]/[0.03] border border-[var(--border)]/70 flex items-center justify-center transition-all group-hover:bg-[var(--accent)]/10 group-hover:border-[var(--accent)]/30">
+                                <item.Icon size={14} className="text-[var(--muted)] transition-colors group-hover:text-[var(--accent)]" />
                               </div>
-                              <span className="font-medium text-[13px] text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors tracking-tight">{item.label}</span>
+                              <span className="font-semibold text-xs text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors tracking-tight">{item.label}</span>
                             </div>
-                            <ChevronRight size={14} className="text-[var(--muted)] opacity-0 -translate-x-1.5 transition-all group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[var(--accent)]" />
+                            <ChevronRight size={13} className="text-[var(--muted)] opacity-0 -translate-x-1 transition-all group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[var(--accent)]" />
                           </Link>
                         ))}
                       </div>
@@ -433,8 +450,8 @@ export default function Header({ enableAutoTranslation = false }) {
                   ) : (
                     <>
                       {/* USER PROFILE HERO CARD */}
-                      <div className="px-4 pt-1 pb-2">
-                        <div className="p-2.5 rounded-2xl bg-[var(--foreground)]/[0.03] border border-[var(--border)]">
+                      <div className="px-3 pt-2.5 pb-1">
+                        <div className="p-2.5 rounded-2xl bg-[var(--foreground)]/[0.02] border border-[var(--border)]">
                           {/* User Avatar + Name Row */}
                           <div className="flex items-center gap-2.5">
                             <div className="relative flex-shrink-0">
@@ -464,10 +481,10 @@ export default function Header({ enableAutoTranslation = false }) {
 
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-1.5">
-                                <h3 className="font-bold text-[var(--foreground)] text-[13px] tracking-tight truncate leading-tight">
+                                <h3 className="font-bold text-[var(--foreground)] text-[12.5px] tracking-tight truncate leading-tight">
                                   {user.name}
                                 </h3>
-                                <span className={`px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider ${
+                                <span className={`px-1.5 py-0.2 rounded text-[7.5px] font-black uppercase tracking-wider ${
                                   user.userType === 'owner' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' :
                                   user.userType === 'admin' ? 'bg-blue-500/10 text-blue-500 border border-blue-500/20' :
                                   user.userType === 'member' ? 'bg-purple-500/10 text-purple-500 border border-purple-500/20' :
@@ -478,21 +495,21 @@ export default function Header({ enableAutoTranslation = false }) {
                                    user.userType === 'member' ? 'Member' : 'User'}
                                 </span>
                               </div>
-                              <p className="text-[10.5px] text-[var(--muted)] truncate mt-0.5">
+                              <p className="text-[10px] text-[var(--muted)] truncate mt-0.5">
                                 {user.email}
                               </p>
                             </div>
                           </div>
 
                           {/* Quick Wallet Subcard */}
-                          <div className="mt-2 px-2.5 py-1.5 rounded-xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-between shadow-xs">
+                          <div className="mt-2 px-2.5 py-1.5 rounded-xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                              <div className="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
-                                <Wallet size={12} />
+                              <div className="w-5 h-5 rounded-md bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+                                <Wallet size={11} />
                               </div>
                               <div>
-                                <p className="text-[8.5px] font-bold text-[var(--muted)] uppercase tracking-wider leading-none">Balance</p>
-                                <p className="text-[12px] font-bold text-[var(--foreground)] tracking-tight mt-0.5">
+                                <p className="text-[7.5px] font-bold text-[var(--muted)] uppercase tracking-wider leading-none">Balance</p>
+                                <p className="text-[11.5px] font-black text-[var(--foreground)] tracking-tight mt-0.5">
                                   ₹{user.wallet?.toFixed(2) || "0.00"}
                                 </p>
                               </div>
@@ -501,7 +518,7 @@ export default function Header({ enableAutoTranslation = false }) {
                             <Link
                               href="/dashboard/wallet"
                               onClick={() => setUserMenuOpen(false)}
-                              className="text-[10.5px] font-semibold text-[var(--accent)] hover:text-[var(--accent-hover)] px-2 py-0.5 rounded-lg bg-[var(--accent)]/10 hover:bg-[var(--accent)]/15 transition-colors flex items-center gap-0.5"
+                              className="text-[10px] font-bold text-[var(--accent)] hover:text-[var(--accent-hover)] px-2 py-0.5 rounded-lg bg-[var(--accent)]/10 hover:bg-[var(--accent)]/15 transition-colors flex items-center gap-0.5"
                             >
                               <span>Top Up</span>
                               <ChevronRight size={10} />
@@ -511,8 +528,8 @@ export default function Header({ enableAutoTranslation = false }) {
                       </div>
 
                       {/* NAVIGATION LIST */}
-                      <div className="flex-1 overflow-y-auto px-4 py-1 space-y-1">
-                        <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--muted)] px-3 py-1">Navigation</p>
+                      <div className="flex-1 overflow-y-auto px-3 py-1 space-y-0.5">
+                        <p className="text-[9px] font-bold uppercase tracking-wider text-[var(--muted)]/60 px-2 py-1">Navigation</p>
                         {[
                           { href: "/dashboard", label: "Dashboard", Icon: LayoutDashboard },
                           { href: "/dashboard/wallet", label: "Wallet", Icon: Wallet },
@@ -523,55 +540,46 @@ export default function Header({ enableAutoTranslation = false }) {
                           <Link
                             key={idx}
                             href={item.href}
-                            className="flex items-center justify-between px-3 py-2.5 rounded-2xl transition-all hover:bg-[var(--foreground)]/[0.04] group"
+                            className="flex items-center justify-between px-2.5 py-1.5 rounded-xl transition-all hover:bg-[var(--foreground)]/[0.04] group"
                             onClick={() => setUserMenuOpen(false)}
                           >
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] flex items-center justify-center transition-all group-hover:scale-105 group-hover:bg-[var(--accent)]/10 group-hover:border-[var(--accent)]/30">
-                                <item.Icon size={15} className="text-[var(--muted)] transition-colors group-hover:text-[var(--accent)]" />
+                            <div className="flex items-center gap-2.5">
+                              <div className="w-7 h-7 rounded-lg bg-[var(--foreground)]/[0.03] border border-[var(--border)]/70 flex items-center justify-center transition-all group-hover:bg-[var(--accent)]/10 group-hover:border-[var(--accent)]/30">
+                                <item.Icon size={14} className="text-[var(--muted)] transition-colors group-hover:text-[var(--accent)]" />
                               </div>
-                              <span className="font-medium text-[13px] text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors tracking-tight">{item.label}</span>
+                              <span className="font-semibold text-xs text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors tracking-tight">{item.label}</span>
                             </div>
-                            <ChevronRight size={14} className="text-[var(--muted)] opacity-0 -translate-x-1.5 transition-all group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[var(--accent)]" />
+                            <ChevronRight size={13} className="text-[var(--muted)] opacity-0 -translate-x-1 transition-all group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[var(--accent)]" />
                           </Link>
                         ))}
 
                         {/* ADMIN PANEL (Conditional) */}
                         {user.userType === "owner" && (
-                          <div className="pt-2">
-                            <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-500/70 mb-1.5 px-3">Management</p>
+                          <div className="pt-1.5">
+                            <p className="text-[9px] font-bold uppercase tracking-wider text-emerald-500/70 mb-1 px-2">Management</p>
                             <Link
                               href="/owner-panal"
-                              className="flex items-center justify-between px-3.5 py-2.5 rounded-2xl transition-all bg-emerald-500/[0.06] border border-emerald-500/20 hover:bg-emerald-500/10 group"
+                              className="flex items-center justify-between px-2.5 py-2 rounded-xl transition-all bg-emerald-500/[0.06] border border-emerald-500/20 hover:bg-emerald-500/10 group"
                               onClick={() => setUserMenuOpen(false)}
                             >
-                              <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center transition-all group-hover:scale-105">
-                                  <Shield size={15} className="text-emerald-500" />
+                              <div className="flex items-center gap-2.5">
+                                <div className="w-7 h-7 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center transition-all">
+                                  <Shield size={14} className="text-emerald-500" />
                                 </div>
-                                <span className="font-semibold text-[13px] text-emerald-600 dark:text-emerald-400 transition-colors tracking-tight">Admin Panel</span>
+                                <span className="font-bold text-xs text-emerald-600 dark:text-emerald-400 transition-colors tracking-tight">Admin Panel</span>
                               </div>
-                              <div className="flex items-center gap-2">
-                                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                <ChevronRight size={14} className="text-emerald-500 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                              <div className="flex items-center gap-1.5">
+                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                <ChevronRight size={13} className="text-emerald-500 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
                               </div>
                             </Link>
                           </div>
                         )}
                       </div>
 
-                      {/* FOOTER ACTIONS */}
-                      <div className="p-4 border-t border-[var(--border)] space-y-3">
-                        {/* Logout Button */}
-                        <button
-                          onClick={handleLogout}
-                          className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-2xl bg-rose-500/10 hover:bg-rose-500 text-rose-500 hover:text-white border border-rose-500/20 transition-all font-semibold text-[12.5px] active:scale-98"
-                        >
-                          <LogOut size={15} />
-                          <span>Sign Out</span>
-                        </button>
-
-                        <p className="text-[9.5px] font-bold tracking-widest text-[var(--muted)] opacity-50 text-center uppercase">
+                      {/* SLIM FOOTER */}
+                      <div className="py-2.5 px-4 border-t border-[var(--border)]/60 text-center">
+                        <p className="text-[8.5px] font-bold tracking-widest text-[var(--muted)]/40 uppercase">
                           Love from TK
                         </p>
                       </div>
