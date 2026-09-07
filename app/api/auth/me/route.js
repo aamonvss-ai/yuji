@@ -49,6 +49,7 @@ export async function GET(req) {
       success: true,
       user: {
         id: user._id,
+        userId: user.userId,
         name: user.name,
         email: user.email,
         phone: user.phone,

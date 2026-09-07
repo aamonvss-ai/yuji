@@ -1,145 +1,134 @@
 "use client";
 
+import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import AuthGuard from "../../components/AuthGuard";
-import DashboardCard from "../../components/Dashboard/DashboardCard";
 import { DashboardProvider, useDashboard } from "../../components/Dashboard/DashboardContext";
-import { FiLogOut } from "react-icons/fi";
-import { User, ShieldCheck, Wallet, ChevronRight, LayoutDashboard, Settings, LogOut } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import {
+  LayoutDashboard,
+  ShoppingBag,
+  Wallet,
+  MessageSquare,
+  User,
+  Copy,
+  Check,
+  Gamepad2,
+  Plus
+} from "lucide-react";
+import { motion } from "framer-motion";
+import { useCurrency } from "@/components/CurrencyContext";
 
 function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
-    const pathname = usePathname();
-    const router = useRouter();
-    const { userDetails, walletBalance } = useDashboard();
+  const pathname = usePathname();
+  const router = useRouter();
+  const { userDetails, walletBalance } = useDashboard();
+  const { formatPrice } = useCurrency();
+  const [copiedId, setCopiedId] = useState(false);
 
-    // Map pathname to activeTab
-    let activeTab = "order";
-    if (pathname.includes("/dashboard/support")) activeTab = "support";
-    else if (pathname.includes("/dashboard/wallet")) activeTab = "wallet";
-    else if (pathname.includes("/dashboard/account")) activeTab = "account";
-    else if (pathname.includes("/dashboard/order")) activeTab = "order";
+  const navTabs = [
+    { key: "overview", label: "Overview", icon: LayoutDashboard, href: "/dashboard" },
+    { key: "order", label: "Orders", icon: ShoppingBag, href: "/dashboard/order" },
+    { key: "wallet", label: "Wallet", icon: Wallet, href: "/dashboard/wallet" },
+    { key: "support", label: "Support", icon: MessageSquare, href: "/dashboard/support" },
+  ];
 
-    const tabCards = [
-        { key: "order", label: "Orders", label_alt: "Order History", value: "Archive", href: "/dashboard/order" },
-        { key: "wallet", label: "Wallet", label_alt: "Balance", value: `₹${walletBalance}`, href: "/dashboard/wallet" },
-        { key: "support", label: "Support", label_alt: "Assistance", value: "Help ", href: "/dashboard/support" },
-        // { key: "account", label: "Account", label_alt: "Profile", value: "Settings", href: "/dashboard/account" },
-    ];
+  const handleCopyId = (id: string) => {
+    if (!id) return;
+    navigator.clipboard.writeText(id);
+    setCopiedId(true);
+    setTimeout(() => setCopiedId(false), 2000);
+  };
 
-    const handleLogout = () => {
-        localStorage.clear();
-        router.push("/login");
-    };
+  return (
+    <section className="min-h-screen px-3 sm:px-6 md:px-10 py-4 sm:py-6 bg-transparent text-[var(--foreground)] selection:bg-[var(--accent)]/30">
+      <div className="max-w-6xl mx-auto space-y-4 sm:space-y-5">
+        
+        {/* ================= COMPACT USER HEADER & INTEGRATED NAVIGATION ================= */}
+        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 sm:p-5 shadow-xs space-y-3.5">
+          
+          {/* TOP ROW: USER INFO */}
+          <div className="flex items-center justify-between gap-3.5">
+            
+            {/* User Profile */}
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-[var(--accent)] to-blue-600 flex items-center justify-center text-white text-base sm:text-lg font-black shadow-xs shrink-0">
+                {userDetails.name?.charAt(0).toUpperCase() || "P"}
+              </div>
 
-    const isMainDashboard = pathname === "/dashboard";
+              <div className="space-y-0.5 min-w-0">
+                <h2 className="text-sm sm:text-base font-bold text-[var(--foreground)] truncate">
+                  {userDetails.name || "Player"}
+                </h2>
 
-    return (
-        <section className="min-h-screen px-4 md:px-10 py-8 bg-transparent text-[var(--foreground)] selection:bg-[var(--accent)]/30">
-            {isMainDashboard && (
-                <>
-                    {/* HEADER */}
-                    <div className="max-w-6xl mx-auto mb-8">
-                        <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between">
-                            <div>
-                                <motion.h1
-                                    initial={{ opacity: 0, y: -10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    className="text-2xl md:text-3xl font-black tracking-tight"
-                                >
-                                    {userDetails.name || "Player"}<span className="text-[var(--accent)]">'s</span> Dashboard
-                                </motion.h1>
-                                <motion.div
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.1 }}
-                                    className="flex items-center gap-2 mt-1"
-                                >
-                                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                    <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest">
-                                        Profile Active & Secure
-                                    </p>
-                                </motion.div>
-                            </div>
+                <div className="flex items-center gap-2 flex-wrap text-xs text-[var(--muted)]">
+                  <span className="truncate text-[11px] sm:text-xs">{userDetails.email || userDetails.phone}</span>
+                  {userDetails.userId && (
+                    <>
+                      <span>•</span>
+                      <button
+                        onClick={() => handleCopyId(userDetails.userId)}
+                        className="inline-flex items-center gap-1 font-mono text-[10px] text-[var(--foreground)] bg-[var(--background)] px-1.5 py-0.5 rounded border border-[var(--border)] hover:bg-[var(--foreground)]/5 transition-colors"
+                        title="Copy User ID"
+                      >
+                        <span>ID: {userDetails.userId}</span>
+                        {copiedId ? <Check size={10} className="text-emerald-400" /> : <Copy size={10} className="text-[var(--muted)]" />}
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
 
-                            <motion.button
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                onClick={() => router.push("/dashboard/wallet")}
-                                className="flex items-center gap-3 bg-[var(--card)]/30 backdrop-blur-md border border-[var(--border)] px-4 py-2 rounded-2xl hover:bg-[var(--card)]/50 transition-all active:scale-95"
-                            >
-                                <div className="flex flex-col items-start">
-                                    <span className="text-[8px] uppercase font-black text-[var(--muted)] tracking-widest leading-none mb-1">Balance</span>
-                                    <div className="flex items-center gap-1.5 text-lg font-black text-emerald-500">
-                                        <Wallet size={14} />
-                                        <span>₹{walletBalance}</span>
-                                    </div>
-                                </div>
-                                <ChevronRight size={14} className="text-[var(--muted)]" />
-                            </motion.button>
-                        </div>
-                    </div>
+          {/* BOTTOM ROW: INTEGRATED NAVIGATION TABS (4 TABS, NO SCROLL) */}
+          <div className="pt-2.5 border-t border-[var(--border)]/60 grid grid-cols-4 sm:flex sm:flex-wrap sm:items-center gap-1.5 w-full">
+            {navTabs.map((tab) => {
+              const Icon = tab.icon;
+              const isActive = tab.href === "/dashboard"
+                ? pathname === "/dashboard"
+                : pathname.startsWith(tab.href);
 
-                    {/* CARDS - 3 DIFFERENT ROWS */}
-                    <div className="flex flex-col gap-3 max-w-6xl mx-auto mb-12">
-                        {tabCards.map((tab, idx) => (
-                            <motion.div
-                                key={tab.key}
-                                initial={{ opacity: 0, y: 15 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: idx * 0.08 }}
-                            >
-                                <DashboardCard
-                                    tab={tab}
-                                    activeTab={activeTab}
-                                    onClick={() => router.push(tab.href)}
-                                />
-                            </motion.div>
-                        ))}
-                    </div>
-                </>
-            )}
-
-            {/* CONTENT AREA */}
-            {!isMainDashboard && (
-                <motion.div
-                    layout
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="max-w-6xl mx-auto bg-[var(--card)]/40 
-                              backdrop-blur-3xl border border-[var(--border)]
-                              rounded-xl p-3 sm:p-5 md:p-6 shadow-xl relative overflow-hidden"
+              return (
+                <button
+                  key={tab.key}
+                  onClick={() => router.push(tab.href)}
+                  className={`flex items-center justify-center gap-1.5 px-2 sm:px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-center ${
+                    isActive
+                      ? "bg-[var(--accent)] text-black shadow-xs"
+                      : "text-[var(--muted)] hover:text-[var(--foreground)] bg-[var(--background)]/40 hover:bg-[var(--background)] sm:bg-transparent"
+                  }`}
                 >
-                    {/* Premium Background Accents */}
-                    <div className="absolute -top-24 -right-24 w-96 h-96 bg-[var(--accent)]/10 rounded-full blur-[100px] -z-10 animate-pulse" />
-                    <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[var(--accent)]/5 rounded-full blur-[100px] -z-10" />
+                  <Icon size={14} className="shrink-0" />
+                  <span className="truncate">{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
 
-                    <div className="relative min-h-[500px]">
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={pathname}
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: -20 }}
-                                transition={{ duration: 0.4, ease: "circOut" }}
-                            >
-                                {children}
-                            </motion.div>
-                        </AnimatePresence>
-                    </div>
-                </motion.div>
-            )}
-        </section>
-    );
+        </div>
+
+        {/* ================= MAIN CONTENT VIEW ================= */}
+        <motion.div
+          key={pathname}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+          className="w-full"
+        >
+          {children}
+        </motion.div>
+
+      </div>
+    </section>
+  );
 }
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-    return (
-        <AuthGuard>
-            <DashboardProvider>
-                <DashboardLayoutContent>{children}</DashboardLayoutContent>
-            </DashboardProvider>
-        </AuthGuard>
-    );
+  return (
+    <AuthGuard>
+      <DashboardProvider>
+        <DashboardLayoutContent>{children}</DashboardLayoutContent>
+      </DashboardProvider>
+    </AuthGuard>
+  );
 }

@@ -1,10 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import UserOverviewTab from "@/components/Dashboard/UserOverviewTab";
 
-export default function Dashboard() {
-  const router = useRouter();
-
-  return null;
+export default function DashboardPage() {
+  return <UserOverviewTab />;
 }

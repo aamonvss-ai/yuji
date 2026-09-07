@@ -6,6 +6,7 @@ interface UserDetails {
     name: string;
     email: string;
     phone: string;
+    userId: string;
     userType: string;
 }
 
@@ -25,6 +26,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
         name: "",
         email: "",
         phone: "",
+        userId: "",
         userType: "user",
     });
 
@@ -49,6 +51,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
                         name: data.user.name,
                         email: data.user.email,
                         phone: data.user.phone,
+                        userId: data.user.userId || localStorage.getItem("userId") || "",
                         userType: data.user.userType || "user",
                     });
                     setWalletBalance(data.user.wallet || 0);
