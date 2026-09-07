@@ -15,6 +15,7 @@ import SystemSettings from "@/models/SystemSettings";
 import GoogleTranslate from "@/components/GoogleTranslate";
 
 import { CurrencyProvider } from "@/components/CurrencyContext";
+import BubbleBackground from "@/components/Background/BubbleBackground";
 
 export async function generateMetadata(): Promise<Metadata> {
   let title = "MLBB Top Up India – Cheap Mobile Legends Diamonds | Yujimlbb";
@@ -200,6 +201,7 @@ export default async function RootLayout({
         />
       </head>
       <body className={poppins.className}>
+        <BubbleBackground />
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
           <CurrencyProvider>
             {maintenanceMode && <Maintenance />}
