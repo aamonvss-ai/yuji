@@ -55,13 +55,13 @@ export default function BubbleBackground() {
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
 
     const isMobile = width < 768;
-    const MAX_BUBBLES = isMobile ? 18 : 32;
+    const MAX_BUBBLES = isMobile ? 16 : 26;
 
     const bubbles: Bubble[] = [];
     const particles: Particle[] = [];
     const burstRings: BurstRing[] = [];
 
-    const hues = [190, 205, 220, 260, 280, 320]; // Cyan, Sky, Blue, Violet, Magenta
+    const hues = [165, 195, 215, 255, 280, 315, 345, 35]; // Emerald, Cyan, Sky, Blue, Violet, Magenta, Neon Pink, Amber
 
     function resize() {
       if (!canvas) return;
@@ -82,8 +82,8 @@ export default function BubbleBackground() {
 
     function createBubble(initialBottom = true): Bubble {
       const startX = Math.random() * width;
-      const baseRadius = 3.5 + Math.random() * 5.5; // starts 3.5px - 9px
-      const growthFactor = 1.8 + Math.random() * 1.6; // expands to ~2x - 3.4x
+      const baseRadius = 5.5 + Math.random() * 8.5; // Bigger base size: 5.5px - 14px
+      const growthFactor = 1.4 + Math.random() * 1.1; // Grows to 8px - 25px
       const maxRadius = baseRadius * growthFactor;
 
       const startY = initialBottom
@@ -100,40 +100,40 @@ export default function BubbleBackground() {
         baseRadius,
         currentRadius: baseRadius,
         maxRadius,
-        speedY: 0.65 + Math.random() * 1.15,
-        wobbleSpeed: 0.02 + Math.random() * 0.03,
-        wobbleAmp: 12 + Math.random() * 22,
+        speedY: 0.48 + Math.random() * 0.70, // Balanced moderate upward drift
+        wobbleSpeed: 0.015 + Math.random() * 0.02, // Balanced wobble
+        wobbleAmp: 11 + Math.random() * 18,
         wobbleTime: Math.random() * Math.PI * 2,
         burstY,
         hue: hues[Math.floor(Math.random() * hues.length)],
-        alpha: 0.38 + Math.random() * 0.32,
+        alpha: 0.24 + Math.random() * 0.22,
       };
     }
 
     function createBurst(x: number, y: number, radius: number, hue: number) {
-      // 1. Expanding shockwave ring
+      // 1. Expanding shockwave ring (moderate expansion rate)
       burstRings.push({
         x,
         y,
-        radius: radius * 0.8,
-        maxRadius: radius * 2.2,
+        radius: radius * 0.85,
+        maxRadius: radius * 2.4,
         alpha: 0.85,
         hue,
       });
 
-      // 2. Micro water droplet splash particles
-      const particleCount = 5 + Math.floor(Math.random() * 5); // 5 to 9 particles
+      // 2. Micro water droplet splash particles (balanced dispersion)
+      const particleCount = 5 + Math.floor(Math.random() * 4);
       for (let i = 0; i < particleCount; i++) {
         const angle = (Math.PI * 2 * i) / particleCount + (Math.random() - 0.5) * 0.5;
-        const speed = 1.4 + Math.random() * 3.0;
-        const maxLife = 16 + Math.floor(Math.random() * 14);
+        const speed = 1.1 + Math.random() * 2.0; // Moderate splash speed
+        const maxLife = 22 + Math.floor(Math.random() * 16); // Balanced lifespan
 
         particles.push({
           x,
           y,
           vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed - 0.35, // slight upward momentum
-          radius: 1.0 + Math.random() * 1.6,
+          vy: Math.sin(angle) * speed - 0.28,
+          radius: 1.1 + Math.random() * 1.8,
           alpha: 0.9,
           maxLife,
           life: 0,
@@ -159,13 +159,13 @@ export default function BubbleBackground() {
       if (isVisible) {
         ctx.clearRect(0, 0, width, height);
 
-        // Update & Draw Burst Rings
+        // Update & Draw Burst Rings (Balanced Dissolve)
         for (let i = burstRings.length - 1; i >= 0; i--) {
           const ring = burstRings[i];
-          ring.radius += (ring.maxRadius - ring.radius) * 0.22 + 0.8;
-          ring.alpha *= 0.82;
+          ring.radius += (ring.maxRadius - ring.radius) * 0.14 + 0.55;
+          ring.alpha *= 0.88;
 
-          if (ring.alpha <= 0.03 || ring.radius >= ring.maxRadius) {
+          if (ring.alpha <= 0.02 || ring.radius >= ring.maxRadius) {
             burstRings.splice(i, 1);
             continue;
           }
@@ -177,13 +177,13 @@ export default function BubbleBackground() {
           ctx.stroke();
         }
 
-        // Update & Draw Splash Particles (Mini Droplets)
+        // Update & Draw Splash Particles (Balanced floating droplets)
         for (let i = particles.length - 1; i >= 0; i--) {
           const p = particles[i];
           p.x += p.vx;
           p.y += p.vy;
-          p.vx *= 0.94; // friction
-          p.vy = p.vy * 0.94 + 0.05; // gravity
+          p.vx *= 0.95;
+          p.vy = p.vy * 0.95 + 0.035;
           p.life++;
           p.alpha = Math.max(0, 1 - p.life / p.maxLife);
 
