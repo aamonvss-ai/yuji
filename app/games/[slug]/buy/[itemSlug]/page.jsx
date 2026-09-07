@@ -128,7 +128,7 @@ export default function BuyFlowPage() {
     }
 
     try {
-      const baseGameId = isMLBB ? "mobile-legends270" : (game?.gameId || slug);
+      const baseGameId = isMLBB ? "mobile-legends114" : (game?.gameId || slug);
       const productId = `${baseGameId}_${item?.itemId || itemSlug}`;
 
       const nameRes = await fetch("/api/check-region/namecheck", {
@@ -143,7 +143,7 @@ export default function BuyFlowPage() {
         const region = nameData?.data?.region || "Global";
 
         // Filter restricted regions
-        const restrictedSlugs = ["mobile-legends270", "mlbb-double332", "weeklymonthly-bundle261"];
+        const restrictedSlugs = ["mobile-legends114", "mlbb-double332", "weeklymonthly-bundle468"];
         if (restrictedSlugs.includes(slug)) {
           const restrictedRegions = ["INDO", "ID", "PH", "SG", "RU", "MY", "MM"];
           if (restrictedRegions.includes(region.toUpperCase())) {

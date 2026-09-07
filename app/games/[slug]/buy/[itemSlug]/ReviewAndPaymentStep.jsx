@@ -56,7 +56,7 @@ export default function ReviewAndPaymentStep({
     const restrictedRegions = ["INDO", "ID", "PH", "SG", "RU", "MY", "MM"];
     const playerRegion = reviewData.region?.toUpperCase();
 
-    if ((slug === "mobile-legends270" || slug === "mlbb-double332") && restrictedRegions.includes(playerRegion)) {
+    if ((slug === "mobile-legends114" || slug === "mlbb-double332") && restrictedRegions.includes(playerRegion)) {
       alert(`Orders from ${playerRegion} region are not allowed for this product.`);
       setIsRedirecting(false);
       return;

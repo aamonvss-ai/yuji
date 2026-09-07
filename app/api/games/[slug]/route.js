@@ -6,7 +6,7 @@ import SystemSettings from "@/models/SystemSettings";
 import { unstable_cache } from 'next/cache';
 
 const ALLOWED_GAME_SLUGS = [
-  "mobile-legends270",
+  "mobile-legends114",
   "mlbb-double332",
   "sgmy-mlbb893",
   "mlbbglobal202",          // Global
@@ -15,13 +15,13 @@ const ALLOWED_GAME_SLUGS = [
   // "mlbb-indo42",
   // "mlbb-russia953",
   "pubg-mobile138",
-  "genshin-impact742",
+  "genshin-impact265",
   "honor-of-kings57",
   "wuthering-of-waves464",
   "where-winds-meet280",
   // "mlbb-smallphp980",
   "mlbbbr178",
-  "weeklymonthly-bundle261",
+  "weeklymonthly-bundle468",
   "8ballpool498",
   "honor-of-kings57",
   "mobile-legends-philippines888",

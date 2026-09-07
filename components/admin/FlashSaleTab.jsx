@@ -254,7 +254,7 @@ export default function FlashSaleTab() {
                             <input type="text" value={newItem.originalPrice} onChange={(e) => setNewItem({...newItem, originalPrice: e.target.value})} placeholder="Original Price (e.g. ₹170)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
                         </div>
                         <div className="space-y-1">
-                            <input type="text" value={newItem.slug} onChange={(e) => setNewItem({...newItem, slug: e.target.value})} placeholder="Link Slug (e.g. mobile-legends270)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
+                            <input type="text" value={newItem.slug} onChange={(e) => setNewItem({...newItem, slug: e.target.value})} placeholder="Link Slug (e.g. mobile-legends114)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
                         </div>
                         <div className="space-y-1">
                             <input type="text" value={newItem.image} onChange={(e) => setNewItem({...newItem, image: e.target.value})} placeholder="Image URL (e.g. /game-assets/1.jpg)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />

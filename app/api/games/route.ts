@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 export const revalidate = 60; // Cache the whole route for 1 minutes
 
 const ALLOWED_GAME_SLUGS = [
-  "mobile-legends270",
+  "mobile-legends114",
   "mlbb-double332",
   "sgmy-mlbb893",
   "magic-chess-gogo-india924",
@@ -17,12 +17,12 @@ const ALLOWED_GAME_SLUGS = [
   // "mobile-legends-exclusive952",
   // "mlbb-russia953",
   "pubg-mobile138",
-  // "genshin-impact742",
+  // "genshin-impact265",
   // "honor-of-kings57",
   "wuthering-of-waves464",
   "where-winds-meet280",
   // "mlbb-smallphp980",
-  "weeklymonthly-bundle261",
+  "weeklymonthly-bundle468",
   "8ballpool498",
   "honor-of-kings57",
   "mobile-legends-philippines888",
@@ -154,7 +154,7 @@ export async function GET(req: Request) {
       }
 
       // Replace Mobile Legends main image
-      if (updatedGame.gameSlug === "mobile-legends270") {
+      if (updatedGame.gameSlug === "mobile-legends114") {
         updatedGame.gameImageId = {
           ...updatedGame.gameImageId,
           image: MLBB_MAIN_IMAGE,
@@ -199,7 +199,7 @@ export async function GET(req: Request) {
           image: MLBB_SVALUE_IND_IMAGE,
         };
       }
-      if (updatedGame.gameSlug === "weeklymonthly-bundle261") {
+      if (updatedGame.gameSlug === "weeklymonthly-bundle468") {
         updatedGame.gameImageId = {
           ...updatedGame.gameImageId,
           image: MONTHLY_BUNDLE,
@@ -228,7 +228,7 @@ export async function GET(req: Request) {
 
     // Featured games
     const featuredGames = filteredGames.filter((g: any) =>
-      ["mobile-legends270", "pubg-mobile138", "genshin-impact742"].includes(
+      ["mobile-legends114", "pubg-mobile138", "genshin-impact265"].includes(
         g.gameSlug
       )
     );

@@ -68,7 +68,7 @@ export default function FlashSaleManagement() {
                 image: "/game-assets/elite-bundle.jpeg",
                 price: "₹99",
                 originalPrice: "₹150",
-                slug: "weeklymonthly-bundle261",
+                slug: "weeklymonthly-bundle468",
                 badge: "Hot",
                 sold: 50
             }]
