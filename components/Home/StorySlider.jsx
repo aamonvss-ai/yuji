@@ -105,22 +105,6 @@ export default function StorySlider() {
                   </div>
                 </div>
 
-                {/* Minimalist Floating Badge */}
-                {item.badge && (
-                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 z-20">
-                    <div className={`px-2 py-[2px] rounded-full bg-black/90 backdrop-blur-md border border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all duration-500 group-hover:bg-gradient-to-r ${item.color} group-hover:border-transparent group-hover:-translate-y-1`}>
-                      <span className="flex items-center gap-1 text-[7px] md:text-[8px] font-black uppercase tracking-[0.15em] text-white">
-                        {item.badge === "Live" && (
-                          <span className="relative flex h-1.5 w-1.5">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white"></span>
-                          </span>
-                        )}
-                        {item.badge}
-                      </span>
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* Sophisticated Labels */}
