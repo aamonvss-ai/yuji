@@ -285,8 +285,8 @@ export default function GamesPage() {
                     href={`/games/${plan.slug}`}
                     className="group relative flex items-center p-5 rounded-[1.5rem] bg-gradient-to-br from-[var(--card)] to-transparent border border-[var(--border)] hover:border-[var(--accent)]/40 transition-transform duration-250 ease-out hover:-translate-y-1 shadow-sm overflow-hidden transform-gpu"
                   >
-                    <div className="relative w-16 h-16 mr-5 flex-shrink-0">
-                      <Image src={plan.image} alt={plan.name} fill className="object-contain relative z-10 group-hover:scale-105 transition-transform duration-300" />
+                    <div className="relative w-16 h-16 mr-5 flex-shrink-0 rounded-2xl overflow-hidden border border-[var(--border)] bg-gradient-to-br from-[var(--foreground)]/[0.04] to-transparent shadow-sm">
+                      <Image src={plan.image} alt={plan.name} fill className="object-cover relative z-10 group-hover:scale-105 transition-transform duration-300" />
                     </div>
                     <div className="relative z-10 flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
