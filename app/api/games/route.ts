@@ -9,8 +9,10 @@ const ALLOWED_GAME_SLUGS = [
   "mobile-legends114",
   "mlbb-double332",
   "sgmy-mlbb893",
-  "magic-chess-gogo-india924",
+  // "magic-chess-gogo-india924",
   // "mlbb-indo42",
+    "mlbb-russia46",
+      "mobile-legends-united-states41",
   "mlbbglobal202",          // Global
   "mlbbtr112",
   "mlbbbr178",
@@ -22,7 +24,7 @@ const ALLOWED_GAME_SLUGS = [
   "wuthering-of-waves464",
   "where-winds-meet280",
   // "mlbb-smallphp980",
-  "weeklymonthly-bundle468",
+  "weeklymonthly-bundle646",
   "8ballpool498",
   "honor-of-kings57",
   "mobile-legends-philippines888",
@@ -199,7 +201,7 @@ export async function GET(req: Request) {
           image: MLBB_SVALUE_IND_IMAGE,
         };
       }
-      if (updatedGame.gameSlug === "weeklymonthly-bundle468") {
+      if (updatedGame.gameSlug === "weeklymonthly-bundle646") {
         updatedGame.gameImageId = {
           ...updatedGame.gameImageId,
           image: MONTHLY_BUNDLE,

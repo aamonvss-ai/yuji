@@ -19,7 +19,7 @@ const storyData = [
     badge: "Sale",
     color: "from-rose-500 to-rose-700",
     image: "/game-assets/elite-bundle.jpeg",
-    link: "/games/weeklymonthly-bundle468",
+    link: "/games/weeklymonthly-bundle646",
   },
   {
     id: 2,

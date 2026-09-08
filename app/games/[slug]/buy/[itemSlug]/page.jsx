@@ -143,7 +143,7 @@ export default function BuyFlowPage() {
         const region = nameData?.data?.region || "Global";
 
         // Filter restricted regions
-        const restrictedSlugs = ["mobile-legends114", "mlbb-double332", "weeklymonthly-bundle468"];
+        const restrictedSlugs = ["mobile-legends114", "mlbb-double332", "weeklymonthly-bundle646"];
         if (restrictedSlugs.includes(slug)) {
           const restrictedRegions = ["INDO", "ID", "PH", "SG", "RU", "MY", "MM"];
           if (restrictedRegions.includes(region.toUpperCase())) {
