@@ -46,7 +46,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
         {/* ================= COMPACT USER HEADER & INTEGRATED NAVIGATION ================= */}
         <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 sm:p-5 shadow-xs space-y-3.5">
           
-          {/* TOP ROW: USER INFO */}
+         
           <div className="flex items-center justify-between gap-3.5">
             
             {/* User Profile */}
