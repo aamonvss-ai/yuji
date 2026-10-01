@@ -25,7 +25,7 @@ const getGameName = (slug: string) => {
   const s = slug.toLowerCase();
   const mlbbSlugs = [
     "mobile-legends114", "mlbb-smallphp638", "mlbb-double332",
-    "sgmy-mlbb893", "value-pass-ml948", "mlbb-russia953", "mlbb-indo42",
+    "sgmy-mlbb893", "value-pass-ml948", "mlbb-russia953", "mlbb-indo42","value-pass-ml838"
   ];
   if (mlbbSlugs.some((k) => s.includes(k))) return "Mobile Legends";
   if (s.includes("pubg-mobile138")) return "BGMI";

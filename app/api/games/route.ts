@@ -9,6 +9,7 @@ const ALLOWED_GAME_SLUGS = [
   "mobile-legends114",
   "mlbb-double332",
   "sgmy-mlbb893",
+  "value-pass-ml838",
   // "magic-chess-gogo-india924",
   // "mlbb-indo42",
     "mlbb-russia46",
