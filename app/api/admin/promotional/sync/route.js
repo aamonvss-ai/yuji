@@ -1,24 +1,12 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
-import jwt from "jsonwebtoken";
+import { requireOwner } from "@/lib/auth";
 
 export async function GET(req) {
   try {
-    const authHeader = req.headers.get("authorization");
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return NextResponse.json({ success: false, message: "No token provided" }, { status: 401 });
-    }
-
-    const token = authHeader.split(" ")[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
+    requireOwner(req);
     await connectDB();
-    const admin = await User.findById(decoded.userId);
-
-    if (!admin || admin.userType !== "owner") {
-      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
-    }
 
     // Fetch all users who have an email
     const users = await User.find({ email: { $exists: true, $ne: "" } }).select(
@@ -36,6 +24,9 @@ export async function GET(req) {
     });
   } catch (error) {
     console.error("Sync error:", error);
-    return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: error.message || "Internal server error" },
+      { status: error.status || 500 }
+    );
   }
 }

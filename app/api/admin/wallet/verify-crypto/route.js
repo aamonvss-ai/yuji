@@ -1,26 +1,13 @@
 import { NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 import WalletTransaction from "@/models/WalletTransaction";
+import { requireOwner } from "@/lib/auth";
 
 export async function POST(req) {
     try {
         await connectDB();
-
-        // Admin Auth
-        const authHeader = req.headers.get("authorization");
-        if (!authHeader || !authHeader.startsWith("Bearer ")) {
-            return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
-        }
-
-        const token = authHeader.split(" ")[1];
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const adminUser = await User.findById(decoded.userId);
-
-        if (!adminUser || adminUser.userType !== "owner") {
-            return NextResponse.json({ success: false, message: "Forbidden" }, { status: 403 });
-        }
+        requireOwner(req);
 
         const body = await req.json();
         const { transactionId, action } = body;
@@ -53,6 +40,6 @@ export async function POST(req) {
         return NextResponse.json({ success: true, message: `Successfully ${action}ed` });
     } catch (error) {
         console.error("VERIFY CRYPTO ERROR:", error);
-        return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+        return NextResponse.json({ success: false, message: error.message }, { status: error.status || 500 });
     }
 }

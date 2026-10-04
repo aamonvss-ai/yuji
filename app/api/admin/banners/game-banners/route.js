@@ -1,24 +1,12 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import Banner from "@/models/Banner";
-import jwt from "jsonwebtoken";
+import { requireOwner } from "@/lib/auth";
 
 export async function GET(req) {
   try {
     await connectDB();
-
-    /* ================= AUTH ================= */
-    const auth = req.headers.get("authorization");
-    if (!auth?.startsWith("Bearer ")) {
-      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
-    }
-
-    const token = auth.split(" ")[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    if (decoded.userType !== "owner") {
-      return NextResponse.json({ success: false, message: "Forbidden" }, { status: 403 });
-    }
+    requireOwner(req);
 
     const banners = await Banner.find()
       .sort({ bannerDate: -1 })
@@ -34,9 +22,9 @@ export async function GET(req) {
     return NextResponse.json(
       {
         success: false,
-        message: "Failed to load banners",
+        message: error.message || "Failed to load banners",
       },
-      { status: 500 }
+      { status: error.status || 500 }
     );
   }
 }

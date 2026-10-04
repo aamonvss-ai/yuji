@@ -2,29 +2,12 @@ import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
 import User from "@/models/User";
 import SupportQuery from "@/models/SupportQuery";
-import jwt from "jsonwebtoken";
+import { requireOwner } from "@/lib/auth";
 
 export async function GET(req) {
   try {
     await connectDB();
-
-    /* ================= AUTH ================= */
-    const auth = req.headers.get("authorization");
-    if (!auth?.startsWith("Bearer ")) {
-      return Response.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
-    const token = auth.split(" ")[1];
-    let decoded;
-    try {
-      decoded = jwt.verify(token, process.env.JWT_SECRET);
-    } catch {
-      return Response.json({ message: "Invalid token" }, { status: 401 });
-    }
-
-    if (decoded.userType !== "owner") {
-      return Response.json({ message: "Forbidden" }, { status: 403 });
-    }
+    requireOwner(req);
 
     const { searchParams } = new URL(req.url);
     const timeframe = searchParams.get("timeframe") || "today"; // 'today', '7d', '30d', 'all'
@@ -462,8 +445,8 @@ export async function GET(req) {
   } catch (error) {
     console.error("Analytics Error:", error);
     return Response.json(
-      { success: false, message: "Failed to compute analytics" },
-      { status: 500 }
+      { success: false, message: error.message || "Failed to compute analytics" },
+      { status: error.status || 500 }
     );
   }
 }

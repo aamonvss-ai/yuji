@@ -1,26 +1,13 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import jwt from "jsonwebtoken";
 import { connectDB } from "@/lib/mongodb";
-import User from "@/models/User";
 import PromotionalCampaign from "@/models/PromotionalCampaign";
+import { requireOwner } from "@/lib/auth";
 
 export async function POST(req) {
   try {
     await connectDB();
-
-    const authHeader = req.headers.get("authorization");
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return NextResponse.json({ success: false, message: "No token provided" }, { status: 401 });
-    }
-
-    const token = authHeader.split(" ")[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const admin = await User.findById(decoded.userId);
-
-    if (!admin || admin.userType !== "owner") {
-      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
-    }
+    requireOwner(req);
 
     const { subject, header, message, bannerUrl, recipients } = await req.json();
 
@@ -124,6 +111,9 @@ export async function POST(req) {
 
   } catch (error) {
     console.error("Send error:", error);
-    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: error.message },
+      { status: error.status || 500 }
+    );
   }
 }

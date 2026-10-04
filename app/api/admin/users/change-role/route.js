@@ -1,25 +1,11 @@
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
-import jwt from "jsonwebtoken";
+import { requireOwner } from "@/lib/auth";
 
 export async function PATCH(req) {
   try {
     await connectDB();
-
-    // ---------------- AUTH ----------------
-    const auth = req.headers.get("authorization");
-
-    if (!auth || !auth.startsWith("Bearer ")) {
-      return Response.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
-    const token = auth.split(" ")[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    // 🔒 Only OWNER can change roles
-    if (decoded.userType !== "owner") {
-      return Response.json({ message: "Forbidden" }, { status: 403 });
-    }
+    requireOwner(req);
 
     // ---------------- BODY ----------------
     const { userId, newUserType } = await req.json();
@@ -83,8 +69,8 @@ export async function PATCH(req) {
   } catch (err) {
     console.error("ROLE UPDATE ERROR:", err);
     return Response.json(
-      { success: false, message: "Server error" },
-      { status: 500 }
+      { success: false, message: err.message || "Server error" },
+      { status: err.status || 500 }
     );
   }
 }
