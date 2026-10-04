@@ -21,6 +21,7 @@ import {
   Smartphone
 } from "lucide-react";
 import Pagination from "@/components/ui/Pagination";
+import StatusBadge from "@/components/ui/StatusBadge";
 
 export default function SupportQueriesTab() {
   const [queries, setQueries] = useState([]);
@@ -121,29 +122,6 @@ export default function SupportQueriesTab() {
     } finally {
       setUpdating(false);
     }
-  };
-
-  const statusMeta = {
-    open: {
-      label: "Open",
-      class: "bg-amber-500/10 text-amber-500 border-amber-500/20",
-      icon: <AlertCircle size={12} />
-    },
-    in_progress: {
-      label: "In Progress",
-      class: "bg-blue-500/10 text-blue-500 border-blue-500/20",
-      icon: <RefreshCcw size={12} className="animate-spin-slow" />
-    },
-    resolved: {
-      label: "Resolved",
-      class: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
-      icon: <CheckCircle2 size={12} />
-    },
-    closed: {
-      label: "Closed",
-      class: "bg-[var(--foreground)]/[0.05] text-[var(--muted)] border-[var(--border)]",
-      icon: <X size={12} />
-    },
   };
 
   const getStatus = (status) => status || "open";
@@ -247,7 +225,7 @@ export default function SupportQueriesTab() {
             >
               {queries.map((q, idx) => {
                 const status = getStatus(q.status);
-                const meta = statusMeta[status];
+                const stripeColor = status === 'open' ? '#f59e0b' : status === 'resolved' ? '#10b981' : status === 'closed' ? '#71717a' : '#3b82f6';
 
                 return (
                   <motion.div
@@ -260,15 +238,12 @@ export default function SupportQueriesTab() {
                   >
                     <div
                       className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 rounded-r-full"
-                      style={{ backgroundColor: meta.label === 'Open' ? '#f59e0b' : meta.label === 'Resolved' ? '#10b981' : '#3b82f6' }}
+                      style={{ backgroundColor: stripeColor }}
                     />
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                        <span className={`flex items-center gap-1 px-2 py-0.5 rounded-md border text-[8px] font-bold uppercase tracking-wider ${meta.class}`}>
-                          {meta.icon}
-                          {meta.label}
-                        </span>
+                        <StatusBadge status={status} size="sm" />
                         <span className="text-[9px] font-medium text-[var(--muted)]/60 truncate">
                           {new Date(q.createdAt).toLocaleDateString()}
                         </span>

@@ -23,6 +23,7 @@ import {
   RotateCcw
 } from "lucide-react";
 import Pagination from "@/components/ui/Pagination";
+import StatusBadge from "@/components/ui/StatusBadge";
 
 export default function TransactionsTab() {
   const [transactions, setTransactions] = useState([]);
@@ -73,29 +74,6 @@ export default function TransactionsTab() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const statusMeta = {
-    success: {
-      label: "Success",
-      class: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
-      icon: <CheckCircle2 size={12} />
-    },
-    failed: {
-      label: "Failed",
-      class: "bg-rose-500/10 text-rose-500 border-rose-500/20",
-      icon: <XCircle size={12} />
-    },
-    pending: {
-      label: "Pending",
-      class: "bg-amber-500/10 text-amber-500 border-amber-500/20",
-      icon: <Clock size={12} />
-    },
-    refunded: {
-      label: "Refunded",
-      class: "bg-blue-500/10 text-blue-500 border-blue-500/20",
-      icon: <RotateCcw size={12} />
-    },
   };
 
   return (
@@ -181,7 +159,6 @@ export default function TransactionsTab() {
                 </thead>
                 <tbody className="divide-y divide-[var(--border)]">
                   {transactions.map((t, idx) => {
-                    const meta = statusMeta[t.status] || statusMeta.pending;
                     return (
                       <motion.tr
                         key={t._id}
@@ -213,10 +190,7 @@ export default function TransactionsTab() {
                           </span>
                         </td>
                         <td className="px-6 py-4">
-                          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border text-[9px] font-bold uppercase tracking-wider ${meta.class}`}>
-                            {meta.icon}
-                            {meta.label}
-                          </span>
+                          <StatusBadge status={t.status} size="md" />
                         </td>
                         <td className="px-6 py-4 text-right">
                           <span className="text-base font-black text-emerald-500 tracking-tighter tabular-nums">
@@ -233,7 +207,6 @@ export default function TransactionsTab() {
             {/* MOBILE LIST */}
             <div className="lg:hidden space-y-3">
               {transactions.map((t, idx) => {
-                const meta = statusMeta[t.status] || statusMeta.pending;
                 return (
                   <motion.div
                     key={t._id}
@@ -245,10 +218,7 @@ export default function TransactionsTab() {
                   >
                     <div className="flex justify-between items-start mb-4">
                       <div className="space-y-0.5">
-                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[8px] font-bold uppercase tracking-widest ${meta.class}`}>
-                          {meta.icon}
-                          {meta.label}
-                        </span>
+                        <StatusBadge status={t.status} size="sm" />
                         <p className="text-[10px] font-mono text-[var(--muted)]/40 uppercase mt-1">{t.orderId}</p>
                       </div>
                       <span className="text-lg font-black text-emerald-500 tracking-tighter">₹{t.price}</span>
@@ -338,15 +308,7 @@ export default function TransactionsTab() {
                     <p className="text-[8px] font-black text-[var(--muted)] uppercase tracking-widest opacity-60">Total Cost</p>
                     <span className="text-lg font-black text-emerald-500 tabular-nums leading-none">₹{selectedTx.price}</span>
                   </div>
-                  {(() => {
-                    const meta = statusMeta[selectedTx.status] || statusMeta.pending;
-                    return (
-                      <span className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-[9px] font-bold uppercase tracking-widest ${meta.class}`}>
-                        {meta.icon}
-                        {meta.label}
-                      </span>
-                    );
-                  })()}
+                  <StatusBadge status={selectedTx.status} size="md" />
                 </div>
               </div>
 

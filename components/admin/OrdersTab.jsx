@@ -145,29 +145,6 @@ export default function OrdersTab() {
     }
   };
 
-  const statusMeta = {
-    pending: {
-      label: "Pending",
-      class: "bg-amber-500/10 text-amber-500 border-amber-500/20",
-      icon: <Clock size={12} />
-    },
-    success: {
-      label: "Success",
-      class: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
-      icon: <CheckCircle2 size={12} />
-    },
-    failed: {
-      label: "Failed",
-      class: "bg-rose-500/10 text-rose-500 border-rose-500/20",
-      icon: <XCircle size={12} />
-    },
-    refunded: {
-      label: "Refunded",
-      class: "bg-blue-500/10 text-blue-500 border-blue-500/20",
-      icon: <RotateCcw size={12} />
-    },
-  };
-
   return (
     <div className="space-y-6 pb-10">
       {/* ================= HEADER ================= */}
@@ -280,7 +257,6 @@ export default function OrdersTab() {
                 </thead>
                 <tbody className="divide-y divide-[var(--border)]">
                   {orders.map((o, idx) => {
-                    const meta = statusMeta[o.status] || statusMeta.pending;
                     return (
                       <motion.tr
                         key={o._id}
@@ -339,7 +315,6 @@ export default function OrdersTab() {
             {/* MOBILE LIST */}
             <div className="lg:hidden space-y-3">
               {orders.map((o, idx) => {
-                const meta = statusMeta[o.status] || statusMeta.pending;
                 return (
                   <motion.div
                     key={o._id}
@@ -368,7 +343,7 @@ export default function OrdersTab() {
                     <div className="space-y-3 relative">
                       <div className="px-3 py-2 rounded-xl bg-[var(--foreground)]/[0.02] border border-[var(--border)]/50">
                         <div className="flex items-center justify-between gap-2">
-                          <p className="text-[10px] font-bold text-[var(--foreground)]/70 truncate italic">"{o.itemName}"</p>
+                          <p className="text-[10px] font-bold text-[var(--foreground)]/70 truncate italic">&ldquo;{o.itemName}&rdquo;</p>
                           <span className="text-[8px] font-mono text-[var(--muted)]/40 uppercase truncate shrink-0">{o.orderId}</span>
                         </div>
                       </div>

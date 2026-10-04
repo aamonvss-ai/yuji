@@ -30,6 +30,7 @@ import {
   ExternalLink
 } from "lucide-react";
 import Pagination from "@/components/ui/Pagination";
+import StatusBadge from "@/components/ui/StatusBadge";
 
 export default function WalletTransactionsTab() {
   const [activeSubTab, setActiveSubTab] = useState("logs"); // "logs" or "balances"
@@ -125,13 +126,6 @@ export default function WalletTransactionsTab() {
     }
   };
 
-  const typeMeta = {
-    topup: { label: "Top Up", class: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20", icon: <ArrowDownLeft size={12} /> },
-    spend: { label: "Spent", class: "bg-rose-500/10 text-rose-500 border-rose-500/20", icon: <ArrowUpRight size={12} /> },
-    bonus: { label: "Bonus/Adj", class: "bg-amber-500/10 text-amber-500 border-amber-500/20", icon: <Gift size={12} /> },
-    refund: { label: "Refund", class: "bg-blue-500/10 text-blue-500 border-blue-500/20", icon: <ArrowDownLeft size={12} /> },
-  };
-
   return (
     <div className="space-y-6 pb-10">
       <div className="flex items-center justify-between gap-4">
@@ -189,7 +183,7 @@ export default function WalletTransactionsTab() {
             <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">Loading data</p>
           </div>
         ) : activeSubTab === "logs" ? (
-          <LogsView transactions={transactions} typeMeta={typeMeta} handleVerifyCrypto={handleVerifyCrypto} />
+          <LogsView transactions={transactions} handleVerifyCrypto={handleVerifyCrypto} />
         ) : (
           <BalancesView users={usersList} onRefresh={fetchUsers} />
         )}
@@ -207,7 +201,7 @@ export default function WalletTransactionsTab() {
   );
 }
 
-function LogsView({ transactions, typeMeta, handleVerifyCrypto }) {
+function LogsView({ transactions, handleVerifyCrypto }) {
   return (
     <div className="space-y-3">
       {/* DESKTOP TABLE */}
@@ -224,7 +218,6 @@ function LogsView({ transactions, typeMeta, handleVerifyCrypto }) {
           </thead>
           <tbody className="divide-y divide-[var(--border)]">
             {transactions.map((t) => {
-              const meta = typeMeta[t.type] || { label: t.type, class: "", icon: null };
               return (
                 <tr key={t._id} className="group hover:bg-[var(--foreground)]/[0.02] transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -238,9 +231,7 @@ function LogsView({ transactions, typeMeta, handleVerifyCrypto }) {
                     {t.userId}
                     {t.status === "pending" && (
                         <div className="block mt-1">
-                            <span className="bg-orange-500/10 text-orange-500 border-orange-500/20 text-[9px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded border">
-                                Pending
-                            </span>
+                            <StatusBadge status="pending" size="sm" />
                         </div>
                     )}
                     {t.metadata?.paymentMethod === "crypto" && (
@@ -278,9 +269,7 @@ function LogsView({ transactions, typeMeta, handleVerifyCrypto }) {
                     )}
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border text-[9px] font-bold uppercase tracking-wider ${meta.class}`}>
-                      {meta.icon} {meta.label}
-                    </span>
+                    <StatusBadge status={t.type} size="md" />
                   </td>
                   <td className="px-6 py-4 text-right">
                     <span className={`text-sm font-black tracking-tighter tabular-nums ${t.type === 'spend' ? 'text-rose-500' : 'text-emerald-500'}`}>
@@ -297,14 +286,11 @@ function LogsView({ transactions, typeMeta, handleVerifyCrypto }) {
       {/* MOBILE LIST */}
       <div className="lg:hidden space-y-2">
         {transactions.map((t) => {
-          const meta = typeMeta[t.type] || { label: t.type, class: "", icon: null };
           return (
             <div key={t._id} className="p-4 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 space-y-3">
               <div className="flex justify-between items-start">
                 <div className="space-y-1">
-                  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[8px] font-bold uppercase tracking-widest ${meta.class}`}>
-                    {meta.icon} {meta.label}
-                  </span>
+                  <StatusBadge status={t.type} size="sm" />
                   <p className="text-[10px] font-mono text-[var(--accent)] uppercase break-all">{t.transactionId}</p>
                 </div>
                 <div className="text-right flex flex-col items-end shrink-0 pl-2">
@@ -312,9 +298,9 @@ function LogsView({ transactions, typeMeta, handleVerifyCrypto }) {
                     {t.type === 'spend' ? '-' : '+'}₹{t.amount.toFixed(2)}
                   </span>
                   {t.status === "pending" && (
-                    <span className="bg-orange-500/10 text-orange-500 border-orange-500/20 text-[9px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded border mt-1 block w-fit">
-                        Pending
-                    </span>
+                    <div className="mt-1 flex justify-end">
+                      <StatusBadge status="pending" size="sm" />
+                    </div>
                   )}
                 </div>
               </div>
