@@ -10,26 +10,27 @@ const ALLOWED_GAME_SLUGS = [
   "mlbb-double332",
   "sgmy-mlbb893",
   "value-pass-ml838",
+  // "magic-chess-gogo-india924",
+  // "mlbb-indo42",
+    "mlbb-russia46",
+      "mobile-legends-united-states41",
   "mlbbglobal202",          // Global
   "mlbbtr112",
-  // "magic-chess-gogo-india924",
-    "mobile-legends-united-states41",
-  // "mlbb-indo42",
+  "mlbbbr178",
+  "mobile-legends-exclusive952",
   // "mlbb-russia953",
-    "mlbb-russia46",
   "pubg-mobile138",
-  "genshin-impact265",
-  "honor-of-kings57",
+  // "genshin-impact265",
+  // "honor-of-kings57",
   "wuthering-of-waves464",
   "where-winds-meet280",
   // "mlbb-smallphp980",
-  "mlbbbr178",
   "weeklymonthly-bundle646",
   "8ballpool498",
   "honor-of-kings57",
   "mobile-legends-philippines888",
+       "mlbbph643",
   
-  // "mobile-legends-exclusive952"
 ];
 
 const getCachedPricingConfig = unstable_cache(

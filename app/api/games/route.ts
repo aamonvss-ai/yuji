@@ -17,7 +17,7 @@ const ALLOWED_GAME_SLUGS = [
   "mlbbglobal202",          // Global
   "mlbbtr112",
   "mlbbbr178",
-  // "mobile-legends-exclusive952",
+  "mobile-legends-exclusive952",
   // "mlbb-russia953",
   "pubg-mobile138",
   // "genshin-impact265",
@@ -29,6 +29,7 @@ const ALLOWED_GAME_SLUGS = [
   "8ballpool498",
   "honor-of-kings57",
   "mobile-legends-philippines888",
+       "mlbbph643",
   
 ];
 
