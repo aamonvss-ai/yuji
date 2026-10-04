@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/api/', '/admin/', '/dashboard/', '/owner-panal/'],
+      disallow: ['/api/', '/admin/', '/admin-panel/', '/dashboard/', '/owner-panel/', '/owner-panal/'],
     },
     sitemap: 'https://yujimlbb.com/sitemap.xml',
   }

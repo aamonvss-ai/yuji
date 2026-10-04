@@ -561,7 +561,7 @@ export default function Header({ enableAutoTranslation = false }) {
                           <div className="pt-1.5">
                             <p className="text-[9px] font-bold uppercase tracking-wider text-emerald-500/70 mb-1 px-2">Management</p>
                             <Link
-                              href="/owner-panal"
+                              href="/owner-panel"
                               className="flex items-center justify-between px-2.5 py-2 rounded-xl transition-all bg-emerald-500/[0.06] border border-emerald-500/20 hover:bg-emerald-500/10 group"
                               onClick={() => setUserMenuOpen(false)}
                             >

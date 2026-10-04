@@ -47,6 +47,20 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '100mb',
     },
   },
+  async redirects() {
+    return [
+      {
+        source: "/admin-panal/:path*",
+        destination: "/admin-panel/:path*",
+        permanent: true,
+      },
+      {
+        source: "/owner-panal/:path*",
+        destination: "/owner-panel/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

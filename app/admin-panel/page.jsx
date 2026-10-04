@@ -14,7 +14,7 @@ import {
   FaShieldAlt,
 } from "react-icons/fa";
 
-export default function AdminPanalPage() {
+export default function AdminPanelPage() {
   const [role, setRole] = useState("user");
   const [expiry, setExpiry] = useState(null);
   const [loading, setLoading] = useState(true);

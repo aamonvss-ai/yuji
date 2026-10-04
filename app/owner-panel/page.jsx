@@ -31,7 +31,7 @@ import PwaStatsTab from "@/components/admin/PwaStatsTab";
 
 
 
-export default function AdminPanalPage() {
+export default function OwnerPanelPage() {
   const [activeTab, setActiveTab] = useState("analytics");
   const [queries, setQueries] = useState([]);
   const [balance, setBalance] = useState(null);

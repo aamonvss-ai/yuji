@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "app/games/page.jsx", "components/Header/Header.jsx", "app/owner-panal/page.jsx", "app/games/[slug]/page.jsx"  ],
+, "app/games/page.jsx", "components/Header/Header.jsx", "app/owner-panel/page.jsx", "app/games/[slug]/page.jsx"  ],
   "exclude": ["node_modules"]
 }
