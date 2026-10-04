@@ -18,6 +18,7 @@ import {
   Sparkles
 } from "lucide-react";
 import Pagination from "@/components/ui/Pagination";
+import SearchInput from "@/components/ui/SearchInput";
 
 export default function PwaStatsTab() {
   const [data, setData] = useState(null);
@@ -339,19 +340,20 @@ export default function PwaStatsTab() {
             </select>
 
             {/* Search Input */}
-            <div className="relative">
-              <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[var(--muted)]" />
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  setPage(1);
-                }}
-                placeholder="Search user, device, IP..."
-                className="pl-7 pr-3 py-1.5 text-xs bg-[var(--card)] border border-[var(--border)] rounded-xl text-[var(--foreground)] placeholder:text-[var(--muted)]/60 focus:outline-none focus:border-[var(--accent)] w-48"
-              />
-            </div>
+            <SearchInput
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
+              onClear={() => {
+                setSearch("");
+                setPage(1);
+              }}
+              placeholder="Search user, device, IP..."
+              size="sm"
+              className="w-48 sm:w-56"
+            />
           </div>
         </div>
 

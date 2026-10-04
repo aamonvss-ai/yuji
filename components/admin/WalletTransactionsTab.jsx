@@ -31,6 +31,8 @@ import {
 } from "lucide-react";
 import Pagination from "@/components/ui/Pagination";
 import StatusBadge from "@/components/ui/StatusBadge";
+import SearchInput from "@/components/ui/SearchInput";
+import EmptyState from "@/components/ui/EmptyState";
 
 export default function WalletTransactionsTab() {
   const [activeSubTab, setActiveSubTab] = useState("logs"); // "logs" or "balances"
@@ -152,15 +154,13 @@ export default function WalletTransactionsTab() {
 
       {activeSubTab === "balances" && (
         <div className="flex flex-col md:flex-row gap-2">
-          <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/40" size={14} />
-            <input
-              value={search}
-              onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-              placeholder="Search user by name, email or ID..."
-              className="w-full h-10 pl-10 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-xs focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
-            />
-          </div>
+          <SearchInput
+            value={search}
+            onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+            onClear={() => { setSearch(""); setPage(1); }}
+            placeholder="Search user by name, email or ID..."
+            className="flex-1"
+          />
           
           <button
             onClick={() => setSortBy(sortBy === "wallet" ? "createdAt" : "wallet")}
@@ -357,10 +357,11 @@ function LogsView({ transactions, handleVerifyCrypto }) {
       </div>
 
       {!transactions.length && (
-        <div className="py-20 text-center border border-dashed border-[var(--border)] rounded-3xl">
-          <Hash className="mx-auto text-[var(--muted)]/20 mb-4" size={48} />
-          <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">No records found</p>
-        </div>
+        <EmptyState
+          icon={Hash}
+          title="No records found"
+          description="No wallet history found for the current page."
+        />
       )}
     </div>
   );
@@ -430,10 +431,11 @@ function BalancesView({ users, onRefresh }) {
       </div>
 
       {!users.length && (
-        <div className="py-20 text-center border border-dashed border-[var(--border)] rounded-3xl">
-          <Users className="mx-auto text-[var(--muted)]/20 mb-4" size={48} />
-          <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">No users found</p>
-        </div>
+        <EmptyState
+          icon={Users}
+          title="No users found"
+          description="Try refining your search keyword or sorting criteria."
+        />
       )}
 
       <AnimatePresence>

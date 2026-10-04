@@ -26,6 +26,8 @@ import {
   RotateCcw
 } from "lucide-react";
 import Pagination from "@/components/ui/Pagination";
+import SearchInput from "@/components/ui/SearchInput";
+import EmptyState from "@/components/ui/EmptyState";
 
 export default function OrdersTab() {
   const [orders, setOrders] = useState([]);
@@ -203,18 +205,19 @@ export default function OrdersTab() {
 
       {/* ================= FILTERS & SEARCH ================= */}
       <div className="flex flex-row gap-2 md:gap-3">
-        <div className="relative flex-1 min-w-0">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/50" size={16} />
-          <input
-            value={search}
-            onChange={(e) => {
-              setPage(1);
-              setSearch(e.target.value);
-            }}
-            placeholder="Search order ID, email, or game..."
-            className="w-full h-11 pl-11 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
-          />
-        </div>
+        <SearchInput
+          value={search}
+          onChange={(e) => {
+            setPage(1);
+            setSearch(e.target.value);
+          }}
+          onClear={() => {
+            setPage(1);
+            setSearch("");
+          }}
+          placeholder="Search order ID, email, or game..."
+          className="flex-1"
+        />
         <button
           onClick={() => setShowFilters(true)}
           aria-label="Filters"
@@ -374,10 +377,11 @@ export default function OrdersTab() {
             </div>
 
             {!orders.length && (
-              <div className="py-20 text-center border border-dashed border-[var(--border)] rounded-[2rem]">
-                <ShoppingBag className="mx-auto text-[var(--muted)]/20 mb-4" size={48} />
-                <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">No orders found</p>
-              </div>
+              <EmptyState
+                icon={ShoppingBag}
+                title="No orders found"
+                description="Try clearing your search query or adjusting your filters."
+              />
             )}
 
             {/* ================= PAGINATION ================= */}

@@ -14,9 +14,10 @@ import {
   FiZap
 } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "@/public/logo.png";
 import GamesFilterModal from "@/components/Games/GamesFilterModal";
 import Loader from "@/components/Loader/Loader";
+import SearchInput from "@/components/ui/SearchInput";
+import EmptyState from "@/components/ui/EmptyState";
 
 /* ===================== SUB-COMPONENTS ===================== */
 
@@ -67,12 +68,16 @@ export default function GamesPage() {
     if (cached) {
       try {
         const data = JSON.parse(cached);
-        setCategory(data.category || []);
-        setOtts(data.otts || null);
-        setMemberships(data.memberships || null);
-        setGames((data.games || []).map((g) => g.gameName === "PUBG Mobile" ? { ...g, gameName: "PUBG Mobile" } : g));
-        setLoading(false);
-      } catch (e) {}
+        queueMicrotask(() => {
+          setCategory(data.category || []);
+          setOtts(data.otts || null);
+          setMemberships(data.memberships || null);
+          setGames((data.games || []).map((g) => g.gameName === "PUBG Mobile" ? { ...g, gameName: "PUBG Mobile" } : g));
+          setLoading(false);
+        });
+      } catch {
+        // invalid cache ignore
+      }
     }
 
     fetch("/api/games")
@@ -184,25 +189,15 @@ export default function GamesPage() {
         {/* ================= SEARCH AREA ================= */}
         <div className="bg-transparent py-2 mt-4">
           <div className="max-w-7xl mx-auto px-4">
-            <div className="relative flex items-center group">
-              <FiSearch className="absolute left-4 text-[var(--muted)] w-4 h-4 transition-colors group-focus-within:text-[var(--accent)] pointer-events-none z-10" />
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search for your favorite game..."
-                className="w-full h-11 pl-11 pr-24 rounded-2xl bg-[var(--card)]/60 backdrop-blur-md border border-[var(--border)] text-[11px] md:text-xs font-semibold tracking-wide focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/15 outline-none transition-all placeholder:text-[var(--muted)]/50 text-[var(--foreground)] shadow-xs"
-              />
-              <div className="absolute right-2 flex items-center gap-1.5">
-                {search && (
-                  <button
-                    onClick={() => setSearch("")}
-                    className="p-1 rounded-lg hover:bg-rose-500/10 text-[var(--muted)] hover:text-rose-500 transition-colors"
-                  >
-                    <FiX size={14} />
-                  </button>
-                )}
+            <SearchInput
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onClear={() => setSearch("")}
+              placeholder="Search for your favorite game..."
+              inputClassName="!rounded-2xl !bg-[var(--card)]/60 !backdrop-blur-md !text-[11px] md:!text-xs font-semibold !shadow-xs"
+              rightElement={
                 <button
+                  type="button"
                   onClick={() => setShowFilter(true)}
                   className={`h-7 px-2.5 flex items-center gap-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all ${
                     activeFilterCount > 0
@@ -219,8 +214,8 @@ export default function GamesPage() {
                     </span>
                   )}
                 </button>
-              </div>
-            </div>
+              }
+            />
           </div>
         </div>
 

@@ -22,6 +22,8 @@ import {
 } from "lucide-react";
 import Pagination from "@/components/ui/Pagination";
 import StatusBadge from "@/components/ui/StatusBadge";
+import SearchInput from "@/components/ui/SearchInput";
+import EmptyState from "@/components/ui/EmptyState";
 
 export default function SupportQueriesTab() {
   const [queries, setQueries] = useState([]);
@@ -183,18 +185,19 @@ export default function SupportQueriesTab() {
 
       {/* ================= SEARCH & FILTER ================= */}
       <div className="flex flex-row gap-2 md:gap-3">
-        <div className="relative flex-1 min-w-0">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/40" size={16} />
-          <input
-            value={search}
-            onChange={(e) => {
-              setPage(1);
-              setSearch(e.target.value);
-            }}
-            placeholder="Search messages..."
-            className="w-full h-11 pl-11 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
-          />
-        </div>
+        <SearchInput
+          value={search}
+          onChange={(e) => {
+            setPage(1);
+            setSearch(e.target.value);
+          }}
+          onClear={() => {
+            setPage(1);
+            setSearch("");
+          }}
+          placeholder="Search messages..."
+          className="flex-1"
+        />
         <button
           aria-label="Filters"
           title="Filters"
@@ -271,10 +274,12 @@ export default function SupportQueriesTab() {
               })}
 
               {!queries.length && (
-                <div className="py-16 text-center border border-dashed border-[var(--border)] rounded-2xl">
-                  <Inbox className="mx-auto text-[var(--muted)]/20 mb-2" size={32} />
-                  <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-widest">No messages found</p>
-                </div>
+                <EmptyState
+                  icon={Inbox}
+                  title="No messages found"
+                  description="There are currently no support inquiries matching this view."
+                  size="sm"
+                />
               )}
 
               {/* ================= PAGINATION ================= */}

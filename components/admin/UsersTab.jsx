@@ -21,6 +21,8 @@ import {
   Crown,
 } from "lucide-react";
 import Pagination from "@/components/ui/Pagination";
+import SearchInput from "@/components/ui/SearchInput";
+import EmptyState from "@/components/ui/EmptyState";
 
 export default function UsersTab() {
   const [users, setUsers] = useState([]);
@@ -220,18 +222,19 @@ export default function UsersTab() {
 
       {/* ================= SEARCH & FILTERS ================= */}
       <div className="flex flex-row gap-2 md:gap-3">
-        <div className="relative flex-1 min-w-0">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/40" size={16} />
-          <input
-            value={search}
-            onChange={(e) => {
-              setPage(1);
-              setSearch(e.target.value);
-            }}
-            placeholder="Search name, email, or user ID..."
-            className="w-full h-11 pl-11 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
-          />
-        </div>
+        <SearchInput
+          value={search}
+          onChange={(e) => {
+            setPage(1);
+            setSearch(e.target.value);
+          }}
+          onClear={() => {
+            setPage(1);
+            setSearch("");
+          }}
+          placeholder="Search name, email, or user ID..."
+          className="flex-1"
+        />
         <button
           onClick={() => setShowFilters(true)}
           aria-label="Filters"
@@ -404,10 +407,11 @@ export default function UsersTab() {
             </div>
 
             {!users.length && (
-              <div className="py-24 text-center border border-dashed border-[var(--border)] rounded-[2rem]">
-                <Users className="mx-auto text-[var(--muted)]/20 mb-4" size={48} />
-                <p className="text-sm font-medium text-[var(--muted)]">No users found for this search.</p>
-              </div>
+              <EmptyState
+                icon={Users}
+                title="No users found"
+                description="No users matched your current search criteria."
+              />
             )}
 
             {/* ================= PAGINATION ================= */}

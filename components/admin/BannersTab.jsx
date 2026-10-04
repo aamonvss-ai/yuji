@@ -13,8 +13,8 @@ import {
   Type,
   ImageIcon,
   CheckCircle2,
-  XCircle
 } from "lucide-react";
+import EmptyState from "@/components/ui/EmptyState";
 
 export default function BannersTab({ banners, onRefresh }) {
   const [form, setForm] = useState({
@@ -370,6 +370,14 @@ export default function BannersTab({ banners, onRefresh }) {
             ))}
           </AnimatePresence>
         </div>
+
+        {!banners.length && (
+          <EmptyState
+            icon={ImageIcon}
+            title="No banners created"
+            description="Use the form above to upload and publish your first promotional banner."
+          />
+        )}
       </div>
     </div>
   );
