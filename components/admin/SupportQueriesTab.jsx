@@ -217,9 +217,12 @@ export default function SupportQueriesTab() {
             className="w-full h-11 pl-11 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
           />
         </div>
-        <button className="h-11 px-4 md:px-5 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] flex items-center justify-center gap-2 hover:bg-[var(--foreground)]/[0.05] transition-all shrink-0 group">
-          <Filter size={14} className="text-[var(--accent)]" />
-          <span className="text-sm font-semibold hidden sm:inline-block text-[var(--muted)] group-hover:text-[var(--foreground)]">Filters</span>
+        <button
+          aria-label="Filters"
+          title="Filters"
+          className="h-11 w-11 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] flex items-center justify-center hover:bg-[var(--foreground)]/[0.05] transition-all shrink-0 group"
+        >
+          <Filter size={16} className="text-[var(--accent)]" />
         </button>
       </div>
 

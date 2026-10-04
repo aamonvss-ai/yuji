@@ -91,27 +91,27 @@ export default function AnalyticsTab() {
   const successRate = orders.total > 0 ? Math.round((orders.success / orders.total) * 100) : 0;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* ================= HEADER CONTROLS ================= */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--border)]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[var(--border)]">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)] flex items-center gap-2">
-              <BarChart3 className="text-[var(--accent)]" size={22} />
+            <h2 className="text-lg font-bold tracking-tight text-[var(--foreground)] flex items-center gap-2">
+              <BarChart3 className="text-[var(--accent)]" size={18} />
               Store Analytics & Intelligence
             </h2>
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[var(--accent)]/10 text-[var(--accent)] border border-[var(--accent)]/20 uppercase tracking-wider">
+            <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-[var(--accent)]/10 text-[var(--accent)] border border-[var(--accent)]/20 uppercase tracking-wider">
               Live
             </span>
           </div>
-          <p className="text-xs text-[var(--muted)] mt-1">
+          <p className="text-[11px] text-[var(--muted)] mt-0.5">
             Real-time performance across orders, revenue, customer retention, peak traffic & AOV.
           </p>
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
           {/* Timeframe Filters */}
-          <div className="flex items-center bg-[var(--background)]/60 border border-[var(--border)] rounded-xl p-1 gap-1 shadow-xs">
+          <div className="flex items-center bg-[var(--background)]/60 border border-[var(--border)] rounded-xl p-0.5 gap-0.5 shadow-xs">
             {[
               { id: "today", label: "24 Hours" },
               { id: "7d", label: "7 Days" },
@@ -121,7 +121,7 @@ export default function AnalyticsTab() {
               <button
                 key={tf.id}
                 onClick={() => setTimeframe(tf.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all ${
                   timeframe === tf.id
                     ? "bg-[var(--accent)] text-black shadow-xs font-bold"
                     : "text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--card)]"
@@ -135,34 +135,34 @@ export default function AnalyticsTab() {
           <button
             onClick={() => fetchAnalytics(timeframe)}
             disabled={refreshing}
-            className="p-2 bg-[var(--card)] hover:bg-[var(--accent)]/10 text-[var(--muted)] hover:text-[var(--accent)] border border-[var(--border)] rounded-xl transition-colors shadow-xs disabled:opacity-50"
+            className="p-1.5 bg-[var(--card)] hover:bg-[var(--accent)]/10 text-[var(--muted)] hover:text-[var(--accent)] border border-[var(--border)] rounded-xl transition-colors shadow-xs disabled:opacity-50"
             title="Refresh Analytics"
           >
-            <RefreshCw size={16} className={refreshing ? "animate-spin" : ""} />
+            <RefreshCw size={14} className={refreshing ? "animate-spin" : ""} />
           </button>
         </div>
       </div>
 
       {/* ================= TOP METRICS CARDS (5 KPI BLOCKS) ================= */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3">
         
         {/* Total Orders */}
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 flex flex-col justify-between shadow-xs hover:border-[var(--accent)]/30 transition-all">
+        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 sm:p-3.5 flex flex-col justify-between shadow-xs hover:border-[var(--accent)]/30 transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] uppercase tracking-wider font-semibold text-[var(--muted)]">
+            <span className="text-[10px] uppercase tracking-wider font-bold text-[var(--muted)]">
               Orders
             </span>
-            <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center">
-              <ShoppingCart size={16} />
+            <div className="w-7 h-7 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center">
+              <ShoppingCart size={14} />
             </div>
           </div>
-          <div className="mt-3">
-            <div className="text-xl sm:text-2xl font-black text-[var(--foreground)] tabular-nums">
+          <div className="mt-2">
+            <div className="text-lg sm:text-xl font-black text-[var(--foreground)] tabular-nums">
               {orders.total?.toLocaleString() || 0}
             </div>
-            <div className="flex items-center justify-between text-[11px] text-[var(--muted)] mt-1">
+            <div className="flex items-center justify-between text-[10px] text-[var(--muted)] mt-0.5">
               <span className="text-emerald-500 font-semibold flex items-center gap-0.5">
-                <CheckCircle2 size={12} /> {orders.success || 0} done
+                <CheckCircle2 size={11} /> {orders.success || 0} done
               </span>
               <span>{successRate}% rate</span>
             </div>
@@ -170,81 +170,81 @@ export default function AnalyticsTab() {
         </div>
 
         {/* Total Revenue */}
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 flex flex-col justify-between shadow-xs hover:border-[var(--accent)]/30 transition-all">
+        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 sm:p-3.5 flex flex-col justify-between shadow-xs hover:border-[var(--accent)]/30 transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] uppercase tracking-wider font-semibold text-[var(--muted)]">
+            <span className="text-[10px] uppercase tracking-wider font-bold text-[var(--muted)]">
               Revenue
             </span>
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
-              <DollarSign size={16} />
+            <div className="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+              <DollarSign size={14} />
             </div>
           </div>
-          <div className="mt-3">
-            <div className="text-xl sm:text-2xl font-black text-emerald-400 tabular-nums">
+          <div className="mt-2">
+            <div className="text-lg sm:text-xl font-black text-emerald-400 tabular-nums">
               {formatPrice ? formatPrice(revenue.total || 0) : `₹${(revenue.total || 0).toLocaleString()}`}
             </div>
-            <div className="text-[11px] text-[var(--muted)] mt-1 flex items-center justify-between">
+            <div className="text-[10px] text-[var(--muted)] mt-0.5 flex items-center justify-between">
               <span>Today: {formatPrice ? formatPrice(revenue.today || 0) : `₹${revenue.today || 0}`}</span>
             </div>
           </div>
         </div>
 
         {/* AOV (Average Order Value) */}
-        <div className="bg-[var(--card)] border border-amber-500/20 bg-amber-500/[0.02] rounded-2xl p-4 flex flex-col justify-between shadow-xs hover:border-amber-500/40 transition-all">
+        <div className="bg-[var(--card)] border border-amber-500/20 bg-amber-500/[0.02] rounded-xl p-3 sm:p-3.5 flex flex-col justify-between shadow-xs hover:border-amber-500/40 transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] uppercase tracking-wider font-semibold text-amber-500 flex items-center gap-1">
-              <Sparkles size={12} /> AOV
+            <span className="text-[10px] uppercase tracking-wider font-bold text-amber-500 flex items-center gap-1">
+              <Sparkles size={11} /> AOV
             </span>
-            <div className="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center">
-              <TrendingUp size={16} />
+            <div className="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center">
+              <TrendingUp size={14} />
             </div>
           </div>
-          <div className="mt-3">
-            <div className="text-xl sm:text-2xl font-black text-amber-400 tabular-nums">
+          <div className="mt-2">
+            <div className="text-lg sm:text-xl font-black text-amber-400 tabular-nums">
               {formatPrice ? formatPrice(aov.current || 0) : `₹${aov.current || 0}`}
             </div>
-            <div className="text-[11px] text-[var(--muted)] mt-1 flex items-center justify-between">
+            <div className="text-[10px] text-[var(--muted)] mt-0.5 flex items-center justify-between">
               <span>All-Time: {formatPrice ? formatPrice(aov.overall || 0) : `₹${aov.overall || 0}`}</span>
             </div>
           </div>
         </div>
 
         {/* Users */}
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 flex flex-col justify-between shadow-xs hover:border-[var(--accent)]/30 transition-all">
+        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 sm:p-3.5 flex flex-col justify-between shadow-xs hover:border-[var(--accent)]/30 transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] uppercase tracking-wider font-semibold text-[var(--muted)]">
+            <span className="text-[10px] uppercase tracking-wider font-bold text-[var(--muted)]">
               Users
             </span>
-            <div className="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center">
-              <Users size={16} />
+            <div className="w-7 h-7 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center">
+              <Users size={14} />
             </div>
           </div>
-          <div className="mt-3">
-            <div className="text-xl sm:text-2xl font-black text-[var(--foreground)] tabular-nums">
+          <div className="mt-2">
+            <div className="text-lg sm:text-xl font-black text-[var(--foreground)] tabular-nums">
               {users.total?.toLocaleString() || 0}
             </div>
-            <div className="text-[11px] text-[var(--muted)] mt-1 flex items-center justify-between">
-              <span className="text-purple-400">+{users.today || 0} today</span>
+            <div className="text-[10px] text-[var(--muted)] mt-0.5 flex items-center justify-between">
+              <span className="text-purple-400 font-semibold">+{users.today || 0} today</span>
               <span>{users.uniqueBuyers || 0} buyers</span>
             </div>
           </div>
         </div>
 
         {/* Queries */}
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 flex flex-col justify-between shadow-xs hover:border-[var(--accent)]/30 transition-all col-span-2 md:col-span-1">
+        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 sm:p-3.5 flex flex-col justify-between shadow-xs hover:border-[var(--accent)]/30 transition-all col-span-2 md:col-span-1">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] uppercase tracking-wider font-semibold text-[var(--muted)]">
+            <span className="text-[10px] uppercase tracking-wider font-bold text-[var(--muted)]">
               Queries
             </span>
-            <div className="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center">
-              <MessageSquare size={16} />
+            <div className="w-7 h-7 rounded-lg bg-indigo-500/10 text-indigo-500 flex items-center justify-center">
+              <MessageSquare size={14} />
             </div>
           </div>
-          <div className="mt-3">
-            <div className="text-xl sm:text-2xl font-black text-[var(--foreground)] tabular-nums">
+          <div className="mt-2">
+            <div className="text-lg sm:text-xl font-black text-[var(--foreground)] tabular-nums">
               {queries.total?.toLocaleString() || 0}
             </div>
-            <div className="text-[11px] text-[var(--muted)] mt-1 flex items-center justify-between">
+            <div className="text-[10px] text-[var(--muted)] mt-0.5 flex items-center justify-between">
               <span className="text-amber-400 font-semibold">{queries.open || 0} open</span>
               <span className="text-emerald-400">{queries.resolved || 0} fixed</span>
             </div>
@@ -254,64 +254,64 @@ export default function AnalyticsTab() {
       </div>
 
       {/* ================= CUSTOMER RETENTION & LTV INTELLIGENCE ================= */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
         
         {/* 1. New vs. Returning Customers Ratio */}
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 shadow-xs flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold text-[var(--foreground)] flex items-center gap-2">
-                <PieChart className="text-blue-400" size={17} />
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-xs sm:text-sm font-bold text-[var(--foreground)] flex items-center gap-1.5">
+                <PieChart className="text-blue-400" size={15} />
                 New vs. Returning Buyers
               </h3>
-              <span className="text-[10px] font-bold text-[var(--muted)] bg-[var(--background)] px-2 py-0.5 rounded-md border border-[var(--border)]">
+              <span className="text-[9px] font-bold text-[var(--muted)] bg-[var(--background)] px-1.5 py-0.5 rounded-md border border-[var(--border)]">
                 {timeframe === "today" ? "24h Ratio" : `${timeframe} Ratio`}
               </span>
             </div>
 
-            <p className="text-xs text-[var(--muted)] mb-4">
+            <p className="text-[11px] text-[var(--muted)] mb-3">
               Breakdown of first-time buyers versus repeat customers in this period.
             </p>
 
             {/* Visual Ratio Bar */}
             <div className="space-y-2">
-              <div className="w-full bg-[var(--background)] rounded-xl h-3.5 flex overflow-hidden p-0.5 border border-[var(--border)]">
+              <div className="w-full bg-[var(--background)] rounded-lg h-2.5 flex overflow-hidden p-0.5 border border-[var(--border)]">
                 <div
                   style={{ width: `${ratio.newPct || 50}%` }}
-                  className="bg-blue-500 h-full rounded-l-lg transition-all"
+                  className="bg-blue-500 h-full rounded-l-md transition-all"
                   title={`New: ${ratio.newPct || 0}%`}
                 />
                 <div
                   style={{ width: `${ratio.returningPct || 50}%` }}
-                  className="bg-emerald-500 h-full rounded-r-lg transition-all"
+                  className="bg-emerald-500 h-full rounded-r-md transition-all"
                   title={`Returning: ${ratio.returningPct || 0}%`}
                 />
               </div>
 
               {/* Legend & Stats */}
-              <div className="grid grid-cols-2 gap-3 pt-2">
-                <div className="bg-[var(--background)]/40 border border-blue-500/20 rounded-xl p-3">
-                  <div className="flex items-center gap-1.5 text-xs text-blue-400 font-semibold mb-1">
-                    <UserPlus size={13} />
+              <div className="grid grid-cols-2 gap-2 pt-1">
+                <div className="bg-[var(--background)]/40 border border-blue-500/20 rounded-lg p-2.5">
+                  <div className="flex items-center gap-1 text-[11px] text-blue-400 font-semibold mb-0.5">
+                    <UserPlus size={12} />
                     <span>New Buyers</span>
                   </div>
-                  <div className="text-lg font-black text-[var(--foreground)]">
-                    {ratio.newPct || 0}% <span className="text-xs font-normal text-[var(--muted)]">({ratio.newCount || 0})</span>
+                  <div className="text-base font-black text-[var(--foreground)]">
+                    {ratio.newPct || 0}% <span className="text-[10px] font-normal text-[var(--muted)]">({ratio.newCount || 0})</span>
                   </div>
-                  <div className="text-[11px] text-[var(--muted)] mt-0.5">
+                  <div className="text-[10px] text-[var(--muted)] mt-0.5">
                     Rev: {formatPrice ? formatPrice(ratio.newRevenue || 0) : `₹${ratio.newRevenue || 0}`}
                   </div>
                 </div>
 
-                <div className="bg-[var(--background)]/40 border border-emerald-500/20 rounded-xl p-3">
-                  <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold mb-1">
-                    <Repeat size={13} />
+                <div className="bg-[var(--background)]/40 border border-emerald-500/20 rounded-lg p-2.5">
+                  <div className="flex items-center gap-1 text-[11px] text-emerald-400 font-semibold mb-0.5">
+                    <Repeat size={12} />
                     <span>Returning</span>
                   </div>
-                  <div className="text-lg font-black text-[var(--foreground)]">
-                    {ratio.returningPct || 0}% <span className="text-xs font-normal text-[var(--muted)]">({ratio.returningCount || 0})</span>
+                  <div className="text-base font-black text-[var(--foreground)]">
+                    {ratio.returningPct || 0}% <span className="text-[10px] font-normal text-[var(--muted)]">({ratio.returningCount || 0})</span>
                   </div>
-                  <div className="text-[11px] text-[var(--muted)] mt-0.5">
+                  <div className="text-[10px] text-[var(--muted)] mt-0.5">
                     Rev: {formatPrice ? formatPrice(ratio.returningRevenue || 0) : `₹${ratio.returningRevenue || 0}`}
                   </div>
                 </div>
@@ -319,58 +319,58 @@ export default function AnalyticsTab() {
             </div>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-[var(--border)]/60 text-[11px] text-[var(--muted)] flex items-center justify-between">
+          <div className="mt-3 pt-2 border-t border-[var(--border)]/60 text-[10px] text-[var(--muted)] flex items-center justify-between">
             <span>Total Active Buyers:</span>
             <span className="font-bold text-[var(--foreground)]">{ratio.activeBuyers || 0}</span>
           </div>
         </div>
 
         {/* 2. Repeat Purchase Rate */}
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 shadow-xs flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold text-[var(--foreground)] flex items-center gap-2">
-                <Repeat className="text-[var(--accent)]" size={17} />
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-xs sm:text-sm font-bold text-[var(--foreground)] flex items-center gap-1.5">
+                <Repeat className="text-[var(--accent)]" size={15} />
                 Repeat Purchase Rate
               </h3>
-              <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">
+              <span className="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded-md border border-emerald-500/20">
                 Retention
               </span>
             </div>
 
-            <p className="text-xs text-[var(--muted)] mb-3">
+            <p className="text-[11px] text-[var(--muted)] mb-2.5">
               Percentage of total customers who placed 2 or more lifetime orders.
             </p>
 
-            <div className="mt-2 bg-[var(--background)]/40 border border-[var(--border)] rounded-2xl p-4 flex items-center justify-between">
+            <div className="bg-[var(--background)]/40 border border-[var(--border)] rounded-xl p-3 flex items-center justify-between">
               <div>
-                <div className="text-3xl font-black text-[var(--foreground)]">
+                <div className="text-2xl font-black text-[var(--foreground)]">
                   {retention.repeatPurchaseRate || 0}%
                 </div>
-                <div className="text-xs text-[var(--muted)] mt-1">
+                <div className="text-[10px] text-[var(--muted)] mt-0.5">
                   {retention.repeatBuyersCount || 0} of {retention.totalUniqueBuyers || 0} buyers reordered
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-lg font-black text-amber-400">
+                <div className="text-base font-black text-amber-400">
                   {retention.averageOrdersPerCustomer || 1}x
                 </div>
-                <div className="text-[10px] text-[var(--muted)]">Avg Orders / Buyer</div>
+                <div className="text-[9px] text-[var(--muted)]">Avg Orders / Buyer</div>
               </div>
             </div>
 
             {/* Loyalty breakdown bars */}
-            <div className="mt-4 space-y-2">
-              <div className="text-[11px] font-semibold text-[var(--muted)] uppercase tracking-wider">
+            <div className="mt-2.5 space-y-1.5">
+              <div className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-wider">
                 Buyer Frequency Breakdown
               </div>
               {loyaltySegments.map((seg) => (
-                <div key={seg.label} className="space-y-1">
-                  <div className="flex justify-between text-[11px]">
+                <div key={seg.label} className="space-y-0.5">
+                  <div className="flex justify-between text-[10px]">
                     <span className="text-[var(--foreground)] font-medium">{seg.label}</span>
                     <span className="text-[var(--muted)]">{seg.count} buyers ({seg.pct}%)</span>
                   </div>
-                  <div className="w-full bg-[var(--background)] rounded-full h-1.5 overflow-hidden">
+                  <div className="w-full bg-[var(--background)] rounded-full h-1 overflow-hidden">
                     <div style={{ width: `${seg.pct}%` }} className={`h-full ${seg.color} rounded-full transition-all`} />
                   </div>
                 </div>
@@ -380,62 +380,62 @@ export default function AnalyticsTab() {
         </div>
 
         {/* 3. Customer Lifetime Value (LTV) */}
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 shadow-xs flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold text-[var(--foreground)] flex items-center gap-2">
-                <Gem className="text-purple-400" size={17} />
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-xs sm:text-sm font-bold text-[var(--foreground)] flex items-center gap-1.5">
+                <Gem className="text-purple-400" size={15} />
                 Customer Lifetime Value (LTV)
               </h3>
-              <span className="text-[10px] font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-md border border-purple-500/20">
+              <span className="text-[9px] font-bold text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded-md border border-purple-500/20">
                 LTV Metrics
               </span>
             </div>
 
-            <p className="text-xs text-[var(--muted)] mb-3">
+            <p className="text-[11px] text-[var(--muted)] mb-2.5">
               Average total revenue generated per paying user over their entire lifetime.
             </p>
 
-            <div className="bg-gradient-to-br from-purple-500/10 via-transparent to-transparent border border-purple-500/20 rounded-2xl p-4">
-              <div className="text-xs uppercase tracking-wider text-[var(--muted)] font-semibold">
+            <div className="bg-gradient-to-br from-purple-500/10 via-transparent to-transparent border border-purple-500/20 rounded-xl p-3">
+              <div className="text-[10px] uppercase tracking-wider text-[var(--muted)] font-bold">
                 Average Customer LTV
               </div>
-              <div className="text-2xl sm:text-3xl font-black text-purple-300 mt-1">
+              <div className="text-2xl font-black text-purple-300 mt-0.5">
                 {formatPrice ? formatPrice(ltv.averageLtv || 0) : `₹${ltv.averageLtv || 0}`}
               </div>
-              <div className="text-[11px] text-[var(--muted)] mt-1.5">
+              <div className="text-[10px] text-[var(--muted)] mt-1">
                 Across all {retention.totalUniqueBuyers || 0} unique paying customers.
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2.5 mt-3">
-              <div className="bg-[var(--background)]/40 border border-[var(--border)] rounded-xl p-3">
-                <div className="text-[10px] uppercase tracking-wider text-purple-400 font-bold">
+            <div className="grid grid-cols-2 gap-2 mt-2.5">
+              <div className="bg-[var(--background)]/40 border border-[var(--border)] rounded-lg p-2.5">
+                <div className="text-[9px] uppercase tracking-wider text-purple-400 font-bold">
                   VIP Cohort LTV
                 </div>
-                <div className="text-base font-black text-[var(--foreground)] mt-1">
+                <div className="text-sm font-black text-[var(--foreground)] mt-0.5">
                   {formatPrice ? formatPrice(ltv.vipAvgLtv || 0) : `₹${ltv.vipAvgLtv || 0}`}
                 </div>
-                <div className="text-[10px] text-[var(--muted)] mt-0.5">
+                <div className="text-[9px] text-[var(--muted)] mt-0.5">
                   6+ Orders Champions
                 </div>
               </div>
 
-              <div className="bg-[var(--background)]/40 border border-[var(--border)] rounded-xl p-3">
-                <div className="text-[10px] uppercase tracking-wider text-amber-400 font-bold">
+              <div className="bg-[var(--background)]/40 border border-[var(--border)] rounded-lg p-2.5">
+                <div className="text-[9px] uppercase tracking-wider text-amber-400 font-bold">
                   Period AOV
                 </div>
-                <div className="text-base font-black text-[var(--foreground)] mt-1">
+                <div className="text-sm font-black text-[var(--foreground)] mt-0.5">
                   {formatPrice ? formatPrice(ltv.periodAov || 0) : `₹${ltv.periodAov || 0}`}
                 </div>
-                <div className="text-[10px] text-[var(--muted)] mt-0.5">
+                <div className="text-[9px] text-[var(--muted)] mt-0.5">
                   Avg order basket size
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-[var(--border)]/60 text-[11px] text-[var(--muted)] flex items-center justify-between">
+          <div className="mt-3 pt-2 border-t border-[var(--border)]/60 text-[10px] text-[var(--muted)] flex items-center justify-between">
             <span>VIP Customer Base:</span>
             <span className="font-bold text-purple-400">{retention.vipBuyersCount || 0} loyal users</span>
           </div>

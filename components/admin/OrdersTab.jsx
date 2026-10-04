@@ -240,10 +240,11 @@ export default function OrdersTab() {
         </div>
         <button
           onClick={() => setShowFilters(true)}
-          className="h-11 px-4 md:px-5 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] flex items-center justify-center gap-2 hover:bg-[var(--foreground)]/[0.05] transition-all outline-none shrink-0"
+          aria-label="Filters"
+          title="Filters"
+          className="h-11 w-11 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] flex items-center justify-center hover:bg-[var(--foreground)]/[0.05] transition-all outline-none shrink-0"
         >
-          <Filter size={14} className="text-[var(--accent)]" />
-          <span className="text-sm font-semibold hidden sm:inline-block">Filters</span>
+          <Filter size={16} className="text-[var(--accent)]" />
         </button>
       </div>
 

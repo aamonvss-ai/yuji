@@ -234,10 +234,11 @@ export default function UsersTab() {
         </div>
         <button
           onClick={() => setShowFilters(true)}
-          className="h-11 px-4 md:px-5 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] flex items-center justify-center gap-2 hover:bg-[var(--foreground)]/[0.05] transition-all outline-none shrink-0"
+          aria-label="Filters"
+          title="Filters"
+          className="h-11 w-11 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] flex items-center justify-center hover:bg-[var(--foreground)]/[0.05] transition-all outline-none shrink-0"
         >
-          <Filter size={14} className="text-[var(--accent)]" />
-          <span className="text-sm font-semibold hidden sm:inline-block">Filters</span>
+          <Filter size={16} className="text-[var(--accent)]" />
         </button>
       </div>
 
@@ -261,14 +262,14 @@ export default function UsersTab() {
           >
             {/* DESKTOP TABLE */}
             <div className="hidden lg:block rounded-[1.5rem] overflow-hidden border border-[var(--border)] bg-[var(--card)]">
-              <table className="w-full text-left text-sm">
+              <table className="w-full text-left text-sm table-fixed">
                 <thead className="bg-[var(--foreground)]/[0.03] border-b border-[var(--border)] text-[var(--muted)]">
-                  <tr className="text-[10px] uppercase font-bold tracking-widest text-[var(--muted)]">
-                    <th className="px-6 py-4">User Info</th>
-                    <th className="px-6 py-4">Identification</th>
-                    <th className="px-6 py-4">IP Address</th>
-                    <th className="px-6 py-4">Activity</th>
-                    <th className="px-6 py-4 text-right">Access Control</th>
+                  <tr className="text-[10px] uppercase font-bold tracking-widest text-[var(--muted)]/60">
+                    <th className="px-6 py-4 w-[28%]">User Info</th>
+                    <th className="px-6 py-4 w-[18%]">Identification</th>
+                    <th className="px-6 py-4 w-[16%]">IP Address</th>
+                    <th className="px-6 py-4 w-[22%]">Activity</th>
+                    <th className="px-6 py-4 w-[16%] text-right">Access Control</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[var(--border)]">
@@ -281,50 +282,65 @@ export default function UsersTab() {
                       onClick={() => setSelectedUser(u)}
                       className="group hover:bg-[var(--foreground)]/[0.02] transition-colors cursor-pointer"
                     >
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
+                      <td className="px-6 py-4 align-middle">
+                        <div className="flex items-center gap-3 min-w-0">
                           <Avatar user={u} />
-                          <div className="flex flex-col">
-                            <span className="text-[var(--foreground)] font-bold text-xs uppercase tracking-tight">{u.name}</span>
-                            <span className="text-[10px] text-[var(--muted)]/50 font-medium lowercase truncate max-w-[150px]">{u.email}</span>
+                          <div className="flex flex-col min-w-0">
+                            <span className="text-[var(--foreground)] font-bold text-xs uppercase tracking-tight truncate">
+                              {u.name || "Anonymous User"}
+                            </span>
+                            <span className="text-[11px] text-[var(--muted)] font-normal lowercase truncate">
+                              {u.email || "No email"}
+                            </span>
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-4 align-middle">
                         <div className="flex flex-col">
-                          <span className="text-[var(--foreground)] font-black text-[10px] uppercase tracking-widest tabular-nums font-mono">{u.userId}</span>
-                          <span className="text-[9px] text-[var(--muted)]/40 font-bold uppercase mt-0.5">Static ID</span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex flex-col">
-                          <span className="text-[var(--foreground)] font-bold text-[11px] tracking-widest font-mono">
-                            {u.lastLoginIp || "N/A"}
+                          <span className="text-[var(--foreground)] font-mono font-bold text-[11px] uppercase tracking-wide tabular-nums">
+                            {u.userId}
+                          </span>
+                          <span className="text-[9px] text-[var(--muted)]/50 font-bold uppercase tracking-wider mt-0.5">
+                            Static ID
                           </span>
                         </div>
                       </td>
-                      <td className="px-6 py-4">
-                        <div className="flex flex-col gap-2">
-                          <div className="flex flex-col">
-                            <span className="text-[8px] font-bold text-[var(--muted)]/50 uppercase tracking-widest leading-none mb-1">Last Active</span>
-                            <span className="text-[10px] font-black text-[var(--accent)] tracking-tight">
+                      <td className="px-6 py-4 align-middle">
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-[var(--foreground)]/[0.03] border border-[var(--border)] text-[11px] font-mono font-semibold text-[var(--foreground)]/80">
+                          {u.lastLoginIp || "N/A"}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 align-middle">
+                        <div className="flex flex-col gap-1.5">
+                          <div>
+                            <span className="text-[8px] font-bold text-[var(--muted)]/50 uppercase tracking-widest block leading-tight">
+                              Last Active
+                            </span>
+                            <span className="text-[10px] font-bold text-[var(--accent)] font-mono tracking-tight">
                               {u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleString() : "Never"}
                             </span>
                           </div>
-                          <div className="flex flex-col">
-                            <span className="text-[8px] font-bold text-[var(--muted)]/50 uppercase tracking-widest leading-none mb-1">Created</span>
-                            <span className="text-[10px] font-bold text-[var(--foreground)] tracking-tight">
+                          <div>
+                            <span className="text-[8px] font-bold text-[var(--muted)]/40 uppercase tracking-widest block leading-tight">
+                              Created
+                            </span>
+                            <span className="text-[10px] font-semibold text-[var(--foreground)]/70 font-mono tracking-tight">
                               {new Date(u.createdAt).toLocaleString()}
                             </span>
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-right" onClick={(e) => e.stopPropagation()}>
-                        <RoleDropdown
-                          value={u.userType}
-                          disabled={updatingUserId === u.userId || u.userType === "owner"}
-                          onChange={(v) => changeUserRole(u.userId, v)}
-                        />
+                      <td className="px-6 py-4 align-middle text-right" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex justify-end">
+                          <div className="w-[125px]">
+                            <RoleDropdown
+                              value={u.userType}
+                              compact
+                              disabled={updatingUserId === u.userId || u.userType === "owner"}
+                              onChange={(v) => changeUserRole(u.userId, v)}
+                            />
+                          </div>
+                        </div>
                       </td>
                     </motion.tr>
                   ))}
