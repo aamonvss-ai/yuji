@@ -88,7 +88,7 @@ export default function SeoTab() {
     }
 
     return (
-        <div className="max-w-2xl mx-auto py-4 space-y-6">
+        <div className="space-y-6 pb-6 px-1 sm:px-2 max-w-full">
             <AnimatePresence>
                 {toast && (
                     <motion.div
@@ -103,59 +103,77 @@ export default function SeoTab() {
                 )}
             </AnimatePresence>
 
-            <div className="flex items-center justify-between px-2">
-                <h2 className="text-xl font-bold text-[var(--foreground)]">SEO Settings</h2>
+            {/* HEADER */}
+            <div className="flex items-center justify-between gap-4 pb-2 border-b border-[var(--border)]">
+                <div>
+                    <h2 className="text-lg sm:text-xl font-bold tracking-tight text-[var(--foreground)]">SEO Settings</h2>
+                    <p className="text-[10px] text-[var(--muted)] font-medium mt-0.5">
+                        Manage search engine meta tags and indexing keywords
+                    </p>
+                </div>
                 <button
                     onClick={fetchSettings}
-                    className="p-2 hover:bg-[var(--foreground)]/[0.05] rounded-lg text-[var(--muted)] transition-colors"
+                    title="Refresh SEO Settings"
+                    className="p-2 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] transition-colors active:scale-90"
                 >
-                    <RefreshCcw size={16} className={loading ? "animate-spin" : ""} />
+                    <RefreshCcw size={15} className={loading ? "animate-spin" : ""} />
                 </button>
             </div>
 
-            <div className="p-6 rounded-3xl border bg-[var(--foreground)]/[0.02] border-[var(--border)] space-y-4">
+            {/* FORM CONTAINER */}
+            <div className="space-y-4 max-w-3xl">
                 <div>
-                    <h3 className="font-bold text-[var(--foreground)]">Search Engine Optimization</h3>
-                    <p className="text-xs text-[var(--muted)]">Manage search engine optimization tags. These tags will be appended to the default website tags.</p>
+                    <h3 className="text-sm font-semibold text-[var(--foreground)]">Search Engine Optimization</h3>
+                    <p className="text-xs text-[var(--muted)] mt-0.5">These tags will be appended to the default website metadata.</p>
                 </div>
                 
-                <div className="space-y-3">
-                    <div>
-                        <label className="block text-xs font-medium text-[var(--muted)] mb-1">Meta Title</label>
+                <div className="space-y-4">
+                    <div className="space-y-1.5">
+                        <label className="block text-xs font-medium text-[var(--muted)]">Meta Title</label>
                         <input 
                             type="text" 
-                            className="w-full bg-[var(--card)] border border-[var(--border)] rounded-xl px-4 py-2 text-sm text-[var(--foreground)] focus:outline-none focus:border-[var(--accent)]" 
+                            className="w-full bg-[var(--card)] border border-[var(--border)] rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-[var(--foreground)] focus:outline-none focus:border-[var(--accent)] transition-colors" 
                             value={seoForm.title}
                             onChange={(e) => setSeoForm({ ...seoForm, title: e.target.value })}
                             placeholder="Enter additional website title or leave blank for default"
                         />
                     </div>
-                    <div>
-                        <label className="block text-xs font-medium text-[var(--muted)] mb-1">Meta Description</label>
+
+                    <div className="space-y-1.5">
+                        <label className="block text-xs font-medium text-[var(--muted)]">Meta Description</label>
                         <textarea 
-                            className="w-full bg-[var(--card)] border border-[var(--border)] rounded-xl px-4 py-2 text-sm text-[var(--foreground)] focus:outline-none focus:border-[var(--accent)] h-20" 
+                            className="w-full bg-[var(--card)] border border-[var(--border)] rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-[var(--foreground)] focus:outline-none focus:border-[var(--accent)] min-h-[90px] transition-colors resize-y" 
                             value={seoForm.description}
                             onChange={(e) => setSeoForm({ ...seoForm, description: e.target.value })}
                             placeholder="Enter additional website description or leave blank for default"
                         />
                     </div>
-                    <div>
-                        <label className="block text-xs font-medium text-[var(--muted)] mb-1">Meta Keywords (comma separated, max 20)</label>
+
+                    <div className="space-y-1.5">
+                        <div className="flex items-center justify-between">
+                            <label className="block text-xs font-medium text-[var(--muted)]">Meta Keywords (comma separated, max 20)</label>
+                            <span className="text-[10px] text-[var(--muted)]">
+                                {seoForm.keywords.split(",").filter(k => k.trim().length > 0).length} / 20
+                            </span>
+                        </div>
                         <input 
                             type="text" 
-                            className="w-full bg-[var(--card)] border border-[var(--border)] rounded-xl px-4 py-2 text-sm text-[var(--foreground)] focus:outline-none focus:border-[var(--accent)]" 
+                            className="w-full bg-[var(--card)] border border-[var(--border)] rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-[var(--foreground)] focus:outline-none focus:border-[var(--accent)] transition-colors" 
                             value={seoForm.keywords}
                             onChange={(e) => setSeoForm({ ...seoForm, keywords: e.target.value })}
                             placeholder="keyword1, keyword2, keyword3"
                         />
                     </div>
-                    <button 
-                        onClick={handleSaveSeo}
-                        disabled={saving}
-                        className="bg-[var(--accent)] text-white px-4 py-2 rounded-xl text-sm font-bold mt-2 disabled:opacity-50"
-                    >
-                        Save SEO Settings
-                    </button>
+
+                    <div className="pt-2">
+                        <button 
+                            onClick={handleSaveSeo}
+                            disabled={saving}
+                            className="px-5 py-2.5 rounded-xl bg-[var(--accent)] text-white text-xs font-bold hover:brightness-110 active:scale-95 disabled:opacity-50 transition-all shadow-md shadow-[var(--accent)]/20"
+                        >
+                            {saving ? "Saving..." : "Save SEO Settings"}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

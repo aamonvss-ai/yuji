@@ -311,55 +311,59 @@ export default function OrdersTab() {
             </div>
 
             {/* MOBILE LIST */}
-            <div className="lg:hidden space-y-3">
+            <div className="lg:hidden space-y-2">
               {orders.map((o, idx) => {
                 return (
                   <motion.div
                     key={o._id}
                     initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: idx * 0.03 }}
+                    transition={{ delay: idx * 0.02 }}
                     onClick={() => setSelectedOrder(o)}
-                    className="relative p-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] active:bg-[var(--foreground)]/[0.04] transition-all group"
+                    className="p-3 rounded-xl border border-[var(--border)] bg-[var(--card)] active:bg-[var(--foreground)]/[0.04] transition-all cursor-pointer"
                   >
-                    <div className="flex justify-between items-center mb-3 relative">
-                      <div className="flex flex-col overflow-hidden min-w-0">
-                        <p className="font-bold text-[var(--foreground)] uppercase text-[11px] tracking-tight truncate">{o.gameSlug}</p>
-                        <p className="text-[10px] text-[var(--muted)]/60 font-medium lowercase truncate max-w-[140px]">{o.email || "Guest"}</p>
+                    {/* Top Row: Game + Price */}
+                    <div className="flex justify-between items-start gap-2">
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <p className="font-bold text-[var(--foreground)] uppercase text-xs tracking-tight truncate max-w-[170px]">{o.gameSlug}</p>
+                          <span className="text-[9px] font-mono text-[var(--muted)]/60 truncate shrink-0">#{o.orderId.slice(-6)}</span>
+                        </div>
+                        <p className="text-[10px] text-[var(--muted)] font-medium lowercase truncate mt-0.5">{o.email || "Guest"}</p>
                       </div>
-                      <div className="flex flex-col items-end flex-shrink-0">
-                        <span className="text-lg font-black text-emerald-500 tabular-nums leading-none">₹{o.price}</span>
-                        <span className="text-[8px] font-bold text-[var(--muted)]/40 uppercase tracking-widest mt-1">{o.paymentMethod || "UPI"}</span>
+
+                      <div className="flex flex-col items-end shrink-0">
+                        <span className="text-base font-black text-emerald-500 tabular-nums leading-none">₹{o.price}</span>
+                        <span className="text-[8px] font-bold text-[var(--muted)]/50 uppercase tracking-wider mt-0.5">{o.paymentMethod || "UPI"}</span>
                       </div>
                     </div>
 
-                    <div className="space-y-3 relative">
-                      <div className="px-3 py-2 rounded-xl bg-[var(--foreground)]/[0.02] border border-[var(--border)]/50">
-                        <div className="flex items-center justify-between gap-2">
-                          <p className="text-[10px] font-bold text-[var(--foreground)]/70 truncate italic">&ldquo;{o.itemName}&rdquo;</p>
-                          <span className="text-[8px] font-mono text-[var(--muted)]/40 uppercase truncate shrink-0">{o.orderId}</span>
-                        </div>
+                    {/* Middle: Item Name */}
+                    <div className="mt-2 py-1 px-2.5 rounded-lg bg-[var(--foreground)]/[0.02] border border-[var(--border)]/60 flex items-center justify-between gap-2">
+                      <p className="text-[10px] font-semibold text-[var(--foreground)]/80 truncate">&ldquo;{o.itemName}&rdquo;</p>
+                      <span className="text-[8px] font-mono text-[var(--muted)]/50 uppercase truncate max-w-[120px] shrink-0">{o.orderId}</span>
+                    </div>
+
+                    {/* Bottom: Date & Status */}
+                    <div className="mt-2 flex items-center justify-between gap-2 pt-1 border-t border-[var(--border)]/40" onClick={(e) => e.stopPropagation()}>
+                      <div className="flex items-center gap-1.5 text-[9px] text-[var(--muted)] font-medium">
+                        <span>{new Date(o.createdAt).toLocaleDateString()}</span>
+                        <span>•</span>
+                        <span>{new Date(o.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                       </div>
 
-                      <div className="flex items-center justify-between gap-4" onClick={(e) => e.stopPropagation()}>
-                        <div className="flex flex-col">
-                          <span className="text-[10px] font-bold text-[var(--muted)]/60">{new Date(o.createdAt).toLocaleDateString()}</span>
-                          <span className="text-[8px] font-medium text-[var(--muted)]/40">{new Date(o.createdAt).toLocaleTimeString()}</span>
-                        </div>
-
-                        <StatusDropdown
-                          value={o.status}
-                          disabled={updating}
-                          onChange={(v) => updateOrderStatus(o.orderId, v)}
-                          compact
-                          options={[
-                            { value: "pending", label: "Pending" },
-                            { value: "success", label: "Success" },
-                            { value: "failed", label: "Failed" },
-                            { value: "refunded", label: "Refunded" },
-                          ]}
-                        />
-                      </div>
+                      <StatusDropdown
+                        value={o.status}
+                        disabled={updating}
+                        onChange={(v) => updateOrderStatus(o.orderId, v)}
+                        compact
+                        options={[
+                          { value: "pending", label: "Pending" },
+                          { value: "success", label: "Success" },
+                          { value: "failed", label: "Failed" },
+                          { value: "refunded", label: "Refunded" },
+                        ]}
+                      />
                     </div>
                   </motion.div>
                 );

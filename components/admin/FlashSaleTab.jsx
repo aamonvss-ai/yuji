@@ -27,6 +27,8 @@ export default function FlashSaleTab() {
     const [newItem, setNewItem] = useState(defaultNewItem);
     const [editingIndex, setEditingIndex] = useState(null);
 
+    const [isFormOpen, setIsFormOpen] = useState(false);
+
     useEffect(() => {
         fetch("/api/owner/flash-sale")
             .then(res => res.json())
@@ -74,6 +76,7 @@ export default function FlashSaleTab() {
     const handleEdit = (index) => {
         setNewItem(config.items[index]);
         setEditingIndex(index);
+        setIsFormOpen(true);
     };
 
     const saveItem = () => {
@@ -92,11 +95,13 @@ export default function FlashSaleTab() {
         setConfig(prev => ({ ...prev, items: updatedItems }));
         setNewItem(defaultNewItem);
         setEditingIndex(null);
+        setIsFormOpen(false);
     };
 
     const cancelEdit = () => {
         setNewItem(defaultNewItem);
         setEditingIndex(null);
+        setIsFormOpen(false);
     };
 
     const removeItem = (index) => {
@@ -112,95 +117,200 @@ export default function FlashSaleTab() {
     if (loading) return <div className="py-20 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[var(--accent)]"></div></div>;
 
     return (
-        <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="space-y-6 pb-6 px-1 sm:px-2 max-w-full">
+            {/* HEADER */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-[var(--border)]">
                 <div>
-                    <h2 className="text-xl font-extrabold tracking-tight text-[var(--foreground)] flex items-center gap-2">
+                    <h2 className="text-lg sm:text-xl font-bold tracking-tight text-[var(--foreground)] flex items-center gap-2">
                         <FiZap className="text-amber-500 shrink-0" /> 
-                        <span>Flash Sale Config</span>
+                        <span>Flash Sale Configuration</span>
                     </h2>
-                    <p className="text-sm text-[var(--muted)]">Manage the homepage flash sale section.</p>
+                    <p className="text-[10px] text-[var(--muted)] font-medium mt-0.5">Manage the homepage flash sale banner and featured deals.</p>
                 </div>
                 <button 
                     onClick={handleSave} 
                     disabled={saving}
-                    className="flex items-center justify-center gap-2 px-6 py-2.5 bg-amber-500 text-black font-black uppercase rounded-lg hover:bg-amber-400 disabled:opacity-50 transition-colors shrink-0 w-full sm:w-auto"
+                    className="flex items-center justify-center gap-2 px-5 py-2 bg-amber-500 text-black font-bold text-xs uppercase tracking-wider rounded-xl hover:bg-amber-400 active:scale-95 disabled:opacity-50 transition-all shrink-0 w-full sm:w-auto shadow-md shadow-amber-500/20"
                 >
-                    <FiSave className="shrink-0" /> 
+                    <FiSave className="shrink-0" size={14} /> 
                     <span>{saving ? "Saving..." : "Save Settings"}</span>
                 </button>
             </div>
 
-            {/* General Settings */}
-            <div className="bg-[var(--card)] border border-[var(--border)] p-6 rounded-2xl shadow-sm space-y-6">
-                <h2 className="text-lg font-bold text-[var(--foreground)]">General Settings</h2>
-                
-                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-800">
+            {/* GENERAL CONTROLS */}
+            <div className="divide-y divide-[var(--border)]">
+                {/* TOGGLE */}
+                <div className="py-3.5 flex items-center justify-between gap-4">
                     <div>
-                        <p className="font-bold text-[var(--foreground)]">Enable Flash Sale</p>
+                        <p className="text-sm font-semibold text-[var(--foreground)]">Enable Flash Sale</p>
                         <p className="text-xs text-[var(--muted)]">Show or hide the flash sale section on the homepage.</p>
                     </div>
-                    <label className="relative inline-flex items-center cursor-pointer">
+
+                    <label className="relative inline-flex items-center cursor-pointer shrink-0">
                         <input 
                             type="checkbox" 
                             className="sr-only peer" 
                             checked={config.isActive}
                             onChange={(e) => setConfig(prev => ({ ...prev, isActive: e.target.checked }))}
                         />
-                        <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 dark:peer-focus:ring-amber-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-amber-500"></div>
+                        <div className="w-12 h-6.5 bg-[var(--foreground)]/15 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[22px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:left-[3px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
                     </label>
                 </div>
 
-                <div className="space-y-2">
-                    <label className="block font-bold text-sm text-[var(--foreground)]">Sale End Time</label>
-                    <div className="relative">
-                        <FiClock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                {/* END TIME */}
+                <div className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                    <div>
+                        <label className="block text-sm font-semibold text-[var(--foreground)]">Sale End Time</label>
+                        <p className="text-xs text-[var(--muted)]">Countdown timer expiry timestamp</p>
+                    </div>
+                    <div className="relative w-full sm:w-72">
+                        <FiClock className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" size={14} />
                         <input 
                             type="datetime-local" 
                             value={config.endTime}
                             onChange={(e) => setConfig(prev => ({ ...prev, endTime: e.target.value }))}
-                            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-800 border border-[var(--border)] rounded-xl focus:ring-2 focus:ring-[var(--accent)] outline-none text-[var(--foreground)]"
+                            className="w-full pl-9 pr-3 py-2 bg-[var(--foreground)]/[0.02] border border-[var(--border)] rounded-xl focus:border-amber-500 outline-none text-xs text-[var(--foreground)] transition-colors"
                         />
                     </div>
                 </div>
             </div>
 
-            {/* Items Management */}
-            <div className="bg-[var(--card)] border border-[var(--border)] p-6 rounded-2xl shadow-sm space-y-6">
-                <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-bold text-[var(--foreground)]">Flash Sale Items ({config.items.length})</h2>
+            {/* ITEMS LIST */}
+            <div className="space-y-4 pt-2">
+                <div className="flex items-center justify-between gap-3">
+                    <div>
+                        <h3 className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wider">
+                            Active Items ({config.items.length})
+                        </h3>
+                        <p className="text-[10px] text-[var(--muted)]">Items displayed inside the homepage flash sale slider</p>
+                    </div>
+
+                    <button
+                        type="button"
+                        onClick={() => {
+                            if (isFormOpen && editingIndex === null) {
+                                setIsFormOpen(false);
+                            } else {
+                                setNewItem(defaultNewItem);
+                                setEditingIndex(null);
+                                setIsFormOpen(true);
+                            }
+                        }}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 ${
+                            isFormOpen && editingIndex === null
+                                ? "bg-[var(--foreground)]/10 text-[var(--foreground)]"
+                                : "bg-amber-500 text-black shadow-sm shadow-amber-500/20 hover:bg-amber-400 active:scale-95"
+                        }`}
+                    >
+                        <FiPlus size={14} className={isFormOpen && editingIndex === null ? "rotate-45 transition-transform" : ""} />
+                        <span>{isFormOpen && editingIndex === null ? "Close" : "Add Item"}</span>
+                    </button>
                 </div>
 
+                {/* ADD / EDIT ITEM FORM (TOGGLED) */}
+                {isFormOpen && (
+                    <div className="p-3.5 sm:p-4 rounded-xl border border-[var(--border)] bg-[var(--card)] space-y-3.5">
+                        <div className="flex items-center justify-between pb-2 border-b border-[var(--border)]">
+                            <span className="font-bold text-xs text-[var(--foreground)] uppercase tracking-wider">
+                                {editingIndex !== null ? "Edit Flash Item" : "New Flash Item"}
+                            </span>
+                            <button 
+                                onClick={cancelEdit} 
+                                className="text-[10px] font-bold text-[var(--muted)] hover:text-[var(--foreground)] px-2 py-0.5 rounded-lg border border-[var(--border)] transition-colors"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-medium text-[var(--muted)]">Item Name</label>
+                                <input type="text" value={newItem.name} onChange={(e) => setNewItem({...newItem, name: e.target.value})} placeholder="Weekly Pass" className="w-full px-3 py-1.5 bg-[var(--foreground)]/[0.02] border border-[var(--border)] focus:border-amber-500 rounded-lg text-xs text-[var(--foreground)] focus:outline-none transition-colors" />
+                            </div>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-medium text-[var(--muted)]">Game Name</label>
+                                <input type="text" value={newItem.game} onChange={(e) => setNewItem({...newItem, game: e.target.value})} placeholder="MLBB" className="w-full px-3 py-1.5 bg-[var(--foreground)]/[0.02] border border-[var(--border)] focus:border-amber-500 rounded-lg text-xs text-[var(--foreground)] focus:outline-none transition-colors" />
+                            </div>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-medium text-[var(--muted)]">Sale Price</label>
+                                <input type="text" value={newItem.price} onChange={(e) => setNewItem({...newItem, price: e.target.value})} placeholder="₹149" className="w-full px-3 py-1.5 bg-[var(--foreground)]/[0.02] border border-[var(--border)] focus:border-amber-500 rounded-lg text-xs text-[var(--foreground)] focus:outline-none transition-colors" />
+                            </div>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-medium text-[var(--muted)]">Original Price</label>
+                                <input type="text" value={newItem.originalPrice} onChange={(e) => setNewItem({...newItem, originalPrice: e.target.value})} placeholder="₹170" className="w-full px-3 py-1.5 bg-[var(--foreground)]/[0.02] border border-[var(--border)] focus:border-amber-500 rounded-lg text-xs text-[var(--foreground)] focus:outline-none transition-colors" />
+                            </div>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-medium text-[var(--muted)]">Link Slug</label>
+                                <input type="text" value={newItem.slug} onChange={(e) => setNewItem({...newItem, slug: e.target.value})} placeholder="mobile-legends114" className="w-full px-3 py-1.5 bg-[var(--foreground)]/[0.02] border border-[var(--border)] focus:border-amber-500 rounded-lg text-xs text-[var(--foreground)] focus:outline-none transition-colors" />
+                            </div>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-medium text-[var(--muted)]">Image URL</label>
+                                <input type="text" value={newItem.image} onChange={(e) => setNewItem({...newItem, image: e.target.value})} placeholder="/game-assets/1.jpg" className="w-full px-3 py-1.5 bg-[var(--foreground)]/[0.02] border border-[var(--border)] focus:border-amber-500 rounded-lg text-xs text-[var(--foreground)] focus:outline-none transition-colors" />
+                            </div>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-medium text-[var(--muted)]">Badge (Optional)</label>
+                                <input type="text" value={newItem.badge} onChange={(e) => setNewItem({...newItem, badge: e.target.value})} placeholder="Hot Deal" className="w-full px-3 py-1.5 bg-[var(--foreground)]/[0.02] border border-[var(--border)] focus:border-amber-500 rounded-lg text-xs text-[var(--foreground)] focus:outline-none transition-colors" />
+                            </div>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-medium text-[var(--muted)]">% Sold</label>
+                                <input type="number" min="0" max="100" value={newItem.sold} onChange={(e) => setNewItem({...newItem, sold: Number(e.target.value)})} placeholder="80" className="w-full px-3 py-1.5 bg-[var(--foreground)]/[0.02] border border-[var(--border)] focus:border-amber-500 rounded-lg text-xs text-[var(--foreground)] focus:outline-none transition-colors" />
+                            </div>
+                        </div>
+
+                        <div className="flex justify-end gap-2 pt-1">
+                            <button 
+                                onClick={saveItem}
+                                className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs rounded-xl transition-all flex items-center gap-1.5 shadow-sm active:scale-95"
+                            >
+                                <FiPlus size={13} /> 
+                                <span>{editingIndex !== null ? "Update Item" : "Save Item"}</span>
+                            </button>
+                        </div>
+                    </div>
+                )}
+
                 {config.items.length === 0 ? (
-                    <div className="text-center py-8 text-gray-500 border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-xl mb-6">
-                        No items added yet. Use the form below to add one.
+                    <div className="text-center py-10 text-xs text-[var(--muted)] border border-dashed border-[var(--border)] rounded-2xl">
+                        No items added yet. Click &quot;Add Item&quot; above to create one.
                     </div>
                 ) : (
-                    <div className="space-y-3 mb-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {config.items.map((item, index) => (
-                            <div key={index} className={`flex items-center gap-4 p-4 border rounded-2xl transition-all ${editingIndex === index ? "border-blue-500 bg-blue-500/5 shadow-sm" : "border-[var(--border)] bg-[var(--background)] hover:border-[var(--accent)]/50 shadow-sm"}`}>
+                            <div 
+                                key={index} 
+                                className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${
+                                    editingIndex === index 
+                                        ? "border-amber-500 bg-amber-500/5 shadow-xs" 
+                                        : "border-[var(--border)] bg-[var(--card)] hover:border-[var(--foreground)]/20"
+                                }`}
+                            >
                                 {/* Image */}
-                                <div className="w-16 h-16 shrink-0 bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden relative">
-                                    <img src={item.image || "/placeholder.png"} alt={item.name} className="w-full h-full object-cover" onError={(e) => { e.target.onerror = null; e.target.src = "https://via.placeholder.com/150"; }} />
+                                <div className="w-12 h-12 shrink-0 bg-[var(--foreground)]/[0.04] rounded-lg overflow-hidden border border-[var(--border)]">
+                                    <img 
+                                        src={item.image || "/placeholder.png"} 
+                                        alt={item.name} 
+                                        className="w-full h-full object-cover" 
+                                        onError={(e) => { e.target.onerror = null; e.target.src = "https://via.placeholder.com/150"; }} 
+                                    />
                                 </div>
                                 
                                 {/* Details */}
                                 <div className="flex-1 min-w-0">
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <h3 className="font-bold text-[var(--foreground)] truncate">{item.name || "Unnamed Item"}</h3>
+                                    <div className="flex items-center gap-1.5">
+                                        <h4 className="text-xs font-bold text-[var(--foreground)] truncate">{item.name || "Unnamed"}</h4>
                                         {item.badge && (
-                                            <span className="px-2 py-0.5 bg-amber-500 text-black text-[10px] font-bold rounded uppercase tracking-wider whitespace-nowrap">
+                                            <span className="px-1.5 py-0.2 bg-amber-500 text-black text-[8px] font-black rounded uppercase shrink-0">
                                                 {item.badge}
                                             </span>
                                         )}
                                     </div>
-                                    <p className="text-xs text-[var(--muted)] truncate mb-1">
-                                        {item.game} <span className="mx-1">|</span> Slug: {item.slug}
+                                    <p className="text-[10px] text-[var(--muted)] truncate mt-0.5">
+                                        {item.game} • {item.slug}
                                     </p>
-                                    <div className="flex items-end gap-2">
-                                        <span className="font-extrabold text-[var(--foreground)]">{item.price}</span>
+                                    <div className="flex items-center gap-2 mt-1">
+                                        <span className="text-xs font-extrabold text-[var(--foreground)]">{item.price}</span>
                                         {item.originalPrice && (
-                                            <span className="text-xs text-[var(--muted)] line-through">{item.originalPrice}</span>
+                                            <span className="text-[10px] text-[var(--muted)] line-through">{item.originalPrice}</span>
                                         )}
                                     </div>
                                 </div>
@@ -209,71 +319,23 @@ export default function FlashSaleTab() {
                                 <div className="flex items-center gap-1 shrink-0">
                                     <button 
                                         onClick={() => handleEdit(index)}
-                                        className="p-2 text-blue-500 hover:bg-blue-500/10 rounded-lg transition-colors"
+                                        className="p-1.5 text-blue-500 hover:bg-blue-500/10 rounded-lg transition-colors"
                                         title="Edit Item"
                                     >
-                                        <FiEdit2 />
+                                        <FiEdit2 size={13} />
                                     </button>
                                     <button 
                                         onClick={() => removeItem(index)}
-                                        className="p-2 text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
+                                        className="p-1.5 text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
                                         title="Remove Item"
                                     >
-                                        <FiTrash2 />
+                                        <FiTrash2 size={13} />
                                     </button>
                                 </div>
                             </div>
                         ))}
                     </div>
                 )}
-
-                {/* Add / Edit Form */}
-                <div className="bg-[var(--card)] border border-[var(--border)] p-5 md:p-6 rounded-2xl shadow-sm space-y-5">
-                    <div className="flex items-center justify-between">
-                        <h3 className="font-bold text-[var(--foreground)] text-lg">
-                            {editingIndex !== null ? "Edit Item" : "Add New Item"}
-                        </h3>
-                        {editingIndex !== null && (
-                            <button onClick={cancelEdit} className="text-xs font-semibold text-[var(--muted)] hover:text-[var(--foreground)] px-3 py-1.5 bg-[var(--background)] rounded-lg transition-colors">
-                                Cancel
-                            </button>
-                        )}
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-                        <div className="space-y-1">
-                            <input type="text" value={newItem.name} onChange={(e) => setNewItem({...newItem, name: e.target.value})} placeholder="Item Name (e.g. Weekly Pass)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
-                        </div>
-                        <div className="space-y-1">
-                            <input type="text" value={newItem.game} onChange={(e) => setNewItem({...newItem, game: e.target.value})} placeholder="Game Name (e.g. MLBB)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
-                        </div>
-                        <div className="space-y-1">
-                            <input type="text" value={newItem.price} onChange={(e) => setNewItem({...newItem, price: e.target.value})} placeholder="Discounted Price (e.g. ₹149)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
-                        </div>
-                        <div className="space-y-1">
-                            <input type="text" value={newItem.originalPrice} onChange={(e) => setNewItem({...newItem, originalPrice: e.target.value})} placeholder="Original Price (e.g. ₹170)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
-                        </div>
-                        <div className="space-y-1">
-                            <input type="text" value={newItem.slug} onChange={(e) => setNewItem({...newItem, slug: e.target.value})} placeholder="Link Slug (e.g. mobile-legends114)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
-                        </div>
-                        <div className="space-y-1">
-                            <input type="text" value={newItem.image} onChange={(e) => setNewItem({...newItem, image: e.target.value})} placeholder="Image URL (e.g. /game-assets/1.jpg)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
-                        </div>
-                        <div className="space-y-1">
-                            <input type="text" value={newItem.badge} onChange={(e) => setNewItem({...newItem, badge: e.target.value})} placeholder="Badge (e.g. Hot Deal)" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
-                        </div>
-                        <div className="space-y-1 flex items-center">
-                            <input type="number" min="0" max="100" value={newItem.sold} onChange={(e) => setNewItem({...newItem, sold: Number(e.target.value)})} placeholder="% Sold" className="w-full px-4 py-2.5 bg-[var(--background)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none transition-colors" />
-                        </div>
-                    </div>
-
-                    <button 
-                        onClick={saveItem}
-                        className="w-full py-3 bg-[var(--background)] border border-[var(--border)] hover:border-[var(--accent)] hover:text-[var(--accent)] text-[var(--foreground)] font-bold rounded-xl transition-all flex items-center justify-center gap-2 mt-4"
-                    >
-                        <FiPlus className="text-lg" /> {editingIndex !== null ? "Update Item" : "Add Item"}
-                    </button>
-                </div>
             </div>
         </div>
     );
