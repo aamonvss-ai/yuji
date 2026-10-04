@@ -20,6 +20,7 @@ import {
   Hash,
   Smartphone
 } from "lucide-react";
+import Pagination from "@/components/ui/Pagination";
 
 export default function SupportQueriesTab() {
   const [queries, setQueries] = useState([]);
@@ -299,29 +300,11 @@ export default function SupportQueriesTab() {
               )}
 
               {/* ================= PAGINATION ================= */}
-              {pagination.totalPages > 1 && (
-                <div className="flex items-center justify-between pt-6">
-                  <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase">
-                    Page {pagination.page} / {pagination.totalPages}
-                  </p>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setPage((p) => Math.max(1, p - 1))}
-                      disabled={page === 1}
-                      className="px-4 py-2 rounded-xl border border-[var(--border)] text-[10px] font-bold uppercase text-[var(--muted)] hover:text-[var(--foreground)] disabled:opacity-20 transition-all"
-                    >
-                      Prev
-                    </button>
-                    <button
-                      onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
-                      disabled={page === pagination.totalPages}
-                      className="px-4 py-2 rounded-xl border border-[var(--border)] text-[10px] font-bold uppercase text-[var(--muted)] hover:text-[var(--foreground)] disabled:opacity-20 transition-all"
-                    >
-                      Next
-                    </button>
-                  </div>
-                </div>
-              )}
+              <Pagination
+                page={page}
+                totalPages={pagination.totalPages}
+                onPageChange={setPage}
+              />
             </motion.div>
           )}
         </AnimatePresence>

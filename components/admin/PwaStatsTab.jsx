@@ -17,6 +17,7 @@ import {
   Globe,
   Sparkles
 } from "lucide-react";
+import Pagination from "@/components/ui/Pagination";
 
 export default function PwaStatsTab() {
   const [data, setData] = useState(null);
@@ -425,29 +426,12 @@ export default function PwaStatsTab() {
           </div>
 
           {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between px-4 py-2.5 border-t border-[var(--border)]/70 bg-[var(--foreground)]/[0.01]">
-              <span className="text-[11px] text-[var(--muted)]">
-                Page {page} of {totalPages}
-              </span>
-              <div className="flex items-center gap-1">
-                <button
-                  disabled={page <= 1}
-                  onClick={() => setPage((p) => Math.max(1, p - 1))}
-                  className="p-1 rounded-lg border border-[var(--border)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-40"
-                >
-                  <ChevronLeft size={14} />
-                </button>
-                <button
-                  disabled={page >= totalPages}
-                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                  className="p-1 rounded-lg border border-[var(--border)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-40"
-                >
-                  <ChevronRight size={14} />
-                </button>
-              </div>
-            </div>
-          )}
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+            className="px-4 py-2.5 bg-[var(--foreground)]/[0.01]"
+          />
         </div>
       </div>
     </div>

@@ -29,6 +29,7 @@ import {
   Copy,
   ExternalLink
 } from "lucide-react";
+import Pagination from "@/components/ui/Pagination";
 
 export default function WalletTransactionsTab() {
   const [activeSubTab, setActiveSubTab] = useState("logs"); // "logs" or "balances"
@@ -195,28 +196,12 @@ export default function WalletTransactionsTab() {
       </AnimatePresence>
 
       {/* PAGINATION (Shared) */}
-      {!loading && pagination.totalPages > 1 && (
-        <div className="flex items-center justify-between pt-6 border-t border-[var(--border)]">
-          <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase">
-            Page <b className="text-[var(--foreground)]">{pagination.page}</b> / {pagination.totalPages}
-          </p>
-          <div className="flex gap-2">
-            <button
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page === 1}
-              className="px-4 py-2 rounded-xl border border-[var(--border)] text-[10px] font-black uppercase text-[var(--muted)]/60 hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-20 transition-all"
-            >
-              Prev
-            </button>
-            <button
-              onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
-              disabled={page === pagination.totalPages}
-              className="px-4 py-2 rounded-xl border border-[var(--border)] text-[10px] font-black uppercase text-[var(--muted)]/60 hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-20 transition-all"
-            >
-              Next
-            </button>
-          </div>
-        </div>
+      {!loading && (
+        <Pagination
+          page={page}
+          totalPages={pagination.totalPages}
+          onPageChange={setPage}
+        />
       )}
     </div>
   );

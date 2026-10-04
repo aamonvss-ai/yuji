@@ -25,6 +25,7 @@ import {
   Target,
   RotateCcw
 } from "lucide-react";
+import Pagination from "@/components/ui/Pagination";
 
 export default function OrdersTab() {
   const [orders, setOrders] = useState([]);
@@ -404,29 +405,11 @@ export default function OrdersTab() {
             )}
 
             {/* ================= PAGINATION ================= */}
-            {pagination.totalPages > 1 && (
-              <div className="flex items-center justify-between pt-6 border-t border-[var(--border)]">
-                <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase">
-                  Page <b className="text-[var(--foreground)]">{pagination.page}</b> / {pagination.totalPages}
-                </p>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setPage((p) => Math.max(1, p - 1))}
-                    disabled={page === 1}
-                    className="px-5 py-2.5 rounded-xl border border-[var(--border)] text-[10px] font-bold uppercase text-[var(--muted)]/60 hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-20 transition-all font-mono"
-                  >
-                    Previous
-                  </button>
-                  <button
-                    onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
-                    disabled={page === pagination.totalPages}
-                    className="px-5 py-2.5 rounded-xl border border-[var(--border)] text-[10px] font-bold uppercase text-[var(--muted)]/60 hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-20 transition-all font-mono"
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
-            )}
+            <Pagination
+              page={page}
+              totalPages={pagination.totalPages}
+              onPageChange={setPage}
+            />
           </motion.div>
         )}
       </AnimatePresence>

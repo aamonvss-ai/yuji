@@ -20,6 +20,7 @@ import {
   IdCard,
   Crown,
 } from "lucide-react";
+import Pagination from "@/components/ui/Pagination";
 
 export default function UsersTab() {
   const [users, setUsers] = useState([]);
@@ -394,29 +395,11 @@ export default function UsersTab() {
             )}
 
             {/* ================= PAGINATION ================= */}
-            {pagination.totalPages > 1 && (
-              <div className="flex items-center justify-between pt-8 border-t border-[var(--border)]">
-                <p className="text-xs font-semibold text-[var(--muted)]">
-                  Page {pagination.page} of {pagination.totalPages}
-                </p>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setPage((p) => Math.max(1, p - 1))}
-                    disabled={page === 1}
-                    className="px-4 py-2 rounded-xl border border-[var(--border)] text-xs font-semibold text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.04] disabled:opacity-20 transition-all outline-none"
-                  >
-                    Previous
-                  </button>
-                  <button
-                    onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
-                    disabled={page === pagination.totalPages}
-                    className="px-4 py-2 rounded-xl border border-[var(--border)] text-xs font-semibold text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.04] disabled:opacity-20 transition-all outline-none"
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
-            )}
+            <Pagination
+              page={page}
+              totalPages={pagination.totalPages}
+              onPageChange={setPage}
+            />
           </motion.div>
         )}
       </AnimatePresence>
