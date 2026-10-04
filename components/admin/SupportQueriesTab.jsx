@@ -296,7 +296,7 @@ export default function SupportQueriesTab() {
       {/* ================= MODAL ================= */}
       <AnimatePresence>
         {activeQuery && (
-          <div className="fixed inset-0 z-[1100] flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-[1100] flex items-center justify-center p-3 sm:p-4">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -309,31 +309,32 @@ export default function SupportQueriesTab() {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="relative w-full max-w-lg bg-[var(--background)] border border-[var(--border)] rounded-[2rem] shadow-2xl overflow-hidden"
+              className="relative w-full max-w-lg bg-[var(--background)] border border-[var(--border)] rounded-2xl sm:rounded-[2rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
             >
-              <div className="px-6 py-4 border-b border-[var(--border)] flex items-center justify-between">
-                <h3 className="text-base font-bold text-[var(--foreground)]">Query Details</h3>
+              <div className="px-5 py-3.5 sm:px-6 sm:py-4 border-b border-[var(--border)] flex items-center justify-between shrink-0">
+                <h3 className="text-sm sm:text-base font-bold text-[var(--foreground)]">Query Details</h3>
                 <button
                   onClick={() => setActiveQuery(null)}
-                  className="w-8 h-8 rounded-full bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--muted)]/40 hover:text-[var(--foreground)] hover:bg-red-500/20 transition-all"
+                  className="w-8 h-8 rounded-full bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--muted)]/40 hover:text-[var(--foreground)] hover:bg-red-500/20 transition-all shrink-0"
+                  aria-label="Close modal"
                 >
                   <X size={16} />
                 </button>
               </div>
 
-              <div className="p-6 space-y-6 max-h-[75vh] overflow-y-auto">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 overflow-y-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <DetailBlock label="Email" value={activeQuery.email || "N/A"} icon={<Mail size={12} />} />
                   <DetailBlock label="Acc. Phone" value={activeQuery.phone || "N/A"} icon={<Phone size={12} />} />
                   <DetailBlock label="WhatsApp" value={activeQuery.phone || "N/A"} icon={<Smartphone size={12} />} emphasize />
-                  <DetailBlock label="Order ID" value={activeQuery.orderId || "N/A"} icon={<Hash size={12} />} emphasize />
+                  <DetailBlock label="Order ID" value={activeQuery.orderId || "N/A"} icon={<Hash size={12} />} emphasize mono />
                   <DetailBlock label="Type" value={activeQuery.type} icon={<MessageSquare size={12} />} />
                   <DetailBlock label="Date" value={new Date(activeQuery.createdAt).toLocaleString()} icon={<Clock size={12} />} />
                 </div>
 
-                <div className="space-y-2 p-4 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)]">
+                <div className="space-y-1.5 p-3.5 sm:p-4 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)]">
                   <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase">Message</p>
-                  <p className="text-sm font-medium leading-relaxed text-[var(--foreground)]">
+                  <p className="text-xs sm:text-sm font-medium leading-relaxed text-[var(--foreground)] break-words whitespace-pre-wrap">
                     {activeQuery.message}
                   </p>
                 </div>
@@ -432,13 +433,18 @@ function CustomDropdown({ value, onChange, options, disabled }) {
   );
 }
 
-function DetailBlock({ label, value, emphasize, icon }) {
+function DetailBlock({ label, value, emphasize, icon, mono }) {
   return (
-    <div className="space-y-0.5">
-      <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase flex items-center gap-1.5">
-        <span className="text-[var(--accent)]">{icon}</span> {label}
+    <div className="space-y-0.5 min-w-0">
+      <p className="text-[9px] sm:text-[10px] font-bold text-[var(--muted)]/50 uppercase flex items-center gap-1.5 truncate">
+        <span className="text-[var(--accent)] shrink-0">{icon}</span> 
+        <span className="truncate">{label}</span>
       </p>
-      <p className={`text-sm font-bold ${emphasize ? "text-[var(--accent)] capitalize italic" : "text-[var(--foreground)]"}`}>
+      <p
+        className={`text-xs sm:text-sm font-bold break-all ${
+          mono ? "font-mono uppercase text-[11px] sm:text-xs" : ""
+        } ${emphasize ? "text-[var(--accent)] italic" : "text-[var(--foreground)]"}`}
+      >
         {value}
       </p>
     </div>
