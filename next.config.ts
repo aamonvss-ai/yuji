@@ -30,6 +30,14 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "cdn.phototurl.com",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.phototourl.com",
+      },
+      {
+        protocol: "https",
+        hostname: "elitedias.com",
       }
     ],
   },
