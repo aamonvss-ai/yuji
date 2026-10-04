@@ -299,14 +299,9 @@ export default function UsersTab() {
                         </div>
                       </td>
                       <td className="px-6 py-4 align-middle">
-                        <div className="flex flex-col">
-                          <span className="text-[var(--foreground)] font-mono font-bold text-[11px] uppercase tracking-wide tabular-nums">
-                            {u.userId}
-                          </span>
-                          <span className="text-[9px] text-[var(--muted)]/50 font-bold uppercase tracking-wider mt-0.5">
-                            Static ID
-                          </span>
-                        </div>
+                        <span className="text-[var(--foreground)] font-mono font-bold text-xs uppercase tracking-wide tabular-nums">
+                          {u.userId}
+                        </span>
                       </td>
                       <td className="px-6 py-4 align-middle">
                         <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-[var(--foreground)]/[0.03] border border-[var(--border)] text-[11px] font-mono font-semibold text-[var(--foreground)]/80">
@@ -314,20 +309,20 @@ export default function UsersTab() {
                         </span>
                       </td>
                       <td className="px-6 py-4 align-middle">
-                        <div className="flex flex-col gap-1.5">
-                          <div>
-                            <span className="text-[8px] font-bold text-[var(--muted)]/50 uppercase tracking-widest block leading-tight">
-                              Last Active
+                        <div className="flex flex-col gap-1 text-[10px] font-mono">
+                          <div className="flex items-center gap-1.5 whitespace-nowrap">
+                            <span className="text-[8px] font-bold text-[var(--muted)]/50 uppercase tracking-wider shrink-0 w-16">
+                              Last Active:
                             </span>
-                            <span className="text-[10px] font-bold text-[var(--accent)] font-mono tracking-tight">
+                            <span className="font-bold text-[var(--accent)] tracking-tight truncate">
                               {u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleString() : "Never"}
                             </span>
                           </div>
-                          <div>
-                            <span className="text-[8px] font-bold text-[var(--muted)]/40 uppercase tracking-widest block leading-tight">
-                              Created
+                          <div className="flex items-center gap-1.5 whitespace-nowrap">
+                            <span className="text-[8px] font-bold text-[var(--muted)]/40 uppercase tracking-wider shrink-0 w-16">
+                              Created:
                             </span>
-                            <span className="text-[10px] font-semibold text-[var(--foreground)]/70 font-mono tracking-tight">
+                            <span className="font-medium text-[var(--foreground)]/70 tracking-tight truncate">
                               {new Date(u.createdAt).toLocaleString()}
                             </span>
                           </div>

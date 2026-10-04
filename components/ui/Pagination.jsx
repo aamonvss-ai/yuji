@@ -16,7 +16,6 @@ export default function Pagination({
   totalPages,
   onPageChange,
   className = "",
-  showArrowsOnly = false,
 }) {
   if (!totalPages || totalPages <= 1) return null;
 
@@ -31,23 +30,27 @@ export default function Pagination({
         Page <b className="text-[var(--foreground)]">{page}</b> / {totalPages}
       </p>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1.5">
         <button
           type="button"
           onClick={handlePrev}
           disabled={page <= 1}
-          className="px-4 py-2 rounded-xl border border-[var(--border)] text-[10px] sm:text-xs font-bold uppercase text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-20 disabled:pointer-events-none transition-all font-mono"
+          aria-label="Previous page"
+          title="Previous page"
+          className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl border border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-20 disabled:pointer-events-none transition-all"
         >
-          {showArrowsOnly ? <ChevronLeft size={14} /> : "Previous"}
+          <ChevronLeft size={16} />
         </button>
 
         <button
           type="button"
           onClick={handleNext}
           disabled={page >= totalPages}
-          className="px-4 py-2 rounded-xl border border-[var(--border)] text-[10px] sm:text-xs font-bold uppercase text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-20 disabled:pointer-events-none transition-all font-mono"
+          aria-label="Next page"
+          title="Next page"
+          className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl border border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-20 disabled:pointer-events-none transition-all"
         >
-          {showArrowsOnly ? <ChevronRight size={14} /> : "Next"}
+          <ChevronRight size={16} />
         </button>
       </div>
     </div>

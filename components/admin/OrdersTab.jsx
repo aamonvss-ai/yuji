@@ -270,14 +270,9 @@ export default function OrdersTab() {
                         className="group hover:bg-[var(--foreground)]/[0.03] transition-colors cursor-pointer"
                       >
                         <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--accent)]">
-                              <Gamepad2 size={20} />
-                            </div>
-                            <div className="flex flex-col">
-                              <span className="text-[var(--foreground)] font-bold uppercase text-xs">{o.gameSlug}</span>
-                              <span className="text-[10px] text-[var(--muted)]/60 font-medium lowercase truncate max-w-[150px]">{o.email || "Guest"}</span>
-                            </div>
+                          <div className="flex flex-col">
+                            <span className="text-[var(--foreground)] font-bold uppercase text-xs">{o.gameSlug}</span>
+                            <span className="text-[10px] text-[var(--muted)]/60 font-medium lowercase truncate max-w-[150px]">{o.email || "Guest"}</span>
                           </div>
                         </td>
                         <td className="px-6 py-4">
@@ -328,14 +323,9 @@ export default function OrdersTab() {
                     className="relative p-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] active:bg-[var(--foreground)]/[0.04] transition-all group"
                   >
                     <div className="flex justify-between items-center mb-3 relative">
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <div className="w-9 h-9 rounded-xl bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--accent)] transition-transform group-active:scale-90 shadow-sm shrink-0">
-                          <Gamepad2 size={18} />
-                        </div>
-                        <div className="flex flex-col overflow-hidden">
-                          <p className="font-bold text-[var(--foreground)] uppercase text-[11px] tracking-tight truncate">{o.gameSlug}</p>
-                          <p className="text-[10px] text-[var(--muted)]/60 font-medium lowercase truncate max-w-[140px]">{o.email || "Guest"}</p>
-                        </div>
+                      <div className="flex flex-col overflow-hidden min-w-0">
+                        <p className="font-bold text-[var(--foreground)] uppercase text-[11px] tracking-tight truncate">{o.gameSlug}</p>
+                        <p className="text-[10px] text-[var(--muted)]/60 font-medium lowercase truncate max-w-[140px]">{o.email || "Guest"}</p>
                       </div>
                       <div className="flex flex-col items-end flex-shrink-0">
                         <span className="text-lg font-black text-emerald-500 tabular-nums leading-none">₹{o.price}</span>
