@@ -73,7 +73,7 @@ export default function SettingsTab() {
     }
 
     return (
-        <div className="max-w-2xl mx-auto py-4 space-y-6">
+        <div className="space-y-6 pb-6 px-1 sm:px-2 max-w-full">
             {/* TOAST */}
             <AnimatePresence>
                 {toast && (
@@ -89,128 +89,133 @@ export default function SettingsTab() {
                 )}
             </AnimatePresence>
 
-            <div className="flex items-center justify-between px-2">
-                <h2 className="text-xl font-bold text-[var(--foreground)]">System Settings</h2>
+            {/* HEADER */}
+            <div className="flex items-center justify-between gap-4 pb-2 border-b border-[var(--border)]">
+                <div>
+                    <h2 className="text-lg sm:text-xl font-bold tracking-tight text-[var(--foreground)]">System Settings</h2>
+                    <p className="text-[10px] text-[var(--muted)] font-medium mt-0.5">
+                        Manage global platform availability and store preferences
+                    </p>
+                </div>
                 <button
                     onClick={fetchSettings}
-                    className="p-2 hover:bg-[var(--foreground)]/[0.05] rounded-lg text-[var(--muted)] transition-colors"
+                    title="Refresh Settings"
+                    className="p-2 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] transition-colors active:scale-90"
                 >
-                    <RefreshCcw size={16} className={loading ? "animate-spin" : ""} />
+                    <RefreshCcw size={15} className={loading ? "animate-spin" : ""} />
                 </button>
             </div>
 
-            {/* TOGGLE CARD */}
-            <div className={`p-6 rounded-3xl border transition-all duration-300 ${settings.maintenanceMode ? "bg-orange-500/5 border-orange-500/20" : "bg-[var(--foreground)]/[0.02] border-[var(--border)]"}`}>
-                <div className="flex items-center justify-between gap-3 sm:gap-4">
-                    <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
-                        <div className={`shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${settings.maintenanceMode ? "bg-orange-500 text-white" : "bg-[var(--foreground)]/5 text-[var(--muted)]"}`}>
-                            {settings.maintenanceMode ? <ShieldAlert size={24} /> : <ShieldCheck size={24} />}
+            {/* SETTINGS LIST */}
+            <div className="divide-y divide-[var(--border)]">
+                {/* MAINTENANCE MODE */}
+                <div className="py-4 flex items-center justify-between gap-3 sm:gap-6">
+                    <div className="flex items-center gap-3 sm:gap-3.5 min-w-0">
+                        <div className={`shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition-colors ${settings.maintenanceMode ? "bg-orange-500/10 text-orange-500 border border-orange-500/20" : "bg-[var(--foreground)]/[0.04] text-[var(--muted)] border border-[var(--border)]"}`}>
+                            {settings.maintenanceMode ? <ShieldAlert size={18} /> : <ShieldCheck size={18} />}
                         </div>
-                        <div className="flex-1 min-w-0">
-                            <h3 className="font-bold text-[var(--foreground)] truncate">Maintenance Mode</h3>
-                            <p className="text-xs text-[var(--muted)] leading-snug">Hide the website from customers.</p>
+                        <div className="min-w-0">
+                            <h3 className="text-sm font-semibold text-[var(--foreground)] truncate">Maintenance Mode</h3>
+                            <p className="text-xs text-[var(--muted)] leading-tight">Hide the website from customers.</p>
                         </div>
                     </div>
 
                     <button
                         onClick={() => updateSettings({ maintenanceMode: !settings.maintenanceMode })}
                         disabled={saving}
-                        className={`shrink-0 relative w-14 h-7 rounded-full transition-colors flex items-center p-1
-                            ${settings.maintenanceMode ? "bg-orange-500" : "bg-[var(--foreground)]/10"}
+                        aria-label="Toggle Maintenance Mode"
+                        className={`shrink-0 relative w-12 h-6.5 rounded-full transition-colors flex items-center p-0.5
+                            ${settings.maintenanceMode ? "bg-orange-500" : "bg-[var(--foreground)]/15"}
                             ${saving ? "opacity-50 cursor-wait" : "cursor-pointer"}`}
                     >
                         <motion.div
-                            animate={{ x: settings.maintenanceMode ? 28 : 0 }}
+                            animate={{ x: settings.maintenanceMode ? 22 : 0 }}
                             className="w-5 h-5 bg-white rounded-full shadow-sm"
                             transition={{ type: "spring", stiffness: 500, damping: 30 }}
                         />
                     </button>
                 </div>
-            </div>
 
-            {/* TRANSLATOR TOGGLE CARD */}
-            <div className={`p-6 rounded-3xl border transition-all duration-300 ${settings.enableAutoTranslation ? "bg-blue-500/5 border-blue-500/20" : "bg-[var(--foreground)]/[0.02] border-[var(--border)]"}`}>
-                <div className="flex items-center justify-between gap-3 sm:gap-4">
-                    <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
-                        <div className={`shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${settings.enableAutoTranslation ? "bg-blue-500 text-white" : "bg-[var(--foreground)]/5 text-[var(--muted)]"}`}>
-                            <span className="font-bold text-lg">A/अ</span>
+                {/* TRANSLATOR TOGGLE */}
+                <div className="py-4 flex items-center justify-between gap-3 sm:gap-6">
+                    <div className="flex items-center gap-3 sm:gap-3.5 min-w-0">
+                        <div className={`shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition-colors ${settings.enableAutoTranslation ? "bg-blue-500/10 text-blue-500 border border-blue-500/20" : "bg-[var(--foreground)]/[0.04] text-[var(--muted)] border border-[var(--border)]"}`}>
+                            <span className="font-bold text-xs sm:text-sm">A/अ</span>
                         </div>
-                        <div className="flex-1 min-w-0">
-                            <h3 className="font-bold text-[var(--foreground)] truncate">Google Translate</h3>
-                            <p className="text-xs text-[var(--muted)] leading-snug">Let customers translate the website.</p>
+                        <div className="min-w-0">
+                            <h3 className="text-sm font-semibold text-[var(--foreground)] truncate">Google Translate</h3>
+                            <p className="text-xs text-[var(--muted)] leading-tight">Let customers translate the website.</p>
                         </div>
                     </div>
 
                     <button
                         onClick={() => updateSettings({ enableAutoTranslation: !settings.enableAutoTranslation })}
                         disabled={saving}
-                        className={`shrink-0 relative w-14 h-7 rounded-full transition-colors flex items-center p-1
-                            ${settings.enableAutoTranslation ? "bg-blue-500" : "bg-[var(--foreground)]/10"}
+                        aria-label="Toggle Google Translate"
+                        className={`shrink-0 relative w-12 h-6.5 rounded-full transition-colors flex items-center p-0.5
+                            ${settings.enableAutoTranslation ? "bg-blue-500" : "bg-[var(--foreground)]/15"}
                             ${saving ? "opacity-50 cursor-wait" : "cursor-pointer"}`}
                     >
                         <motion.div
-                            animate={{ x: settings.enableAutoTranslation ? 28 : 0 }}
+                            animate={{ x: settings.enableAutoTranslation ? 22 : 0 }}
                             className="w-5 h-5 bg-white rounded-full shadow-sm"
                             transition={{ type: "spring", stiffness: 500, damping: 30 }}
                         />
                     </button>
                 </div>
-            </div>
 
-            {/* ORDERS TOGGLE CARD */}
-            <div className={`p-6 rounded-3xl border transition-all duration-300 ${settings.acceptingOrders === false ? "bg-red-500/5 border-red-500/20" : "bg-[var(--foreground)]/[0.02] border-[var(--border)]"}`}>
-                <div className="flex items-center justify-between gap-3 sm:gap-4">
-                    <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
-                        <div className={`shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${settings.acceptingOrders === false ? "bg-red-500 text-white" : "bg-[var(--foreground)]/5 text-[var(--muted)]"}`}>
-                            {settings.acceptingOrders === false ? <XCircle size={24} /> : <CheckCircle size={24} />}
+                {/* ORDERS TOGGLE */}
+                <div className="py-4">
+                    <div className="flex items-center justify-between gap-3 sm:gap-6">
+                        <div className="flex items-center gap-3 sm:gap-3.5 min-w-0">
+                            <div className={`shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition-colors ${settings.acceptingOrders === false ? "bg-red-500/10 text-red-500 border border-red-500/20" : "bg-green-500/10 text-green-500 border border-green-500/20"}`}>
+                                {settings.acceptingOrders === false ? <XCircle size={18} /> : <CheckCircle size={18} />}
+                            </div>
+                            <div className="min-w-0">
+                                <h3 className="text-sm font-semibold text-[var(--foreground)] truncate">Accept Orders</h3>
+                                <p className="text-xs text-[var(--muted)] leading-tight">Turn off to stop receiving orders.</p>
+                            </div>
                         </div>
-                        <div className="flex-1 min-w-0">
-                            <h3 className="font-bold text-[var(--foreground)] truncate">Accept Orders</h3>
-                            <p className="text-xs text-[var(--muted)] leading-snug">Turn off to stop receiving orders.</p>
-                        </div>
+
+                        <button
+                            onClick={() => updateSettings({ acceptingOrders: !settings.acceptingOrders })}
+                            disabled={saving}
+                            aria-label="Toggle Accept Orders"
+                            className={`shrink-0 relative w-12 h-6.5 rounded-full transition-colors flex items-center p-0.5
+                                ${settings.acceptingOrders !== false ? "bg-green-500" : "bg-[var(--foreground)]/15"}
+                                ${saving ? "opacity-50 cursor-wait" : "cursor-pointer"}`}
+                        >
+                            <motion.div
+                                animate={{ x: settings.acceptingOrders !== false ? 22 : 0 }}
+                                className="w-5 h-5 bg-white rounded-full shadow-sm"
+                                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                            />
+                        </button>
                     </div>
 
-                    <button
-                        onClick={() => updateSettings({ acceptingOrders: !settings.acceptingOrders })}
-                        disabled={saving}
-                        className={`shrink-0 relative w-14 h-7 rounded-full transition-colors flex items-center p-1
-                            ${settings.acceptingOrders !== false ? "bg-green-500" : "bg-[var(--foreground)]/10"}
-                            ${saving ? "opacity-50 cursor-wait" : "cursor-pointer"}`}
-                    >
-                        <motion.div
-                            animate={{ x: settings.acceptingOrders !== false ? 28 : 0 }}
-                            className="w-5 h-5 bg-white rounded-full shadow-sm"
-                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                        />
-                    </button>
+                    <AnimatePresence>
+                        {settings.acceptingOrders === false && (
+                            <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                className="overflow-hidden"
+                            >
+                                <div className="pt-3 mt-3">
+                                    <label className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-wider mb-1.5 block">Store Closed Message</label>
+                                    <textarea
+                                        value={settings.notAcceptingOrdersMessage || ""}
+                                        onChange={(e) => setSettings({ ...settings, notAcceptingOrdersMessage: e.target.value })}
+                                        onBlur={() => updateSettings({ notAcceptingOrdersMessage: settings.notAcceptingOrdersMessage })}
+                                        className="w-full min-h-[72px] bg-[var(--foreground)]/[0.02] border border-[var(--border)] rounded-xl p-3 text-xs sm:text-sm text-[var(--foreground)] focus:border-[var(--accent)]/50 transition-all outline-none resize-none"
+                                        placeholder="We are not taking orders right now. Please come back later."
+                                    />
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
-                
-                <AnimatePresence>
-                    {settings.acceptingOrders === false && (
-                        <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            className="overflow-hidden"
-                        >
-                            <div className="pt-6 mt-4 border-t border-[var(--border)]">
-                                <label className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest ml-1 mb-2 block">Store Closed Message</label>
-                                <textarea
-                                    value={settings.notAcceptingOrdersMessage || ""}
-                                    onChange={(e) => setSettings({ ...settings, notAcceptingOrdersMessage: e.target.value })}
-                                    onBlur={() => updateSettings({ notAcceptingOrdersMessage: settings.notAcceptingOrdersMessage })}
-                                    className="w-full min-h-[80px] bg-[var(--background)] border border-[var(--border)] rounded-xl p-3 text-sm text-[var(--foreground)] focus:border-[var(--accent)]/50 transition-all outline-none resize-none"
-                                    placeholder="We are not taking orders right now. Please come back later."
-                                />
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
             </div>
-
-            <p className="text-[10px] text-center text-[var(--muted)] uppercase tracking-widest opacity-30">
-                System Core v2.4.9
-            </p>
         </div>
     );
 }
