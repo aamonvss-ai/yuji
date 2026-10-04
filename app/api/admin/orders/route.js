@@ -1,25 +1,6 @@
 import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
-import jwt from "jsonwebtoken";
-
-/* =========================
-   AUTH HELPER
-========================= */
-function verifyOwner(req) {
-  const auth = req.headers.get("authorization");
-  if (!auth?.startsWith("Bearer ")) {
-    throw { status: 401, message: "Unauthorized" };
-  }
-
-  const token = auth.split(" ")[1];
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-  if (decoded.userType !== "owner") {
-    throw { status: 403, message: "Forbidden" };
-  }
-
-  return decoded;
-}
+import { verifyOwner } from "@/lib/auth";
 
 /* =========================
    GET ALL ORDERS (OWNER)
