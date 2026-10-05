@@ -3,27 +3,24 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import logo from "@/public/logo.png";
-
 
 export default function GameBannerCarousel() {
   const [banners, setBanners] = useState([]);
   const [current, setCurrent] = useState(0);
-
-  const [direction, setDirection] = useState(0); // -1 for left, 1 for right
+  const [isHovered, setIsHovered] = useState(false);
   const timerRef = useRef(null);
 
   const resetTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
-    if (banners.length > 1) {
+    if (banners.length > 1 && !isHovered) {
       timerRef.current = setInterval(() => {
-        setDirection(1);
         setCurrent((prev) => (prev + 1) % banners.length);
-      }, 6000);
+      }, 4500);
     }
-  }, [banners.length]);
+  }, [banners.length, isHovered]);
 
   useEffect(() => {
     let active = true;
@@ -35,128 +32,218 @@ export default function GameBannerCarousel() {
         setBanners(json?.data || []);
       } catch {
         if (active) setBanners([]);
-
       }
     })();
-    return () => { active = false; if (timerRef.current) clearInterval(timerRef.current); };
+    return () => {
+      active = false;
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
   }, []);
 
   useEffect(() => {
     resetTimer();
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
   }, [resetTimer]);
 
   const paginate = (newDirection) => {
-    setDirection(newDirection);
     setCurrent((prev) => (prev + newDirection + banners.length) % banners.length);
     resetTimer();
   };
 
-
   if (!banners.length) return null;
 
-  const currentBanner = banners[current];
-
-  const slideVariants = {
-    enter: (direction) => ({
-      x: direction > 0 ? 1000 : -1000,
-      opacity: 0,
-      scale: 1.1,
-    }),
-    center: {
-      zIndex: 1,
-      x: 0,
-      opacity: 1,
-      scale: 1,
-      transition: {
-        x: { duration: 0.5, ease: "easeOut" },
-        opacity: { duration: 0.4 },
-        scale: { duration: 0.5 }
-      }
-    },
-    exit: (direction) => ({
+  // Compute card style for offset relative to current active center card
+  const getCardProps = (offset) => {
+    if (offset === 0) {
+      return {
+        zIndex: 30,
+        scale: 1,
+        x: "0%",
+        y: "0%",
+        opacity: 1,
+        filter: "brightness(1) blur(0px)",
+        pointerEvents: "auto",
+      };
+    } else if (offset === -1) {
+      return {
+        zIndex: 10,
+        scale: 0.9,
+        x: "-46%",
+        y: "0%",
+        opacity: 0.65,
+        filter: "brightness(0.65) blur(1px)",
+        pointerEvents: "auto",
+      };
+    } else if (offset === 1) {
+      return {
+        zIndex: 10,
+        scale: 0.9,
+        x: "46%",
+        y: "0%",
+        opacity: 0.65,
+        filter: "brightness(0.65) blur(1px)",
+        pointerEvents: "auto",
+      };
+    }
+    return {
       zIndex: 0,
-      x: direction < 0 ? 800 : -800,
+      scale: 0.75,
+      x: offset > 0 ? "80%" : "-80%",
+      y: "0%",
       opacity: 0,
-      scale: 0.95,
-      transition: {
-        x: { duration: 0.5, ease: "easeIn" },
-        opacity: { duration: 0.3 }
-      }
-    })
+      filter: "brightness(0.4) blur(4px)",
+      pointerEvents: "none",
+    };
   };
 
+  const getIndexWithOffset = (offset) => {
+    return (current + offset + banners.length) % banners.length;
+  };
+
+  // Show previous, center, and next when >=3 banners exist
+  const visibleOffsets =
+    banners.length === 1 ? [0] : banners.length === 2 ? [-1, 0] : [-1, 0, 1];
+
   return (
-    <div className="relative w-full max-w-7xl mx-auto mt-4 md:mt-6 px-4 select-none overflow-hidden group">
-      <div className="relative h-[195px] sm:h-[260px] md:h-[340px] rounded-xl overflow-hidden shadow-xl bg-black">
-        <AnimatePresence initial={false} custom={direction} mode="popLayout">
-          <motion.div
-            key={current}
-            custom={direction}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={1}
-            onDragEnd={(e, { offset, velocity }) => {
-              const swipe = Math.abs(offset.x) * velocity.x;
-              if (swipe < -10000) paginate(1);
-              else if (swipe > 10000) paginate(-1);
-            }}
-            className="absolute inset-0"
-          >
-            <Image
-              src={currentBanner.bannerImage || logo}
-              alt={currentBanner.bannerTitle || "Banner"}
-              fill
-              priority={current === 0}
-              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1200px"
-              className="object-cover"
-            />
+    <div
+      className="relative w-full max-w-7xl mx-auto mt-4 md:mt-6 px-1 xs:px-2 sm:px-4 select-none overflow-hidden group py-2"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* 3D Stage / Sliding Stack */}
+      <div className="relative h-[200px] xs:h-[235px] sm:h-[300px] md:h-[370px] lg:h-[410px] flex items-center justify-center">
+        {visibleOffsets.map((offset) => {
+          const index = getIndexWithOffset(offset);
+          const banner = banners[index];
+          const isCenter = offset === 0;
+          const cardStyle = getCardProps(offset);
 
-            {/* Dynamic Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent md:bg-gradient-to-r md:from-black/80 md:via-black/20" />
+          const bannerCard = (
+            <div className="relative w-full h-full rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-zinc-950 border border-white/10 group/card">
+              <Image
+                src={banner?.bannerImage || logo}
+                alt={banner?.bannerTitle || "Banner"}
+                fill
+                priority={isCenter}
+                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 75vw, 920px"
+                className="object-cover transition-transform duration-700 ease-out group-hover/card:scale-105"
+              />
 
-            {/* Content Entrance */}
-            <div className="absolute inset-0 z-10 p-8 md:p-12 flex flex-col justify-end">
-              <div className="max-w-2xl">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
-                >
-                  <h2 className="text-3xl md:text-5xl font-black text-white leading-tight tracking-tighter drop-shadow-2xl">
-                    {currentBanner.bannerTitle}
-                  </h2>
-                </motion.div>
+              {/* Dynamic Gradient Shading */}
+              <div
+                className={`absolute inset-0 transition-opacity duration-300 ${
+                  isCenter
+                    ? "bg-gradient-to-t from-black/85 via-black/25 to-transparent"
+                    : "bg-black/45"
+                }`}
+              />
 
+              {/* Title & Info Overlay on center card */}
+              {isCenter && banner?.bannerTitle && (
+                <div className="absolute inset-0 z-10 p-5 sm:p-7 md:p-10 flex flex-col justify-end pointer-events-none">
+                  <div className="max-w-xl">
+                    <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight drop-shadow-xl line-clamp-2">
+                      {banner.bannerTitle}
+                    </h2>
+                    {banner.bannerSummary && (
+                      <p className="text-xs sm:text-sm text-zinc-300/90 font-medium mt-1 line-clamp-1 drop-shadow">
+                        {banner.bannerSummary}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
 
-              </div>
+              {/* External Link Indicator */}
+              {isCenter && banner?.bannerLink && banner.bannerLink !== "/" && (
+                <div className="absolute top-3 right-3 sm:top-5 sm:right-5 z-20 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-white/80 flex items-center justify-center opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 shadow-lg">
+                  <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
+                </div>
+              )}
             </div>
-          </motion.div>
-        </AnimatePresence>
+          );
 
-        {/* Floating Controls */}
-        {banners.length > 1 && (
-          <>
-            <button
-              onClick={() => paginate(-1)}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-2xl bg-black/20 hover:bg-black/40 border border-white/10 backdrop-blur-xl text-white flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 hover:scale-110 active:scale-90"
+          return (
+            <motion.div
+              key={`${index}-${offset}`}
+              layout
+              animate={{
+                scale: cardStyle.scale,
+                x: cardStyle.x,
+                y: cardStyle.y,
+                opacity: cardStyle.opacity,
+                zIndex: cardStyle.zIndex,
+                filter: cardStyle.filter,
+              }}
+              transition={{
+                duration: 0.55,
+                ease: [0.25, 1, 0.5, 1],
+              }}
+              onClick={() => {
+                if (offset !== 0) paginate(offset);
+              }}
+              style={{
+                pointerEvents: cardStyle.pointerEvents,
+              }}
+              className="absolute w-[88%] xs:w-[86%] sm:w-[80%] md:w-[76%] lg:w-[72%] h-full cursor-pointer will-change-transform"
             >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <button
-              onClick={() => paginate(1)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-2xl bg-black/20 hover:bg-black/40 border border-white/10 backdrop-blur-xl text-white flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 hover:scale-110 active:scale-90"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-          </>
-        )}
-
+              {banner?.bannerLink && isCenter ? (
+                <Link
+                  href={banner.bannerLink}
+                  className="block w-full h-full"
+                >
+                  {bannerCard}
+                </Link>
+              ) : (
+                bannerCard
+              )}
+            </motion.div>
+          );
+        })}
       </div>
+
+      {/* Floating Controls */}
+      {banners.length > 1 && (
+        <>
+          <button
+            onClick={() => paginate(-1)}
+            aria-label="Previous Banner"
+            className="absolute left-2 sm:left-5 top-1/2 -translate-y-1/2 z-40 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-black/70 border border-white/20 backdrop-blur-xl text-white flex items-center justify-center transition-all opacity-80 md:opacity-0 md:group-hover:opacity-100 hover:scale-110 active:scale-90 shadow-xl"
+          >
+            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+          </button>
+          <button
+            onClick={() => paginate(1)}
+            aria-label="Next Banner"
+            className="absolute right-2 sm:right-5 top-1/2 -translate-y-1/2 z-40 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-black/70 border border-white/20 backdrop-blur-xl text-white flex items-center justify-center transition-all opacity-80 md:opacity-0 md:group-hover:opacity-100 hover:scale-110 active:scale-90 shadow-xl"
+          >
+            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+          </button>
+        </>
+      )}
+
+      {/* Dot Indicators */}
+      {banners.length > 1 && (
+        <div className="flex items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4 z-30 relative">
+          {banners.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => {
+                setCurrent(i);
+                resetTimer();
+              }}
+              aria-label={`Go to slide ${i + 1}`}
+              className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 ${
+                current === i
+                  ? "w-7 sm:w-9 bg-[var(--accent,#3b82f6)] shadow-lg shadow-[var(--accent,#3b82f6)]/50"
+                  : "w-1.5 sm:w-2 bg-white/25 hover:bg-white/50"
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -352,6 +352,13 @@ export async function GET(req, { params }) {
       };
     }).filter(item => item.itemAvailablity !== false);
 
+    if (slug === "value-pass-ml838" || data?.data?.gameName?.toLowerCase() === "value pass ml") {
+      data.data.gameImageId = {
+        ...data?.data?.gameImageId,
+        image: "https://busan-public.s3.ap-south-1.amazonaws.com/01da48b550c0da28227e73f9e00e1cc7-TimeLimitedSuperValuePass.png",
+      };
+    }
+
     return NextResponse.json(data);
   } catch (err) {
     console.error("Game Fetch Error:", err);

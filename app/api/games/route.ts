@@ -39,7 +39,7 @@ const MLBB_MAIN_IMAGE = "/game-assets/5_bptwwg.jpg";
 const MLBB_SMALL_IMAGE = "/game-assets/3_cj6nj4.jpg";
 
 const MLBB_SVALUE_IND_IMAGE =
-  "https://res.cloudinary.com/dk0sslz1q/image/upload/v1768676620/WhatsApp_Image_2026-01-18_at_00.27.52_gos46h.jpg";
+  "https://busan-public.s3.ap-south-1.amazonaws.com/01da48b550c0da28227e73f9e00e1cc7-TimeLimitedSuperValuePass.png";
 const MLBB_SVALUE_PHP_IMAGE =
   "https://res.cloudinary.com/dk0sslz1q/image/upload/v1768676622/WhatsApp_Image_2026-01-18_at_00.27.51_yszdai.jpg";
 
@@ -197,7 +197,7 @@ export async function GET(req: Request) {
           image: MLBB_SVALUE_PHP_IMAGE,
         };
       }
-      if (updatedGame.gameName === "Value pass ml") {
+      if (updatedGame.gameName?.toLowerCase() === "value pass ml" || updatedGame.gameSlug === "value-pass-ml838") {
         updatedGame.gameImageId = {
           ...updatedGame.gameImageId,
           image: MLBB_SVALUE_IND_IMAGE,
