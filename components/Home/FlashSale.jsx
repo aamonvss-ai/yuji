@@ -62,7 +62,7 @@ export default function FlashSale() {
 
                 {/* Compact Horizontal Slider */}
                 <div className="overflow-x-auto pb-4 custom-scrollbar-premium snap-x snap-mandatory">
-                    <div className="flex gap-2.5 md:gap-4 px-1 md:justify-center min-w-max md:min-w-0">
+                    <div className="flex gap-2.5 md:gap-4 px-1 justify-start min-w-max md:min-w-0">
                         {flashSaleData.map((item, index) => item && (
                             <div
                                 key={item.id || index}

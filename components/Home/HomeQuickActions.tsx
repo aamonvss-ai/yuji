@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Globe, Trophy, Gamepad2, LayoutGrid, Crown } from "lucide-react";
+import { Globe, Trophy, Gamepad2, LayoutGrid, Crown, MessageSquare } from "lucide-react";
 
 export default function HomeQuickActions() {
   const actions = [
@@ -50,11 +50,20 @@ export default function HomeQuickActions() {
       bg: "bg-emerald-500/15 dark:bg-emerald-500/20",
       border: "border-emerald-500/30 dark:border-emerald-500/30",
     },
+    {
+      name: "Support",
+      href: "/dashboard/support",
+      icon: MessageSquare,
+      delay: "0.3s",
+      color: "text-sky-500 dark:text-sky-400",
+      bg: "bg-sky-500/15 dark:bg-sky-500/20",
+      border: "border-sky-500/30 dark:border-sky-500/30",
+    },
   ];
 
   return (
     <section className="w-full py-2.5 sm:py-3.5">
-      <div className="max-w-7xl mx-auto px-1.5 sm:px-4 grid grid-cols-5 gap-1 sm:gap-3">
+      <div className="max-w-7xl mx-auto px-1.5 sm:px-4 grid grid-cols-6 gap-1 sm:gap-3">
         {actions.map((action) => (
           <Link
             key={action.name}
