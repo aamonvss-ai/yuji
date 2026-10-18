@@ -30,6 +30,7 @@ const ALLOWED_GAME_SLUGS = [
   "honor-of-kings57",
   "mobile-legends-philippines888",
        "mlbbph643",
+       "flash-weekly621"
   
 ];
 
