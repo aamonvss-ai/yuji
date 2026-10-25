@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 
 import logo from "@/public/logo.png";
-import Loader from "@/components/Loader/Loader";
 import MLBBPurchaseGuide from "../../../components/HelpImage/MLBBPurchaseGuide";
 
 import ItemGrid from "@/components/GameDetail/ItemGrid";

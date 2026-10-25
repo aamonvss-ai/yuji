@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { FiSave, FiPlus, FiTrash2, FiClock, FiZap } from "react-icons/fi";
-import Loader from "@/components/Loader/Loader";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 export default function FlashSaleManagement() {
     const [loading, setLoading] = useState(true);
@@ -86,7 +86,23 @@ export default function FlashSaleManagement() {
         setConfig(prev => ({ ...prev, items: newItems }));
     };
 
-    if (loading) return <Loader />;
+    if (loading) {
+      return (
+        <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="space-y-2">
+              <Skeleton className="w-48 h-8 rounded-xl" />
+              <Skeleton className="w-64 h-3.5 rounded" />
+            </div>
+            <Skeleton className="w-36 h-10 rounded-lg" />
+          </div>
+          <div className="border border-[var(--border)] p-6 rounded-2xl space-y-6">
+            <Skeleton className="w-full h-12 rounded-xl" />
+            <Skeleton className="w-full h-12 rounded-xl" />
+          </div>
+        </div>
+      );
+    }
 
     return (
         <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-6">

@@ -7,6 +7,36 @@ import { FiZap, FiChevronRight } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import Countdown from "./Countdown";
 import { useCurrency } from "@/components/CurrencyContext";
+import { Skeleton } from "@/components/ui/Skeleton";
+
+export const FlashSaleSkeleton = () => (
+  <section className="relative py-2 overflow-hidden border-b border-[var(--border)] bg-gray-50/50 dark:bg-white/[0.02]">
+    <div className="max-w-7xl mx-auto px-4">
+      <div className="flex items-center justify-between mb-3 pt-0.5">
+        <div className="flex items-center gap-2">
+          <Skeleton className="w-5 h-5 rounded-md" />
+          <Skeleton className="w-24 h-4 rounded-md" />
+        </div>
+        <Skeleton className="w-24 h-6 rounded-lg" />
+      </div>
+
+      <div className="overflow-x-auto pb-4 custom-scrollbar-premium">
+        <div className="flex gap-2.5 md:gap-4 px-1 justify-start min-w-max md:min-w-0">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="w-[95px] sm:w-[125px] md:w-[155px] aspect-[4/5] rounded-[1rem] overflow-hidden">
+              <Skeleton className="w-full h-full rounded-[1rem]">
+                <div className="absolute inset-x-0 bottom-0 p-2 md:p-3 space-y-1.5">
+                  <div className="h-2.5 w-4/5 bg-[var(--foreground)]/[0.08] rounded" />
+                  <div className="h-3 w-1/2 bg-[var(--foreground)]/[0.1] rounded" />
+                </div>
+              </Skeleton>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+);
 
 export default function FlashSale() {
     const [config, setConfig] = useState(null);
@@ -33,7 +63,7 @@ export default function FlashSale() {
             .finally(() => setLoading(false));
     }, []);
 
-    if (loading && !config) return null;
+    if (loading && !config) return <FlashSaleSkeleton />;
     if (!config || !config.isActive) return null;
 
     const flashSaleData = config.items || [];

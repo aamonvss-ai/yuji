@@ -5,10 +5,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
-import logo from "@/public/logo.png";
+import { Skeleton } from "@/components/ui/Skeleton";
+
+export const GameBannerCarouselSkeleton = () => (
+  <div className="relative w-full max-w-7xl mx-auto mt-4 md:mt-6 px-1 xs:px-2 sm:px-4 select-none overflow-hidden py-2">
+    <div className="relative h-[200px] xs:h-[235px] sm:h-[300px] md:h-[370px] lg:h-[410px] w-full">
+      <Skeleton className="w-full h-full rounded-2xl md:rounded-3xl border border-[var(--border)] bg-[var(--card)]/40">
+        <div className="absolute inset-0 p-5 sm:p-7 md:p-10 flex flex-col justify-end pointer-events-none">
+          <div className="max-w-xl space-y-2.5">
+            <div className="h-6 sm:h-9 md:h-11 w-3/4 bg-[var(--foreground)]/[0.08] rounded-xl" />
+            <div className="h-3.5 sm:h-4 w-1/2 bg-[var(--foreground)]/[0.05] rounded-lg" />
+          </div>
+        </div>
+      </Skeleton>
+    </div>
+  </div>
+);
 
 export default function GameBannerCarousel() {
   const [banners, setBanners] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [current, setCurrent] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const timerRef = useRef(null);
@@ -32,6 +48,8 @@ export default function GameBannerCarousel() {
         setBanners(json?.data || []);
       } catch {
         if (active) setBanners([]);
+      } finally {
+        if (active) setLoading(false);
       }
     })();
     return () => {
@@ -51,6 +69,10 @@ export default function GameBannerCarousel() {
     setCurrent((prev) => (prev + newDirection + banners.length) % banners.length);
     resetTimer();
   };
+
+  if (loading && !banners.length) {
+    return <GameBannerCarouselSkeleton />;
+  }
 
   if (!banners.length) return null;
 

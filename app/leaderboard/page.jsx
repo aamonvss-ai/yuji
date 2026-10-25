@@ -4,6 +4,52 @@ import { useEffect, useState } from "react";
 import AuthGuard from "@/components/AuthGuard";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaCrown, FaMedal, FaTrophy, FaUserCircle } from "react-icons/fa";
+import { Skeleton } from "@/components/ui/Skeleton";
+
+const LeaderboardSkeleton = () => (
+  <div className="max-w-3xl mx-auto space-y-8">
+    {/* Podium Skeleton */}
+    <div className="grid grid-cols-3 gap-2 md:gap-4 items-end pb-4 pt-4">
+      {/* Rank 2 */}
+      <div className="scale-90 md:scale-95 flex flex-col items-center p-3 md:p-6 rounded-2xl md:rounded-3xl bg-[var(--card)]/40 border border-[var(--border)]">
+        <Skeleton className="w-10 h-10 md:w-16 md:h-16 rounded-full mb-3" />
+        <Skeleton className="w-16 h-3 rounded mb-1.5" />
+        <Skeleton className="w-12 h-4 rounded" />
+      </div>
+      {/* Rank 1 */}
+      <div className="scale-105 md:scale-110 z-10 flex flex-col items-center p-4 md:p-8 rounded-2xl md:rounded-3xl bg-[var(--card)]/50 border border-[var(--accent)]/30">
+        <Skeleton className="w-12 h-12 md:w-20 md:h-20 rounded-full mb-3" />
+        <Skeleton className="w-20 h-3.5 rounded mb-1.5" />
+        <Skeleton className="w-16 h-5 rounded" />
+      </div>
+      {/* Rank 3 */}
+      <div className="scale-90 md:scale-95 flex flex-col items-center p-3 md:p-6 rounded-2xl md:rounded-3xl bg-[var(--card)]/40 border border-[var(--border)]">
+        <Skeleton className="w-10 h-10 md:w-16 md:h-16 rounded-full mb-3" />
+        <Skeleton className="w-16 h-3 rounded mb-1.5" />
+        <Skeleton className="w-12 h-4 rounded" />
+      </div>
+    </div>
+
+    {/* List Skeleton */}
+    <div className="space-y-2">
+      {[4, 5, 6, 7, 8].map((rank) => (
+        <div
+          key={rank}
+          className="flex items-center justify-between p-3 px-5 bg-[var(--card)]/30 border border-[var(--border)] rounded-xl"
+        >
+          <div className="flex items-center gap-4">
+            <Skeleton className="w-6 h-3 rounded" />
+            <div className="flex items-center gap-3">
+              <Skeleton className="w-8 h-8 rounded-full" />
+              <Skeleton className="w-24 h-3.5 rounded" />
+            </div>
+          </div>
+          <Skeleton className="w-16 h-4 rounded" />
+        </div>
+      ))}
+    </div>
+  </div>
+);
 
 export default function LeaderboardPage() {
   const [data, setData] = useState([]);
@@ -87,9 +133,7 @@ export default function LeaderboardPage() {
         </motion.div>
 
         {loading ? (
-          <div className="flex justify-center items-center py-20">
-            <div className="w-10 h-10 border-4 border-[var(--accent)] border-t-transparent rounded-full animate-spin" />
-          </div>
+          <LeaderboardSkeleton />
         ) : data.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}

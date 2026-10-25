@@ -16,7 +16,7 @@ import {
 import { Gamepad2, Flame, Sparkles, ShieldCheck, Zap } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import GamesFilterModal from "@/components/Games/GamesFilterModal";
-import Loader from "@/components/Loader/Loader";
+import { Skeleton } from "@/components/ui/Skeleton";
 import SearchInput from "@/components/ui/SearchInput";
 import EmptyState from "@/components/ui/EmptyState";
 
@@ -37,6 +37,69 @@ const SectionHeader = ({ title, count, icon: Icon, iconColor = "text-[var(--acce
       </span>
     )}
   </div>
+);
+
+export const GamesGridSkeleton = () => (
+  <section className="min-h-screen bg-transparent">
+    <div className="relative z-10">
+      {/* SEARCH AREA SKELETON */}
+      <div className="bg-transparent py-2 mt-4">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="h-10 w-full rounded-2xl bg-[var(--card)]/40 border border-[var(--border)] relative overflow-hidden flex items-center justify-between px-3">
+            <div className="h-3.5 w-48 bg-[var(--foreground)]/[0.06] rounded-md" />
+            <div className="h-7 w-16 bg-[var(--foreground)]/[0.06] rounded-xl" />
+          </div>
+        </div>
+      </div>
+
+      {/* CONTENT SKELETON */}
+      <div className="max-w-7xl mx-auto px-4 py-4 space-y-7">
+        {/* Section 1: MLBB Special */}
+        <div>
+          <div className="flex items-center justify-between mb-3.5 pt-2">
+            <div className="flex items-center gap-2">
+              <Skeleton className="w-5 h-5 rounded-md" />
+              <Skeleton className="w-36 h-4 rounded-md" />
+            </div>
+            <Skeleton className="w-14 h-4 rounded-md" />
+          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2.5 sm:gap-3.5 md:gap-4.5">
+            {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+              <div key={i} className="space-y-1.5">
+                <Skeleton className="w-full aspect-[3/4] rounded-2xl md:rounded-[1.25rem]" />
+                <div className="px-0.5 space-y-1">
+                  <Skeleton className="h-3 w-4/5 rounded-md" />
+                  <Skeleton className="h-2.5 w-1/2 rounded-md" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Section 2: Global Games */}
+        <div>
+          <div className="flex items-center justify-between mb-3.5 pt-2">
+            <div className="flex items-center gap-2">
+              <Skeleton className="w-5 h-5 rounded-md" />
+              <Skeleton className="w-32 h-4 rounded-md" />
+            </div>
+            <Skeleton className="w-14 h-4 rounded-md" />
+          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2.5 sm:gap-3.5 md:gap-4.5">
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map((i) => (
+              <div key={i} className="space-y-1.5">
+                <Skeleton className="w-full aspect-[3/4] rounded-2xl md:rounded-[1.25rem]" />
+                <div className="px-0.5 space-y-1">
+                  <Skeleton className="h-3 w-4/5 rounded-md" />
+                  <Skeleton className="h-2.5 w-1/2 rounded-md" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 );
 
 /* ===================== MAIN COMPONENT ===================== */
@@ -231,6 +294,10 @@ export default function GamesPage() {
       </Link>
     );
   };
+
+  if (loading && category.length === 0 && games.length === 0) {
+    return <GamesGridSkeleton />;
+  }
 
   return (
     <section className="min-h-screen bg-transparent">

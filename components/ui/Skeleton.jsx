@@ -1,22 +1,26 @@
 "use client";
 
-import { motion } from "framer-motion";
+import React from "react";
 
-export const Skeleton = ({ className }) => {
+export const Skeleton = ({ className = "", style, children, ...props }) => {
   return (
     <div
-      className={`relative overflow-hidden bg-[var(--foreground)]/[0.05] border border-[var(--border)]/30 rounded-xl ${className}`}
+      className={`relative overflow-hidden bg-[var(--foreground)]/[0.06] border border-[var(--border)]/20 rounded-xl ${className}`}
+      style={style}
+      {...props}
     >
-      <motion.div
-        initial={{ x: "-100%" }}
-        animate={{ x: "100%" }}
-        transition={{
-          duration: 1.5,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--foreground)]/[0.08] to-transparent -skew-x-12"
-      />
+      <div className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-[var(--foreground)]/[0.08] to-transparent pointer-events-none" />
+      {children}
     </div>
   );
 };
+
+export const SkeletonCircle = ({ size = "w-10 h-10", className = "", ...props }) => (
+  <Skeleton className={`rounded-full shrink-0 ${size} ${className}`} {...props} />
+);
+
+export const SkeletonText = ({ className = "w-full h-3", ...props }) => (
+  <Skeleton className={`rounded-md ${className}`} {...props} />
+);
+
+export default Skeleton;

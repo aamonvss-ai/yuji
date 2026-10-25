@@ -822,6 +822,23 @@ html[data-theme="glass"] .card {
   scrollbar-width: none;  /* Firefox */
 }
 
+/* ======================================================
+   ✨ SHIMMER ANIMATION UTILITIES
+   ====================================================== */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.6s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+
 /* Google Translate Overrides */
 .goog-te-banner-frame,
 .goog-te-banner-frame.skiptranslate,

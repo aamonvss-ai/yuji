@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { FiSave, FiPlus, FiTrash2, FiClock, FiZap, FiEdit2 } from "react-icons/fi";
-import Loader from "@/components/Loader/Loader";
 
 export default function FlashSaleTab() {
     const [loading, setLoading] = useState(true);

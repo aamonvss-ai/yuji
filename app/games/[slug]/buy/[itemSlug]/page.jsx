@@ -6,7 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 import AuthGuard from "../../../../../components/AuthGuard";
 import { saveVerifiedPlayer, getVerifiedPlayers } from "@/utils/storage/verifiedPlayerStorage";
-import HelpImagePopup from "../../../../../components/HelpImage/HelpImagePopup";
 import logo from "@/public/logo.png";
 
 import {
@@ -18,10 +17,65 @@ import {
   FaShieldAlt,
   FaUser
 } from "react-icons/fa";
-import { MdOutlineSmartphone } from "react-icons/md";
-import { IoWalletOutline } from "react-icons/io5";
 import { FiChevronDown } from "react-icons/fi";
 import { useCurrency } from "@/components/CurrencyContext";
+import { Skeleton } from "@/components/ui/Skeleton";
+
+export const BuyFlowSkeleton = () => (
+  <section className="min-h-screen bg-transparent text-[var(--foreground)] px-4 py-4 md:px-8 lg:py-8">
+    <div className="max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* LEFT COLUMN: HERO & RELATED SKELETON */}
+        <div className="lg:col-span-5 space-y-6">
+          <div className="bg-[var(--card)]/40 backdrop-blur-md border border-[var(--border)] rounded-2xl p-3 shadow-xs">
+            <div className="flex items-center gap-3">
+              <Skeleton className="w-14 h-14 rounded-xl shrink-0" />
+              <div className="flex-1 space-y-2">
+                <Skeleton className="w-3/4 h-4 rounded" />
+                <Skeleton className="w-1/2 h-3 rounded" />
+                <Skeleton className="w-1/3 h-5 rounded" />
+              </div>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="w-36 h-3.5 rounded" />
+            <div className="flex gap-2 overflow-hidden py-1">
+              {[1, 2, 3, 4].map((i) => (
+                <Skeleton key={i} className="w-20 h-14 rounded-xl shrink-0" />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN: INFO & PAYMENT SKELETON */}
+        <div className="lg:col-span-7 space-y-6">
+          <div className="bg-[var(--card)]/40 backdrop-blur-md border border-[var(--border)] rounded-xl p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <Skeleton className="w-28 h-4 rounded" />
+              <Skeleton className="w-16 h-3 rounded" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <Skeleton className="h-10 rounded-xl" />
+              <Skeleton className="h-10 rounded-xl" />
+            </div>
+            <Skeleton className="h-10 w-full rounded-xl" />
+          </div>
+
+          <div className="bg-[var(--card)]/40 backdrop-blur-md border border-[var(--border)] rounded-xl p-4 space-y-3">
+            <Skeleton className="w-32 h-4 rounded" />
+            <div className="grid grid-cols-3 gap-2.5">
+              {[1, 2, 3].map((i) => (
+                <Skeleton key={i} className="h-16 rounded-xl" />
+              ))}
+            </div>
+          </div>
+
+          <Skeleton className="w-full h-12 rounded-2xl" />
+        </div>
+      </div>
+    </div>
+  </section>
+);
 
 export default function BuyFlowPage() {
   const { slug, itemSlug } = useParams();
@@ -36,6 +90,7 @@ export default function BuyFlowPage() {
   const [verifiedName, setVerifiedName] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("upi");
   const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
   const [payLoading, setPayLoading] = useState(false);
   const [error, setError] = useState("");
   const [game, setGame] = useState(null);
@@ -102,6 +157,9 @@ export default function BuyFlowPage() {
       })
       .catch(() => {
         alert("Failed to load item price");
+      })
+      .finally(() => {
+        setPageLoading(false);
       });
   }, [slug, itemSlug]);
 
@@ -215,6 +273,14 @@ export default function BuyFlowPage() {
   };
 
   const discountPercent = dummyPrice > price ? Math.round(((dummyPrice - price) / dummyPrice) * 100) : 0;
+
+  if (pageLoading && (!game || !item)) {
+    return (
+      <AuthGuard>
+        <BuyFlowSkeleton />
+      </AuthGuard>
+    );
+  }
 
   return (
     <AuthGuard>
@@ -341,12 +407,9 @@ export default function BuyFlowPage() {
                 {/* Progress Indicator */}
                 <div className="absolute top-0 left-0 h-0.5 bg-[var(--accent)] transition-all duration-500" style={{ width: isVerified ? '100%' : '50%' }} />
 
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <div className={`w-1.5 h-4 rounded-full transition-colors duration-300 ${isVerified ? 'bg-emerald-500' : 'bg-[var(--accent)]'}`} />
-                    <h2 className="text-sm font-bold text-[var(--foreground)] tracking-tight">1. Player Info</h2>
-                  </div>
-                  <HelpImagePopup />
+                <div className="flex items-center gap-2 mb-3">
+                  <div className={`w-1.5 h-4 rounded-full transition-colors duration-300 ${isVerified ? 'bg-emerald-500' : 'bg-[var(--accent)]'}`} />
+                  <h2 className="text-sm font-bold text-[var(--foreground)] tracking-tight">1. Player Info</h2>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-3">
