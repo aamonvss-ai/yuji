@@ -16,6 +16,7 @@ import {
 import { Gamepad2, Flame, Sparkles, ShieldCheck, Zap } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import GamesFilterModal from "@/components/Games/GamesFilterModal";
+import Loader from "@/components/Loader/Loader";
 import { Skeleton } from "@/components/ui/Skeleton";
 import SearchInput from "@/components/ui/SearchInput";
 import EmptyState from "@/components/ui/EmptyState";
