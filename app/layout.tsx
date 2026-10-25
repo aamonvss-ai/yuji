@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import Maintenance from "@/components/Maintenance/Maintenance";
+import NoInternet from "@/components/NoInternet/NoInternet";
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { connectDB } from "@/lib/mongodb";
@@ -211,6 +212,7 @@ export default async function RootLayout({
         <BubbleBackground />
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
           <CurrencyProvider>
+            <NoInternet />
             {maintenanceMode && <Maintenance />}
             <Header enableAutoTranslation={enableAutoTranslation} />
             <main className="pt-12">{children}</main>
