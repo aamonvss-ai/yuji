@@ -44,20 +44,14 @@ export default function GameSwitcher() {
                                 className="shrink-0 group"
                             >
                                 <motion.div
-                                    whileTap={{ scale: 0.96 }}
-                                    className={`
-                                        relative flex flex-col items-center gap-1 p-1.5 rounded-xl transition-all duration-200 min-w-[58px] sm:min-w-[64px]
-                                        ${isActive
-                                            ? "bg-[var(--foreground)]/[0.04] border border-[var(--border)]"
-                                            : "hover:bg-[var(--foreground)]/[0.02] border border-transparent"
-                                        }
-                                    `}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="relative flex flex-col items-center gap-0.5 p-0.5 sm:p-1 w-[50px] sm:w-[56px] shrink-0 transition-all duration-200"
                                 >
                                     <div className={`
-                                        w-8 h-8 sm:w-9 sm:h-9 relative rounded-xl overflow-hidden transition-all duration-200
+                                        w-7 h-7 sm:w-8 sm:h-8 relative rounded-lg overflow-hidden transition-all duration-200 shrink-0
                                         ${isActive 
-                                            ? "ring-2 ring-[var(--accent)] ring-offset-1 ring-offset-[var(--card)] shadow-xs scale-102" 
-                                            : "border border-[var(--border)]/70 opacity-75 group-hover:opacity-100 group-hover:scale-102"
+                                            ? "ring-2 ring-[var(--accent)] ring-offset-1 ring-offset-[var(--background)] shadow-xs scale-105" 
+                                            : "border border-[var(--border)]/70 opacity-70 group-hover:opacity-100 group-hover:scale-105"
                                         }
                                     `}>
                                         <Image
@@ -67,8 +61,8 @@ export default function GameSwitcher() {
                                             className={`object-cover ${!(game?.gameImageId?.image) ? "logo-img" : ""}`}
                                         />
                                     </div>
-                                    <span className={`text-[8.5px] sm:text-[9.5px] font-bold uppercase tracking-tight max-w-[58px] sm:max-w-[64px] leading-tight text-center truncate transition-colors ${
-                                        isActive ? 'text-[var(--foreground)]' : 'text-[var(--muted)] group-hover:text-[var(--foreground)]'
+                                    <span className={`w-full min-h-[18px] sm:min-h-[20px] flex items-center justify-center text-[7.5px] sm:text-[8.5px] font-bold uppercase tracking-tight leading-[1.1] text-center line-clamp-2 break-words transition-colors ${
+                                        isActive ? 'text-[var(--foreground)] font-black' : 'text-[var(--muted)] group-hover:text-[var(--foreground)]'
                                     }`}>
                                         {game.gameName}
                                     </span>

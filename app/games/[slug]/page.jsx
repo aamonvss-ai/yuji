@@ -127,8 +127,8 @@ export default function GameDetailPage() {
       <GameSwitcher />
 
       {/* ================= HEADER ================= */}
-      <div className="max-w-6xl mx-auto mt-8 mb-4 flex items-center gap-3">
-        <div className="w-12 h-12 relative rounded-lg overflow-hidden shrink-0">
+      <div className="max-w-6xl mx-auto mt-2 sm:mt-3 mb-3.5 pb-2.5 border-b border-[var(--border)] flex items-center gap-2.5">
+        <div className="w-9 h-9 sm:w-10 sm:h-10 relative rounded-lg overflow-hidden shrink-0 border border-[var(--border)] shadow-xs">
           <Image
             src={game?.gameImageId?.image || logo}
             alt={game?.gameName || "Game"}
@@ -138,10 +138,10 @@ export default function GameDetailPage() {
         </div>
 
         <div>
-          <h1 className="text-xl font-bold leading-tight">
+          <h1 className="text-base sm:text-lg font-bold leading-tight">
             {game?.gameName}
           </h1>
-          <p className="text-[10px] text-[var(--muted)] uppercase tracking-wider font-semibold">
+          <p className="text-[9.5px] sm:text-[10px] text-[var(--muted)] uppercase tracking-wider font-semibold">
             {game?.gameFrom}
           </p>
         </div>

@@ -13,6 +13,7 @@ import {
   FiShield,
   FiZap
 } from "react-icons/fi";
+import { Gamepad2, Flame, Sparkles, ShieldCheck, Zap } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import GamesFilterModal from "@/components/Games/GamesFilterModal";
 import Loader from "@/components/Loader/Loader";
@@ -21,19 +22,17 @@ import EmptyState from "@/components/ui/EmptyState";
 
 /* ===================== SUB-COMPONENTS ===================== */
 
-const SectionHeader = ({ title, count, icon: Icon }) => (
-  <div className="flex items-center justify-between mb-4 pt-3">
-    <div className="flex items-center gap-3">
-      <div className="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-[var(--accent)]/10 border border-[var(--accent)]/20 text-[var(--accent)] flex items-center justify-center shrink-0">
-        {Icon && <Icon size={16} />}
-      </div>
+const SectionHeader = ({ title, count, icon: Icon, iconColor = "text-[var(--accent)]" }) => (
+  <div className="flex items-center justify-between mb-3.5 pt-2">
+    <div className="flex items-center gap-2">
+      {Icon && <Icon size={20} className={`${iconColor} shrink-0`} />}
       <h2 className="text-[15px] md:text-[18px] font-black tracking-tight text-[var(--foreground)] uppercase italic">
         {title}
       </h2>
     </div>
 
     {count !== undefined && (
-      <span className="px-2.5 py-1 rounded-lg bg-[var(--foreground)]/[0.04] border border-[var(--border)] text-[10px] md:text-[11px] font-bold text-[var(--muted)]">
+      <span className="px-2.5 py-0.5 rounded-lg bg-[var(--foreground)]/[0.04] border border-[var(--border)] text-[10px] md:text-[11px] font-bold text-[var(--muted)]">
         {count} {count === 1 ? 'Item' : 'Items'}
       </span>
     )}
@@ -125,13 +124,47 @@ export default function GamesPage() {
     return filtered;
   }, [hideOOS, search, sort]);
 
+  const MLBB_SPECIAL_SLUGS = useMemo(() => [
+    "mobile-legends114",
+    "mlbb-double332",
+    "weeklymonthly-bundle646"
+  ], []);
+
+  const mlbbIndiaSpecialGames = useMemo(() => {
+    const list = [];
+    MLBB_SPECIAL_SLUGS.forEach((slug) => {
+      let g = games.find((item) => item.gameSlug === slug);
+      if (!g) {
+        for (const cat of category) {
+          if (Array.isArray(cat.gameId)) {
+            const foundInCat = cat.gameId.find((item) => item.gameSlug === slug);
+            if (foundInCat) {
+              g = foundInCat;
+              break;
+            }
+          }
+        }
+      }
+      if (g) list.push(g);
+    });
+    return list;
+  }, [games, category, MLBB_SPECIAL_SLUGS]);
+
+  const specialProcessed = useMemo(() => {
+    return processGames(mlbbIndiaSpecialGames);
+  }, [mlbbIndiaSpecialGames, processGames]);
+
   const injectSpecialGame = useCallback((cat) => {
-    if (!cat.categoryTitle?.toLowerCase().includes("mobile legends")) return cat.gameId || [];
-    const specialGame = games.find((g) => g.gameName === SPECIAL_MLBB_GAME);
-    if (!specialGame) return cat.gameId || [];
-    const withoutDuplicate = (cat.gameId || []).filter((g) => g.gameName !== SPECIAL_MLBB_GAME);
-    return [specialGame, ...withoutDuplicate];
-  }, [games]);
+    let list = cat.gameId || [];
+    if (cat.categoryTitle?.toLowerCase().includes("mobile legends")) {
+      const specialGame = games.find((g) => g.gameName === SPECIAL_MLBB_GAME);
+      if (specialGame) {
+        const withoutDuplicate = list.filter((g) => g.gameName !== SPECIAL_MLBB_GAME);
+        list = [specialGame, ...withoutDuplicate];
+      }
+    }
+    return list.filter((g) => !MLBB_SPECIAL_SLUGS.includes(g.gameSlug));
+  }, [games, MLBB_SPECIAL_SLUGS]);
 
   if (loading) return <Loader />;
 
@@ -239,6 +272,23 @@ export default function GamesPage() {
         {/* ================= CONTENT ================= */}
         <div className="max-w-7xl mx-auto px-4 py-4 space-y-7">
 
+          {/* MLBB India Special Section (On Top) */}
+          {(activeTab === "all" || activeTab === "mlbb") && specialProcessed.length > 0 && (
+            <div>
+              <SectionHeader
+                title="MLBB India Special"
+                count={specialProcessed.length}
+                icon={Flame}
+                iconColor="text-orange-500"
+              />
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2.5 sm:gap-3.5 md:gap-4.5">
+                {specialProcessed.map((game, index) => (
+                  <GameCard key={game._id || game.gameSlug || index} game={game} />
+                ))}
+              </div>
+            </div>
+          )}
+
           {category
             .filter(cat => {
               if (activeTab === "all") return true;
@@ -253,7 +303,7 @@ export default function GamesPage() {
 
               return (
                 <div key={i}>
-                  <SectionHeader title={cat.categoryTitle} count={filtered.length} icon={FiLayers} />
+                  <SectionHeader title={cat.categoryTitle} count={filtered.length} icon={Gamepad2} />
                   <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2.5 sm:gap-3.5 md:gap-4.5">
                     {filtered.map((game, index) => (
                       <GameCard key={game._id || game.gameSlug || index} game={game} />
@@ -266,6 +316,7 @@ export default function GamesPage() {
           {/* Global Games */}
           {(() => {
             const filteredGlobal = processGames(games).filter(g => {
+              if (MLBB_SPECIAL_SLUGS.includes(g.gameSlug)) return false;
               if (activeTab === "all") return true;
               if (activeTab === "membership") return false;
               const isMLBB = g.gameName?.toLowerCase().includes("mobile legends") || g.gameFrom?.toLowerCase().includes("mobile legends") || g.gameName?.toLowerCase().includes("mlbb") || g.gameName?.toLowerCase().includes("bundle");
@@ -276,7 +327,7 @@ export default function GamesPage() {
 
             return (
               <div>
-                <SectionHeader title="All Games" count={filteredGlobal.length} icon={FiGlobe} />
+                <SectionHeader title="All Games" count={filteredGlobal.length} icon={Gamepad2} />
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2.5 sm:gap-3.5 md:gap-4.5">
                   {filteredGlobal.map((game, i) => (
                     <GameCard key={game._id || game.gameSlug || i} game={game} />
@@ -289,7 +340,7 @@ export default function GamesPage() {
           {/* Memberships */}
           {(activeTab === "all" || activeTab === "membership") && memberships?.items?.length > 0 && (
             <div>
-              <SectionHeader title={memberships.title} count={memberships.items.length} icon={FiShield} />
+              <SectionHeader title={memberships.title} count={memberships.items.length} icon={ShieldCheck} iconColor="text-purple-400" />
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                 {memberships.items.map((plan) => (
                   <Link
@@ -313,7 +364,7 @@ export default function GamesPage() {
 
                     {/* Decorative Elements */}
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                      <FiShield size={40} className="rotate-12" />
+                      <ShieldCheck size={40} className="rotate-12 text-purple-400" />
                     </div>
                   </Link>
                 ))}
@@ -324,7 +375,7 @@ export default function GamesPage() {
           {/* OTT Subscriptions */}
           {(activeTab === "all" || activeTab === "others") && otts?.items?.length > 0 && (
             <div>
-              <SectionHeader title={otts.title} count={otts.items.length} icon={FiZap} />
+              <SectionHeader title={otts.title} count={otts.items.length} icon={Sparkles} iconColor="text-emerald-400" />
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                 {otts.items.map((item) => (
                   <Link
