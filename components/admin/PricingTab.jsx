@@ -120,7 +120,7 @@ export default function PricingTab({
     return overrides.filter((o) => o.isOverride).length;
   }, [overrides]);
 
-  const updateOverride = (gameSlug, itemSlug, fields) => {
+  const updateOverride = async (gameSlug, itemSlug, fields) => {
     setOverrides((prev) =>
       prev.map((o) =>
         o.gameSlug === gameSlug && o.itemSlug === itemSlug
@@ -128,6 +128,27 @@ export default function PricingTab({
           : o
       )
     );
+
+    if (fields.isOutOfStock !== undefined) {
+      try {
+        const token = localStorage.getItem("token");
+        await fetch("/api/admin/pricing", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            action: "toggle-item-stock",
+            gameSlug,
+            itemSlug,
+            isOutOfStock: fields.isOutOfStock,
+          }),
+        });
+      } catch (err) {
+        console.error("Failed to auto-sync item stock toggle", err);
+      }
+    }
   };
 
   const updateGameOveride = async (gameSlug, fields) => {

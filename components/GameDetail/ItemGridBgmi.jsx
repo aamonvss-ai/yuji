@@ -18,6 +18,7 @@ export default function ItemGridBgmi({
   return (
     <div className="max-w-6xl mx-auto mb-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
       {items.map((item, i) => {
+        const isOutOfStock = Boolean(item.isOutOfStock || item.itemAvailablity === false);
         const isActive = activeItem?.itemSlug === item.itemSlug;
 
         return (
@@ -27,20 +28,29 @@ export default function ItemGridBgmi({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05 }}
             onClick={() => {
+              if (isOutOfStock) return;
               setActiveItem(item);
               buyPanelRef.current?.scrollIntoView({
                 behavior: "smooth",
                 block: "center",
               });
             }}
-            className={`group relative rounded-xl p-2.5 md:p-3 cursor-pointer border transition-all duration-300 overflow-hidden
-              ${isActive
-                ? "border-[var(--accent)] bg-[var(--accent)]/10 shadow-[0_0_20px_rgba(var(--accent-rgb),0.1)]"
-                : "border-[var(--border)] bg-[var(--card)]/40 hover:border-[var(--accent)]/50 backdrop-blur-sm"
+            className={`group relative rounded-xl p-2.5 md:p-3 border transition-all duration-300 overflow-hidden
+              ${isOutOfStock
+                ? "border-red-500/20 bg-red-500/[0.04] opacity-55 grayscale cursor-not-allowed"
+                : isActive
+                ? "border-[var(--accent)] bg-[var(--accent)]/10 shadow-[0_0_20px_rgba(var(--accent-rgb),0.1)] cursor-pointer"
+                : "border-[var(--border)] bg-[var(--card)]/40 hover:border-[var(--accent)]/50 backdrop-blur-sm cursor-pointer"
               }`}
           >
-            {/* Active Indicator */}
-            {isActive && (
+            {/* Out of Stock Badge / Active Indicator */}
+            {isOutOfStock ? (
+              <div className="absolute top-2 right-2 z-20">
+                <span className="px-1.5 py-0.5 rounded-md bg-red-500/90 border border-white/20 text-white font-bold text-[7.5px] uppercase tracking-wider shadow-xs whitespace-nowrap">
+                  Out of Stock
+                </span>
+              </div>
+            ) : isActive ? (
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
@@ -48,7 +58,7 @@ export default function ItemGridBgmi({
               >
                 <FiCheckCircle className="w-4 h-4" />
               </motion.div>
-            )}
+            ) : null}
 
             <div className="flex flex-col gap-1.5 relative z-10">
               <div className="flex items-center gap-2">

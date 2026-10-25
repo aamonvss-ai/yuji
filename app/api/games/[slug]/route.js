@@ -369,9 +369,9 @@ export async function GET(req, { params }) {
         ...item,
         sellingPrice: Math.ceil(finalPrice),
         itemAvailablity: !itemOutOfStock && item.itemAvailablity !== false,
-        isOutOfStock: itemOutOfStock || item.itemAvailablity === false,
+        isOutOfStock: Boolean(itemOutOfStock || item.itemAvailablity === false),
       };
-    }).filter(item => !isGameOOS && item.itemAvailablity !== false);
+    });
 
     if (slug === "value-pass-ml838" || data?.data?.gameName?.toLowerCase() === "value pass ml") {
       data.data.gameImageId = {

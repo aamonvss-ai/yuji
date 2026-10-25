@@ -71,6 +71,13 @@ export default function BuyPanelBgmi({
             {systemSettings.notAcceptingOrdersMessage}
           </p>
         </div>
+      ) : (activeItem?.isOutOfStock || activeItem?.itemAvailablity === false) ? (
+        <button
+          disabled
+          className="w-full h-12 rounded-xl font-bold text-sm bg-red-500/15 border border-red-500/30 text-red-500 cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          Out of Stock
+        </button>
       ) : (
         <button
           onClick={() => onBuy(activeItem)}

@@ -60,7 +60,8 @@ export default function GameDetailPage() {
           allItems: items,
         });
 
-        setActiveItem(items[0] || null);
+        const firstAvailable = items.find((item) => !item.isOutOfStock && item.itemAvailablity !== false) || items[0] || null;
+        setActiveItem(firstAvailable);
       })
       .catch(() => setNotFound(true))
       .finally(() => setIsLoading(false));
@@ -96,6 +97,7 @@ export default function GameDetailPage() {
   /* ================= BUY HANDLER ================= */
   const goBuy = (item) => {
     if (redirecting) return;
+    if (item?.isOutOfStock || item?.itemAvailablity === false) return;
 
     // Check Authentication
     const token = localStorage.getItem("token");
