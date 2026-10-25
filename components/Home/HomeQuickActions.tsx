@@ -73,8 +73,8 @@ export default function HomeQuickActions() {
               animation: `fadeInUp 0.4s ease-out ${action.delay} both`
             }}
           >
-            <div className={`h-11 w-11 sm:h-12 sm:w-12 flex items-center justify-center rounded-2xl transition-all duration-300 group-hover:scale-105 group-active:scale-95 ${action.bg} ${action.color}`}>
-              <action.icon className="h-5 w-5 sm:h-5.5 sm:w-5.5 transition-transform duration-300 group-hover:scale-110" />
+            <div className={`h-8 w-8 sm:h-9 sm:w-9 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-active:scale-95 ${action.color}`}>
+              <action.icon className="h-5.5 w-5.5 sm:h-6 sm:w-6" />
             </div>
 
             <span className="text-[9px] sm:text-[11px] font-bold uppercase tracking-tight text-[var(--foreground)] text-center transition-colors duration-200 group-hover:text-[var(--accent)] w-full block">

@@ -63,7 +63,7 @@ export default function SearchInput({
     <div className={`relative flex items-center min-w-0 ${className}`}>
       <Search
         size={iconSizes[size] || 16}
-        className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]/40 pointer-events-none transition-colors"
+        className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 text-[var(--muted)] pointer-events-none transition-colors z-10"
       />
       <input
         type="text"

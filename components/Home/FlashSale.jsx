@@ -43,18 +43,11 @@ export default function FlashSale() {
             <div className="max-w-7xl mx-auto px-4">
                 <div className="flex items-center justify-between mb-3 pt-0.5">
                     {/* Clean Minimal Title */}
-                    <div className="flex items-center gap-2.5">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[var(--accent)]/10 text-[var(--accent)] border border-[var(--accent)]/20 flex items-center justify-center shrink-0">
-                            <FiZap size={15} fill="currentColor" />
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <h2 className="text-[15px] sm:text-[17px] font-bold text-[var(--foreground)] tracking-tight">
-                                Flash Sale
-                            </h2>
-                            <span className="text-[10px] font-medium text-[var(--accent)] bg-[var(--accent)]/10 border border-[var(--accent)]/20 px-1.5 py-0.5 rounded-md">
-                                Exclusive
-                            </span>
-                        </div>
+                    <div className="flex items-center gap-1.5">
+                        <FiZap size={17} className="text-[var(--accent)] fill-[var(--accent)] shrink-0" />
+                        <h2 className="text-[14px] sm:text-[16px] font-bold text-[var(--foreground)] tracking-tight">
+                            Flash Sale
+                        </h2>
                     </div>
 
                     <Countdown endTime={config.endTime} />

@@ -3,13 +3,14 @@
 /* ======================================================
    🌍 BASE THEME VARIABLES (LIGHT – DEFAULT)
    ====================================================== */
-:root {
-  --background: #ffffff;
-  --foreground: #090d16;
+:root,
+html[data-theme="light"] {
+  --background: #f8fafc;
+  --foreground: #020617;
   --accent: #2563eb;
   --accent-hover: #1d4ed8;
-  --muted: #475569;
-  --border: #e2e8f0;
+  --muted: #64748b;
+  --border: #e8edf5;
   --card: #ffffff;
   --logo-filter: none;
 }
@@ -31,13 +32,13 @@
    🌙 DARK – PROFESSIONAL / UNIVERSAL
    ====================================================== */
 html[data-theme="dark"] {
-  --background: #060709;
-  --foreground: #ffffff;
+  --background: #020408;
+  --foreground: #f8fafc;
   --accent: #3b82f6;
   --accent-hover: #2563eb;
-  --muted: #94a3b8;
-  --border: #181920;
-  --card: #0b0c10;
+  --muted: #8493a8;
+  --border: #11141d;
+  --card: #06080d;
   --logo-filter: invert(1) brightness(1.5);
 }
 
@@ -559,8 +560,25 @@ body::after {
   backface-visibility: hidden;
 }
 
-/* 🌙 Deep Obsidian Dark Mode Background */
-html[data-theme="dark"] body::before,
+/* 🌙 Deep Dark Mode Background */
+html[data-theme="dark"] body::before {
+  background-image: 
+    radial-gradient(ellipse 90% 800px at 50% -80px, rgba(59, 130, 246, 0.08) 0%, transparent 75%),
+    radial-gradient(circle 750px at 95% 25%, rgba(139, 92, 246, 0.05) 0%, transparent 70%),
+    radial-gradient(circle 700px at 5% 45%, rgba(14, 165, 233, 0.04) 0%, transparent 70%);
+}
+
+html[data-theme="dark"] body::after {
+  background-image: linear-gradient(
+    135deg, 
+    #1e293b 0%, 
+    #0f172a 50%, 
+    #020617 100%
+  );
+  opacity: 0.06;
+}
+
+/* ⚡ Gaming / Neon Themes Background */
 html[data-theme="cyber"] body::before,
 html[data-theme="void"] body::before,
 html[data-theme="crimson"] body::before,
@@ -573,7 +591,6 @@ html[data-theme="inferno"] body::before {
     radial-gradient(circle 600px at 12% 85%, rgba(0, 255, 170, 0.18) 0%, transparent 60%);
 }
 
-html[data-theme="dark"] body::after,
 html[data-theme="cyber"] body::after,
 html[data-theme="void"] body::after,
 html[data-theme="crimson"] body::after,

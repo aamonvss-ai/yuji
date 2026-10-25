@@ -29,7 +29,7 @@ export default function GamesFilterModal({
   return (
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -39,17 +39,20 @@ export default function GamesFilterModal({
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
           />
 
-          {/* Modal Card */}
+          {/* Bottom Sheet Card */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 15 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 15 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="relative w-full max-w-sm bg-[var(--card)] border border-[var(--border)] rounded-3xl shadow-2xl overflow-hidden z-10 flex flex-col"
+            initial={{ opacity: 0, y: "100%" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "100%" }}
+            transition={{ type: "spring", damping: 28, stiffness: 300 }}
+            className="relative w-full sm:max-w-md bg-[var(--card)] border-t sm:border border-[var(--border)] rounded-t-[1.75rem] sm:rounded-3xl shadow-2xl overflow-hidden z-10 flex flex-col max-h-[85vh]"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Mobile Drag Handle */}
+            <div className="w-10 h-1 bg-[var(--muted)]/30 rounded-full mx-auto mt-2.5 -mb-1 sm:hidden shrink-0" />
+
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--border)]/60">
+            <div className="flex items-center justify-between px-5 pt-3 pb-3 sm:py-4 border-b border-[var(--border)]/60">
               <div>
                 <h3 className="text-base font-bold text-[var(--foreground)] tracking-tight">
                   Filter & Sort
@@ -165,7 +168,7 @@ export default function GamesFilterModal({
             </div>
 
             {/* Footer Buttons */}
-            <div className="p-4 border-t border-[var(--border)]/60 flex items-center gap-2 bg-[var(--foreground)]/[0.015]">
+            <div className="p-4 pb-6 sm:pb-4 border-t border-[var(--border)]/60 flex items-center gap-2 bg-[var(--foreground)]/[0.015]">
               <button
                 onClick={handleReset}
                 className="flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.03] hover:bg-[var(--foreground)]/[0.06] text-[var(--muted)] hover:text-[var(--foreground)] font-semibold text-[11.5px] transition-colors"
