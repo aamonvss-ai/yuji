@@ -110,8 +110,8 @@ export async function GET(req: Request) {
       } catch { }
     }
 
-    const [pricingConfig, response] = await Promise.all([
-      connectDB().then(() => PricingConfig.findOne({ userType }).lean()),
+    const [allConfigs, response] = await Promise.all([
+      connectDB().then(() => PricingConfig.find({}).lean()),
       fetch("https://game-off-ten.vercel.app/api/v1/game", {
         method: "GET",
         headers: {
@@ -123,16 +123,28 @@ export async function GET(req: Request) {
 
     const data = await response.json();
 
+    // Map all game slugs that are marked out of stock across any role
+    const globalOutOfStockSlugs = new Set<string>();
+    for (const cfg of (allConfigs as any[] || [])) {
+      for (const o of cfg?.gameOverrides || []) {
+        if (o?.gameSlug && o?.isOutOfStock) {
+          globalOutOfStockSlugs.add(o.gameSlug);
+        }
+      }
+    }
+
     /* ================= NORMALIZE GAME ================= */
     const normalizeGame = (game: any) => {
       let updatedGame = { ...game };
 
-      // Check for stock override
-      const gameOverride = pricingConfig?.gameOverrides?.find(
-        (o: any) => o.gameSlug === game.gameSlug
-      );
-      if (gameOverride?.isOutOfStock) {
+      // Check for stock override across all user types
+      const isGameOutOfStock = globalOutOfStockSlugs.has(game.gameSlug) || game.gameAvailablity === false;
+      if (isGameOutOfStock) {
         updatedGame.gameAvailablity = false;
+        updatedGame.isOutOfStock = true;
+      } else {
+        updatedGame.gameAvailablity = true;
+        updatedGame.isOutOfStock = false;
       }
 
       // Rename MLBB SMALL/PHP → MLBB SMALL

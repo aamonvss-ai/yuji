@@ -60,7 +60,15 @@ export default function GamesPage() {
   const SPECIAL_MLBB_GAME = "MLBB SMALL";
   const outOfStockGames = ["Genshin Impact", "TEST 1", "Wuthering of Waves", "Mobile Legends Backup"];
 
-  const isOutOfStock = (name) => outOfStockGames.includes(name);
+  const isOutOfStock = (game) => {
+    if (!game) return false;
+    if (typeof game === "object") {
+      if (game.gameAvailablity === false || game.isOutOfStock === true) return true;
+      if (outOfStockGames.includes(game.gameName) || outOfStockGames.includes(game.gameSlug)) return true;
+      return false;
+    }
+    return outOfStockGames.includes(game);
+  };
 
   /* ================= FETCH ================= */
   useEffect(() => {
@@ -80,7 +88,12 @@ export default function GamesPage() {
       }
     }
 
-    fetch("/api/games")
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    fetch("/api/games", {
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         const payload = {
@@ -103,7 +116,7 @@ export default function GamesPage() {
   const processGames = useCallback((list) => {
     if (!list || !list.length) return [];
     let filtered = [...list];
-    if (hideOOS) filtered = filtered.filter((g) => !isOutOfStock(g.gameName));
+    if (hideOOS) filtered = filtered.filter((g) => !isOutOfStock(g));
     if (search.trim()) {
       const q = search.toLowerCase();
       filtered = filtered.filter((g) => g.gameName?.toLowerCase().includes(q) || g.gameFrom?.toLowerCase().includes(q));
@@ -126,7 +139,7 @@ export default function GamesPage() {
 
   /* ================= RENDER CARD ================= */
   const GameCard = ({ game }) => {
-    const disabled = isOutOfStock(game.gameName);
+    const disabled = isOutOfStock(game);
 
     const tagName = (game.tagId?.tagName?.toLowerCase().includes("most selling") || game.tagId?.tagName === "MOST SELLING")
       ? "INDIAN SMALL PACK"
@@ -135,7 +148,10 @@ export default function GamesPage() {
     return (
       <Link
         href={disabled ? "#" : `/games/${game.gameSlug}`}
-        className={`group flex flex-col transition-all duration-300 transform-gpu ${disabled ? "opacity-40 grayscale cursor-not-allowed" : "hover:-translate-y-1"}`}
+        onClick={(e) => {
+          if (disabled) e.preventDefault();
+        }}
+        className={`group flex flex-col transition-all duration-300 transform-gpu ${disabled ? "opacity-40 grayscale cursor-not-allowed pointer-events-none" : "hover:-translate-y-1"}`}
       >
         {/* Image Container */}
         <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden bg-[var(--card)] border border-[var(--border)] group-hover:border-[var(--accent)]/60 transition-all duration-300 shadow-xs group-hover:shadow-md">
@@ -160,11 +176,11 @@ export default function GamesPage() {
             </div>
           )}
 
-          {/* Maintenance Overlay */}
+          {/* Out of Stock Overlay */}
           {disabled && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/75 backdrop-blur-xs">
-              <span className="px-2 py-0.5 bg-black/90 border border-white/20 text-[7.5px] font-bold uppercase tracking-widest text-white rounded-md">
-                Offline
+            <div className="absolute inset-0 flex items-center justify-center bg-black/75 backdrop-blur-xs p-1">
+              <span className="px-1.5 sm:px-2 py-0.5 bg-black/90 border border-white/20 text-[6.5px] sm:text-[7.5px] font-bold uppercase tracking-wider text-white rounded-md whitespace-nowrap">
+                Out of Stock
               </span>
             </div>
           )}

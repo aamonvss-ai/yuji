@@ -83,11 +83,29 @@ export async function GET(req) {
       userType,
     }).lean();
 
+    // Collect all gameOverrides across all roles so stock is always globally synchronized
+    const allConfigs = await PricingConfig.find({}).lean();
+    const mergedGameOverridesMap = new Map();
+    for (const go of pricing?.gameOverrides || []) {
+      if (go?.gameSlug) mergedGameOverridesMap.set(go.gameSlug, go);
+    }
+    for (const cfg of allConfigs) {
+      for (const go of cfg?.gameOverrides || []) {
+        if (go?.gameSlug) {
+          if (!mergedGameOverridesMap.has(go.gameSlug) || go.isOutOfStock) {
+            mergedGameOverridesMap.set(go.gameSlug, go);
+          }
+        }
+      }
+    }
+    const finalGameOverrides = Array.from(mergedGameOverridesMap.values());
+
     return NextResponse.json({
       success: true,
       data: {
         slabs: pricing?.slabs || [],
         overrides: pricing?.overrides || [],
+        gameOverrides: finalGameOverrides,
       },
     });
   } catch (err) {
@@ -116,6 +134,38 @@ export async function PATCH(req) {
     }
 
     const body = await req.json();
+
+    /* ================= DIRECT TOGGLE STOCK ACTION ================= */
+    if (body.action === "toggle-game-stock") {
+      const { gameSlug, isOutOfStock } = body;
+      if (!gameSlug) {
+        return NextResponse.json({ success: false, message: "gameSlug is required" }, { status: 400 });
+      }
+
+      // Update across ALL PricingConfig roles so out-of-stock applies to ALL user types (even owner)
+      const allRoles = ["user", "member", "admin", "owner"];
+      for (const role of allRoles) {
+        let cfg = await PricingConfig.findOne({ userType: role });
+        if (!cfg) {
+          cfg = new PricingConfig({ userType: role, slabs: [], overrides: [], gameOverrides: [] });
+        }
+        let list = cfg.gameOverrides || [];
+        const existingIdx = list.findIndex((o) => o.gameSlug === gameSlug);
+        if (existingIdx > -1) {
+          list[existingIdx].isOutOfStock = Boolean(isOutOfStock);
+        } else {
+          list.push({ gameSlug, isOutOfStock: Boolean(isOutOfStock) });
+        }
+        cfg.gameOverrides = list;
+        await cfg.save();
+      }
+
+      return NextResponse.json({
+        success: true,
+        message: `Stock for ${gameSlug} updated to ${isOutOfStock ? "OFF" : "ON"} for all user types`,
+      });
+    }
+
     let { userType, slabs = [], overrides = [], gameOverrides = [] } = body;
 
     if (!userType) {
@@ -201,9 +251,17 @@ export async function PATCH(req) {
     /* ================= SAVE ================= */
     existing.slabs = slabs;
     existing.overrides = mergedOverrides;
+    if (Array.isArray(gameOverrides)) {
+      existing.gameOverrides = gameOverrides;
+    }
 
     try {
       await existing.save();
+
+      // Ensure game stock overrides are universally applied to ALL user types (user, member, admin, owner)
+      if (Array.isArray(gameOverrides) && gameOverrides.length > 0) {
+        await PricingConfig.updateMany({}, { $set: { gameOverrides } });
+      }
     } catch (saveError) {
       console.error(`Database save error for userType ${userType}:`, saveError);
       return NextResponse.json(

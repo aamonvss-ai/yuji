@@ -145,8 +145,26 @@ export default function GameDetailPage() {
         </div>
       </div>
 
-      {/* ================= CONTENT HANDLING ================= */}
-      {game.allItems && game.allItems.length > 0 ? (
+      {/* ================= OUT OF STOCK HANDLING ================= */}
+      {(game?.gameAvailablity === false || game?.isOutOfStock === true) ? (
+        <div className="max-w-6xl mx-auto py-16 px-4 text-center border-2 border-dashed border-red-500/20 bg-red-500/5 rounded-3xl">
+          <div className="w-12 h-12 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 font-black text-xs">
+            OFF
+          </div>
+          <h3 className="text-xl font-black uppercase tracking-tighter italic text-red-500">Currently Out Of Stock</h3>
+          <p className="text-xs text-[var(--muted)] mt-2 max-w-sm mx-auto">
+            {game.gameName} is temporarily out of stock. Please check back soon!
+          </p>
+          <div className="mt-6">
+            <Link
+              href="/games"
+              className="inline-flex px-6 py-2.5 rounded-xl bg-[var(--foreground)]/[0.08] text-[var(--foreground)] text-xs font-bold hover:bg-[var(--foreground)]/[0.12] transition-colors"
+            >
+              Back to Catalog
+            </Link>
+          </div>
+        </div>
+      ) : game.allItems && game.allItems.length > 0 ? (
         <>
           {/* ================= ITEM GRID ================= */}
           {isBGMI ? (

@@ -302,19 +302,38 @@ export async function GET(req, { params }) {
       notAcceptingOrdersMessage: settings?.notAcceptingOrdersMessage || "We are not taking orders right now. Please come back later."
     };
 
-    /* ===== FETCH PRICING ===== */
+    /* ===== FETCH PRICING & STOCK OVERRIDES ===== */
+    const allConfigs = await PricingConfig.find({}).lean();
     let pricingConfig = null;
     if (pricingRole) {
-      pricingConfig = await getCachedPricingConfig(pricingRole);
+      pricingConfig = allConfigs.find((c) => c.userType === pricingRole);
     }
 
-    /* ===== APPLY PRICING ===== */
+    /* ===== APPLY PRICING & STOCK ===== */
     const gameSlug = data.data.gameSlug;
+
+    // Check if the whole game is marked out of stock globally for all user types
+    const isGameOOS = allConfigs.some((cfg) =>
+      cfg?.gameOverrides?.some((o) => o.gameSlug === gameSlug && o.isOutOfStock)
+    );
+
+    if (isGameOOS) {
+      data.data.gameAvailablity = false;
+      data.data.isOutOfStock = true;
+    }
 
     data.data.itemId = data.data.itemId.map((item) => {
       const basePrice = Number(item.sellingPrice);
       let finalPrice = basePrice;
-      let itemOutOfStock = false;
+      let itemOutOfStock = isGameOOS;
+
+      // Check if item is out of stock globally across any config
+      const isGlobalItemOOS = allConfigs.some((cfg) =>
+        cfg?.overrides?.some((o) => o.gameSlug === gameSlug && o.itemSlug === item.itemSlug && o.isOutOfStock)
+      );
+      if (isGlobalItemOOS) {
+        itemOutOfStock = true;
+      }
 
       const override = pricingConfig?.overrides?.find(
         (o) =>
@@ -350,8 +369,9 @@ export async function GET(req, { params }) {
         ...item,
         sellingPrice: Math.ceil(finalPrice),
         itemAvailablity: !itemOutOfStock && item.itemAvailablity !== false,
+        isOutOfStock: itemOutOfStock || item.itemAvailablity === false,
       };
-    }).filter(item => item.itemAvailablity !== false);
+    }).filter(item => !isGameOOS && item.itemAvailablity !== false);
 
     if (slug === "value-pass-ml838" || data?.data?.gameName?.toLowerCase() === "value pass ml") {
       data.data.gameImageId = {

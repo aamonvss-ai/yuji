@@ -130,7 +130,7 @@ export default function PricingTab({
     );
   };
 
-  const updateGameOveride = (gameSlug, fields) => {
+  const updateGameOveride = async (gameSlug, fields) => {
     setGameOverrides((prev) => {
       const existingIdx = prev.findIndex(o => o.gameSlug === gameSlug);
       if (existingIdx > -1) {
@@ -141,6 +141,26 @@ export default function PricingTab({
         return [...prev, { gameSlug, isOutOfStock: false, ...fields }];
       }
     });
+
+    if (fields.isOutOfStock !== undefined) {
+      try {
+        const token = localStorage.getItem("token");
+        await fetch("/api/admin/pricing", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            action: "toggle-game-stock",
+            gameSlug,
+            isOutOfStock: fields.isOutOfStock,
+          }),
+        });
+      } catch (err) {
+        console.error("Failed to auto-sync stock toggle", err);
+      }
+    }
   };
 
   const isGameOutOfStock = (gameSlug) => {
