@@ -510,8 +510,6 @@ body {
   text-rendering: optimizeSpeed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background 0.1s cubic-bezier(0, 0, 0, 1),
-    color 0.1s cubic-bezier(0, 0, 0, 1);
   position: relative;
 }
 
@@ -523,7 +521,7 @@ body {
 body::before {
   content: "";
   position: fixed;
-  inset: -30px;
+  inset: 0;
   background-image: 
     radial-gradient(ellipse 90% 750px at 50% -80px, rgba(14, 165, 233, 0.12) 0%, transparent 75%),
     radial-gradient(circle 700px at 95% 25%, rgba(139, 92, 246, 0.08) 0%, transparent 70%),
@@ -534,14 +532,12 @@ body::before {
   pointer-events: none;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
-  will-change: transform, opacity;
-  animation: auroraShift 25s ease-in-out infinite alternate;
 }
 
 body::after {
   content: "";
   position: fixed;
-  inset: -800px;
+  inset: 0;
   background-image: linear-gradient(
     135deg, 
     #0ea5e9 0%, 
@@ -550,7 +546,7 @@ body::after {
     #ec4899 75%, 
     #f59e0b 100%
   );
-  opacity: 0.12;
+  opacity: 0.08;
   -webkit-mask-image: url('/bg-pattern.svg');
   mask-image: url('/bg-pattern.svg');
   -webkit-mask-size: 800px 800px;
@@ -561,8 +557,6 @@ body::after {
   pointer-events: none;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
-  will-change: transform;
-  animation: waveGpuDrift 45s linear infinite;
 }
 
 /* 🌙 Deep Obsidian Dark Mode Background */
@@ -594,45 +588,13 @@ html[data-theme="inferno"] body::after {
     #ff007f 85%, 
     #ff6600 100%
   );
-  opacity: 0.32;
-}
-
-@keyframes waveGpuDrift {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(-800px, 0, 0);
-  }
-}
-
-@keyframes auroraShift {
-  0% {
-    transform: scale(1) translate3d(0, 0, 0);
-    opacity: 0.88;
-  }
-  50% {
-    transform: scale(1.04) translate3d(10px, -8px, 0);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1) translate3d(-8px, 8px, 0);
-    opacity: 0.9;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body::before,
-  body::after {
-    animation: none;
-  }
+  opacity: 0.22;
 }
 
 /* Links */
 a {
   color: var(--accent);
-  transition: color 0.1s ease;
-  will-change: color;
+  transition: color 0.15s ease;
 }
 
 a:hover {
@@ -646,9 +608,6 @@ a:hover {
   border: 1px solid var(--border);
   border-radius: 12px;
   transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, background 0.08s ease, border-color 0.08s ease;
-  will-change: transform, box-shadow;
-  transform: translateZ(0);
-  /* Force GPU */
 }
 
 /* ✨ View Transition API Enhancements */

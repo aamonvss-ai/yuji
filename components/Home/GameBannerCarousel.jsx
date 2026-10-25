@@ -63,7 +63,6 @@ export default function GameBannerCarousel() {
         x: "0%",
         y: "0%",
         opacity: 1,
-        filter: "brightness(1) blur(0px)",
         pointerEvents: "auto",
       };
     } else if (offset === -1) {
@@ -73,7 +72,6 @@ export default function GameBannerCarousel() {
         x: "-46%",
         y: "0%",
         opacity: 0.65,
-        filter: "brightness(0.65) blur(1px)",
         pointerEvents: "auto",
       };
     } else if (offset === 1) {
@@ -83,7 +81,6 @@ export default function GameBannerCarousel() {
         x: "46%",
         y: "0%",
         opacity: 0.65,
-        filter: "brightness(0.65) blur(1px)",
         pointerEvents: "auto",
       };
     }
@@ -93,7 +90,6 @@ export default function GameBannerCarousel() {
       x: offset > 0 ? "80%" : "-80%",
       y: "0%",
       opacity: 0,
-      filter: "brightness(0.4) blur(4px)",
       pointerEvents: "none",
     };
   };
@@ -168,17 +164,15 @@ export default function GameBannerCarousel() {
           return (
             <motion.div
               key={`${index}-${offset}`}
-              layout
               animate={{
                 scale: cardStyle.scale,
                 x: cardStyle.x,
                 y: cardStyle.y,
                 opacity: cardStyle.opacity,
                 zIndex: cardStyle.zIndex,
-                filter: cardStyle.filter,
               }}
               transition={{
-                duration: 0.55,
+                duration: 0.45,
                 ease: [0.25, 1, 0.5, 1],
               }}
               onClick={() => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -99,29 +99,30 @@ export default function GamesPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <Loader />;
-
-  const activeFilterCount = (sort ? 1 : 0) + (hideOOS ? 1 : 0) + (activeTab !== "all" ? 1 : 0);
-
   /* ================= PROCESSING ================= */
-  const processGames = (list) => {
+  const processGames = useCallback((list) => {
+    if (!list || !list.length) return [];
     let filtered = [...list];
     if (hideOOS) filtered = filtered.filter((g) => !isOutOfStock(g.gameName));
     if (search.trim()) {
       const q = search.toLowerCase();
-      filtered = filtered.filter((g) => g.gameName.toLowerCase().includes(q) || g.gameFrom?.toLowerCase().includes(q));
+      filtered = filtered.filter((g) => g.gameName?.toLowerCase().includes(q) || g.gameFrom?.toLowerCase().includes(q));
     }
     filtered.sort((a, b) => sort === "az" ? a.gameName.localeCompare(b.gameName) : b.gameName.localeCompare(a.gameName));
     return filtered;
-  };
+  }, [hideOOS, search, sort]);
 
-  const injectSpecialGame = (cat) => {
-    if (!cat.categoryTitle?.toLowerCase().includes("mobile legends")) return cat.gameId;
+  const injectSpecialGame = useCallback((cat) => {
+    if (!cat.categoryTitle?.toLowerCase().includes("mobile legends")) return cat.gameId || [];
     const specialGame = games.find((g) => g.gameName === SPECIAL_MLBB_GAME);
-    if (!specialGame) return cat.gameId;
-    const withoutDuplicate = cat.gameId.filter((g) => g.gameName !== SPECIAL_MLBB_GAME);
+    if (!specialGame) return cat.gameId || [];
+    const withoutDuplicate = (cat.gameId || []).filter((g) => g.gameName !== SPECIAL_MLBB_GAME);
     return [specialGame, ...withoutDuplicate];
-  };
+  }, [games]);
+
+  if (loading) return <Loader />;
+
+  const activeFilterCount = (sort ? 1 : 0) + (hideOOS ? 1 : 0) + (activeTab !== "all" ? 1 : 0);
 
   /* ================= RENDER CARD ================= */
   const GameCard = ({ game }) => {
@@ -239,7 +240,7 @@ export default function GamesPage() {
                   <SectionHeader title={cat.categoryTitle} count={filtered.length} icon={FiLayers} />
                   <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2.5 sm:gap-3.5 md:gap-4.5">
                     {filtered.map((game, index) => (
-                      <GameCard key={index} game={game} />
+                      <GameCard key={game._id || game.gameSlug || index} game={game} />
                     ))}
                   </div>
                 </div>
@@ -262,7 +263,7 @@ export default function GamesPage() {
                 <SectionHeader title="All Games" count={filteredGlobal.length} icon={FiGlobe} />
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2.5 sm:gap-3.5 md:gap-4.5">
                   {filteredGlobal.map((game, i) => (
-                    <GameCard key={i} game={game} />
+                    <GameCard key={game._id || game.gameSlug || i} game={game} />
                   ))}
                 </div>
               </div>

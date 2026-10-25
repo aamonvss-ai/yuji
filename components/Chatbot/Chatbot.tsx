@@ -88,14 +88,21 @@ export default function Chatbot() {
 
   // Scroll handling
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        setIsVisible(true);
-      } else if (currentScrollY < lastScrollY.current) {
-        setIsVisible(false);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+            setIsVisible((prev) => (!prev ? true : prev));
+          } else if (currentScrollY < lastScrollY.current) {
+            setIsVisible((prev) => (prev ? false : prev));
+          }
+          lastScrollY.current = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
       }
-      lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
