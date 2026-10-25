@@ -13,7 +13,8 @@ import {
   ArrowDownToLine, 
   Sparkles,
   MoreVertical,
-  Laptop
+  Laptop,
+  ChevronRight
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -33,7 +34,7 @@ async function trackPwaEvent(eventType) {
   } catch (e) {}
 }
 
-export default function PWAInstaller() {
+export default function PWAInstaller({ variant = "button", onAction }) {
   const [isInstallable, setIsInstallable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlatform, setSelectedPlatform] = useState("android"); // 'android' | 'ios' | 'pc'
@@ -138,15 +139,43 @@ export default function PWAInstaller() {
 
   return (
     <>
-      {/* HEADER DOWNLOAD / INSTALL BUTTON */}
-      <button
-        onClick={handleOpenModal}
-        title="Download & Install Yuji MLBB App"
-        aria-label="Download Yuji MLBB App"
-        className="h-8 w-8 rounded-full flex items-center justify-center bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/30 text-[var(--muted)] hover:text-[var(--accent)] transition-all active:scale-95 group shrink-0"
-      >
-        <Download size={15} className="group-hover:-translate-y-0.5 transition-transform duration-200" />
-      </button>
+      {/* TRIGGER BUTTON */}
+      {variant === "menuItem" ? (
+        <button
+          onClick={() => {
+            handleOpenModal();
+            if (onAction) onAction();
+          }}
+          className="w-full flex items-center justify-between px-2.5 py-2 rounded-xl transition-all hover:bg-[var(--foreground)]/[0.04] group text-left"
+        >
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-lg bg-[var(--foreground)]/[0.03] border border-[var(--border)]/70 flex items-center justify-center transition-all group-hover:bg-[var(--accent)]/10 group-hover:border-[var(--accent)]/30">
+              <Download size={14} className="text-[var(--muted)] transition-colors group-hover:text-[var(--accent)]" />
+            </div>
+            <span className="font-semibold text-xs text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors tracking-tight">
+              Download App
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[8px] font-bold text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20 uppercase tracking-wider">
+              App
+            </span>
+            <ChevronRight size={13} className="text-[var(--muted)] opacity-0 -translate-x-1 transition-all group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[var(--accent)]" />
+          </div>
+        </button>
+      ) : (
+        <button
+          onClick={() => {
+            handleOpenModal();
+            if (onAction) onAction();
+          }}
+          title="Download & Install Yuji MLBB App"
+          aria-label="Download Yuji MLBB App"
+          className="h-8 w-8 rounded-full flex items-center justify-center bg-[var(--foreground)]/[0.03] border border-[var(--border)]/50 hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/30 text-[var(--muted)] hover:text-[var(--accent)] transition-all active:scale-95 group shrink-0"
+        >
+          <Download size={15} className="group-hover:-translate-y-0.5 transition-transform duration-200" />
+        </button>
+      )}
 
       {/* INSTALL INSTRUCTION MODAL (Teleported to body) */}
       {mounted && createPortal(
