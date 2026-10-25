@@ -18,8 +18,9 @@ import {
   FaShieldAlt,
   FaUser
 } from "react-icons/fa";
-import { MdOutlineSmartphone, MdHelpOutline } from "react-icons/md";
+import { MdOutlineSmartphone } from "react-icons/md";
 import { IoWalletOutline } from "react-icons/io5";
+import { FiChevronDown } from "react-icons/fi";
 import { useCurrency } from "@/components/CurrencyContext";
 
 export default function BuyFlowPage() {
@@ -39,6 +40,7 @@ export default function BuyFlowPage() {
   const [error, setError] = useState("");
   const [game, setGame] = useState(null);
   const [relatedItems, setRelatedItems] = useState([]);
+  const [showMorePacks, setShowMorePacks] = useState(false);
   const [recentPlayers, setRecentPlayers] = useState([]);
   const [showRecent, setShowRecent] = useState(false);
 
@@ -92,9 +94,9 @@ export default function BuyFlowPage() {
         setPrice(Number(foundItem.sellingPrice));
         setDummyPrice(Number(foundItem.dummyPrice || foundItem.sellingPrice));
 
-        // Set related items (other packs)
+        // Set related items (other packs, excluding out-of-stock)
         const others = gameData.itemId
-          .filter(i => i.itemSlug !== itemSlug)
+          .filter(i => i.itemSlug !== itemSlug && !i.isOutOfStock && i.itemAvailablity !== false)
           .slice(0, 16);
         setRelatedItems(others);
       })
@@ -225,10 +227,25 @@ export default function BuyFlowPage() {
             <div className="lg:col-span-5 space-y-6">
 
               {/* HERO CARD */}
-              <div className="bg-[var(--card)]/40 backdrop-blur-md border border-[var(--border)] rounded-xl p-3 shadow-xs relative overflow-hidden group">
-                <div className="flex items-center gap-3.5 relative z-10">
+              <div className="bg-[var(--card)]/40 backdrop-blur-md border border-[var(--border)] rounded-2xl p-2.5 sm:p-3 shadow-xs relative overflow-hidden group">
+                {/* Curvy Ambient Wave & Gem SVG */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit]">
+                  <svg viewBox="0 0 200 70" preserveAspectRatio="none" className="absolute -bottom-0.5 inset-x-0 w-full h-14 opacity-[0.035] dark:opacity-[0.06] text-[var(--accent)]">
+                    <path d="M0,70 Q50,22 100,50 T200,26 L200,70 Z" fill="currentColor" />
+                    <path d="M0,70 Q50,22 100,50 T200,26" fill="none" stroke="currentColor" strokeWidth="1.2" />
+                  </svg>
+                  <div className="absolute -right-3 -bottom-3 w-20 h-20 opacity-[0.03] dark:opacity-[0.06] text-[var(--accent)]">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+                      <path d="M6 3h12l4 6-10 12L2 9z" />
+                      <path d="M11 3L8 9l4 12 4-12-3-6" />
+                      <path d="M2 9h20" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 relative z-10">
                   <div className="relative shrink-0">
-                    <div className="w-14 h-14 sm:w-16 sm:h-16 relative rounded-lg overflow-hidden border border-[var(--border)] bg-[var(--card)]">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 relative rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--card)] shadow-xs">
                       <Image
                         src={item?.itemImageId?.image || fallbackImage || logo}
                         alt={item?.itemName || "Item"}
@@ -237,64 +254,83 @@ export default function BuyFlowPage() {
                       />
                     </div>
                     {discountPercent > 0 && (
-                      <span className="absolute -top-1.5 -left-1.5 bg-rose-500 text-white font-bold text-[7.5px] px-1.5 py-0.5 rounded shadow-xs z-20">
+                      <span className="absolute -top-1 -left-1 bg-rose-500 text-white font-bold text-[7px] sm:text-[7.5px] px-1.5 py-0.5 rounded-full shadow-xs z-20">
                         {discountPercent}% OFF
                       </span>
                     )}
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-1.5 mb-1">
-                      <span className="bg-[var(--accent)]/10 text-[var(--accent)] text-[8px] font-bold uppercase px-1.5 py-0.5 rounded tracking-wider">
-                        • Instant Delivery
-                      </span>
-                    </div>
-                    <h1 className="text-base sm:text-lg font-bold text-[var(--foreground)] tracking-tight leading-tight truncate">
+                    <h1 className="text-sm sm:text-base font-bold text-[var(--foreground)] tracking-tight leading-tight truncate">
                       {item?.itemName || fallbackName}
                     </h1>
                     <div className="flex items-baseline gap-2 mt-0.5">
-                      <span className="text-lg sm:text-xl font-black text-[var(--accent)] tracking-tight">{formatPrice(price)}</span>
+                      <span className="text-base sm:text-lg font-black text-[var(--accent)] tracking-tight">{formatPrice(price)}</span>
                       {dummyPrice > price && (
-                        <span className="text-xs font-semibold text-[var(--muted)] opacity-60 line-through">{formatPrice(dummyPrice)}</span>
+                        <span className="text-[11px] sm:text-xs font-semibold text-[var(--muted)] opacity-60 line-through">{formatPrice(dummyPrice)}</span>
                       )}
                     </div>
                   </div>
                 </div>
-
-                <div className="absolute top-3 right-3 text-[var(--muted)] opacity-40 hover:opacity-100 transition-opacity">
-                  <MdHelpOutline size={16} />
-                </div>
               </div>
 
               {/* MORE PACKS */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 px-4">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
-                  <h3 className="font-black text-[9px] uppercase tracking-[0.2em] italic opacity-40">More packs you may like</h3>
-                </div>
-
-                <div className="flex overflow-x-auto snap-x pb-2 gap-2 no-scrollbar scroll-smooth">
-                  {relatedItems.map((r) => (
-                    <Link
-                      key={r.itemSlug}
-                      href={`/games/${slug}/buy/${r.itemSlug}`}
-                      className="flex-shrink-0 w-[84px] md:w-[100px] snap-start bg-[var(--card)]/10 hover:bg-[var(--card)]/30 border-2 border-transparent hover:border-[var(--accent)]/20 px-2 py-1.5 rounded-xl transition-all duration-300 group shadow-sm hover:shadow-xl hover:-translate-y-1"
-                    >
-                      <p className="text-[8px] font-bold opacity-40 uppercase tracking-tight mb-0.5 truncate group-hover:text-[var(--accent)] transition-colors">{r.itemName}</p>
-                      <p className="text-sm font-black italic tracking-tighter">{formatPrice(r.sellingPrice)}</p>
-                    </Link>
-                  ))}
-
-                  {/* Active Item */}
-                  <div className="flex-shrink-0 w-[84px] md:w-[100px] snap-start bg-[var(--card)]/30 border-2 border-[var(--accent)] px-2 py-1.5 rounded-xl relative shadow-lg">
-                    <p className="text-[8px] font-bold text-[var(--accent)] uppercase tracking-tight mb-0.5 truncate">{item?.itemName}</p>
-                    <p className="text-sm font-black text-[var(--accent)] italic tracking-tighter">{formatPrice(price)}</p>
-                    <div className="absolute top-1 right-1">
-                      <FaCheckCircle className="text-[var(--accent)]" size={8} />
+              {relatedItems.length > 0 && (
+                <div className="space-y-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setShowMorePacks((prev) => !prev)}
+                    className="w-full flex items-center justify-between px-1 py-1 rounded-lg hover:bg-[var(--foreground)]/[0.02] transition-colors cursor-pointer group"
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
+                      <h3 className="font-bold text-[8.5px] sm:text-[9px] uppercase tracking-wider text-[var(--muted)] group-hover:text-[var(--foreground)] transition-colors">
+                        More packs you may like
+                      </h3>
+                      <span className="text-[7.5px] sm:text-[8px] font-semibold text-[var(--muted)]/60">
+                        ({relatedItems.length})
+                      </span>
                     </div>
-                  </div>
+
+                    <span className="flex items-center gap-1 text-[7.5px] sm:text-[8px] font-bold uppercase tracking-wider text-[var(--muted)] group-hover:text-[var(--foreground)] bg-[var(--foreground)]/[0.04] hover:bg-[var(--foreground)]/[0.08] border border-[var(--border)] px-1.5 py-0.5 rounded-md transition-colors">
+                      {showMorePacks ? "Hide" : "Show"}
+                      <FiChevronDown className={`transition-transform duration-200 ${showMorePacks ? "rotate-180" : ""}`} size={10} />
+                    </span>
+                  </button>
+
+                  {showMorePacks && (
+                    <div className="flex overflow-x-auto snap-x pb-1.5 pt-0.5 gap-1.5 no-scrollbar scroll-smooth">
+                      {relatedItems.map((r) => (
+                        <Link
+                          key={r.itemSlug}
+                          href={`/games/${slug}/buy/${r.itemSlug}`}
+                          className="flex-shrink-0 w-[72px] sm:w-[82px] snap-start bg-[var(--card)]/40 hover:bg-[var(--card)]/80 border border-[var(--border)] hover:border-[var(--accent)]/40 px-1.5 py-1 sm:px-2 sm:py-1.5 rounded-xl transition-all duration-200 group shadow-2xs hover:-translate-y-0.5"
+                        >
+                          <p className="text-[7px] sm:text-[7.5px] font-semibold text-[var(--muted)] uppercase tracking-tight mb-0.5 truncate group-hover:text-[var(--foreground)] transition-colors">
+                            {r.itemName}
+                          </p>
+                          <p className="text-xs sm:text-[13px] font-bold text-[var(--foreground)] tracking-tight">
+                            {formatPrice(r.sellingPrice)}
+                          </p>
+                        </Link>
+                      ))}
+
+                      {/* Active Item */}
+                      <div className="flex-shrink-0 w-[72px] sm:w-[82px] snap-start bg-[var(--accent)]/[0.08] border border-[var(--accent)] ring-1 ring-[var(--accent)]/30 px-1.5 py-1 sm:px-2 sm:py-1.5 rounded-xl relative shadow-xs">
+                        <p className="text-[7px] sm:text-[7.5px] font-bold text-[var(--accent)] uppercase tracking-tight mb-0.5 truncate pr-2.5">
+                          {item?.itemName}
+                        </p>
+                        <p className="text-xs sm:text-[13px] font-bold text-[var(--accent)] tracking-tight">
+                          {formatPrice(price)}
+                        </p>
+                        <div className="absolute top-1 right-1">
+                          <FaCheckCircle className="text-[var(--accent)]" size={8} />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
+              )}
             </div>
 
             {/* RIGHT COLUMN: INFO & PAYMENT */}

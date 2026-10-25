@@ -6,17 +6,50 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 
+const OUT_OF_STOCK_GAMES = ["Genshin Impact", "TEST 1", "Wuthering of Waves", "Mobile Legends Backup"];
+
+const isOutOfStock = (game) => {
+    if (!game) return false;
+    if (typeof game === "object") {
+        if (game.gameAvailablity === false || game.isOutOfStock === true) return true;
+        if (OUT_OF_STOCK_GAMES.includes(game.gameName) || OUT_OF_STOCK_GAMES.includes(game.gameSlug)) return true;
+        return false;
+    }
+    return OUT_OF_STOCK_GAMES.includes(game);
+};
+
 export default function GameSwitcher() {
     const { slug } = useParams();
     const [games, setGames] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        fetch("/api/games")
+        const cached = typeof window !== "undefined" ? localStorage.getItem("yuji_games_cache") : null;
+        if (cached) {
+            try {
+                const parsed = JSON.parse(cached);
+                const list = parsed.games || [];
+                const inStock = list.filter((g) => !isOutOfStock(g));
+                if (inStock.length > 0) {
+                    setGames(inStock);
+                    setIsLoading(false);
+                }
+            } catch {
+                // ignore
+            }
+        }
+
+        const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+        fetch("/api/games", {
+            headers: {
+                ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (data?.success && data?.data?.games) {
-                    setGames(data.data.games);
+                    const inStock = data.data.games.filter((g) => !isOutOfStock(g));
+                    setGames(inStock);
                 }
             })
             .catch((err) => console.error("Failed to load games for switcher:", err))
