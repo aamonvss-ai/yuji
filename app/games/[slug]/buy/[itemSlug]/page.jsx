@@ -18,6 +18,8 @@ import {
   FaUser
 } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
+import { MdOutlineSmartphone } from "react-icons/md";
+import { IoWalletOutline } from "react-icons/io5";
 import { useCurrency } from "@/components/CurrencyContext";
 import { Skeleton } from "@/components/ui/Skeleton";
 
