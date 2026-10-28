@@ -13,7 +13,7 @@ import {
   FiShield,
   FiZap
 } from "react-icons/fi";
-import { Gamepad2, Flame, Sparkles, ShieldCheck, Zap } from "lucide-react";
+import { Gamepad2, Flame, Sparkles, ShieldCheck, Zap, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import GamesFilterModal from "@/components/Games/GamesFilterModal";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -47,7 +47,7 @@ export const GamesGridSkeleton = () => (
         <div className="max-w-7xl mx-auto px-4">
           <div className="h-10 w-full rounded-2xl bg-[var(--card)]/40 border border-[var(--border)] relative overflow-hidden flex items-center justify-between px-3">
             <div className="h-3.5 w-48 bg-[var(--foreground)]/[0.06] rounded-md" />
-            <div className="h-7 w-16 bg-[var(--foreground)]/[0.06] rounded-xl" />
+            <div className="h-7 w-7 bg-[var(--foreground)]/[0.06] rounded-xl" />
           </div>
         </div>
       </div>
@@ -314,15 +314,15 @@ export default function GamesPage() {
                 <button
                   type="button"
                   onClick={() => setShowFilter(true)}
-                  className={`h-7 px-2.5 flex items-center gap-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all ${
+                  className={`h-7 ${activeFilterCount > 0 ? "px-2 gap-1.5" : "w-7"} flex items-center justify-center rounded-xl transition-all ${
                     activeFilterCount > 0
                       ? "bg-[var(--accent)] text-white shadow-xs"
                       : "bg-[var(--foreground)]/[0.05] hover:bg-[var(--foreground)]/[0.1] text-[var(--foreground)] border border-[var(--border)]"
                   }`}
                   title="Filter & Sort games"
+                  aria-label="Filter & Sort games"
                 >
-                  <FiFilter size={11} className={activeFilterCount > 0 ? "text-white" : "text-[var(--muted)]"} />
-                  <span>Filter</span>
+                  <FiFilter size={12} className={activeFilterCount > 0 ? "text-white" : "text-[var(--muted)]"} />
                   {activeFilterCount > 0 && (
                     <span className="w-4 h-4 rounded-full bg-white/20 text-white text-[8.5px] flex items-center justify-center font-bold">
                       {activeFilterCount}
@@ -406,30 +406,35 @@ export default function GamesPage() {
           {(activeTab === "all" || activeTab === "membership") && memberships?.items?.length > 0 && (
             <div>
               <SectionHeader title={memberships.title} count={memberships.items.length} icon={ShieldCheck} iconColor="text-purple-400" />
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5">
                 {memberships.items.map((plan) => (
                   <Link
                     key={plan.slug}
                     href={`/games/${plan.slug}`}
-                    className="group relative flex items-center p-5 rounded-[1.5rem] bg-gradient-to-br from-[var(--card)] to-transparent border border-[var(--border)] hover:border-[var(--accent)]/40 transition-transform duration-250 ease-out hover:-translate-y-1 shadow-sm overflow-hidden transform-gpu"
+                    className="group relative flex items-center py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-2xl bg-gradient-to-br from-[var(--card)] to-transparent border border-[var(--border)] hover:border-purple-500/40 transition-all duration-250 ease-out hover:-translate-y-0.5 shadow-xs hover:shadow-sm overflow-hidden transform-gpu"
                   >
-                    <div className="relative w-16 h-16 mr-5 flex-shrink-0 rounded-2xl overflow-hidden border border-[var(--border)] bg-gradient-to-br from-[var(--foreground)]/[0.04] to-transparent shadow-sm">
+                    <div className="relative w-12 h-12 sm:w-13 sm:h-13 mr-3 flex-shrink-0 rounded-xl overflow-hidden border border-[var(--border)] bg-gradient-to-br from-[var(--foreground)]/[0.04] to-transparent shadow-xs">
                       <Image src={plan.image} alt={plan.name} fill className="object-cover relative z-10 group-hover:scale-105 transition-transform duration-300" />
                     </div>
-                    <div className="relative z-10 flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <div className="h-[1px] w-3 bg-[var(--accent)]" />
-                        <p className="text-[8px] md:text-[9px] font-black text-[var(--accent)] uppercase tracking-[0.2em]">{plan.duration}</p>
+                    <div className="relative z-10 flex-1 min-w-0 pr-2">
+                      <div className="flex items-center gap-1.5 mb-0.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shrink-0" />
+                        <p className="text-[8px] font-black text-purple-400 uppercase tracking-widest leading-none">{plan.duration || "PASS"}</p>
                       </div>
-                      <h3 className="text-xs md:text-sm font-black text-[var(--foreground)] uppercase tracking-tight group-hover:text-[var(--accent)] transition-colors leading-tight italic">
+                      <h3 className="text-[11px] sm:text-xs font-black text-[var(--foreground)] uppercase tracking-tight group-hover:text-purple-400 transition-colors leading-tight italic truncate">
                         {plan.name}
                       </h3>
-                      <p className="text-[9px] font-bold text-[var(--muted)] opacity-50 mt-1 uppercase">Exclusive Access</p>
+                      <p className="text-[8px] font-semibold text-[var(--muted)] opacity-60 mt-0.5 uppercase tracking-wider leading-none">Exclusive Access</p>
                     </div>
 
-                    {/* Decorative Elements */}
-                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                      <ShieldCheck size={40} className="rotate-12 text-purple-400" />
+                    {/* Subtle Action Arrow */}
+                    <div className="relative z-10 w-5 h-5 rounded-full flex items-center justify-center text-[var(--muted)] group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all shrink-0 opacity-70 group-hover:opacity-100">
+                      <ChevronRight size={14} />
+                    </div>
+
+                    {/* Subtle Elegant SVG Watermark in Corner */}
+                    <div className="absolute -right-2 -bottom-2 w-16 h-16 pointer-events-none opacity-[0.05] dark:opacity-[0.08] group-hover:opacity-[0.12] transition-opacity duration-300 text-purple-400">
+                      <ShieldCheck className="w-full h-full rotate-12" strokeWidth={1.5} />
                     </div>
                   </Link>
                 ))}
@@ -441,30 +446,35 @@ export default function GamesPage() {
           {(activeTab === "all" || activeTab === "others") && otts?.items?.length > 0 && (
             <div>
               <SectionHeader title={otts.title} count={otts.items.length} icon={Sparkles} iconColor="text-emerald-400" />
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5">
                 {otts.items.map((item) => (
                   <Link
                     key={item.slug}
                     href={`/games/${item.slug}`}
-                    className="group relative flex items-center p-5 rounded-[1.5rem] bg-gradient-to-br from-[var(--card)] to-transparent border border-[var(--border)] hover:border-[var(--accent)]/40 transition-transform duration-250 ease-out hover:-translate-y-1 shadow-sm overflow-hidden transform-gpu"
+                    className="group relative flex items-center py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-2xl bg-gradient-to-br from-[var(--card)] to-transparent border border-[var(--border)] hover:border-emerald-400/40 transition-all duration-250 ease-out hover:-translate-y-0.5 shadow-xs hover:shadow-sm overflow-hidden transform-gpu"
                   >
-                    <div className="relative w-16 h-16 mr-5 flex-shrink-0">
-                      <Image src={item.image} alt={item.name} fill className="object-cover rounded-xl relative z-10 group-hover:scale-105 transition-transform duration-300" />
+                    <div className="relative w-12 h-12 sm:w-13 sm:h-13 mr-3 flex-shrink-0 rounded-xl overflow-hidden border border-[var(--border)] bg-gradient-to-br from-[var(--foreground)]/[0.04] to-transparent shadow-xs">
+                      <Image src={item.image} alt={item.name} fill className="object-cover relative z-10 group-hover:scale-105 transition-transform duration-300" />
                     </div>
-                    <div className="relative z-10 flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <div className="h-[1px] w-3 bg-[var(--accent)]" />
-                        <p className="text-[8px] md:text-[9px] font-black text-[var(--accent)] uppercase tracking-[0.2em]">{item.category}</p>
+                    <div className="relative z-10 flex-1 min-w-0 pr-2">
+                      <div className="flex items-center gap-1.5 mb-0.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+                        <p className="text-[8px] font-black text-emerald-400 uppercase tracking-widest leading-none">{item.category}</p>
                       </div>
-                      <h3 className="text-xs md:text-sm font-black text-[var(--foreground)] uppercase tracking-tight group-hover:text-[var(--accent)] transition-colors leading-tight italic">
+                      <h3 className="text-[11px] sm:text-xs font-black text-[var(--foreground)] uppercase tracking-tight group-hover:text-emerald-400 transition-colors leading-tight italic truncate">
                         {item.name}
                       </h3>
-                      <p className="text-[9px] font-bold text-[var(--muted)] opacity-50 mt-1 uppercase">Premium Sub</p>
+                      <p className="text-[8px] font-semibold text-[var(--muted)] opacity-60 mt-0.5 uppercase tracking-wider leading-none">Premium Sub</p>
                     </div>
 
-                    {/* Decorative Elements */}
-                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                      <FiZap size={40} className="-rotate-12" />
+                    {/* Subtle Action Arrow */}
+                    <div className="relative z-10 w-5 h-5 rounded-full flex items-center justify-center text-[var(--muted)] group-hover:text-emerald-400 group-hover:translate-x-0.5 transition-all shrink-0 opacity-70 group-hover:opacity-100">
+                      <ChevronRight size={14} />
+                    </div>
+
+                    {/* Subtle Elegant SVG Watermark in Corner */}
+                    <div className="absolute -right-2 -bottom-2 w-16 h-16 pointer-events-none opacity-[0.05] dark:opacity-[0.08] group-hover:opacity-[0.12] transition-opacity duration-300 text-emerald-400">
+                      <FiZap size={64} className="-rotate-12" />
                     </div>
                   </Link>
                 ))}

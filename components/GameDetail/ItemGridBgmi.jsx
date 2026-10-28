@@ -35,7 +35,7 @@ export default function ItemGridBgmi({
                 block: "center",
               });
             }}
-            className={`group relative rounded-2xl px-2.5 py-2.5 sm:px-3 sm:py-3 border transition-all duration-200 overflow-hidden
+            className={`group relative rounded-2xl px-3 py-3 sm:px-3.5 sm:py-3.5 border transition-all duration-200 overflow-hidden min-h-[74px] sm:min-h-[78px] flex flex-col justify-between
               ${isOutOfStock
                  ? "border-red-500/20 bg-red-500/[0.04] opacity-55 grayscale cursor-not-allowed"
                  : isActive
@@ -43,37 +43,46 @@ export default function ItemGridBgmi({
                  : "border-[var(--border)] bg-[var(--card)]/50 hover:border-[var(--accent)]/40 backdrop-blur-xs cursor-pointer"
               }`}
           >
-            {/* Out of Stock Badge / Active Indicator */}
-            {isOutOfStock ? (
-              <div className="absolute top-1.5 right-1.5 z-20">
+            {/* Top Right: Badges & Indicators */}
+            <div className="absolute top-2 right-2 z-20 flex items-center gap-1.5 pointer-events-none">
+              {isOutOfStock ? (
                 <span className="px-2 py-0.5 rounded-full bg-red-500/90 border border-white/20 text-white font-bold text-[7px] uppercase tracking-wider shadow-xs whitespace-nowrap">
                   Out of Stock
                 </span>
-              </div>
-            ) : isActive ? (
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="absolute top-1.5 right-1.5 text-[var(--accent)] z-20"
-              >
-                <FiCheckCircle className="w-3.5 h-3.5" />
-              </motion.div>
-            ) : null}
+              ) : (
+                <>
+                  {item.dummyPrice && item.dummyPrice > item.sellingPrice && (
+                    <span className="px-1.5 py-0.5 rounded-full bg-red-500 text-white font-black text-[7.5px] sm:text-[8px] leading-none shadow-xs tracking-tight">
+                      -{Math.round(((item.dummyPrice - item.sellingPrice) / item.dummyPrice) * 100)}%
+                    </span>
+                  )}
+                  {isActive && (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="text-[var(--accent)]"
+                    >
+                      <FiCheckCircle className="w-3.5 h-3.5" />
+                    </motion.div>
+                  )}
+                </>
+              )}
+            </div>
 
-            {/* Curvy Ambient Wave & Gem Watermark SVG */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit]">
-              <svg viewBox="0 0 200 70" preserveAspectRatio="none" className="absolute -bottom-0.5 inset-x-0 w-full h-11 opacity-[0.035] dark:opacity-[0.07] text-[var(--accent)] group-hover:opacity-[0.12] transition-opacity">
-                <path d="M0,70 Q50,22 100,50 T200,26 L200,70 Z" fill="currentColor" />
-                <path d="M0,70 Q50,22 100,50 T200,26" fill="none" stroke="currentColor" strokeWidth="1.2" />
+            {/* Faceted Premium Diamond Watermark SVG - High Visibility on Both Light & Dark Themes */}
+            <div className="absolute -right-2 -bottom-2.5 w-14 h-14 sm:w-16 sm:h-16 pointer-events-none opacity-[0.14] dark:opacity-[0.18] group-hover:opacity-[0.25] dark:group-hover:opacity-[0.30] text-[var(--accent)] transition-all duration-300 group-hover:scale-105">
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                {/* Table facet */}
+                <polygon points="20,10 44,10 54,24 10,24" fill="currentColor" fillOpacity="0.35" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+                {/* Crown facets */}
+                <polygon points="10,24 20,10 26,24" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+                <polygon points="26,24 20,10 44,10 38,24" fill="currentColor" fillOpacity="0.5" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+                <polygon points="44,10 54,24 38,24" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+                {/* Pavilion facets meeting at culet (32, 56) */}
+                <polygon points="10,24 26,24 32,56" fill="currentColor" fillOpacity="0.25" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+                <polygon points="26,24 38,24 32,56" fill="currentColor" fillOpacity="0.6" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+                <polygon points="38,24 54,24 32,56" fill="currentColor" fillOpacity="0.35" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
               </svg>
-
-              <div className="absolute -right-2 -bottom-2 w-12 h-12 opacity-[0.03] dark:opacity-[0.07] text-[var(--accent)] group-hover:opacity-[0.11] group-hover:scale-105 transition-all">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
-                  <path d="M6 3h12l4 6-10 12L2 9z" />
-                  <path d="M11 3L8 9l4 12 4-12-3-6" />
-                  <path d="M2 9h20" />
-                </svg>
-              </div>
             </div>
 
             <div className="flex flex-col gap-1.5 relative z-10">

@@ -15,6 +15,7 @@ import BuyPanelBgmi from "@/components/GameDetail/BuyPanelBgmi";
 import GameSwitcher from "@/components/GameDetail/GameSwitcher";
 import AuthGuard from "@/components/AuthGuard";
 import GameDetailSkeleton from "@/components/GameDetail/GameDetailSkeleton";
+import { Zap } from "lucide-react";
 
 export default function GameDetailPage() {
   const { slug } = useParams();
@@ -156,24 +157,36 @@ export default function GameDetailPage() {
       <GameSwitcher />
 
       {/* ================= HEADER ================= */}
-      <div className="max-w-6xl mx-auto mt-2 sm:mt-3 mb-3.5 pb-2.5 border-b border-[var(--border)] flex items-center gap-2.5">
-        <div className="w-9 h-9 sm:w-10 sm:h-10 relative rounded-lg overflow-hidden shrink-0 border border-[var(--border)] shadow-xs">
-          <Image
-            src={game?.gameImageId?.image || logo}
-            alt={game?.gameName || "Game"}
-            fill
-            className="object-cover"
-          />
+      <div className="max-w-6xl mx-auto mt-2 sm:mt-3 mb-4">
+        <div className="flex items-center justify-between gap-3 pb-3">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <div className="w-9 h-9 sm:w-11 sm:h-11 relative rounded-xl overflow-hidden shrink-0 border border-[var(--border)] shadow-xs bg-[var(--card)]">
+              <Image
+                src={game?.gameImageId?.image || logo}
+                alt={game?.gameName || "Game"}
+                fill
+                className="object-cover"
+              />
+            </div>
+
+            <div className="min-w-0">
+              <h1 className="text-base sm:text-lg font-bold leading-tight truncate">
+                {game?.gameName}
+              </h1>
+              <p className="text-[9.5px] sm:text-[10px] text-[var(--muted)] uppercase tracking-wider font-semibold">
+                {game?.gameFrom}
+              </p>
+            </div>
+          </div>
+
+          {/* Right-most Icon */}
+          <div className="shrink-0 text-[var(--accent)]" title="Instant Automated Delivery">
+            <Zap size={18} className="fill-[var(--accent)]" />
+          </div>
         </div>
 
-        <div>
-          <h1 className="text-base sm:text-lg font-bold leading-tight">
-            {game?.gameName}
-          </h1>
-          <p className="text-[9.5px] sm:text-[10px] text-[var(--muted)] uppercase tracking-wider font-semibold">
-            {game?.gameFrom}
-          </p>
-        </div>
+        {/* Premium Line Below (Crisp, No Shadow) */}
+        <div className="w-full h-[1.5px] bg-gradient-to-r from-[var(--accent)] via-[var(--border)] to-transparent rounded-full" />
       </div>
 
       {/* ================= OUT OF STOCK HANDLING ================= */}

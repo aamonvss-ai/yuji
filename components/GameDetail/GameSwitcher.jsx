@@ -8,6 +8,15 @@ import { motion } from "framer-motion";
 
 const OUT_OF_STOCK_GAMES = ["Genshin Impact", "TEST 1", "Wuthering of Waves", "Mobile Legends Backup"];
 
+const formatSwitcherName = (name) => {
+    if (!name) return "";
+    return name
+        .replace(/mobile\s+legends/gi, "MLBB")
+        .replace(/bang\s+bang/gi, "")
+        .replace(/\bunited\s+states\b/gi, "USA")
+        .trim();
+};
+
 const isOutOfStock = (game) => {
     if (!game) return false;
     if (typeof game === "object") {
@@ -67,7 +76,7 @@ export default function GameSwitcher() {
         <div className="w-full overflow-hidden mb-2">
             <div className="max-w-6xl mx-auto px-0">
                 <div className="flex items-center gap-1.5 mb-1.5 px-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--muted)]">
                         Quick Switch
                     </span>
                 </div>
@@ -83,7 +92,7 @@ export default function GameSwitcher() {
                             >
                                 <motion.div
                                     whileTap={{ scale: 0.95 }}
-                                    className="relative flex flex-col items-center gap-0.5 p-0.5 sm:p-1 w-[50px] sm:w-[56px] shrink-0 transition-all duration-200"
+                                    className="relative flex flex-col items-center gap-1 p-0.5 sm:p-1 w-[52px] sm:w-[58px] shrink-0 transition-all duration-200"
                                 >
                                     <div className={`
                                         w-7 h-7 sm:w-8 sm:h-8 relative rounded-lg overflow-hidden transition-all duration-200 shrink-0
@@ -99,10 +108,10 @@ export default function GameSwitcher() {
                                             className={`object-cover ${!(game?.gameImageId?.image) ? "logo-img" : ""}`}
                                         />
                                     </div>
-                                    <span className={`w-full min-h-[18px] sm:min-h-[20px] flex items-center justify-center text-[7.5px] sm:text-[8.5px] font-bold uppercase tracking-tight leading-[1.1] text-center line-clamp-2 break-words transition-colors ${
-                                        isActive ? 'text-[var(--foreground)] font-black' : 'text-[var(--muted)] group-hover:text-[var(--foreground)]'
+                                    <span className={`w-full h-[20px] sm:h-[22px] flex items-center justify-center text-[7px] sm:text-[7.5px] font-semibold uppercase tracking-tight leading-[1.05] text-center line-clamp-2 overflow-hidden transition-colors ${
+                                        isActive ? 'text-[var(--foreground)] font-bold' : 'text-[var(--muted)] group-hover:text-[var(--foreground)]'
                                     }`}>
-                                        {game.gameName}
+                                        {formatSwitcherName(game.gameName)}
                                     </span>
                                 </motion.div>
                             </Link>
