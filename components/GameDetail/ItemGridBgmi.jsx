@@ -86,7 +86,7 @@ export default function ItemGridBgmi({
             </div>
 
             <div className="flex flex-col gap-1.5 relative z-10">
-              <div className="flex items-center gap-1.5 pr-4">
+              <div className="flex items-center gap-1.5 pr-12">
                 <div className="relative w-4.5 h-4.5 shrink-0 rounded-md overflow-hidden">
                   <Image 
                     src={item.itemImageId?.image || gameImage || logo} 
@@ -100,22 +100,13 @@ export default function ItemGridBgmi({
                 </h3>
               </div>
 
-              <div className="flex items-center justify-between mt-1">
-                <div className="flex items-baseline gap-1.5">
-                  <span className="text-sm sm:text-[15px] font-black text-[var(--accent)] tabular-nums leading-none">
-                    {formatPrice(item.sellingPrice)}
-                  </span>
-                  {item.dummyPrice && (
-                    <span className="text-[9px] sm:text-[9.5px] line-through text-[var(--muted)]/60 font-semibold tabular-nums">
-                      {formatPrice(item.dummyPrice)}
-                    </span>
-                  )}
-                </div>
-
-                {/* Curvy Save Badge */}
-                {item.dummyPrice && item.dummyPrice > item.sellingPrice && (
-                  <span className="text-[8px] sm:text-[8.5px] font-black text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full leading-none">
-                    -{Math.round(((item.dummyPrice - item.sellingPrice) / item.dummyPrice) * 100)}%
+              <div className="flex items-baseline gap-1.5 mt-1">
+                <span className="text-sm sm:text-[15px] font-black text-[var(--accent)] tabular-nums leading-none">
+                  {formatPrice(item.sellingPrice)}
+                </span>
+                {item.dummyPrice && (
+                  <span className="text-[9px] sm:text-[9.5px] line-through text-[var(--muted)]/60 font-semibold tabular-nums">
+                    {formatPrice(item.dummyPrice)}
                   </span>
                 )}
               </div>
