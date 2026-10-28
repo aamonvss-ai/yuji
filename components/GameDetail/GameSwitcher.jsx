@@ -24,6 +24,7 @@ export default function GameSwitcher() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        let hasCache = false;
         const cached = typeof window !== "undefined" ? localStorage.getItem("yuji_games_cache") : null;
         if (cached) {
             try {
@@ -33,27 +34,31 @@ export default function GameSwitcher() {
                 if (inStock.length > 0) {
                     setGames(inStock);
                     setIsLoading(false);
+                    hasCache = true;
                 }
             } catch {
                 // ignore
             }
         }
 
-        const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-        fetch("/api/games", {
-            headers: {
-                ...(token ? { Authorization: `Bearer ${token}` } : {}),
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data?.success && data?.data?.games) {
-                    const inStock = data.data.games.filter((g) => !isOutOfStock(g));
-                    setGames(inStock);
-                }
+        // Only fetch from network if no cache exists
+        if (!hasCache) {
+            const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+            fetch("/api/games", {
+                headers: {
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
             })
-            .catch((err) => console.error("Failed to load games for switcher:", err))
-            .finally(() => setIsLoading(false));
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data?.success && data?.data?.games) {
+                        const inStock = data.data.games.filter((g) => !isOutOfStock(g));
+                        setGames(inStock);
+                    }
+                })
+                .catch((err) => console.error("Failed to load games for switcher:", err))
+                .finally(() => setIsLoading(false));
+        }
     }, []);
 
     if (isLoading || games.length === 0) return null;

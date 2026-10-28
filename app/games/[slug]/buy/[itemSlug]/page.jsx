@@ -127,7 +127,29 @@ export default function BuyFlowPage() {
   useEffect(() => {
     if (!slug || !itemSlug) return;
 
-    const token = localStorage.getItem("token");
+    // 1. Instant cache hydrate from game view
+    try {
+      const cached = sessionStorage.getItem(`yuji_game_${slug}`);
+      if (cached) {
+        const gameData = JSON.parse(cached);
+        if (gameData?.itemId) {
+          const foundItem = gameData.itemId.find((i) => i.itemSlug === itemSlug);
+          if (foundItem) {
+            setGame(gameData);
+            setItem(foundItem);
+            setPrice(Number(foundItem.sellingPrice));
+            setDummyPrice(Number(foundItem.dummyPrice || foundItem.sellingPrice));
+            const others = gameData.itemId
+              .filter(i => i.itemSlug !== itemSlug && !i.isOutOfStock && i.itemAvailablity !== false)
+              .slice(0, 16);
+            setRelatedItems(others);
+            setPageLoading(false);
+          }
+        }
+      }
+    } catch {}
+
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
     fetch(`/api/games/${slug}`, {
       headers: {
@@ -137,28 +159,28 @@ export default function BuyFlowPage() {
       .then(res => res.json())
       .then(data => {
         const gameData = data?.data;
-        setGame(gameData);
-
         if (!gameData?.itemId) return;
 
+        setGame(gameData);
+
         const foundItem = gameData.itemId.find((i) => i.itemSlug === itemSlug);
-        if (!foundItem) {
-          alert("Invalid item selected");
-          return;
+        if (foundItem) {
+          setItem(foundItem);
+          setPrice(Number(foundItem.sellingPrice));
+          setDummyPrice(Number(foundItem.dummyPrice || foundItem.sellingPrice));
+
+          // Set related items (other packs, excluding out-of-stock)
+          const others = gameData.itemId
+            .filter(i => i.itemSlug !== itemSlug && !i.isOutOfStock && i.itemAvailablity !== false)
+            .slice(0, 16);
+          setRelatedItems(others);
         }
-
-        setItem(foundItem);
-        setPrice(Number(foundItem.sellingPrice));
-        setDummyPrice(Number(foundItem.dummyPrice || foundItem.sellingPrice));
-
-        // Set related items (other packs, excluding out-of-stock)
-        const others = gameData.itemId
-          .filter(i => i.itemSlug !== itemSlug && !i.isOutOfStock && i.itemAvailablity !== false)
-          .slice(0, 16);
-        setRelatedItems(others);
       })
       .catch(() => {
-        alert("Failed to load item price");
+        setGame((curr) => {
+          if (!curr) alert("Failed to load item price");
+          return curr;
+        });
       })
       .finally(() => {
         setPageLoading(false);

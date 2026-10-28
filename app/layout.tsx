@@ -20,6 +20,33 @@ import BubbleBackground from "@/components/Background/BubbleBackground";
 
 const Chatbot = dynamic(() => import("@/components/Chatbot/Chatbot"));
 
+const getSystemSettingsCache = unstable_cache(
+  async () => {
+    try {
+      await connectDB();
+      const settings = await SystemSettings.findOne().lean();
+      return {
+        maintenanceMode: settings?.maintenanceMode || false,
+        enableAutoTranslation: settings?.enableAutoTranslation || false,
+        seoTitle: settings?.seoTitle || null,
+        seoDescription: settings?.seoDescription || null,
+        seoKeywords: settings?.seoKeywords || []
+      };
+    } catch (err) {
+      console.error("Failed to fetch system settings", err);
+      return {
+        maintenanceMode: false,
+        enableAutoTranslation: false,
+        seoTitle: null,
+        seoDescription: null,
+        seoKeywords: []
+      };
+    }
+  },
+  ['system-settings-cache'],
+  { revalidate: 120 } // Cache for 2 minutes
+);
+
 export async function generateMetadata(): Promise<Metadata> {
   let title = "MLBB Top Up India – Cheap Mobile Legends Diamonds | Yujimlbb";
   let description = "Buy Mobile Legends diamonds at the cheapest price in India. Instant delivery, trusted service & secure payment only at Yujimlbb.com.";
@@ -32,8 +59,7 @@ export async function generateMetadata(): Promise<Metadata> {
   ];
 
   try {
-    await connectDB();
-    const settings = await SystemSettings.findOne();
+    const settings = await getSystemSettingsCache();
     if (settings) {
       if (settings.seoTitle) title = settings.seoTitle;
       if (settings.seoDescription) description = settings.seoDescription;
@@ -104,27 +130,6 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-const getSystemSettingsCache = unstable_cache(
-  async () => {
-    try {
-      await connectDB();
-      const settings = await SystemSettings.findOne();
-      return {
-        maintenanceMode: settings?.maintenanceMode || false,
-        enableAutoTranslation: settings?.enableAutoTranslation || false
-      };
-    } catch (err) {
-      console.error("Failed to fetch system settings", err);
-      return {
-        maintenanceMode: false,
-        enableAutoTranslation: false
-      };
-    }
-  },
-  ['system-settings-cache'],
-  { revalidate: 60 } // Cache for 1 minute
-);
-
 export default async function RootLayout({
   children,
 }: {
@@ -137,6 +142,8 @@ export default async function RootLayout({
       <head>
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://game-off-ten.vercel.app" />
+        <link rel="dns-prefetch" href="https://game-off-ten.vercel.app" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

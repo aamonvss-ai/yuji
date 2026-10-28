@@ -16,7 +16,6 @@ import {
 import { Gamepad2, Flame, Sparkles, ShieldCheck, Zap } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import GamesFilterModal from "@/components/Games/GamesFilterModal";
-import Loader from "@/components/Loader/Loader";
 import { Skeleton } from "@/components/ui/Skeleton";
 import SearchInput from "@/components/ui/SearchInput";
 import EmptyState from "@/components/ui/EmptyState";
@@ -135,20 +134,20 @@ export default function GamesPage() {
 
   /* ================= FETCH ================= */
   useEffect(() => {
-    const cached = localStorage.getItem("yuji_games_cache");
-    if (cached) {
-      try {
+    try {
+      const cached = localStorage.getItem("yuji_games_cache");
+      if (cached) {
         const data = JSON.parse(cached);
-        queueMicrotask(() => {
+        if (data?.games?.length || data?.category?.length) {
           setCategory(data.category || []);
           setOtts(data.otts || null);
           setMemberships(data.memberships || null);
           setGames((data.games || []).map((g) => g.gameName === "PUBG Mobile" ? { ...g, gameName: "PUBG Mobile" } : g));
           setLoading(false);
-        });
-      } catch {
-        // invalid cache ignore
+        }
       }
+    } catch {
+      // invalid cache ignore
     }
 
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -229,8 +228,6 @@ export default function GamesPage() {
     }
     return list.filter((g) => !MLBB_SPECIAL_SLUGS.includes(g.gameSlug));
   }, [games, MLBB_SPECIAL_SLUGS]);
-
-  if (loading) return <Loader />;
 
   const activeFilterCount = (sort ? 1 : 0) + (hideOOS ? 1 : 0) + (activeTab !== "all" ? 1 : 0);
 

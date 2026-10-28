@@ -2,8 +2,34 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import PricingConfig from "@/models/PricingConfig";
 import jwt from "jsonwebtoken";
+import { unstable_cache } from "next/cache";
 
-export const revalidate = 60; // Cache the whole route for 1 minutes
+export const revalidate = 60; // Cache the whole route for 1 minute
+
+const getCachedExternalGames = unstable_cache(
+  async () => {
+    const res = await fetch("https://game-off-ten.vercel.app/api/v1/game", {
+      method: "GET",
+      headers: {
+        "x-api-key": process.env.API_SECRET_KEY!,
+      },
+      next: { revalidate: 120 },
+    });
+    if (!res.ok) throw new Error("Failed to fetch games from remote upstream");
+    return await res.json();
+  },
+  ["remote-games-list"],
+  { revalidate: 120 }
+);
+
+const getCachedPricingConfigs = unstable_cache(
+  async () => {
+    await connectDB();
+    return await PricingConfig.find({}).lean();
+  },
+  ["all-pricing-configs"],
+  { revalidate: 60 }
+);
 
 const ALLOWED_GAME_SLUGS = [
   "mobile-legends114",
@@ -110,18 +136,10 @@ export async function GET(req: Request) {
       } catch { }
     }
 
-    const [allConfigs, response] = await Promise.all([
-      connectDB().then(() => PricingConfig.find({}).lean()),
-      fetch("https://game-off-ten.vercel.app/api/v1/game", {
-        method: "GET",
-        headers: {
-          "x-api-key": process.env.API_SECRET_KEY!,
-        },
-        next: { revalidate: 60 }, // Cache for 1 minutes
-      })
+    const [allConfigs, data] = await Promise.all([
+      getCachedPricingConfigs(),
+      getCachedExternalGames(),
     ]);
-
-    const data = await response.json();
 
     // Map all game slugs that are marked out of stock across any role
     const globalOutOfStockSlugs = new Set<string>();
@@ -309,6 +327,10 @@ export async function GET(req: Request) {
         },
 
       },
+    }, {
+      headers: {
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120"
+      }
     });
   } catch (error) {
     console.error("GAME API ERROR:", error);

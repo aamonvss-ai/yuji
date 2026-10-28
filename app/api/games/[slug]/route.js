@@ -34,12 +34,52 @@ const ALLOWED_GAME_SLUGS = [
   
 ];
 
-const getCachedPricingConfig = unstable_cache(
-  async (role) => {
-    await connectDB();
-    return await PricingConfig.findOne({ userType: role }).lean();
+const getCachedGameBySlug = unstable_cache(
+  async (slug) => {
+    try {
+      const res = await fetch(
+        `https://game-off-ten.vercel.app/api/v1/game/${slug}`,
+        {
+          headers: { "x-api-key": process.env.API_SECRET_KEY },
+          next: { revalidate: 60 }
+        }
+      );
+      if (!res.ok) return null;
+      return await res.json();
+    } catch {
+      return null;
+    }
   },
-  ['pricing-config'],
+  ['remote-game-slug'],
+  { revalidate: 60 }
+);
+
+const getCachedSystemSettings = unstable_cache(
+  async () => {
+    try {
+      await connectDB();
+      const settings = await SystemSettings.findOne().lean();
+      return {
+        acceptingOrders: settings?.acceptingOrders !== false,
+        notAcceptingOrdersMessage: settings?.notAcceptingOrdersMessage || "We are not taking orders right now. Please come back later."
+      };
+    } catch {
+      return {
+        acceptingOrders: true,
+        notAcceptingOrdersMessage: "We are not taking orders right now. Please come back later."
+      };
+    }
+  },
+  ['system-settings-orders'],
+  { revalidate: 60 }
+);
+
+const getCachedAllPricingConfigs = unstable_cache(
+  async () => {
+    await connectDB();
+    return await PricingConfig.find({}).lean();
+  },
+  ['all-pricing-configs'],
   { revalidate: 60 }
 );
 
@@ -284,28 +324,21 @@ export async function GET(req, { params }) {
       );
     }
 
-    const response = await fetch(
-      `https://game-off-ten.vercel.app/api/v1/game/${slug}`,
-      {
-        headers: { "x-api-key": process.env.API_SECRET_KEY },
-        next: { revalidate: 60 } // Cache for 5 minutes
-      }
-    );
+    const [data, settings, allConfigs] = await Promise.all([
+      getCachedGameBySlug(slug),
+      getCachedSystemSettings(),
+      getCachedAllPricingConfigs(),
+    ]);
 
-    const data = await response.json();
-    if (!data?.data?.itemId) return NextResponse.json(data);
+    if (!data?.data?.itemId) {
+      return NextResponse.json(data || { success: false, message: "Game data unavailable" });
+    }
 
-    /* ===== FETCH SYSTEM SETTINGS ===== */
-    const settings = await SystemSettings.findOne().lean();
-    data.data.systemSettings = {
-      acceptingOrders: settings?.acceptingOrders !== false,
-      notAcceptingOrdersMessage: settings?.notAcceptingOrdersMessage || "We are not taking orders right now. Please come back later."
-    };
+    /* ===== ATTACH SYSTEM SETTINGS ===== */
+    data.data.systemSettings = settings;
 
-    /* ===== FETCH PRICING & STOCK OVERRIDES ===== */
-    const allConfigs = await PricingConfig.find({}).lean();
     let pricingConfig = null;
-    if (pricingRole) {
+    if (pricingRole && allConfigs) {
       pricingConfig = allConfigs.find((c) => c.userType === pricingRole);
     }
 
@@ -380,7 +413,11 @@ export async function GET(req, { params }) {
       };
     }
 
-    return NextResponse.json(data);
+    return NextResponse.json(data, {
+      headers: {
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120"
+      }
+    });
   } catch (err) {
     console.error("Game Fetch Error:", err);
     return NextResponse.json(

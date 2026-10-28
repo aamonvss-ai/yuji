@@ -1,22 +1,34 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import Banner from "@/models/Banner";
+import { unstable_cache } from "next/cache";
 
-export const revalidate = 500; // Caches the response for 10 minutes
+export const revalidate = 300; // Caches the response for 5 minutes
+
+const getCachedBanners = unstable_cache(
+  async () => {
+    await connectDB();
+    return await Banner.find({ isShow: true })
+      .sort({ bannerDate: -1 })
+      .lean();
+  },
+  ["game-banners-list"],
+  { revalidate: 300 }
+);
 
 export async function GET() {
   try {
-    await connectDB();
-
-    const banners = await Banner.find({ isShow: true })
-      .sort({ bannerDate: -1 })
-      .lean();
+    const banners = await getCachedBanners();
 
     return NextResponse.json({
       statusCode: 200,
       success: true,
       message: "All banners retrieved",
       data: banners,
+    }, {
+      headers: {
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600"
+      }
     });
   } catch (error) {
     return NextResponse.json(

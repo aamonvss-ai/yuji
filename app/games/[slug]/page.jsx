@@ -34,9 +34,23 @@ export default function GameDetailPage() {
 
   /* ================= FETCH GAME ================= */
   useEffect(() => {
-    setIsLoading(true);
     setNotFound(false);
-    const token = localStorage.getItem("token");
+
+    // 1. Instant cache hydrate
+    try {
+      const cached = sessionStorage.getItem(`yuji_game_${slug}`);
+      if (cached) {
+        const cachedData = JSON.parse(cached);
+        if (cachedData?.allItems?.length) {
+          setGame(cachedData);
+          const firstAvailable = cachedData.allItems.find((item) => !item.isOutOfStock && item.itemAvailablity !== false) || cachedData.allItems[0] || null;
+          setActiveItem(firstAvailable);
+          setIsLoading(false);
+        }
+      }
+    } catch {}
+
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
     fetch(`/api/games/${slug}`, {
       headers: {
@@ -46,7 +60,10 @@ export default function GameDetailPage() {
       .then((res) => res.json())
       .then((data) => {
         if (!data?.data || !data?.success) {
-          setNotFound(true);
+          setGame((curr) => {
+            if (!curr) setNotFound(true);
+            return curr;
+          });
           return;
         }
 
@@ -54,15 +71,28 @@ export default function GameDetailPage() {
           (a, b) => a.sellingPrice - b.sellingPrice
         );
 
-        setGame({
+        const gamePayload = {
           ...data.data,
           allItems: items,
-        });
+        };
 
-        const firstAvailable = items.find((item) => !item.isOutOfStock && item.itemAvailablity !== false) || items[0] || null;
-        setActiveItem(firstAvailable);
+        try {
+          sessionStorage.setItem(`yuji_game_${slug}`, JSON.stringify(gamePayload));
+        } catch {}
+
+        setGame(gamePayload);
+
+        setActiveItem((prev) => {
+          if (prev && items.some(i => i.itemSlug === prev.itemSlug)) return prev;
+          return items.find((item) => !item.isOutOfStock && item.itemAvailablity !== false) || items[0] || null;
+        });
       })
-      .catch(() => setNotFound(true))
+      .catch(() => {
+        setGame((curr) => {
+          if (!curr) setNotFound(true);
+          return curr;
+        });
+      })
       .finally(() => setIsLoading(false));
   }, [slug]);
 

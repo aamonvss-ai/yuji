@@ -1,12 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Disable bodyParser so we can manually read raw body if needed
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 // Helper to read raw body
 async function readRawBody(req: NextRequest) {
   const arrayBuffer = await req.arrayBuffer();
